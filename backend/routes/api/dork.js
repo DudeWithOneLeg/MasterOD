@@ -7,6 +7,21 @@ const search = new SerpApi.GoogleSearch(SERP_API_ACCESS_KEY);
 const fs = require("fs");
 const { getArchive } = require("./utils");
 
+router.post('/iframe/', async (req, res) => {
+  const { url } = req.body
+  const data = await fetch(url)
+  .then(async res => {
+    if (res.status == 200) {
+      return res.text()
+    }
+  })
+  .then(async data => {
+    return data
+  }).catch(e => console.log(e))
+
+  return res.json({data})
+
+})
 router.post("/", async (req, res) => {
   //   const { query, lat, lng } = req.body;
   const quote = ["intitle", "inurl", "-intitle", "-inurl", "intext", "-intext"];
@@ -25,45 +40,44 @@ router.post("/", async (req, res) => {
   const obj = {};
   const callback = async (data) => {
     const response = data.organic_results;
-    console.log(response)
+    console.log(data.search_information.total_results);
+    console.log(data.organic_results.length);
 
     if (data.organic_results) {
       const results = async (rest) => {
         const index = {};
         // console.log(rest, 'hello')
-        Object.values(rest)
-          .forEach(async (resp) => {
-            const link = resp.link
-            // .split("/").slice(0, 3).join('').split(':').join('://');
-            console.log(resp.link);
-            console.log(link)
-            if (!index[link]) {
-              await getArchive(link).then(async (archive) => {
-                // console.log(archive, 'hello')
-                index[link] = archive;
-                obj[resp.position] = {
-                  id: resp.position,
-                  title: resp.title,
-                  link: resp.link,
-                  snippet: resp.snippet,
-                  archive: archive,
-                };
-                // console.log(archive);
-              });
-            } else {
+        Object.values(rest).forEach(async (resp) => {
+          const link = resp.link;
+          // .split("/").slice(0, 3).join('').split(':').join('://');
+          console.log(resp.link);
+          console.log(link);
+          if (!index[link]) {
+            await getArchive(link).then(async (archive) => {
+              // console.log(archive, 'hello')
+              index[link] = archive;
               obj[resp.position] = {
                 id: resp.position,
                 title: resp.title,
                 link: resp.link,
                 snippet: resp.snippet,
-                archive: index[link],
+                archive: archive,
               };
-            }
+              // console.log(archive);
+            });
+          } else {
+            obj[resp.position] = {
+              id: resp.position,
+              title: resp.title,
+              link: resp.link,
+              snippet: resp.snippet,
+              archive: index[link],
+            };
+          }
 
-            if (Object.values(obj).length == Object.values(response).length)
-              return res.json(obj);
-          });
-
+          if (Object.values(obj).length == Object.values(response).length)
+            return res.json(obj);
+        });
       };
 
       await results(response);
@@ -97,14 +111,14 @@ router.post("/", async (req, res) => {
   };
 
   let start = 0;
-console.log(final)
+  console.log(final);
   const request = {
     // start_addr: `${lat},${lng}`,
     // end_addr: "hebron train station",
     // engine: "google_maps_directions",
     q: final,
     engine: "google",
-    num: limit,
+    num: 100,
     start: start,
     // ll:`@${lat},${lng}`
     // device: "tablet",
@@ -118,5 +132,6 @@ console.log(final)
 
   //   res.json(data);
 });
+
 
 module.exports = router;

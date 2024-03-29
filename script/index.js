@@ -1,54 +1,23 @@
 const fs = require("fs");
 const jsdom = require("jsdom");
 const puppeteer = require("puppeteer");
-const pdfParse = require('pdf-parse')
+const pdfParse = require("pdf-parse");
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-const govcloud = "https://ndiastorage.blob.core.usgovcloudapi.net/";
+const govcloud = ".amazonaws.com";
 const mimeType = "&filter=mimetype:text/html";
 const url = "*.1.1/*";
 
 const { Readable } = require("stream");
 const { finished } = require("stream/promises");
 
+
+
 const getSnapshots = async (url) => {
-  await fetch(`http://archive.org/wayback/available?url=${url}`)
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-    return response.json(); // Parse response as JSON
-  })
-  .then(async (data) => {
-    console.log(data.archived_snapshots);
-    await fetch(data.archived_snapshots.closest.url)
-    .then((res) => {
-      if (res.status == 200) {
-        return res.text();
-      }
-
-    })
-    .then((data) => {
-          const doc = new jsdom.JSDOM(data, { runScripts: "dangerously" });
-          const scripts = doc.window.document.querySelectorAll("script");
-          //scripts.forEach(script => doc.window.eval(script.textContent))
-          // for (let script of scripts) {
-          //   doc.defaultView.eval(script.textContent)
-          // }
-          // console.log(doc.toString())
-          fs.writeFileSync("index.html", doc.serialize());
-        });
-    })
-    .catch((error) => {
-      console.error("Error fetching data:", error);
-    });
-};
-
-const getData = async (url) => {
-  await fetch(`http://web.archive.org/cdx/search/cdx?url=${url}&output=json`)
+  const res = await fetch(`http://archive.org/wayback/available?url=${url}&output=json`)
     .then((response) => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -56,11 +25,76 @@ const getData = async (url) => {
       return response.json(); // Parse response as JSON
     })
     .then(async (data) => {
-      const pdfs = data.filter(list => list.includes('application/pdf'))
-      const powerpoints = data.filter(list => list.icludes('application/powerpoint'))
-      const docs = data.filter(list => list.includes('application/msword'))
+      console.log(data);
+      // await fetch(data.archived_snapshots.closest.url)
+      //   .then((res) => {
+      //     if (res.status == 200) {
+      //       return res.text();
+      //     }
+      //   })
+      // .then((data) => {
+      //   const doc = new jsdom.JSDOM(data, { runScripts: "dangerously" });
+      //   const scripts = doc.window.document.querySelectorAll("script");
+      //   //scripts.forEach(script => doc.window.eval(script.textContent))
+      //   // for (let script of scripts) {
+      //   //   doc.defaultView.eval(script.textContent)
+      //   // }
+      //   // console.log(doc.toString())
+      //   fs.writeFileSync("index.html", doc.serialize());
+      // });
+      if (data.archived_snapshots.closest) {
+        return data.archived_snapshots.closest.url
+      }
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
+    });
+    return res
+};
 
-      console.log(data)
+const getData = async (url) => {
+  await fetch(
+    `http://web.archive.org/cdx/search/cdx?url=${url}&output=json&`//matchType=domain`
+  )
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json(); // Parse response as JSON
+    })
+    .then(async (data) => {
+      // const pdfs = data.filter((list) => list.includes("application/pdf"));
+      // const powerpoints = data.filter((list) =>
+      //   list.icludes("application/powerpoint")
+      // );
+      return console.log(data)
+      // const docs = data.filter((list) => list.includes("application/msword"));
+      const master = {};
+      const list = data.slice(1).forEach((list) => {
+        const url = list[2].split("/").slice(0, 3).join("/");
+        const ext = list[2].split(".").slice(-1)[0];
+
+          // if (list[2].includes('ftp')) {
+            // const o = list[2]
+            if (!master[url]) {
+              master[url] = {}
+              console.log(url)
+            }
+            // else {
+            //   master[url][list[2]] = {}
+            // }
+          // }
+
+
+        // if (ext) {
+        //   if (!master[url][ext.toLowerCase()]) {
+        //     master[url][ext.toLowerCase()] = 1;
+        //   } else master[url][ext.toLowerCase()]++;
+        // }
+      });
+      // fs.writeFileSync('ca-mil-info.json', JSON.stringify(master, null, 2))
+
+      console.log(master);
     })
     .catch((error) => {
       console.error("Error fetching data:", error);
@@ -108,9 +142,9 @@ const crawl = async (url, obj, arr, total) => {
               } else if (size.slice(size.length - 1).toLowerCase() == "g") {
                 return Number(size.slice(0, size.length - 1)) * 1024;
               } else if (size.slice(size.length - 1).toLowerCase() == "t") {
-                return (Number(size.slice(0, size.length - 1)) * 1024) * 1024;
+                return Number(size.slice(0, size.length - 1)) * 1024 * 1024;
               }
-            } else return (Number(data.split(' ').slice(-1)) / 1024) / 1024;
+            } else return Number(data.split(" ").slice(-1)) / 1024 / 1024;
           });
         // console.log('yo',metaData);
 
@@ -119,7 +153,7 @@ const crawl = async (url, obj, arr, total) => {
           const extension = links[i].href
             .split(".")
             [links[i].href.split(".").length - 1].toLowerCase();
-            // if (extension == 'mp4') console.log(links[i].href)
+          // if (extension == 'mp4') console.log(links[i].href)
 
           if (
             !decodeURIComponent(links[i].href).includes("/") &&
@@ -127,13 +161,11 @@ const crawl = async (url, obj, arr, total) => {
           ) {
             //  console.log('HIT', metaData[i])
             if (!obj[extension]) {
-              obj[extension] = { num: 1, size: metaData[i] }
+              obj[extension] = { num: 1, size: metaData[i] };
               // console.log(links[i].href)
-            }
-            else {
+            } else {
               obj[extension].num++;
               if (metaData[i] != NaN) obj[extension].size += metaData[i];
-
             }
           } else if (
             !links[i].href.includes("../") &&
@@ -148,22 +180,35 @@ const crawl = async (url, obj, arr, total) => {
       } else {
         // console.log('yo')
 
-        const tables = doc.window.document.querySelectorAll('tbody')
+        const tables = doc.window.document.querySelectorAll("tbody");
 
         for (let table of tables) {
-          if (table.querySelectorAll('tr')[0].textContent.toLowerCase().includes('size')) {
+          if (
+            table
+              .querySelectorAll("tr")[0]
+              .textContent.toLowerCase()
+              .includes("size")
+          ) {
             // console.log(table.querySelectorAll('tr')[0].textContent.toLowerCase())
-            let rows = Array.from(table.children)
-            .map((row) => Array.from(row.querySelectorAll("td"))
-            .map((td) => td.textContent))
-            ;
+            let rows = Array.from(table.children).map((row) =>
+              Array.from(row.querySelectorAll("td")).map((td) => td.textContent)
+            );
             // console.log(rows)
-            rows = rows.filter(arr => arr.length > 0 && !arr.includes('Parent Directory') && !arr.includes('../') && (decodeURIComponent(arr).includes('/') || decodeURIComponent(arr).includes('.')))
+            rows = rows.filter(
+              (arr) =>
+                arr.length > 0 &&
+                !arr.includes("Parent Directory") &&
+                !arr.includes("../") &&
+                (decodeURIComponent(arr).includes("/") ||
+                  decodeURIComponent(arr).includes("."))
+            );
 
-            const headers = Array.from(doc.window.document.querySelectorAll("th")).map(el => el.textContent.toLowerCase());
-              // console.log('headers')
-            const sizeHeader = headers.indexOf('size')
-            const nameHeader = headers.indexOf('name')
+            const headers = Array.from(
+              doc.window.document.querySelectorAll("th")
+            ).map((el) => el.textContent.toLowerCase());
+            // console.log('headers')
+            const sizeHeader = headers.indexOf("size");
+            const nameHeader = headers.indexOf("name");
             // console.log(rows.slice(-1))
             // return
             // rows = rows.slice(3, -1);
@@ -171,31 +216,35 @@ const crawl = async (url, obj, arr, total) => {
             // console.log(Array.from(doc.window.document.querySelectorAll("tr")).length)
             // const currDir = decodeURIComponent(url.split('/').slice(-2)[0])
             let links = Array.from(doc.window.document.querySelectorAll("a"))
-            .map((link) => link.href)
-            .filter(link => (link.includes('/') || link.includes('.')) && (!link.includes('../') && link != '/') && !link.includes('@') && !link.includes('http'))
-            if (decodeURIComponent(url).includes(decodeURIComponent(links[0]))) links.shift()
+              .map((link) => link.href)
+              .filter(
+                (link) =>
+                  (link.includes("/") || link.includes(".")) &&
+                  !link.includes("../") &&
+                  link != "/" &&
+                  !link.includes("@") &&
+                  !link.includes("http")
+              );
+            if (decodeURIComponent(url).includes(decodeURIComponent(links[0])))
+              links.shift();
 
+            //.filter(href => ))
 
-              //.filter(href => ))
-
-
-
-              // if (links.length != rows.length) console.log(links, rows)
-              // return
+            // if (links.length != rows.length) console.log(links, rows)
+            // return
             // links = links.slice(3, -1).map((link) => link.href);
             //.filter(href => !href.includes('=') && href != '/');
             // console.log('New links',links)
             //  console.log(links)
             if (rows.length != links.length) {
-              console.log('CURRENT: ',url)
-              console.log(rows.length, links.length)
+              console.log("CURRENT: ", url);
+              console.log(rows.length, links.length);
             }
-
 
             for (let row in rows) {
               // console.log(extension)
               if (row.length) {
-                console.log(links[row])
+                console.log(links[row]);
                 const extension = links[row];
                 // console.log(rows[row][sizeHeader].slice(0, -1))
                 const size = rows[row][sizeHeader];
@@ -212,35 +261,34 @@ const crawl = async (url, obj, arr, total) => {
                       : size.slice(0, -1).toLowerCase() == "t"
                       ? Number(size.slice(0, -1)) * 1024 * 1024
                       : Number(size.slice(0, -1)) / 1024 / 1024;
-                      if (!isNaN(Number(mb)) && Number(mb) > 0 && mb != undefined) {
-
-                        total += Number(mb);
+                  if (!isNaN(Number(mb)) && Number(mb) > 0 && mb != undefined) {
+                    total += Number(mb);
+                  }
+                  if (extension) {
+                    // console.log('HIII',links[row])
+                    if (
+                      !extension.includes("/") &&
+                      !extension.includes("=") &&
+                      !extension.includes("./")
+                    ) {
+                      const link =
+                        extension.split(".")[extension.split(".").length - 1];
+                      // console.log(extension.split('.'))
+                      if (!obj[link]) {
+                        obj[link] = { num: 1, size: mb };
+                      } else {
+                        obj[link].num++;
+                        obj[link].size += mb;
                       }
-                      if (extension) {
-                        // console.log('HIII',links[row])
-                        if (
-                          !extension.includes("/") &&
-                          !extension.includes("=") &&
-                          !extension.includes("./")
-                          ) {
-                            const link =
-                            extension.split(".")[extension.split(".").length - 1];
-                            // console.log(extension.split('.'))
-                            if (!obj[link]) {
-                              obj[link] = { num: 1, size: mb };
-                            } else {
-                              obj[link].num++;
-                              obj[link].size += mb;
-                            }
-                          } else if (
-                            extension.includes("/") &&
-                            !extension.includes("=") &&
-                            !extension.includes("./") &&
-                            links[row] != url
-                            ) {
-                              // console.log('HIII',links[row])
-                              if (extension.includes(url))
-                              arr.push(links[row].split(url)[1]);
+                    } else if (
+                      extension.includes("/") &&
+                      !extension.includes("=") &&
+                      !extension.includes("./") &&
+                      links[row] != url
+                    ) {
+                      // console.log('HIII',links[row])
+                      if (extension.includes(url))
+                        arr.push(links[row].split(url)[1]);
                       else arr.push(url + links[row]);
                     }
                   }
@@ -256,20 +304,19 @@ const crawl = async (url, obj, arr, total) => {
       }
       // console.log(table, 'yoo')
 
-
       //console.log(obj)
       // console.log(arr)
       // console.log(total, 'total');
     })
-    .catch(e => e)
-    return total
-  };
+    .catch((e) => e);
+  return total;
+};
 
-  const ipMapper = async (url) => {
-    let total = 0;
-    // const ip = [10, 10, 10, 10]
-    // for (let i = 0; i < 4; i++) {
-      //   for (let j = 0; j < 1000; j++) {
+const ipMapper = async (url) => {
+  let total = 0;
+  // const ip = [10, 10, 10, 10]
+  // for (let i = 0; i < 4; i++) {
+  //   for (let j = 0; j < 1000; j++) {
   //     ip[i] = j
   //     const url = ip.join('.')
   //     const res = await fetch('http://'+ url)
@@ -282,7 +329,7 @@ const crawl = async (url, obj, arr, total) => {
   const obj = {};
   const arr = [];
 
-  url = url.replace(/\\/g, '')
+  url = url.replace(/\\/g, "");
   // console.log(url)
   total += await crawl(url, obj, arr, total);
 
@@ -294,13 +341,13 @@ const crawl = async (url, obj, arr, total) => {
       // console.log(obj)
       const entries = Object.entries(obj);
 
-          // Sort the array based on values
-          entries.sort((a, b) => b[1].num - a[1].num);
+      // Sort the array based on values
+      entries.sort((a, b) => b[1].num - a[1].num);
 
-          // Convert the sorted array back to an object
-          const sortedObj = Object.fromEntries(entries.slice(0, 5));
-          console.log(sortedObj)
-          await sleep(500)
+      // Convert the sorted array back to an object
+      const sortedObj = Object.fromEntries(entries.slice(0, 5));
+      console.log(sortedObj);
+      await sleep(500);
     }
   }
   // console.log(arr);
@@ -316,7 +363,7 @@ const crawl = async (url, obj, arr, total) => {
         obj[key].size = Number((mb / 1024).toFixed(2)) + " GB";
       else {
         // if ((mb / 1024) / 1024 > 1024)
-          obj[key].size = Number(((mb / 1024) / 1024).toFixed(2)) + " TB";
+        obj[key].size = Number((mb / 1024 / 1024).toFixed(2)) + " TB";
         // else obj[key].size = Number((mb / 1024).toFixed(2)) + " GB"
       }
     } else obj[key].size = Number(mb.toFixed(2)) + " MB";
@@ -367,7 +414,10 @@ const reddit = async (url) => {
   await browser.close();
 
   // numOfLinks += links.length;
-  for (let link of ['http://files.usgwarchives.net/', 'https://iop.archive.arm.gov/arm-iop-file/'].slice(0, 10)) {
+  for (let link of [
+    "http://files.usgwarchives.net/",
+    "https://iop.archive.arm.gov/arm-iop-file/",
+  ].slice(0, 10)) {
     console.log(link);
     if (!link.includes("=") && link.includes("http")) {
       // console.log(link.href, url)
@@ -381,16 +431,15 @@ const reddit = async (url) => {
       const sortedObj = Object.fromEntries(entries.slice(0, 5));
 
       urls[link] = sortedObj;
-      Object.keys(sortedObj).forEach(key => {
+      Object.keys(sortedObj).forEach((key) => {
         try {
-          sortedObj[key].size?.split(" ")
+          sortedObj[key].size?.split(" ");
         } catch (error) {
           // Object.values(sortedObj)
           // console.log('hello', url)
-          return console.log(sortedObj[key], link)
+          return console.log(sortedObj[key], link);
         }
-
-      })
+      });
 
       let innerTable = `| **Type** | **Count** | **Total** |\n`;
       Object.keys(sortedObj).forEach(
@@ -419,7 +468,7 @@ const reddit = async (url) => {
       // console.log('markdown')
     }
   }
-  console.log(urls, '398');
+  console.log(urls, "398");
   return;
   // let numOfLinks = 0;
 
@@ -507,31 +556,27 @@ const reddit = async (url) => {
 const WordExtractor = require("word-extractor");
 const extractor = new WordExtractor();
 
-
-const test = async() => {
+const test = async () => {
   //   await fetch(`https://www.navsea.navy.mil/Portals/103/Documents/Contacts/EEO/Q2%20FY2019%20No%20FEAR%20Act%20Report.pdf`)
   //   .then(async res => {
-    //     if (res.status == 200) {
-      //       return res.arrayBuffer(); // Get the reader for the response body
-
-      //     }
-      //   })
-      //   .then(async data => {
-        //     const pdf = Buffer.from(data)
-        //   // fs.writeFileSync('test.pdf',pdf )
-        //   // console.log(data)
-        // })
-        // const {getTextExtractor} = await import('office-text-extractor')
-        // const pptExtractor = getTextExtractor()
-        // const pdf = fs.readFileSync('NISP DIB - Cyber Risk and Compliance- 7-20-2022.pptx')
-        // const text = await pptExtractor.extractText({ input: pdf, type: 'buffer' })
-        // console.log(text)
-
-        //WORD EXTRACTOR
-        // const extracted = await extractor.extract(pdf);
-        // console.log(extracted._body)
+  //     if (res.status == 200) {
+  //       return res.arrayBuffer(); // Get the reader for the response body
+  //     }
+  //   })
+  //   .then(async data => {
+  //     const pdf = Buffer.from(data)
+  //   // fs.writeFileSync('test.pdf',pdf )
+  //   // console.log(data)
+  // })
+  // const {getTextExtractor} = await import('office-text-extractor')
+  // const pptExtractor = getTextExtractor()
+  // const pdf = fs.readFileSync('NISP DIB - Cyber Risk and Compliance- 7-20-2022.pptx')
+  // const text = await pptExtractor.extractText({ input: pdf, type: 'buffer' })
+  // console.log(text)
+  //WORD EXTRACTOR
+  // const extracted = await extractor.extract(pdf);
+  // console.log(extracted._body)
   // console.log(pdf)
-
   //PDF EXTRACTOR
   // pdfParse(pdf)
   // .then(data => {
@@ -539,17 +584,156 @@ const test = async() => {
   //   console.log(data.info)
   //   console.log(((pdf.length / 1024) / 1024).toFixed(2) + ' MB')
   // })
-}
+};
 
-const test2 = async() => {
-  const links = ['http://files.usgwarchives.net/', 'https://iop.archive.arm.gov/arm-iop-file/']
+const test2 = async () => {
+  const links = [
+    "http://files.usgwarchives.net/",
+    "https://iop.archive.arm.gov/arm-iop-file/",
+  ];
   for (let link of links) {
-    await ipMapper(link)
+    await ipMapper(link);
+  }
+};
+
+// test2()
+
+const ip = async () => {
+  let ips = [20, 20, 20, 20];
+
+  let digit = 0;
+
+  // while (true) {
+
+  //   if (digit == 3) digit = 0
+  //   for (let i = 20; i < 255; i++) {
+
+  //     ips[digit] = i;
+  //     console.log(url, ips);
+  //   }
+  // }
+  const min = 20;
+  const max = 255;
+
+  for (let a = min; a <= max; a++) {
+    for (let b = min; b <= max; b++) {
+      for (let c = 190; c <= max; c++) {
+        for (let d = 183; d <= max; d++) {
+          // Here, you can do whatever you want with the combination of values
+          const timeout = setTimeout(() => {
+            controller.abort();
+            // console.log("Request timed out");
+          }, 2500);
+          const controller = new AbortController();
+          const signal = controller.signal;
+          const url = `http://${a}.${b}.${c}.${d}`;
+
+          await fetch(url)
+            .then((res) => {
+              console.log(res);
+              // clearTimeout(timeout)
+              if (res.status == 200) {
+                return res.text();
+              }
+            })
+            .then((data) => {
+              console.log(url);
+              console.log("hit");
+              fs.writeFileSync(`${a}-${b}-${c}-${d}.html`, data);
+              console.log(data);
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+          console.log(a, b, c, d);
+        }
+      }
+    }
+  }
+};
+
+const testar = async() => {
+  // const arr3 = []
+  const browser = await puppeteer.launch({ headless: false });
+  for (let el of testArr) {
+    const url = await getSnapshots(el)
+    if (url) {
+      const page = await browser.newPage();
+      await page.goto(url);
+
+    }
   }
 }
 
-test2()
+const amazon = async() => {
+  const json = fs.readFileSync('amzawss3.json')
+  const parsed = JSON.parse(json)
+  const arr = Object.keys(parsed).slice(210)
+  const obj = {}
+  for (let url of arr) {
+    await fetch(url)
+    .then(async res => {
+      if (res.status == 200) return await res.text()
+    })
+  .then(async data => {
+    // console.log(data)
+    const doc = new jsdom.JSDOM(data)
+    const buck = doc.window.document.querySelectorAll('Contents')
+    if (data && buck && !obj[url]) {
+      for (let file of buck) {
+        const children = file.children
+        if (children) {
+          const filePath = children[0].textContent
+          const lastModified = children[1].textContent
+          const eTag = children[2].textContent
+          const size = children[3].textContent
+          const storageClass = children[4].textContent
+          // console.log(filePath)
+          const extension = filePath.split('.').slice(-1)[0]
+          if (!obj[url]) {
 
+            obj[url] = {}
+            obj[url][`${url}/${filePath}`] = {filePath:`${url}/${filePath}`, lastModified, eTag, size, storageClass, extension}
+
+            // obj.fileTypes[extension] = 1
+          }
+
+          else {
+
+            obj[url][`${url}/${filePath}`] = {filePath:`${url}/${filePath}`, lastModified, eTag, size, storageClass, extension}
+          }
+          if (!obj[url].fileTypes) {
+            obj[url].fileTypes = {}
+
+          }
+          if (!obj[url].fileTypes[extension]) obj[url].fileTypes[extension] = 1
+          else obj[url].fileTypes[extension]++
+        }
+        // console.log(obj)
+        fs.writeFileSync(`awsFiles.json`, JSON.stringify(obj, null, 2))
+      }
+      // obj[url] = `./aws/${arr.indexOf(url)}.html`
+    }
+  })
+  .catch(e => console.log(e))
+  }
+}
+// amazon()
+
+// testar()
+
+// ip();
+const dataFromSnapshot = async() => {
+  const json = fs.readFileSync('ca-mil.json')
+  const parsed = JSON.parse(json)
+
+  for (let url of Object.keys(parsed)) {
+    const data = await getData(url)
+    console.log(data)
+  }
+}
+// getData('.mil.ca');
+dataFromSnapshot()
 // test()
 // getData('https://navsea.navy.mil/Portals/*')
 // reddit("https://www.reddit.com/r/opendirectories/new.json?limit=2000");

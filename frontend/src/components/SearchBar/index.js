@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import * as searchActions from "../../store/search";
 import Results from "../Results";
 import Parameter from "../Parameter";
@@ -11,7 +11,9 @@ export default function SearchBar() {
   const [showOptions, setShowOptions] = useState(false);
   const [preview, setPreview] = useState(false);
   const [showResult, setShowResult] = useState(false);
-  const iframeRef = useRef(null)
+  // const iframeRef = useRef(null)
+  const data = useSelector(state => state.search.data)
+  const domRef = useRef(null)
 
   const params = {
     "In title:": "intitle:",
@@ -53,12 +55,44 @@ export default function SearchBar() {
     // }
     if (query) {
       setShowOptions(false);
-      return dispatch(searchActions.search({ query: query.join(" ") }));
+      dispatch(searchActions.search({ query: query.join(" ") }));
     }
   };
   useEffect(() => {
-    console.log(showOptions);
-  }, [showOptions]);
+    if (preview) {
+      dispatch(searchActions.data(preview))
+    }
+  }, [preview, dispatch]);
+
+  // useEffect(() => {
+  //   // domRef.current?.addEventListener('click', e => {
+  //   //   e.preventDefault()
+  //   //   console.log(e)
+  //   // })
+  //   console.log(domRef.current)
+  // },[])
+
+  const handleDomClick =(e) => {
+    if (e.target.tagName === 'A') {
+      // Prevent the default behavior of the anchor tag (e.g., navigating to a new page)
+      e.preventDefault();
+
+      // Retrieve the href attribute of the clicked anchor tag
+      const href = e.target.getAttribute('href')
+      const currUrl = window.location.href
+      console.log('curr:', currUrl)
+
+      if (href.includes(currUrl)) {
+        const path = href.split(currUrl)[1]
+        console.log('yo')
+        setPreview(preview + path)
+      }
+      else dispatch(searchActions.data(preview + href))
+
+      // Do something with the href, such as logging it or navigating to the URL
+      console.log('Clicked href:', href);
+    }
+  }
 
   return (
     //KEEP CLASS AS IS
@@ -66,6 +100,7 @@ export default function SearchBar() {
       className={`flex flex-col bg-slate-900 w-full px-2 pt-2`}
       id="search-bar"
     >
+      <img src='blob:apps.sentinel-hub.com/bd86bcc0-f318-402b-a145-015f85b9427e'/>
       <div
         className={`w-full divide-y divide-slate-800 bg-slate-200 flex flex-col font-bold rounded transition-all duration-300 ease-in-out ${
           showOptions ? `h-fit` : "h-fit"
@@ -129,10 +164,10 @@ export default function SearchBar() {
           showResult={showResult}
           setShowResult={setShowResult}
         />
-          {showResult && (
+          {showResult && data && (
         <div className="truncate h-full w-full flex flex-col bg-slate-300 ml-2 p-1 rounded">
           <p className="w-full truncate h-6">{preview}</p>
-            <iframe allow-same-origin={true} ref={iframeRef} src={preview} className="h-full w-full bg-slate-200 p-1"><p>test</p></iframe>
+          <div className='w-full overflow-scroll h-full' dangerouslySetInnerHTML={{ __html: data }} ref={domRef} onClick={(e) => handleDomClick(e)}/>
         </div>
           )}
       </div>

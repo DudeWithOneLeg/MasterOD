@@ -1,0 +1,57 @@
+{
+  "https://2020census.gov": {
+    "https://2020census.gov/?link_id=4&can_id=a80695d822b6c20e0c38fc6e4699241b&source=email-pft-covid-19-update-4-29-20-aft-aftpa-pa-reopen-info-stats-symptoms-aft-mourns-south-hills-middle-vid-links&email_referrer=email_796631&email_subject=pft-covid-19-update-5-6-20-member-s-needed-helpful-webinars-census-westwood-vid-links": {}
+  },
+  "http://404.gov": {
+    "http://404.gov/edgar/searchedgar/ftpusers.htm": {}
+  },
+  "http://www.404.gov:80": {
+    "http://www.404.gov:80/edgar/searchedgar/ftpusers.htm": {}
+  },
+  "http://www.404.gov": {
+    "http://www.404.gov/edgar/searchedgar/ftpusers.htm": {}
+  },
+  "http://fw.access-board.gov:80": {
+    "http://fw.access-board.gov:80/http://www.dsa.ca.gov/ftpintro.htm": {}
+  },
+  "https://archive.ahrq.gov": {
+    "https://archive.ahrq.gov/clinic/tp/ptsaftp.htm.Solzhenitsyn": {}
+  },
+  "https://adem.alabama.gov": {
+    "https://adem.alabama.gov/ftpdata/air/aqi.pdf": {}
+  },
+  "https://www.adfg.alaska.gov": {
+    "https://www.adfg.alaska.gov/index.cfm?adfg=dudecreek.draftplan": {}
+  },
+  "https://ftp.mcs.anl.gov": {
+    "https://ftp.mcs.anl.gov/": {},
+    "https://ftp.mcs.anl.gov/.well-known/ai-plugin.json": {},
+    "https://ftp.mcs.anl.gov/.well-known/assetlinks.json": {},
+    "https://ftp.mcs.anl.gov/.well-known/dnt-policy.txt": {},
+    "https://ftp.mcs.anl.gov/.well-known/gpc.json": {},
+    "https://ftp.mcs.anl.gov/.well-known/nodeinfo": {},
+    "https://ftp.mcs.anl.gov/.well-known/openid-configuration": {},
+    "https://ftp.mcs.anl.gov/.well-known/security.txt": {},
+    "https://ftp.mcs.anl.gov/.well-known/trust.txt": {},
+    "https://ftp.mcs.anl.gov/ads.txt": {},
+    "https://ftp.mcs.anl.gov/app-ads.txt": {},
+    "https://ftp.mcs.anl.gov/favicon.ico": {},
+    "https://ftp.mcs.anl.gov/icons/back.gif": {},
+    "https://ftp.mcs.anl.gov/icons/blank.gif": {},
+    "https://ftp.mcs.anl.gov/icons/folder.gif": {},
+    "https://ftp.mcs.anl.gov/icons/hand.right.gif": {},
+    "https://ftp.mcs.anl.gov/icons/unknown.gif": {},
+    "https://ftp.mcs.anl.gov/pub/MINPACK-2": {},
+    "https://ftp.mcs.anl.gov/pub/MINPACK-2/": {},
+    "https://ftp.mcs.anl.gov/pub/MINPACK-2/README": {},
+    "https://ftp.mcs.anl.gov/pub/mpi/slog2/slog2rte.tar.gz": {},
+    "https://ftp.mcs.anl.gov/pub/tech_reports/reports/P246.pdf": {},
+    "https://ftp.mcs.anl.gov/robots.txt": {},
+    "https://ftp.mcs.anl.gov/sitemap.xml": {}
+  },
+  "http://ftp.mcs.anl.gov": {
+    "http://ftp.mcs.anl.gov/pub/MINPACK-2": {},
+    "http://ftp.mcs.anl.gov/pub/MINPACK-2/README": {},
+    "http://ftp.mcs.anl.gov/pub/mpi/slog2/slog2rte.tar.gz": {}
+  }
+}
