@@ -16,7 +16,8 @@ router.post('/iframe/', async (req, res) => {
     }
   })
   .then(async data => {
-    return data
+    const response =  data
+    return response
   }).catch(e => console.log(e))
 
   return res.json({data})

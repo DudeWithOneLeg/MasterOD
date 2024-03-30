@@ -732,8 +732,43 @@ const dataFromSnapshot = async() => {
     console.log(data)
   }
 }
+
+const apachIcons = async() => {
+  await fetch('https://www.apache.org/icons/')
+  .then(async res => {
+    const data =  await res.text()
+    const dom = new jsdom.JSDOM(data)
+    const document = dom.window.document;
+
+    // Find all image (img) elements and extract their src attributes
+    const imageUrls = Array.from(document.querySelectorAll('a')).slice(5).map(a => a.href);
+
+    // Iterate over the image URLs and download each image
+    for (let i = 0; i < imageUrls.length; i++) {
+      const imageUrl = imageUrls[i];
+      if (!imageUrl.includes('/')) {
+
+        const response = await fetch('https://www.apache.org/icons/' + imageUrl);
+        const imageBuffer = await response.arrayBuffer();
+        const imgData = Buffer.from(imageBuffer)
+
+        // Extract the filename from the image URL
+        // const filename = path.basename(imageUrl);
+
+        // Write the image data to a file in the output directory
+        // const outputFile = path.join(outputDirectory, imageUrl);
+        fs.writeFileSync('icons/' + imageUrl, imgData);
+
+        console.log(`Image downloaded and saved: ${imageUrl}`);
+      }
+    }
+
+  })
+}
+
+apachIcons()
 // getData('.mil.ca');
-dataFromSnapshot()
+// dataFromSnapshot()
 // test()
 // getData('https://navsea.navy.mil/Portals/*')
 // reddit("https://www.reddit.com/r/opendirectories/new.json?limit=2000");
