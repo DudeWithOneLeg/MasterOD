@@ -17,8 +17,8 @@ export default function Parameter({query, setQuery, param, text}) {
         }
     }
     return (
-        <form className="flex flex-row items-center bg-slate-400 py-2" id='parameter' onSubmit={(e) => handleSubmit(e)}>
-            <div className="flex flex-row ml-2 px-2 w-1/4">
+        <form className="flex flex-row items-center bg-slate-400 py-2 w-full" id='parameter' onSubmit={(e) => handleSubmit(e)}>
+            <div className="flex flex-row px-2 w-full">
 
             <div className="bg-slate-300 rounded-left flex-shrink-0 px-1">
                 {

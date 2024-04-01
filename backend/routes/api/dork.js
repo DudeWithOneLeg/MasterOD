@@ -26,10 +26,10 @@ router.post('/iframe/', async (req, res) => {
 router.post("/", async (req, res) => {
   //   const { query, lat, lng } = req.body;
   const quote = ["intitle", "inurl", "-intitle", "-inurl", "intext", "-intext"];
-  const { query } = req.body;
+  const params = req.body;
   const limit = 100;
 
-  const final = query
+  params.q = params.q
     .split(" ")
     .map((q) =>
       quote.includes(q.split(":")[0])
@@ -112,12 +112,12 @@ router.post("/", async (req, res) => {
   };
 
   let start = 0;
-  console.log(final);
+  // console.log(final);
   const request = {
     // start_addr: `${lat},${lng}`,
     // end_addr: "hebron train station",
     // engine: "google_maps_directions",
-    q: final,
+    ...params,
     engine: "google",
     num: 100,
     start: start,

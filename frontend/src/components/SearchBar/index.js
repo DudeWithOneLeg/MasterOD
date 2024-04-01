@@ -4,6 +4,8 @@ import * as searchActions from "../../store/search";
 import Results from "../Results";
 import Parameter from "../Parameter";
 import QueryParam from "../QueryParam";
+import googleLanguages from "./google-languages.json";
+import googleCountries from "./google-countries.json";
 
 export default function SearchBar() {
   const [query, setQuery] = useState([]);
@@ -11,18 +13,20 @@ export default function SearchBar() {
   const [showOptions, setShowOptions] = useState(false);
   const [preview, setPreview] = useState(false);
   const [showResult, setShowResult] = useState(false);
-  // const iframeRef = useRef(null)
+  const [language, setLanguage] = useState("");
+  const [country, setCountry] = useState("");
+  const [engine, setEngine] = useState("Google");
   const data = useSelector((state) => state.search.data);
   const domRef = useRef(null);
 
   const params = {
+    "Site:": "site:",
     "In title:": "intitle:",
     "In url:": "inurl:",
-    "Site:": "site:",
+    "Include text:": "intext:",
     "Exclude site:": "-site:",
     "Exclude from title:": "-intitle:",
     "Exclude from url:": "-inurl:",
-    "Include text:": "intext:",
     "Exclude from text:": "-intext:",
   };
   const dispatch = useDispatch();
@@ -55,7 +59,14 @@ export default function SearchBar() {
     // }
     if (query) {
       setShowOptions(false);
-      dispatch(searchActions.search({ query: query.join(" ") }));
+      dispatch(
+        searchActions.search({
+          q: query.join(" "),
+          cr: country,
+          hl: language,
+          engine: engine.toLocaleLowerCase(),
+        })
+      );
     }
   };
   useEffect(() => {
@@ -63,14 +74,6 @@ export default function SearchBar() {
       dispatch(searchActions.data(preview));
     }
   }, [preview, dispatch]);
-
-  // useEffect(() => {
-  //   // domRef.current?.addEventListener('click', e => {
-  //   //   e.preventDefault()
-  //   //   console.log(e)
-  //   // })
-  //   console.log(domRef.current)
-  // },[])
 
   const handleDomClick = (e) => {
     if (e.target.tagName === "A") {
@@ -113,27 +116,40 @@ export default function SearchBar() {
           className={`w-full flex cursor-pointer text-slate-800 items-center h-fit py-2`}
           data-collapse-target="collapse"
         >
-          <div className="flex px-2 items-center max-w-100 h-fit">
-            <img
-              src="/images/plus.png"
-              className="h-10 w-10 flex flex-row"
-              onClick={() => setShowOptions(!showOptions)}
-            />
-            <p>Query</p>
-            <div className="flex flex-wrap jusitfy-content-center h-fit max-w-fit overflow-wrap">
-              {query.length
-                ? query.map((param) => {
-                    // const pre = param.split(':')[0]
-                    // const val = param.split(':')[1]
-                    return (
-                      <QueryParam
-                        param={param}
-                        query={query}
-                        setQuery={setQuery}
-                      />
-                    );
-                  })
-                : ""}
+          <div className="flex px-2 items-center w-full h-fit justify-content-between">
+            <div className="flex flex-row items-center">
+              <img
+                src="/images/plus.png"
+                className="h-10 w-10 flex flex-row"
+                onClick={() => setShowOptions(!showOptions)}
+              />
+              <p>Query</p>
+              <div className="flex flex-wrap jusitfy-content-center h-fit max-w-fit overflow-wrap">
+                {query.length
+                  ? query.map((param) => {
+                      return (
+                        <QueryParam
+                          param={param}
+                          query={query}
+                          setQuery={setQuery}
+                        />
+                      );
+                    })
+                  : ""}
+              </div>
+            </div>
+            <div>
+              <label className="h-fit m-0">
+                Search Engine:
+                <select onClick={(e) => setEngine(e.target.value)}>
+                  <option selected value={"Google"}>
+                    Google
+                  </option>
+                  <option value={"Baidu"}>Baidu</option>
+                  <option value={"Bing"}>Bing</option>
+                  <option value={"Yandex"}>Yandex</option>
+                </select>
+              </label>
             </div>
           </div>
           {query.length ? (
@@ -144,16 +160,65 @@ export default function SearchBar() {
             ""
           )}
         </div>
+        {showOptions && (
+          <div className="divide-y divide-slate-500 flex flex-row">
+            <div className="divide-y divide-slate-500 w-1/3">
+              {Object.keys(params).map((param) => (
+                <Parameter
+                  query={query}
+                  setQuery={setQuery}
+                  text={param}
+                  param={params[param]}
+                />
+              ))}
+            </div>
+            <div className="w-1/3 h-full divide-y divide-slate-500">
+              {(engine == 'Google' || engine == 'Yandex') && <div className="p-2">
+                <select
+                  id="normalize"
+                  className="pl-2"
+                  onClick={(e) =>
+                    setLanguage(googleLanguages[engine][e.target.value])
+                  }
+                >
+                  <option selected={country == ""} disabled>
+                    Language
+                  </option>
 
-        {showOptions &&
-          Object.keys(params).map((param) => (
-            <Parameter
-              query={query}
-              setQuery={setQuery}
-              text={param}
-              param={params[param]}
-            />
-          ))}
+                  {Object.keys(googleLanguages[engine]).map((name) => (
+                    <option
+                      selected={googleLanguages[engine][name] == language}
+                      value={name}
+                    >
+                      {name}
+                    </option>
+                  ))}
+                </select>
+              </div>}
+              { (engine == 'Google' || engine == 'Bing') && <div className="p-2">
+                <select
+                  id="normalize"
+                  className="pl-2"
+                  onClick={(e) => setCountry(googleCountries[e.target.value])}
+                >
+                  <option selected={country == ""} disabled className="">
+                    Country
+                  </option>
+
+                  {Object.keys(googleCountries).map((name) => (
+                    <option
+                      value={name}
+                      selected={googleCountries[name] == country}
+                    >
+                      {name}
+                    </option>
+                  ))}
+                </select>
+              </div>}
+            </div>
+
+          </div>
+        )}
       </div>
       <div className="rounded text-slate-200 h-fit" id="result-header">
         {showResult && <p>Results</p>}

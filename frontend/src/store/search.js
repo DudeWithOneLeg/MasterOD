@@ -18,16 +18,12 @@ const setData = (data) => {
 };
 
 export const search =
-  ({ query, lat, lng }) =>
+  (params) =>
   async (dispatch) => {
     // const { credential, password } = user;
     const response = await csrfFetch("/api/dork", {
       method: "POST",
-      body: JSON.stringify({
-        query,
-        lat,
-        lng,
-      }),
+      body: JSON.stringify(params),
     });
     await response.json().then(async (data) => {
       // console.log(data)
