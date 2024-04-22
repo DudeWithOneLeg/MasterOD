@@ -19,11 +19,11 @@ module.exports = {
       userId: {
         type: Sequelize.INTEGER
       },
-      groupId: {
-        type: Sequelize.INTEGER
-      },
       engine: {
         type: Sequelize.STRING
+      },
+      saved: {
+        type: Sequelize.BOOLEAN
       },
       createdAt: {
         allowNull: false,

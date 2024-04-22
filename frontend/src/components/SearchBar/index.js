@@ -19,6 +19,7 @@ export default function SearchBar() {
   const [engine, setEngine] = useState("Google");
   const data = useSelector((state) => state.search.data);
   const results = useSelector((state) => state.search.results);
+  const [start, setStart] = useState(0);
   const [browseHistory, setBrowseHistory] = useState([]);
   const [browseHistoryIndex, setBrowseHistoryIndex] = useState(0);
 
@@ -60,6 +61,7 @@ export default function SearchBar() {
           cr: country,
           hl: language,
           engine: engine.toLocaleLowerCase(),
+          start: 0,
         })
       );
     }
@@ -68,11 +70,17 @@ export default function SearchBar() {
     if (preview) {
       dispatch(searchActions.data(preview));
       if (!browseHistory.length) {
-
         setBrowseHistory([preview]);
       }
     }
   }, [preview, dispatch]);
+
+  useEffect(() => {
+    if (results) {
+      const lastResultIndex = Number(Object.keys(results).slice(-2, -1)[0]);
+      setStart(lastResultIndex);
+    }
+  }, [results]);
 
   return (
     //KEEP CLASS AS IS
@@ -199,35 +207,50 @@ export default function SearchBar() {
           </div>
         )}
       </div>
-      {results ? <>
-
-      <div className="rounded text-slate-200 h-fit" id="result-header">
-        <div className="flex justify-content-center py-2">
-          <div className="flex flex-row w-fit">
-            <input placeholder={results.info.currentPage} className="w-10 rounded text-center"/> / <p>{results.info.totalPages}</p>
+      {results ? (
+        <>
+          <div className="rounded text-slate-200 h-fit" id="result-header">
+            <div className="flex justify-content-center py-2">
+              <div className="flex flex-row w-fit">
+                <input
+                  placeholder={results.info.currentPage}
+                  className="w-10 rounded text-center text-slate-600"
+                />{" "}
+                / <p>{results.info.totalPages}</p>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <div className="flex w-full h-fit overflow-y-hidden">
-        <Results
-          setPreview={setPreview}
-          preview={preview}
-          showResult={showResult}
-          setShowResult={setShowResult}
-        />
-        {showResult && data && (
-          <Browser
-            preview={preview}
-            data={data}
-            setPreview={setPreview}
-            browseHistory={browseHistory}
-            setBrowseHistory={setBrowseHistory}
-            browseHistoryIndex={browseHistoryIndex}
-            setBrowseHistoryIndex={setBrowseHistoryIndex}
-          />
-        )}
-      </div>
-      </> : <></>}
+          <div className="flex w-full h-fit overflow-y-hidden">
+            <Results
+              setPreview={setPreview}
+              preview={preview}
+              showResult={showResult}
+              setShowResult={setShowResult}
+              start={start}
+              setStart={setStart}
+              params={{
+                q: query.join(";"),
+                cr: country,
+                hl: language,
+                engine: engine.toLocaleLowerCase(),
+              }}
+            />
+            {showResult && data && (
+              <Browser
+                preview={preview}
+                data={data}
+                setPreview={setPreview}
+                browseHistory={browseHistory}
+                setBrowseHistory={setBrowseHistory}
+                browseHistoryIndex={browseHistoryIndex}
+                setBrowseHistoryIndex={setBrowseHistoryIndex}
+              />
+            )}
+          </div>
+        </>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }

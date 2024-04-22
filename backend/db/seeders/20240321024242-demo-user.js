@@ -25,7 +25,7 @@ module.exports = {
     */
     const validUsers = [
       {
-        email: 'demo@user.io',
+        email: 'demo@user.com',
         username: 'Demo-lition',
         hashedPassword: bcrypt.hashSync('password')
       },
@@ -47,5 +47,3 @@ module.exports = {
     }, {});
   }
 };
-
-      

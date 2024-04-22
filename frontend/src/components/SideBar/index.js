@@ -7,7 +7,7 @@ export default function SideBar({user}) {
           {/* <p className="pl-4">{user.username}</p> */}
         </div>
         <div className="p-4 text-lg divide-y">
-            <p className="p-2">Queries</p>
+            <p className="p-2">Saved Queries</p>
             <p className="p-2">Recent Queries</p>
             <p className="p-2">Visited</p>
             <p className="p-2">Saved Sites</p>

@@ -6,6 +6,7 @@ const SERP_API_ACCESS_KEY = process.env.SERP_API_ACCESS_KEY;
 const search = new SerpApi.GoogleSearch(SERP_API_ACCESS_KEY);
 const fs = require("fs");
 const { getArchive } = require("./utils");
+const { Queries } = require("../../db/models");
 
 router.post("/iframe/", async (req, res) => {
   const { url } = req.body;
@@ -27,7 +28,14 @@ router.post("/", async (req, res) => {
   //   const { query, lat, lng } = req.body;
   const quote = ["intitle", "inurl", "-intitle", "-inurl", "intext", "-intext"];
   const params = req.body;
-  const limit = 100;
+  const { user } = req;
+  const newQuery = {
+    userId: user.id,
+    query: params.q,
+    engine: params.engine,
+  };
+
+  await Queries.create(newQuery);
 
   params.q = params.q
     .split(";")
@@ -38,13 +46,15 @@ router.post("/", async (req, res) => {
     )
     .join(" ");
 
-    console.log(params.q)
+  console.log(params);
 
   const obj = {};
   const callback = async (data) => {
     const response = data.organic_results;
+    console.log(response);
     console.log(data.search_information.total_results);
-    console.log(data.organic_results.length);
+    console.log(data.search_parameters);
+    console.log(data.serpapi_pagination);
 
     if (data.organic_results) {
       const results = async (rest) => {
@@ -76,24 +86,27 @@ router.post("/", async (req, res) => {
           }
 
           if (Object.values(obj).length == Object.values(response).length) {
-
             const currPage = (
               Number(data.organic_results?.slice(-1)[0].position) / 100
             ).toFixed();
             // console.log(data)
             const totalPages = (
-              Number(data.search_information.total_results) / data.organic_results?.length
+              Number(data.search_information.total_results) /
+              data.organic_results?.length
             ).toFixed(0);
             obj.info = {
               currentPage: currPage,
-              totalPages
-            }
+              totalPages,
+            };
             return res.json(obj);
           }
         });
-      };
+      }
 
       await results(response);
+    }
+    else {
+      res.json({message: 'End of results'})
     }
 
     // console.log(currPage + "/" + totalPages);
@@ -115,7 +128,6 @@ router.post("/", async (req, res) => {
     // const
   };
 
-  let start = 0;
   // console.log(final);
   const request = {
     // start_addr: `${lat},${lng}`,
@@ -124,18 +136,16 @@ router.post("/", async (req, res) => {
     ...params,
     engine: "google",
     num: 100,
-    start: start,
     // ll:`@${lat},${lng}`
     // device: "tablet",
     // travel_mode: 3,
   };
-  const test = async () => {
+  console.log(request);
+  try {
     await search.json(request, callback);
-  };
-  await test();
-  //   console.log(data)
-
-  //   res.json(data);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 module.exports = router;

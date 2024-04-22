@@ -19,11 +19,11 @@ module.exports = (sequelize, DataTypes) => {
       userId: {
         type: DataTypes.INTEGER,
       },
-      groupId: {
-        type: DataTypes.INTEGER,
-      },
       engine: {
         type: DataTypes.STRING,
+      },
+      saved: {
+        type: DataTypes.BOOLEAN,
       },
     },
     {
