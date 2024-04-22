@@ -23,10 +23,10 @@ function App() {
     <>
       <div className="h-screen w-screen flex ">
 
-        {user && <SideBar user={user}/>}
+        {!user && <SideBar user={user}/>}
 
-          {user && <SearchBar />}
-      {!user && <LoginFormPage />}
+          {!user && <SearchBar />}
+      {/* {!user && <LoginFormPage />} */}
 
       </div>
       {isLoaded && !user && (

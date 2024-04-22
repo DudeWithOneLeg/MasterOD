@@ -4,7 +4,7 @@ export default function SideBar({user}) {
       <div className="p-4">
         <div className="flex flex-row items-center">
           <img src="icons/profile.jpg" className="rounded-full h-14"></img>
-          <p className="pl-4">{user.username}</p>
+          {/* <p className="pl-4">{user.username}</p> */}
         </div>
         <div className="p-4 text-lg divide-y">
             <p className="p-2">Queries</p>

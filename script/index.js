@@ -14,10 +14,10 @@ const url = "*.1.1/*";
 const { Readable } = require("stream");
 const { finished } = require("stream/promises");
 
-
-
 const getSnapshots = async (url) => {
-  const res = await fetch(`http://archive.org/wayback/available?url=${url}&output=json`)
+  const res = await fetch(
+    `http://archive.org/wayback/available?url=${url}&output=json`
+  )
     .then((response) => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -43,18 +43,18 @@ const getSnapshots = async (url) => {
       //   fs.writeFileSync("index.html", doc.serialize());
       // });
       if (data.archived_snapshots.closest) {
-        return data.archived_snapshots.closest.url
+        return data.archived_snapshots.closest.url;
       }
     })
     .catch((error) => {
       console.error("Error fetching data:", error);
     });
-    return res
+  return res;
 };
 
 const getData = async (url) => {
   await fetch(
-    `http://web.archive.org/cdx/search/cdx?url=${url}&output=json&`//matchType=domain`
+    `http://web.archive.org/cdx/search/cdx?url=${url}&output=json&` //matchType=domain`
   )
     .then((response) => {
       if (!response.ok) {
@@ -67,24 +67,23 @@ const getData = async (url) => {
       // const powerpoints = data.filter((list) =>
       //   list.icludes("application/powerpoint")
       // );
-      return console.log(data)
+      return console.log(data);
       // const docs = data.filter((list) => list.includes("application/msword"));
       const master = {};
       const list = data.slice(1).forEach((list) => {
         const url = list[2].split("/").slice(0, 3).join("/");
         const ext = list[2].split(".").slice(-1)[0];
 
-          // if (list[2].includes('ftp')) {
-            // const o = list[2]
-            if (!master[url]) {
-              master[url] = {}
-              console.log(url)
-            }
-            // else {
-            //   master[url][list[2]] = {}
-            // }
-          // }
-
+        // if (list[2].includes('ftp')) {
+        // const o = list[2]
+        if (!master[url]) {
+          master[url] = {};
+          console.log(url);
+        }
+        // else {
+        //   master[url][list[2]] = {}
+        // }
+        // }
 
         // if (ext) {
         //   if (!master[url][ext.toLowerCase()]) {
@@ -121,7 +120,9 @@ const crawl = async (url, obj, arr, total) => {
 
       const linksArr = doc.window.document.querySelectorAll("a");
       const links = Array.from(linksArr).slice(1);
-      const tmp = Array.from(linksArr).map((el) => el.href);
+      const tmp = Array.from(linksArr)
+        .map((el) => el.href)
+        .filter((link) => !link.includes("=") && link != "/");
       // console.log('ORIGINAL', tmp)
       let metaData = doc.window.document.querySelectorAll("pre")[0];
 
@@ -136,29 +137,24 @@ const crawl = async (url, obj, arr, total) => {
             // console.log("SIZE", size);
             if (size) {
               if (size.slice(size.length - 1).toLowerCase() == "m") {
-                return (
-                  Number(size.slice(0, size.length - 1) / 1024) / 1024 / 1024
-                );
+                return Number(size.slice(0, size.length - 1));
               } else if (size.slice(size.length - 1).toLowerCase() == "g") {
                 return Number(size.slice(0, size.length - 1)) * 1024;
               } else if (size.slice(size.length - 1).toLowerCase() == "t") {
                 return Number(size.slice(0, size.length - 1)) * 1024 * 1024;
-              }
-            } else return Number(data.split(" ").slice(-1)) / 1024 / 1024;
+              } else if (size.slice(size.length - 1).toLowerCase() == "k") {
+                return Number(size.slice(0, size.length - 1)) / 1024;
+              } else return Number(data.split(" ").slice(-1)) / 1024 / 1024;
+            }
           });
-        // console.log('yo',metaData);
+        console.log("yo", tmp.length, metaData.length);
 
-        for (let i = 0; i < links.length; i++) {
-          // console.log(links[i].href)
-          const extension = links[i].href
-            .split(".")
-            [links[i].href.split(".").length - 1].toLowerCase();
-          // if (extension == 'mp4') console.log(links[i].href)
+        for (let i = 0; i < tmp.length; i++) {
+          const url = tmp[i];
+          const extension = url.split(".").slice(-1).toLowerCase();
+          console.log("yooo", tmp[i]);
 
-          if (
-            !decodeURIComponent(links[i].href).includes("/") &&
-            !links[i].href.includes("=")
-          ) {
+          if (!decodeURIComponent(url).includes("/") && !url.includes("=")) {
             //  console.log('HIT', metaData[i])
             if (!obj[extension]) {
               obj[extension] = { num: 1, size: metaData[i] };
@@ -168,14 +164,14 @@ const crawl = async (url, obj, arr, total) => {
               if (metaData[i] != NaN) obj[extension].size += metaData[i];
             }
           } else if (
-            !links[i].href.includes("../") &&
-            links[i].href != "/" &&
-            !links[i].href.includes("=") &&
-            url + links[i].href != url
+            !url.includes("../") &&
+            url != "/" &&
+            !url.includes("=") &&
+            url + url != url
           ) {
-            arr.push(url + links[i].href);
+            arr.push(url + tmp[i]);
           }
-          // console.log(url + link.href)
+          console.log(obj);
         }
       } else {
         // console.log('yo')
@@ -353,7 +349,7 @@ const ipMapper = async (url) => {
   // console.log(arr);
   for (let key of Object.keys(obj)) {
     const mb = obj[key].size;
-    // console.log(mb)
+    console.log(mb);
     // total += mb;
     console.log("Original: ", mb);
 
@@ -377,46 +373,47 @@ const reddit = async (url) => {
   const urls = {};
   let markdown = ``;
 
-  const browser = await puppeteer.launch({ headless: false });
-  const page = await browser.newPage();
-  await page.goto(url);
+  // const browser = await puppeteer.launch({ headless: false });
+  // const page = await browser.newPage();
+  // await page.goto(url);
 
-  let data = await page.content();
+  // let data = await page.content();
 
-  data = JSON.parse(
-    data
-      .split(
-        '<html><head><meta name="color-scheme" content="light dark"></head><body><pre style="word-wrap: break-word; white-space: pre-wrap;">'
-      )[1]
-      .split("</pre></body></html>")[0]
-  );
-  const dataArr = data.data.children;
-  const links = [];
-  for (let post of dataArr) {
-    const text = post.data.selftext;
-    let start = 0;
-    // console.log(post.data.author_fullname);
-    if (post.data.author_fullname != "t2_3dfj970w" && text.includes("http")) {
-      for (let i = 0; i < text.length; i++) {
-        if (text[i] == "[") start = i;
-        if (text[i] == "]") {
-          if (text.slice(start + 1, i).includes("http"))
-            links.push(text.slice(start + 1, i));
-        }
-      }
-      if (!post.data.url.includes("reddit")) {
-        arr.push(post.data.url);
-      }
-    }
-  }
-  console.log(links);
-  console.log(links.length);
-  await browser.close();
+  // data = JSON.parse(
+  //   data
+  //     .split(
+  //       '<html><head><meta name="color-scheme" content="light dark"></head><body><pre style="word-wrap: break-word; white-space: pre-wrap;">'
+  //     )[1]
+  //     .split("</pre></body></html>")[0]
+  // );
+  // const dataArr = data.data.children;
+  // const links = [];
+  // for (let post of dataArr) {
+  //   const text = post.data.selftext;
+  //   let start = 0;
+  //   // console.log(post.data.author_fullname);
+  //   if (post.data.author_fullname != "t2_3dfj970w" && text.includes("http")) {
+  //     for (let i = 0; i < text.length; i++) {
+  //       if (text[i] == "[") start = i;
+  //       if (text[i] == "]") {
+  //         if (text.slice(start + 1, i).includes("http"))
+  //           links.push(text.slice(start + 1, i));
+  //       }
+  //     }
+  //     if (!post.data.url.includes("reddit")) {
+  //       arr.push(post.data.url);
+  //     }
+  //   }
+  // }
+  // console.log(links);
+  // console.log(links.length);
+  // await browser.close();
 
   // numOfLinks += links.length;
   for (let link of [
-    "http://files.usgwarchives.net/",
-    "https://iop.archive.arm.gov/arm-iop-file/",
+    "http://danvolodar.ru/files/",
+    "http://dogjdw.ipdisk.co.kr/public/VOL1/public/",
+    "http://movie.basnetbd.com/Data/",
   ].slice(0, 10)) {
     console.log(link);
     if (!link.includes("=") && link.includes("http")) {
@@ -652,121 +649,131 @@ const ip = async () => {
   }
 };
 
-const testar = async() => {
+const testar = async () => {
   // const arr3 = []
   const browser = await puppeteer.launch({ headless: false });
   for (let el of testArr) {
-    const url = await getSnapshots(el)
+    const url = await getSnapshots(el);
     if (url) {
       const page = await browser.newPage();
       await page.goto(url);
-
     }
   }
-}
+};
 
-const amazon = async() => {
-  const json = fs.readFileSync('amzawss3.json')
-  const parsed = JSON.parse(json)
-  const arr = Object.keys(parsed).slice(210)
-  const obj = {}
+const amazon = async () => {
+  const json = fs.readFileSync("amzawss3.json");
+  const parsed = JSON.parse(json);
+  const arr = Object.keys(parsed).slice(210);
+  const obj = {};
   for (let url of arr) {
     await fetch(url)
-    .then(async res => {
-      if (res.status == 200) return await res.text()
-    })
-  .then(async data => {
-    // console.log(data)
-    const doc = new jsdom.JSDOM(data)
-    const buck = doc.window.document.querySelectorAll('Contents')
-    if (data && buck && !obj[url]) {
-      for (let file of buck) {
-        const children = file.children
-        if (children) {
-          const filePath = children[0].textContent
-          const lastModified = children[1].textContent
-          const eTag = children[2].textContent
-          const size = children[3].textContent
-          const storageClass = children[4].textContent
-          // console.log(filePath)
-          const extension = filePath.split('.').slice(-1)[0]
-          if (!obj[url]) {
+      .then(async (res) => {
+        if (res.status == 200) return await res.text();
+      })
+      .then(async (data) => {
+        // console.log(data)
+        const doc = new jsdom.JSDOM(data);
+        const buck = doc.window.document.querySelectorAll("Contents");
+        if (data && buck && !obj[url]) {
+          for (let file of buck) {
+            const children = file.children;
+            if (children) {
+              const filePath = children[0].textContent;
+              const lastModified = children[1].textContent;
+              const eTag = children[2].textContent;
+              const size = children[3].textContent;
+              const storageClass = children[4].textContent;
+              // console.log(filePath)
+              const extension = filePath.split(".").slice(-1)[0];
+              if (!obj[url]) {
+                obj[url] = {};
+                obj[url][`${url}/${filePath}`] = {
+                  filePath: `${url}/${filePath}`,
+                  lastModified,
+                  eTag,
+                  size,
+                  storageClass,
+                  extension,
+                };
 
-            obj[url] = {}
-            obj[url][`${url}/${filePath}`] = {filePath:`${url}/${filePath}`, lastModified, eTag, size, storageClass, extension}
-
-            // obj.fileTypes[extension] = 1
+                // obj.fileTypes[extension] = 1
+              } else {
+                obj[url][`${url}/${filePath}`] = {
+                  filePath: `${url}/${filePath}`,
+                  lastModified,
+                  eTag,
+                  size,
+                  storageClass,
+                  extension,
+                };
+              }
+              if (!obj[url].fileTypes) {
+                obj[url].fileTypes = {};
+              }
+              if (!obj[url].fileTypes[extension])
+                obj[url].fileTypes[extension] = 1;
+              else obj[url].fileTypes[extension]++;
+            }
+            // console.log(obj)
+            fs.writeFileSync(`awsFiles.json`, JSON.stringify(obj, null, 2));
           }
-
-          else {
-
-            obj[url][`${url}/${filePath}`] = {filePath:`${url}/${filePath}`, lastModified, eTag, size, storageClass, extension}
-          }
-          if (!obj[url].fileTypes) {
-            obj[url].fileTypes = {}
-
-          }
-          if (!obj[url].fileTypes[extension]) obj[url].fileTypes[extension] = 1
-          else obj[url].fileTypes[extension]++
+          // obj[url] = `./aws/${arr.indexOf(url)}.html`
         }
-        // console.log(obj)
-        fs.writeFileSync(`awsFiles.json`, JSON.stringify(obj, null, 2))
-      }
-      // obj[url] = `./aws/${arr.indexOf(url)}.html`
-    }
-  })
-  .catch(e => console.log(e))
+      })
+      .catch((e) => console.log(e));
   }
-}
+};
 // amazon()
 
 // testar()
 
 // ip();
-const dataFromSnapshot = async() => {
-  const json = fs.readFileSync('ca-mil.json')
-  const parsed = JSON.parse(json)
+const dataFromSnapshot = async () => {
+  const json = fs.readFileSync("ca-mil.json");
+  const parsed = JSON.parse(json);
 
   for (let url of Object.keys(parsed)) {
-    const data = await getData(url)
-    console.log(data)
+    const data = await getData(url);
+    console.log(data);
   }
-}
+};
 
-const apachIcons = async() => {
-  await fetch('https://www.apache.org/icons/')
-  .then(async res => {
-    const data =  await res.text()
-    const dom = new jsdom.JSDOM(data)
+const apachIcons = async () => {
+  await fetch("https://www.apache.org/icons/").then(async (res) => {
+    const data = await res.text();
+    const dom = new jsdom.JSDOM(data);
     const document = dom.window.document;
 
     // Find all image (img) elements and extract their src attributes
-    const imageUrls = Array.from(document.querySelectorAll('a')).slice(5).map(a => a.href);
+    const imageUrls = Array.from(document.querySelectorAll("a"))
+      .slice(5)
+      .map((a) => a.href);
 
     // Iterate over the image URLs and download each image
     for (let i = 0; i < imageUrls.length; i++) {
       const imageUrl = imageUrls[i];
-      if (!imageUrl.includes('/')) {
-
-        const response = await fetch('https://www.apache.org/icons/' + imageUrl);
+      if (!imageUrl.includes("/")) {
+        const response = await fetch(
+          "https://www.apache.org/icons/" + imageUrl
+        );
         const imageBuffer = await response.arrayBuffer();
-        const imgData = Buffer.from(imageBuffer)
+        const imgData = Buffer.from(imageBuffer);
 
         // Extract the filename from the image URL
         // const filename = path.basename(imageUrl);
 
         // Write the image data to a file in the output directory
         // const outputFile = path.join(outputDirectory, imageUrl);
-        fs.writeFileSync('icons/' + imageUrl, imgData);
+        fs.writeFileSync("icons/" + imageUrl, imgData);
 
         console.log(`Image downloaded and saved: ${imageUrl}`);
       }
     }
+  });
+};
 
-  })
-}
-
-apachIcons()
+// apachIcons()
 // getData('.mil.ca');
 // dataFromSnapshot()
 // test()
@@ -779,4 +786,6 @@ apachIcons()
 // ipMapper("https://www.kwasan.kyoto-u.ac.jp/~sakaue/AR_catalogue/movie4K/");
 // console.log(obj, total)
 
-// reddit('https://www.reddit.com/r/pushshift/comments/142y0pd/any_good_reddit_scrapers/')
+reddit(
+  "https://www.reddit.com/r/pushshift/comments/142y0pd/any_good_reddit_scrapers/"
+);

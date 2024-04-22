@@ -7,22 +7,22 @@ const search = new SerpApi.GoogleSearch(SERP_API_ACCESS_KEY);
 const fs = require("fs");
 const { getArchive } = require("./utils");
 
-router.post('/iframe/', async (req, res) => {
-  const { url } = req.body
+router.post("/iframe/", async (req, res) => {
+  const { url } = req.body;
   const data = await fetch(url)
-  .then(async res => {
-    if (res.status == 200) {
-      return res.text()
-    }
-  })
-  .then(async data => {
-    const response =  data
-    return response
-  }).catch(e => console.log(e))
+    .then(async (res) => {
+      if (res.status == 200) {
+        return res.text();
+      }
+    })
+    .then(async (data) => {
+      const response = data;
+      return response;
+    })
+    .catch((e) => console.log(e));
 
-  return res.json({data})
-
-})
+  return res.json({ data });
+});
 router.post("/", async (req, res) => {
   //   const { query, lat, lng } = req.body;
   const quote = ["intitle", "inurl", "-intitle", "-inurl", "intext", "-intext"];
@@ -30,13 +30,15 @@ router.post("/", async (req, res) => {
   const limit = 100;
 
   params.q = params.q
-    .split(" ")
+    .split(";")
     .map((q) =>
       quote.includes(q.split(":")[0])
         ? `${q.split(":")[0]}:"${q.split(":")[1]}"`
         : q
     )
     .join(" ");
+
+    console.log(params.q)
 
   const obj = {};
   const callback = async (data) => {
@@ -50,9 +52,6 @@ router.post("/", async (req, res) => {
         // console.log(rest, 'hello')
         Object.values(rest).forEach(async (resp) => {
           const link = resp.link;
-          // .split("/").slice(0, 3).join('').split(':').join('://');
-          console.log(resp.link);
-          console.log(link);
           if (!index[link]) {
             await getArchive(link).then(async (archive) => {
               // console.log(archive, 'hello')
@@ -76,23 +75,28 @@ router.post("/", async (req, res) => {
             };
           }
 
-          if (Object.values(obj).length == Object.values(response).length)
+          if (Object.values(obj).length == Object.values(response).length) {
+
+            const currPage = (
+              Number(data.organic_results?.slice(-1)[0].position) / 100
+            ).toFixed();
+            // console.log(data)
+            const totalPages = (
+              Number(data.search_information.total_results) / data.organic_results?.length
+            ).toFixed(0);
+            obj.info = {
+              currentPage: currPage,
+              totalPages
+            }
             return res.json(obj);
+          }
         });
       };
 
       await results(response);
     }
 
-    //   console.log(data.directions[0].start_time.split('').slice(0, 5).join('').split(':'));
-    // const lastItem = data.organic_results.slice(-1)[0].position;
-    const currPage = (
-      data.organic_results?.slice(-1)[0].position / 100
-    ).toFixed();
-    const totalPages = (
-      data.search_information.total_results / data.organic_results?.length
-    ).toFixed(0);
-    console.log(currPage + "/" + totalPages);
+    // console.log(currPage + "/" + totalPages);
 
     // const totalResults = data.search_information.total_results
     // const totalPages = data.search_information.total_results / 100
@@ -133,6 +137,5 @@ router.post("/", async (req, res) => {
 
   //   res.json(data);
 });
-
 
 module.exports = router;
