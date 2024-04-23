@@ -96,10 +96,10 @@ export default function SearchBar() {
         data-collapse="collapse"
       >
         <div
-          className={`w-full flex cursor-pointer text-slate-800 items-center h-fit py-2`}
+          className={`w-full flex cursor-pointer text-slate-800 items-center h-10 py-2`}
           data-collapse-target="collapse"
         >
-          <div className="flex px-2 items-center w-full h-fit justify-content-between">
+          <div className="flex px- items-center w-full h-fit justify-content-between">
             <div className="flex flex-row items-center">
               <img
                 src="/images/plus.png"

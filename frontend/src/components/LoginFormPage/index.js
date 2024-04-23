@@ -26,9 +26,9 @@
       };
 
       return (
-        <div className="w-full flex flex-col items-center justify-content-center">
+        <div className="w-fit flex flex-col items-center justify-content-center">
           {/* <h1>Log In</h1> */}
-          <form onSubmit={handleSubmit} className="flex flex-col w-1/6 rounded border bg-slate-700 p-3">
+          <form onSubmit={handleSubmit} className="flex flex-col w-fit rounded border bg-slate-700 p-3">
               <input
                 type="text"
                 value={credential}

@@ -53,22 +53,21 @@ export const data = (url) => async (dispatch) => {
 
 const initialState = { results: null, data: null };
 
-console.log("this hit");
-
 const searchReducer = (state = initialState, action) => {
   let newState;
   switch (action.type) {
     case SET_SEARCH:
+
       newState = { ...state };
+
+      // console.log(newState.results);
       if (newState.results) {
-        console.log(action.payload);
+
         const results = newState.results;
         const newResults = action.payload;
         const resultKeys = Object.keys(results).slice(0, -1);
         let lastIndex = Number(resultKeys.slice(-2, -1)[0]);
-        console.log(lastIndex)
 
-        console.log(typeof lastIndex);
         for (let key of resultKeys) {
           const newIndex = lastIndex + 1;
           const result = newResults[key];

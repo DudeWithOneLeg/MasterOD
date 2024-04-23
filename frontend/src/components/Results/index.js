@@ -59,13 +59,13 @@ export default function Results({
     Object.values(results).length > 0 && (
       //KEEP CLASS NAME AS IS
       <div
-        className={`flex flex-col justify-center h-full overflow-hidden px-2 pb-1 ${
+        className={`flex flex-col justify-center h-full overflow-hidden pb-1 ${
           showResult ? "w-full" : "w-100"
         }`}
         id="results"
       >
         <div
-          className="rounded flex-col flex h-full py-2 w-full items-center overflow-y-scroll overflow-x-hidden"
+          className="rounded flex-col flex h-full py-2 px-2 w-full items-center overflow-y-scroll overflow-x-hidden"
           id="inner-result"
         >
           {Object.keys(results)

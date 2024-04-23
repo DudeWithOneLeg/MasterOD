@@ -23,27 +23,26 @@ function App() {
     <>
       <div className="h-screen w-screen flex ">
 
-        {/* {!user && } */}
-
-          {/* {!user && } */}
-      {/* {!user && } */}
+        <SideBar/>
       {
         isLoaded && user && <>
-        <SideBar user={user}/>
         <SearchBar />
         </>
       }
 
-      </div>
       {isLoaded && !user && (
-        <Switch>
-          <Route path="/login">
+        <Switch className="flex flex-col jusify-content-around items-center h-fit w-fit">
+          <Route path='/login'>
+          <LoginFormPage />
+
           </Route>
-          <Route path="/signup">
+          <Route path='signup'>
+
             <SignupFormPage />
           </Route>
         </Switch>
       )}
+      </div>
     </>
   );
 }

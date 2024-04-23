@@ -101,12 +101,11 @@ router.post("/", async (req, res) => {
             return res.json(obj);
           }
         });
-      }
+      };
 
       await results(response);
-    }
-    else {
-      res.json({message: 'End of results'})
+    } else {
+      res.json({ message: "End of results" });
     }
 
     // console.log(currPage + "/" + totalPages);

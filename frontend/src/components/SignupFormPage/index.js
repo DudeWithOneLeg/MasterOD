@@ -43,13 +43,13 @@
       };
 
       return (
-        <>
+        <div className="flex flex-col h-fit w-fit">
           <h1>Sign Up</h1>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} className="flex flex-col w-fit h-fit">
             <label>
-              Email
               <input
                 type="text"
+                placeholder="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -57,19 +57,21 @@
             </label>
             {errors.email && <p>{errors.email}</p>}
             <label>
-              Username
+
               <input
                 type="text"
                 value={username}
+                placeholder="Username"
                 onChange={(e) => setUsername(e.target.value)}
                 required
               />
             </label>
             {errors.username && <p>{errors.username}</p>}
             <label>
-              First Name
+
               <input
                 type="text"
+                placeholder="First Name"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
                 required
@@ -77,19 +79,21 @@
             </label>
             {errors.firstName && <p>{errors.firstName}</p>}
             <label>
-              Last Name
+
               <input
                 type="text"
                 value={lastName}
+                placeholder="Last Name"
                 onChange={(e) => setLastName(e.target.value)}
                 required
               />
             </label>
             {errors.lastName && <p>{errors.lastName}</p>}
             <label>
-              Password
+
               <input
                 type="password"
+                placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -97,10 +101,11 @@
             </label>
             {errors.password && <p>{errors.password}</p>}
             <label>
-              Confirm Password
+
               <input
                 type="password"
                 value={confirmPassword}
+                placeholder="Confirm Password"
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
               />
@@ -108,9 +113,8 @@
             {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
             <button type="submit">Sign Up</button>
           </form>
-        </>
+        </div>
       );
     }
 
     export default SignupFormPage;
-                  
