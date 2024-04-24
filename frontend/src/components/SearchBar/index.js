@@ -89,17 +89,17 @@ export default function SearchBar() {
       id="search-bar"
     >
       <div
-        className={`w-full divide-y divide-slate-500 bg-slate-200 flex flex-col font-bold rounded transition-all duration-300 ease-in-out ${
+        className={`w-full divide-y divide-slate-500 bg-slate-700 border-2 border-slate-600 flex flex-col font-bold rounded transition-all duration-300 ease-in-out ${
           showOptions ? `h-fit` : "h-fit"
         }`}
         id="search-bar-inner"
         data-collapse="collapse"
       >
         <div
-          className={`w-full flex cursor-pointer text-slate-800 items-center h-10 py-2`}
+          className={`w-full flex cursor-pointer text-slate-200 items-center h-10 py-2`}
           data-collapse-target="collapse"
         >
-          <div className="flex px- items-center w-full h-fit justify-content-between">
+          <div className="flex px- items-center w-full h-fit justify-content-between p-2">
             <div className="flex flex-row items-center">
               <img
                 src="/images/plus.png"
@@ -124,7 +124,7 @@ export default function SearchBar() {
             <div>
               <label className="h-fit m-0">
                 Search Engine:
-                <select onClick={(e) => setEngine(e.target.value)}>
+                <select onClick={(e) => setEngine(e.target.value)} className="bg-slate-500 rounded ml-1">
                   <option selected value={"Google"}>
                     Google
                   </option>

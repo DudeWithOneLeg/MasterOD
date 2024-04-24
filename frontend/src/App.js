@@ -22,8 +22,10 @@ function App() {
   return (
     <>
       <div className="h-screen w-screen flex ">
-
+      <div className="p-2 rounded">
         <SideBar/>
+
+      </div>
       {
         isLoaded && user && <>
         <SearchBar />
