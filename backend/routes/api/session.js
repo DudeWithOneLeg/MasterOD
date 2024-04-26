@@ -74,9 +74,10 @@ router.post(
       where: {
         userId : user.id,
       },
-      sort: ['createdAt', 'Ascending'],
+      order: [['updatedAt', 'DESC']],
       limit: 10
     })
+    console.log(recentQueries)
 
     const safeUser = {
       id: user.id,

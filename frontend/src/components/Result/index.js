@@ -9,7 +9,7 @@ export default function Result({
 }) {
   const [showInfo, setShowInfo] = useState(false);
 
-  const docExtensions = [".pdf", ".doc", ".docx"];
+  const docExtensions = ["pdf", "doc", "docx"];
 
   const handlClick = () => {
       setShowInfo(!showInfo);
@@ -28,11 +28,11 @@ export default function Result({
       <div className="">
 
       </div>
-      <div className="flex items-center justify-content-center min-w-10 h-full">
+      <div className="flex flex-col items-center justify-content-around min-w-10 h-full">
         <img src='/icons/bookmark.png'/>
         <div className="flex font-bold h-fit w-fit bg-slate-300 rounded">
           {docExtensions.includes(
-            "." + data[rowKey].link.split(".").slice(-1)
+            data[rowKey].link.split(".").slice(-1)[0]
           ) && <img src="images/document.png" className="w-full" />}
         </div>
       </div>

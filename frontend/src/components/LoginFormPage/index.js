@@ -46,11 +46,11 @@
                 className="rounded p-1 text-black"
               />
             {errors.credential && <p className="text-red-300 py-1.5">{errors.credential}</p>}
-            <button type="submit" className="text-slate-200 rounded hover:bg-slate-500 py-1 my-2">Log In</button>
+            <button type="submit" className="text-slate-200 rounded hover:bg-slate-700 py-1 my-2">Log In</button>
           </form>
           <p>- or -</p>
           <button
-          className="text-slate-200 rounded hover:bg-slate-500 py-1 w-full"
+          className="text-slate-200 rounded hover:bg-slate-700 py-1 w-full"
           onClick={() => {
             setSignup(true)
 

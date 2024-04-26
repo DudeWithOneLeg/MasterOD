@@ -38,6 +38,7 @@ export default function SideBar() {
         }, 700);
       }, 700);
     }
+    // else {setSlide('ml-[-600px')}
   }, [signup]);
 
   useEffect(() => {
@@ -56,16 +57,26 @@ export default function SideBar() {
 
   useEffect(() => {
     if (!login && !hide && loginSlide.includes("overflow-hidden")) {
-      setSlide("ml-[-900px]");
-      console.log("900");
+      console.log('58-1');
+      if (slide == 'ml-[-300px]') {
+        setSlide("ml-[-600px]")
+        console.log('hit 1')
+      }
+      else {
+        setSlide("ml-[-900px]")
+        console.log('hit 2')
+      }
+
+      console.log(slide);
     } else if (hide) {
       setSlide("ml-[-300px]");
-      console.log("300");
+      console.log('58-2');
     } else {
       setSlide("ml-[-600px]");
-      console.log("600");
+      console.log("58-3");
     }
-    console.log("hide:", hide);
+    console.log(slide);
+    console.log("hide:", hide, login, slide, loginSlide);
   }, [hide]);
 
   useEffect(() => {
@@ -86,8 +97,8 @@ export default function SideBar() {
             <p className="pl-4">{user ? user.username : ""}</p>
           </div>
           <div className={`p-4 text-lg`}>
-            <h1 className="p-2">Saved Queries</h1>
-            <h1 className="p-2">Recent Queries</h1>
+            <h1 className="p-2 border-b">Saved Queries</h1>
+            <h1 className="p-2 border-b">Recent Queries</h1>
             <div>
               {user &&
                 user.recentQueries &&
@@ -100,21 +111,21 @@ export default function SideBar() {
                 })}
             </div>
             <p
-              className={`p-2 transition-all duration-700 ease-in-out ${
+              className={`p-2 border-b transition-all duration-700 ease-in-out ${
                 user ? "ml-0" : "-ml-96"
               }`}
             >
               Visited
             </p>
             <p
-              className={`p-2 transition-all duration-700 ease-in-out ${
+              className={`p-2 border-b transition-all duration-700 ease-in-out ${
                 user ? "ml-0" : "-ml-96"
               }`}
             >
               Saved Sites
             </p>
             <p
-              className={`p-2 transition-all duration-700 ease-in-out ${
+              className={`p-2 border-b transition-all duration-700 ease-in-out ${
                 user ? "ml-0" : "-ml-96"
               }`}
             >
@@ -136,7 +147,7 @@ export default function SideBar() {
                     setHide(false);
                     setLogin(true);
                   }}
-                  className="mb-3"
+                  className="mb-3 cursor-pointer hover:bg-slate-600 rounded text-center p-1"
                 >
                   Log in
                 </p>
@@ -146,7 +157,7 @@ export default function SideBar() {
                     setHide(false);
                     setSignup(true);
                   }}
-                  className=""
+                  className="cursor-pointer hover:bg-slate-600 rounded text-center p-1"
                 >
                   Sign up
                 </p>
@@ -155,19 +166,18 @@ export default function SideBar() {
             <div className="flex flex-row w-fit h-fit">
               {login ? (
                 <div
-                  className={`flex flex-col transition-all duration-700 ease-in-out ${loginSlide}`}
+                  className={`flex flex-col transition-all duration-700 ease-in-out ${loginSlide} p-4`}
                 >
-                  <p
+                  <img
                     onClick={async () => {
-                      // setLogin(false);
                       setHide(true);
                       await setTimeout(async () => {
                         setLogin(false);
                       }, 500);
                     }}
-                  >
-                    Back
-                  </p>
+                    src='/icons/arrow_back_2.png'
+                    className="w-10 hover:bg-slate-600 rounded-full p-1.5 cursor-pointer"
+                  />
                   <LoginFormPage setLogin={setLogin} setSignup={setSignup} />
                 </div>
               ) : (
@@ -175,9 +185,11 @@ export default function SideBar() {
               )}
               {signup ? (
                 <div
-                  className={`flex flex-col w-[300px] transition-all ease-in-out duration-700 ${signupSlideDown}`}
+                  className={`flex flex-col w-[300px] transition-all ease-in-out duration-700 p-4 ${signupSlideDown}`}
                 >
-                  <p
+                  <div className="flex flex-row items-end">
+
+                  <img
                     onClick={async () => {
                       // ;
                       setHide(true);
@@ -187,9 +199,11 @@ export default function SideBar() {
                         setLogin(false);
                       }, 500);
                     }}
-                  >
-                    Back
-                  </p>
+                    src='/icons/arrow_back_2.png'
+                    className="w-10 hover:bg-slate-600 rounded-full p-1.5 cursor-pointer"
+                  />
+                  <h1 className="w-full text-center">Sign up</h1>
+                  </div>
                   <SignupFormPage setSignup={setSignup} setHide={setHide} />
                 </div>
               ) : (

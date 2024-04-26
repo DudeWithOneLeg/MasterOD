@@ -43,20 +43,18 @@
       };
 
       return (
-        <div className="flex flex-col h-fit w-fit">
-          <h1>Sign Up</h1>
+        <div className="flex flex-col h-fit w-full items-center border-t-2 pt-2">
+
           <form onSubmit={handleSubmit} className="flex flex-col w-fit h-fit">
-            <label>
               <input
                 type="text"
                 placeholder="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                className="my-1 rounded"
               />
-            </label>
             {errors.email && <p>{errors.email}</p>}
-            <label>
 
               <input
                 type="text"
@@ -64,10 +62,9 @@
                 placeholder="Username"
                 onChange={(e) => setUsername(e.target.value)}
                 required
+                className="my-1 rounded"
               />
-            </label>
             {errors.username && <p>{errors.username}</p>}
-            <label>
 
               <input
                 type="text"
@@ -75,10 +72,9 @@
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
                 required
+                className="my-1 rounded"
               />
-            </label>
             {errors.firstName && <p>{errors.firstName}</p>}
-            <label>
 
               <input
                 type="text"
@@ -86,10 +82,9 @@
                 placeholder="Last Name"
                 onChange={(e) => setLastName(e.target.value)}
                 required
+                className="my-1 rounded"
               />
-            </label>
             {errors.lastName && <p>{errors.lastName}</p>}
-            <label>
 
               <input
                 type="password"
@@ -97,8 +92,8 @@
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                className="my-1 rounded"
               />
-            </label>
             {errors.password && <p>{errors.password}</p>}
             <label>
 
@@ -108,10 +103,11 @@
                 placeholder="Confirm Password"
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
+                className="my-1 rounded"
               />
             </label>
             {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
-            <button type="submit">Sign Up</button>
+            <button type="submit"className="my-1 rounded">Sign Up</button>
           </form>
         </div>
       );

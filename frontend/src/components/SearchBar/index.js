@@ -22,6 +22,7 @@ export default function SearchBar() {
   const [start, setStart] = useState(0);
   const [browseHistory, setBrowseHistory] = useState([]);
   const [browseHistoryIndex, setBrowseHistoryIndex] = useState(0);
+  const docExtensions = ['pdf', 'ppt', 'doc', 'docx']
 
   const settings = { Google: googleSettings, Bing: bingSettings };
 
@@ -67,12 +68,13 @@ export default function SearchBar() {
     }
   };
   useEffect(() => {
-    if (preview) {
+    if (preview && !docExtensions.includes(preview.split('.').slice(-1)[0])) {
       dispatch(searchActions.data(preview));
       if (!browseHistory.length) {
         setBrowseHistory([preview]);
       }
     }
+
   }, [preview, dispatch]);
 
   useEffect(() => {
@@ -125,11 +127,11 @@ export default function SearchBar() {
               <label className="h-fit m-0">
                 Search Engine:
                 <select onClick={(e) => setEngine(e.target.value)} className="bg-slate-500 rounded ml-1">
-                  <option selected value={"Google"}>
+                  <option selected value={"Google"} onClick={() => setEngine('Google')}>
                     Google
                   </option>
                   {/* <option value={"Baidu"}>Baidu</option> */}
-                  <option value={"Bing"}>Bing</option>
+                  <option value={"Bing"} onClick={() => setEngine('Bing')}>Bing</option>
                   {/* <option value={"Yandex"}>Yandex</option> */}
                 </select>
               </label>
@@ -144,7 +146,7 @@ export default function SearchBar() {
           )}
         </div>
         {showOptions && (
-          <div className="divide-y divide-slate-500 flex flex-row">
+          <div className="flex flex-row bg-slate-600 border-2 rounded">
             <div className="divide-y divide-slate-500 w-1/3">
               {Object.keys(settings[engine].operators).map((param) => (
                 <Parameter
@@ -159,7 +161,7 @@ export default function SearchBar() {
               {(engine === "Google" || engine === "Bing") && (
                 <div className="p-2">
                   <select
-                    id="normalize"
+                    // id="normalize"
                     className="pl-2"
                     onClick={(e) =>
                       setLanguage(settings[engine].languages[e.target.value])
@@ -183,7 +185,7 @@ export default function SearchBar() {
 
               <div className="p-2">
                 <select
-                  id="normalize"
+                  // id="normalize"
                   className="pl-2"
                   onClick={(e) =>
                     setCountry(settings[engine].countries[e.target.value])
@@ -220,7 +222,7 @@ export default function SearchBar() {
               </div>
             </div>
           </div>
-          <div className="flex w-full h-fit overflow-y-hidden">
+          <div className="flex w-full h-screen overflow-y-hidden">
             <Results
               setPreview={setPreview}
               preview={preview}
@@ -235,7 +237,7 @@ export default function SearchBar() {
                 engine: engine.toLocaleLowerCase(),
               }}
             />
-            {showResult && data && (
+            {((showResult && data) || (showResult && preview)) && (
               <Browser
                 preview={preview}
                 data={data}

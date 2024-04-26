@@ -17,7 +17,7 @@ export default function Parameter({query, setQuery, param, text}) {
         }
     }
     return (
-        <form className="flex flex-row items-center bg-slate-400 py-2 w-full" id='parameter' onSubmit={(e) => handleSubmit(e)}>
+        <form className="flex flex-row items-center py-2 w-full" id='parameter' onSubmit={(e) => handleSubmit(e)}>
             <div className="flex flex-row px-2 w-full">
 
             <div className="bg-slate-300 rounded-left flex-shrink-0 px-1">
@@ -29,7 +29,7 @@ export default function Parameter({query, setQuery, param, text}) {
             showInput && <input id='parameter-input' className={`pl-1 pr-0 outline-none w-full ${!input.split(param)[1] ? 'rounded-right' : ''}`} onChange={(e) => setInput(param + e.target.value || '')} placeholder={''} value={input.split(':')[1] ? input.split(':')[1] : ''}/>
         }
         {
-            input && input.split(param)[1] && <button type='submit' className="rounded-right bg-green-400 hover:bg-green-300 ">
+            input && input.split(param)[1] && <button type='submit' className="rounded-right bg-slate-400 hover:bg-slate-600 ">
                 <img src='/images/plus.png' className='w-fit mr-0 self-end px-1' />
 
             </button>

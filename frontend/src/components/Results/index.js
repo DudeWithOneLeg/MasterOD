@@ -39,11 +39,11 @@ export default function Results({
               const lastIndex = Number(Object.keys(results).slice(-2, -1)[0]);
               setStart(lastIndex);
               setLoading(false);
-              console.log("yo");
+              // console.log("yo");
             })
-            .then(async () => {
-              // resultsContainer.addEventListener("scroll", scrollFunction);
-            });
+            // .then(async () => {
+            //   // resultsContainer.addEventListener("scroll", scrollFunction);
+            // });
         }
       };
       resultsContainer.addEventListener("scroll", scrollFunction);

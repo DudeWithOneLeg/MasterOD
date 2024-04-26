@@ -29,6 +29,14 @@ router.post("/", async (req, res) => {
   const quote = ["intitle", "inurl", "-intitle", "-inurl", "intext", "-intext"];
   const params = req.body;
   const { user } = req;
+  params.q = params.q
+    .split(";")
+    .map((q) =>
+      q.includes(":")
+        ? `${q.split(":")[0]}:"${q.split(":")[1]}"`
+        : '"' + q + '"'
+    )
+    .join(" ");
   const newQuery = {
     userId: user.id,
     query: params.q,
@@ -37,24 +45,15 @@ router.post("/", async (req, res) => {
 
   await Queries.create(newQuery);
 
-  params.q = params.q
-    .split(";")
-    .map((q) =>
-      quote.includes(q.split(":")[0])
-        ? `${q.split(":")[0]}:"${q.split(":")[1]}"`
-        : q
-    )
-    .join(" ");
-
-  console.log(params);
+  console.log(params, "47");
 
   const obj = {};
   const callback = async (data) => {
     const response = data.organic_results;
-    console.log(response);
-    console.log(data.search_information.total_results);
-    console.log(data.search_parameters);
-    console.log(data.serpapi_pagination);
+    // console.log(response);
+    // console.log(data.search_information.total_results);
+    // console.log(data.search_parameters);
+    // console.log(data.serpapi_pagination);
 
     if (data.organic_results) {
       const results = async (rest) => {
@@ -133,7 +132,6 @@ router.post("/", async (req, res) => {
     // end_addr: "hebron train station",
     // engine: "google_maps_directions",
     ...params,
-    engine: "google",
     num: 100,
     // ll:`@${lat},${lng}`
     // device: "tablet",
