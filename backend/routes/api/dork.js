@@ -6,42 +6,54 @@ const SERP_API_ACCESS_KEY = process.env.SERP_API_ACCESS_KEY;
 const search = new SerpApi.GoogleSearch(SERP_API_ACCESS_KEY);
 const fs = require("fs");
 const { getArchive } = require("./utils");
+const { Queries } = require("../../db/models");
 
-router.post('/iframe/', async (req, res) => {
-  const { url } = req.body
+router.post("/iframe/", async (req, res) => {
+  const { url } = req.body;
   const data = await fetch(url)
-  .then(async res => {
-    if (res.status == 200) {
-      return res.text()
-    }
-  })
-  .then(async data => {
-    return data
-  }).catch(e => console.log(e))
+    .then(async (res) => {
+      if (res.status == 200) {
+        return res.text();
+      }
+    })
+    .then(async (data) => {
+      const response = data;
+      return response;
+    })
+    .catch((e) => console.log(e));
 
-  return res.json({data})
-
-})
+  return res.json({ data });
+});
 router.post("/", async (req, res) => {
   //   const { query, lat, lng } = req.body;
   const quote = ["intitle", "inurl", "-intitle", "-inurl", "intext", "-intext"];
-  const { query } = req.body;
-  const limit = 100;
-
-  const final = query
-    .split(" ")
+  const params = req.body;
+  const { user } = req;
+  params.q = params.q
+    .split(";")
     .map((q) =>
-      quote.includes(q.split(":")[0])
+      q.includes(":")
         ? `${q.split(":")[0]}:"${q.split(":")[1]}"`
-        : q
+        : '"' + q + '"'
     )
     .join(" ");
+  const newQuery = {
+    userId: user.id,
+    query: params.q,
+    engine: params.engine,
+  };
+
+  await Queries.create(newQuery);
+
+  console.log(params, "47");
 
   const obj = {};
   const callback = async (data) => {
     const response = data.organic_results;
-    console.log(data.search_information.total_results);
-    console.log(data.organic_results.length);
+    // console.log(response);
+    // console.log(data.search_information.total_results);
+    // console.log(data.search_parameters);
+    // console.log(data.serpapi_pagination);
 
     if (data.organic_results) {
       const results = async (rest) => {
@@ -49,9 +61,6 @@ router.post("/", async (req, res) => {
         // console.log(rest, 'hello')
         Object.values(rest).forEach(async (resp) => {
           const link = resp.link;
-          // .split("/").slice(0, 3).join('').split(':').join('://');
-          console.log(resp.link);
-          console.log(link);
           if (!index[link]) {
             await getArchive(link).then(async (archive) => {
               // console.log(archive, 'hello')
@@ -75,23 +84,30 @@ router.post("/", async (req, res) => {
             };
           }
 
-          if (Object.values(obj).length == Object.values(response).length)
+          if (Object.values(obj).length == Object.values(response).length) {
+            const currPage = (
+              Number(data.organic_results?.slice(-1)[0].position) / 100
+            ).toFixed();
+            // console.log(data)
+            const totalPages = (
+              Number(data.search_information.total_results) /
+              data.organic_results?.length
+            ).toFixed(0);
+            obj.info = {
+              currentPage: currPage,
+              totalPages,
+            };
             return res.json(obj);
+          }
         });
       };
 
       await results(response);
+    } else {
+      res.json({ message: "End of results" });
     }
 
-    //   console.log(data.directions[0].start_time.split('').slice(0, 5).join('').split(':'));
-    // const lastItem = data.organic_results.slice(-1)[0].position;
-    const currPage = (
-      data.organic_results?.slice(-1)[0].position / 100
-    ).toFixed();
-    const totalPages = (
-      data.search_information.total_results / data.organic_results?.length
-    ).toFixed(0);
-    console.log(currPage + "/" + totalPages);
+    // console.log(currPage + "/" + totalPages);
 
     // const totalResults = data.search_information.total_results
     // const totalPages = data.search_information.total_results / 100
@@ -110,28 +126,23 @@ router.post("/", async (req, res) => {
     // const
   };
 
-  let start = 0;
-  console.log(final);
+  // console.log(final);
   const request = {
     // start_addr: `${lat},${lng}`,
     // end_addr: "hebron train station",
     // engine: "google_maps_directions",
-    q: final,
-    engine: "google",
+    ...params,
     num: 100,
-    start: start,
     // ll:`@${lat},${lng}`
     // device: "tablet",
     // travel_mode: 3,
   };
-  const test = async () => {
+  console.log(request);
+  try {
     await search.json(request, callback);
-  };
-  await test();
-  //   console.log(data)
-
-  //   res.json(data);
+  } catch (error) {
+    console.log(error);
+  }
 });
-
 
 module.exports = router;

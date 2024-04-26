@@ -8,34 +8,38 @@ export default function Result({
   setPreview,
 }) {
   const [showInfo, setShowInfo] = useState(false);
-  
-  const docExtensions = [".pdf", ".doc", ".docx"];
 
-  useEffect(() => {}, [showInfo]);
+  const docExtensions = ["pdf", "doc", "docx"];
 
+  const handlClick = () => {
+      setShowInfo(!showInfo);
+      setShowResult(true);
+      setPreview(data[rowKey].link);
+  }
 
   return (
     <div
-      onClick={() => {
-        setShowInfo(!showInfo);
-        setShowResult(true);
-        setPreview(data[rowKey].link);
-        console.log(showInfo);
-      }}
       key={rowKey}
       data-collapse-target="collapse"
       data-collapse="collapse"
       id="result"
       className={`h-fit cursor-pointer border-secondary flex w-full items-center rounded border py-2 mb-2 mr-1 transition-all duration-300 ease-in-out `}
     >
-      <div className="flex items-center justify-content-center min-w-10 h-full">
+      <div className="">
+
+      </div>
+      <div className="flex flex-col items-center justify-content-around min-w-10 h-full">
+        <img src='/icons/bookmark.png'/>
         <div className="flex font-bold h-fit w-fit bg-slate-300 rounded">
           {docExtensions.includes(
-            "." + data[rowKey].link.split(".").slice(-1)
+            data[rowKey].link.split(".").slice(-1)[0]
           ) && <img src="images/document.png" className="w-full" />}
         </div>
       </div>
-      <div className="flex flex-col items-start h-full w-full">
+      <div
+      onClick={handlClick}
+        className="flex flex-col items-start h-full w-full"
+        >
         {data[rowKey] &&
           Object.keys(data[rowKey])
             .slice(1)

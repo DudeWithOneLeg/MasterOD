@@ -3,7 +3,7 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User } = require('../../db/models');
+const { User, Queries } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
@@ -32,13 +32,21 @@ const router = express.Router();
 // Restore session user
 router.get(
   '/',
-  (req, res) => {
+  async (req, res) => {
     const { user } = req;
+    const recentQueries = await Queries.findAll({
+      where: {
+        userId : user.id,
+      },
+      sort: ['createdAt', 'Ascending'],
+      limit: 10
+    })
     if (user) {
       const safeUser = {
         id: user.id,
         email: user.email,
         username: user.username,
+        recentQueries
       };
       return res.json({
         user: safeUser
@@ -71,4 +79,3 @@ router.post(
 );
 
 module.exports = router;
-        

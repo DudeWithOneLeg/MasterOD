@@ -1,30 +1,31 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as searchActions from "../../store/search";
 import Results from "../Results";
 import Parameter from "../Parameter";
 import QueryParam from "../QueryParam";
+import { bingSettings } from "./BingSettings/bingSettings";
+import { googleSettings } from "./GoogleSettings/googleSettings";
+import Browser from "../Browser";
 
 export default function SearchBar() {
   const [query, setQuery] = useState([]);
   const [geolocation, setGeolocation] = useState({ lat: 0, lng: 0 });
   const [showOptions, setShowOptions] = useState(false);
-  const [preview, setPreview] = useState(false);
+  const [preview, setPreview] = useState("");
   const [showResult, setShowResult] = useState(false);
-  // const iframeRef = useRef(null)
-  const data = useSelector(state => state.search.data)
-  const domRef = useRef(null)
+  const [language, setLanguage] = useState("");
+  const [country, setCountry] = useState("");
+  const [engine, setEngine] = useState("Google");
+  const data = useSelector((state) => state.search.data);
+  const results = useSelector((state) => state.search.results);
+  const [start, setStart] = useState(0);
+  const [browseHistory, setBrowseHistory] = useState([]);
+  const [browseHistoryIndex, setBrowseHistoryIndex] = useState(0);
+  const docExtensions = ['pdf', 'ppt', 'doc', 'docx']
 
-  const params = {
-    "In title:": "intitle:",
-    "In url:": "inurl:",
-    "Site:": "site:",
-    "Exclude site:": "-site:",
-    "Exclude from title:": "-intitle:",
-    "Exclude from url:": "-inurl:",
-    "Include text:": "intext:",
-    "Exclude from text:": "-intext:",
-  };
+  const settings = { Google: googleSettings, Bing: bingSettings };
+
   const dispatch = useDispatch();
 
   const handleSubmit = () => {
@@ -55,44 +56,33 @@ export default function SearchBar() {
     // }
     if (query) {
       setShowOptions(false);
-      dispatch(searchActions.search({ query: query.join(" ") }));
+      dispatch(
+        searchActions.search({
+          q: query.join(";"),
+          cr: country,
+          hl: language,
+          engine: engine.toLocaleLowerCase(),
+          start: 0,
+        })
+      );
     }
   };
   useEffect(() => {
-    if (preview) {
-      dispatch(searchActions.data(preview))
+    if (preview && !docExtensions.includes(preview.split('.').slice(-1)[0])) {
+      dispatch(searchActions.data(preview));
+      if (!browseHistory.length) {
+        setBrowseHistory([preview]);
+      }
     }
+
   }, [preview, dispatch]);
 
-  // useEffect(() => {
-  //   // domRef.current?.addEventListener('click', e => {
-  //   //   e.preventDefault()
-  //   //   console.log(e)
-  //   // })
-  //   console.log(domRef.current)
-  // },[])
-
-  const handleDomClick =(e) => {
-    if (e.target.tagName === 'A') {
-      // Prevent the default behavior of the anchor tag (e.g., navigating to a new page)
-      e.preventDefault();
-
-      // Retrieve the href attribute of the clicked anchor tag
-      const href = e.target.getAttribute('href')
-      const currUrl = window.location.href
-      console.log('curr:', currUrl)
-
-      if (href.includes(currUrl)) {
-        const path = href.split(currUrl)[1]
-        console.log('yo')
-        setPreview(preview + path)
-      }
-      else dispatch(searchActions.data(preview + href))
-
-      // Do something with the href, such as logging it or navigating to the URL
-      console.log('Clicked href:', href);
+  useEffect(() => {
+    if (results) {
+      const lastResultIndex = Number(Object.keys(results).slice(-2, -1)[0]);
+      setStart(lastResultIndex);
     }
-  }
+  }, [results]);
 
   return (
     //KEEP CLASS AS IS
@@ -100,39 +90,51 @@ export default function SearchBar() {
       className={`flex flex-col bg-slate-900 w-full px-2 pt-2`}
       id="search-bar"
     >
-      <img src='blob:apps.sentinel-hub.com/bd86bcc0-f318-402b-a145-015f85b9427e'/>
       <div
-        className={`w-full divide-y divide-slate-800 bg-slate-200 flex flex-col font-bold rounded transition-all duration-300 ease-in-out ${
+        className={`w-full divide-y divide-slate-500 bg-slate-700 border-2 border-slate-600 flex flex-col font-bold rounded transition-all duration-300 ease-in-out ${
           showOptions ? `h-fit` : "h-fit"
         }`}
         id="search-bar-inner"
         data-collapse="collapse"
       >
         <div
-          className={`w-full flex cursor-pointer text-slate-800 items-center h-fit py-2`}
+          className={`w-full flex cursor-pointer text-slate-200 items-center h-10 py-2`}
           data-collapse-target="collapse"
         >
-          <div className="flex px-2 items-center max-w-100 h-fit">
-            <img
-              src="/images/plus.png"
-              className="h-10 w-10 flex flex-row"
-              onClick={() => setShowOptions(!showOptions)}
-            />
-            <p>Query</p>
-            <div className="flex flex-wrap jusitfy-content-center h-fit max-w-fit overflow-wrap">
-              {query.length
-                ? query.map((param) => {
-                    // const pre = param.split(':')[0]
-                    // const val = param.split(':')[1]
-                    return (
-                      <QueryParam
-                        param={param}
-                        query={query}
-                        setQuery={setQuery}
-                      />
-                    );
-                  })
-                : ""}
+          <div className="flex px- items-center w-full h-fit justify-content-between p-2">
+            <div className="flex flex-row items-center">
+              <img
+                src="/images/plus.png"
+                className="h-10 w-10 flex flex-row"
+                onClick={() => setShowOptions(!showOptions)}
+              />
+              <p>Query</p>
+              <div className="flex flex-wrap jusitfy-content-center h-fit max-w-fit overflow-wrap">
+                {query.length
+                  ? query.map((param) => {
+                      return (
+                        <QueryParam
+                          param={param}
+                          query={query}
+                          setQuery={setQuery}
+                        />
+                      );
+                    })
+                  : ""}
+              </div>
+            </div>
+            <div>
+              <label className="h-fit m-0">
+                Search Engine:
+                <select onClick={(e) => setEngine(e.target.value)} className="bg-slate-500 rounded ml-1">
+                  <option selected value={"Google"} onClick={() => setEngine('Google')}>
+                    Google
+                  </option>
+                  {/* <option value={"Baidu"}>Baidu</option> */}
+                  <option value={"Bing"} onClick={() => setEngine('Bing')}>Bing</option>
+                  {/* <option value={"Yandex"}>Yandex</option> */}
+                </select>
+              </label>
             </div>
           </div>
           {query.length ? (
@@ -143,34 +145,114 @@ export default function SearchBar() {
             ""
           )}
         </div>
+        {showOptions && (
+          <div className="flex flex-row bg-slate-600 border-2 rounded">
+            <div className="divide-y divide-slate-500 w-1/3">
+              {Object.keys(settings[engine].operators).map((param) => (
+                <Parameter
+                  query={query}
+                  setQuery={setQuery}
+                  text={param}
+                  param={settings[engine].operators[param]}
+                />
+              ))}
+            </div>
+            <div className="w-1/3 h-full divide-y divide-slate-500">
+              {(engine === "Google" || engine === "Bing") && (
+                <div className="p-2">
+                  <select
+                    // id="normalize"
+                    className="pl-2"
+                    onClick={(e) =>
+                      setLanguage(settings[engine].languages[e.target.value])
+                    }
+                  >
+                    <option selected={country === ""} disabled>
+                      Language
+                    </option>
 
-        {showOptions &&
-          Object.keys(params).map((param) => (
-            <Parameter
-              query={query}
-              setQuery={setQuery}
-              text={param}
-              param={params[param]}
+                    {Object.keys(settings[engine].languages).map((name) => (
+                      <option
+                        selected={settings[engine].languages[name] === language}
+                        value={name}
+                      >
+                        {name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+
+              <div className="p-2">
+                <select
+                  // id="normalize"
+                  className="pl-2"
+                  onClick={(e) =>
+                    setCountry(settings[engine].countries[e.target.value])
+                  }
+                >
+                  <option selected={country === ""} disabled className="">
+                    Country
+                  </option>
+
+                  {Object.keys(settings[engine].countries).map((name) => (
+                    <option
+                      value={name}
+                      selected={settings[engine].countries[name] == country}
+                    >
+                      {name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+      {results ? (
+        <>
+          <div className="rounded text-slate-200 h-fit" id="result-header">
+            <div className="flex justify-content-center py-2">
+              <div className="flex flex-row w-fit">
+                <input
+                  placeholder={results.info.currentPage}
+                  className="w-10 rounded text-center text-slate-600"
+                />{" "}
+                / <p>{results.info.totalPages}</p>
+              </div>
+            </div>
+          </div>
+          <div className="flex w-full h-screen overflow-y-hidden">
+            <Results
+              setPreview={setPreview}
+              preview={preview}
+              showResult={showResult}
+              setShowResult={setShowResult}
+              start={start}
+              setStart={setStart}
+              params={{
+                q: query.join(";"),
+                cr: country,
+                hl: language,
+                engine: engine.toLocaleLowerCase(),
+              }}
             />
-          ))}
-      </div>
-      <div className="rounded text-slate-200 h-fit" id="result-header">
-        <p>Results</p>
-      </div>
-      <div className="flex w-full h-fit overflow-y-hidden">
-        <Results
-          setPreview={setPreview}
-          preview={preview}
-          showResult={showResult}
-          setShowResult={setShowResult}
-        />
-          {showResult && data && (
-        <div className="truncate h-full w-full flex flex-col bg-slate-300 ml-2 p-1 rounded">
-          <p className="w-full truncate h-6">{preview}</p>
-          <div className='w-full overflow-scroll h-full' dangerouslySetInnerHTML={{ __html: data }} ref={domRef} onClick={(e) => handleDomClick(e)}/>
-        </div>
-          )}
-      </div>
+            {((showResult && data) || (showResult && preview)) && (
+              <Browser
+                preview={preview}
+                data={data}
+                setPreview={setPreview}
+                browseHistory={browseHistory}
+                setBrowseHistory={setBrowseHistory}
+                browseHistoryIndex={browseHistoryIndex}
+                setBrowseHistoryIndex={setBrowseHistoryIndex}
+              />
+            )}
+          </div>
+        </>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }
