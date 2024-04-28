@@ -75,15 +75,26 @@ router.post(
         userId : user.id,
       },
       order: [['updatedAt', 'DESC']],
-      limit: 10
+      limit: 5
     })
+
+    const savedQueries = await Queries.findAll({
+      where: {
+        userId : user.id,
+        saved: true
+      },
+      order: [['updatedAt', 'DESC']],
+      limit: 5
+    })
+
     console.log(recentQueries)
 
     const safeUser = {
       id: user.id,
       email: user.email,
       username: user.username,
-      recentQueries
+      recentQueries,
+      savedQueries
     };
 
     await setTokenCookie(res, safeUser);
