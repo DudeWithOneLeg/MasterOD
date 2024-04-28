@@ -3,6 +3,18 @@
 
   const SET_USER = "session/setUser";
   const REMOVE_USER = "session/removeUser";
+  const SET_QUERY = 'query/new'
+
+  const setNewQuery = query => {
+    return {
+      type: SET_QUERY,
+      payload: query
+    }
+  }
+
+  export const newQuery = (query) => async (dispatch) => {
+    dispatch(setNewQuery(query))
+  }
 
   const setUser = (user) => {
     return {
@@ -76,10 +88,12 @@
         newState = Object.assign({}, state);
         newState.user = null;
         return newState;
+      case SET_QUERY:
+        newState = Object.assign({}, state);
+        
       default:
         return state;
     }
   };
 
   export default sessionReducer;
-                

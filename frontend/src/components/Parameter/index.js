@@ -8,7 +8,7 @@ export default function Parameter({ query, setQuery, param, text }) {
     e.preventDefault();
 
     if (input.split(param)[1]) {
-        
+
       const parsed = input.split(text).join(param);
       const q = query;
       setQuery([...q, parsed]);
