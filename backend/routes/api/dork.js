@@ -97,7 +97,7 @@ router.post("/", async (req, res) => {
               currentPage: currPage,
               totalPages,
             };
-            return res.json({results: obj, newQuery});
+            return res.json({results: obj, validQuery: validQuery});
           }
         });
       };
