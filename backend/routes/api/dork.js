@@ -43,7 +43,15 @@ router.post("/", async (req, res) => {
     engine: params.engine,
   };
 
-  const validQuery = await Queries.create(newQuery);
+  await Queries.create(newQuery);
+
+  const recentQueries = await Queries.findAll({
+    where: {
+      userId : user.id,
+    },
+    order: [['updatedAt', 'DESC']],
+    limit: 5
+  })
 
   console.log(params, "47");
 
@@ -97,7 +105,7 @@ router.post("/", async (req, res) => {
               currentPage: currPage,
               totalPages,
             };
-            return res.json({results: obj, validQuery: validQuery});
+            return res.json({results: obj, recentQueries});
           }
         });
       };
