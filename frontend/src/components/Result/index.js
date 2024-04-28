@@ -54,9 +54,7 @@ export default function Result({
                     >
                       {data[rowKey][columnKey]}
                     </p>
-                    {docExtensions.includes(
-                      data[rowKey].link.split(".").slice(-1)[0]
-                    ) && <img src="images/document.png" className="w-full" />}
+
                   </div>
                 ) : //</div>
                 data[rowKey][columnKey].archived_snapshots ? (
@@ -70,9 +68,15 @@ export default function Result({
                     Archive
                   </a>
                 ) : (
+                  <div className="flex flex-row ">
+
                   <h3 className="font-bold text-slate-300 text-2xl text-wrap underline w-full">
                     {data[rowKey][columnKey]}
                   </h3>
+                  {docExtensions.includes(
+                      data[rowKey].link.split(".").slice(-1)[0]
+                    ) && <img src="images/document.png" className="w-8 h-8" />}
+                  </div>
                 )}
               </div>
             ))}

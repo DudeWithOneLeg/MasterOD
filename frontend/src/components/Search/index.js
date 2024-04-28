@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as searchActions from "../../store/search";
-import * as sessionActions from '../../store/session'
+import * as sessionActions from "../../store/session";
 import Results from "../Results";
 import Parameter from "../Parameter";
 import QueryParam from "../QueryParam";
@@ -67,14 +67,16 @@ export default function Search() {
           start: 0,
         })
       ).then(async () => {
-        dispatch(sessionActions.newQuery({
-          q: query.join(";"),
-          cr: country,
-          hl: language,
-          engine: engine.toLocaleLowerCase(),
-          start: 0,
-        }))
-      })
+        dispatch(
+          sessionActions.newQuery({
+            q: query.join(";"),
+            cr: country,
+            hl: language,
+            engine: engine.toLocaleLowerCase(),
+            start: 0,
+          })
+        );
+      });
     }
   };
 
@@ -136,9 +138,16 @@ export default function Search() {
               </div>
             </div>
             <div className="flex flex-row">
-              {query.length ? <div className="px-2 mx-2 border rounded" onClick={() => setQuery([])}>
-                Clear
-              </div>:<></>}
+              {query.length ? (
+                <div
+                  className="px-2 mx-2 border rounded"
+                  onClick={() => setQuery([])}
+                >
+                  Clear
+                </div>
+              ) : (
+                <></>
+              )}
               <label className="h-fit m-0">
                 Search Engine:
                 <select
@@ -236,7 +245,11 @@ export default function Search() {
       {results ? (
         <>
           <div className="rounded text-slate-200 h-fit" id="result-header">
-            <div className="flex justify-content-center py-2">
+            <div
+              className={`flex justify-content-center py-2 ${
+                showResult ? "w-1/2" : ""
+              }`}
+            >
               <div className="flex flex-row w-fit">
                 <input
                   placeholder={results.info.currentPage}
