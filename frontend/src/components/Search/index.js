@@ -8,7 +8,7 @@ import { bingSettings } from "./BingSettings/bingSettings";
 import { googleSettings } from "./GoogleSettings/googleSettings";
 import Browser from "../Browser";
 
-export default function SearchBar() {
+export default function Search() {
   const [query, setQuery] = useState([]);
   const [geolocation, setGeolocation] = useState({ lat: 0, lng: 0 });
   const [showOptions, setShowOptions] = useState(false);
@@ -54,6 +54,7 @@ export default function SearchBar() {
     // function error() {
     //   console.log("Unable to retrieve your location");
     // }
+
     if (query) {
       setShowOptions(false);
       dispatch(
@@ -67,6 +68,8 @@ export default function SearchBar() {
       );
     }
   };
+
+  //Only fetch data if link is a page, not a file
   useEffect(() => {
     if (preview && !docExtensions.includes(preview.split('.').slice(-1)[0])) {
       dispatch(searchActions.data(preview));
@@ -77,6 +80,7 @@ export default function SearchBar() {
 
   }, [preview, dispatch]);
 
+  //Grab index of the last result to start next load
   useEffect(() => {
     if (results) {
       const lastResultIndex = Number(Object.keys(results).slice(-2, -1)[0]);
@@ -123,7 +127,10 @@ export default function SearchBar() {
                   : ""}
               </div>
             </div>
-            <div>
+            <div className="flex flex-row">
+              {query.length ? <div className="px-2 mx-2 border rounded" onClick={() => setQuery([])}>
+                Clear
+              </div>:<></>}
               <label className="h-fit m-0">
                 Search Engine:
                 <select onClick={(e) => setEngine(e.target.value)} className="bg-slate-500 rounded ml-1">

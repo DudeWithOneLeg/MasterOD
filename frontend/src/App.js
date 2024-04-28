@@ -5,7 +5,7 @@ import LoginFormPage from "./components/LoginFormPage";
 import SignupFormPage from "./components/SignupFormPage";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
-import SearchBar from "./components/SearchBar";
+import Search from "./components/Search";
 import Results from "./components/Results";
 import SideBar from "./components/SideBar";
 
@@ -28,7 +28,7 @@ function App() {
       </div>
       {
         isLoaded && user && <>
-        <SearchBar />
+        <Search />
         </>
       }
 
