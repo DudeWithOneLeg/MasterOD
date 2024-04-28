@@ -12,10 +12,10 @@ export default function Result({
   const docExtensions = ["pdf", "doc", "docx"];
 
   const handlClick = () => {
-      setShowInfo(!showInfo);
-      setShowResult(true);
-      setPreview(data[rowKey].link);
-  }
+    setShowInfo(!showInfo);
+    setShowResult(true);
+    setPreview(data[rowKey].link);
+  };
 
   return (
     <div
@@ -25,21 +25,15 @@ export default function Result({
       id="result"
       className={`h-fit cursor-pointer border-secondary flex w-full items-center rounded border py-2 mb-2 mr-1 transition-all duration-300 ease-in-out `}
     >
-      <div className="">
-
-      </div>
+      <div className=""></div>
       <div className="flex flex-col items-center justify-content-around min-w-10 h-full">
-        <img src='/icons/bookmark.png'/>
-        <div className="flex font-bold h-fit w-fit bg-slate-300 rounded">
-          {docExtensions.includes(
-            data[rowKey].link.split(".").slice(-1)[0]
-          ) && <img src="images/document.png" className="w-full" />}
-        </div>
+        <img src="/icons/bookmark.png" />
+        <div className="flex font-bold h-fit w-fit bg-slate-300 rounded"></div>
       </div>
       <div
-      onClick={handlClick}
+        onClick={handlClick}
         className="flex flex-col items-start h-full w-full"
-        >
+      >
         {data[rowKey] &&
           Object.keys(data[rowKey])
             .slice(1)
@@ -50,15 +44,20 @@ export default function Result({
               >
                 {!data[rowKey][columnKey]?.url && columnKey != "title" ? (
                   // <div className="flex flex-wrap h-fit">
-                  <p
-                    className={
-                      columnKey == "link"
-                        ? "text-sm text-slate-300 flex w-full"
-                        : "underline"
-                    }
-                  >
-                    {data[rowKey][columnKey]}
-                  </p>
+                  <div>
+                    <p
+                      className={
+                        columnKey == "link"
+                          ? "text-sm text-slate-300 flex w-full"
+                          : "underline"
+                      }
+                    >
+                      {data[rowKey][columnKey]}
+                    </p>
+                    {docExtensions.includes(
+                      data[rowKey].link.split(".").slice(-1)[0]
+                    ) && <img src="images/document.png" className="w-full" />}
+                  </div>
                 ) : //</div>
                 data[rowKey][columnKey].archived_snapshots ? (
                   <a

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as searchActions from "../../store/search";
+import * as sessionActions from '../../store/session'
 import Results from "../Results";
 import Parameter from "../Parameter";
 import QueryParam from "../QueryParam";
@@ -22,7 +23,7 @@ export default function Search() {
   const [start, setStart] = useState(0);
   const [browseHistory, setBrowseHistory] = useState([]);
   const [browseHistoryIndex, setBrowseHistoryIndex] = useState(0);
-  const docExtensions = ['pdf', 'ppt', 'doc', 'docx']
+  const docExtensions = ["pdf", "ppt", "doc", "docx"];
 
   const settings = { Google: googleSettings, Bing: bingSettings };
 
@@ -65,19 +66,26 @@ export default function Search() {
           engine: engine.toLocaleLowerCase(),
           start: 0,
         })
-      );
+      ).then(async () => {
+        dispatch(sessionActions.newQuery({
+          q: query.join(";"),
+          cr: country,
+          hl: language,
+          engine: engine.toLocaleLowerCase(),
+          start: 0,
+        }))
+      })
     }
   };
 
   //Only fetch data if link is a page, not a file
   useEffect(() => {
-    if (preview && !docExtensions.includes(preview.split('.').slice(-1)[0])) {
+    if (preview && !docExtensions.includes(preview.split(".").slice(-1)[0])) {
       dispatch(searchActions.data(preview));
       if (!browseHistory.length) {
         setBrowseHistory([preview]);
       }
     }
-
   }, [preview, dispatch]);
 
   //Grab index of the last result to start next load
@@ -133,12 +141,21 @@ export default function Search() {
               </div>:<></>}
               <label className="h-fit m-0">
                 Search Engine:
-                <select onClick={(e) => setEngine(e.target.value)} className="bg-slate-500 rounded ml-1">
-                  <option selected value={"Google"} onClick={() => setEngine('Google')}>
+                <select
+                  onClick={(e) => setEngine(e.target.value)}
+                  className="bg-slate-500 rounded ml-1"
+                >
+                  <option
+                    selected
+                    value={"Google"}
+                    onClick={() => setEngine("Google")}
+                  >
                     Google
                   </option>
                   {/* <option value={"Baidu"}>Baidu</option> */}
-                  <option value={"Bing"} onClick={() => setEngine('Bing')}>Bing</option>
+                  <option value={"Bing"} onClick={() => setEngine("Bing")}>
+                    Bing
+                  </option>
                   {/* <option value={"Yandex"}>Yandex</option> */}
                 </select>
               </label>
