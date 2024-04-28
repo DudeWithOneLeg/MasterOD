@@ -1,12 +1,14 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import * as sessionActions from "../../store/session";
+import * as searchActions from '../../store/search'
 import SignupFormPage from "../SignupFormPage";
 import LoginFormPage from "../LoginFormPage";
 
 export default function SideBar() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.session.user);
+  const recentQueries = useSelector((state) => state.search.recentQueries);
   const [hide, setHide] = useState(true);
   const [login, setLogin] = useState(false);
   const [signup, setSignup] = useState(false);
@@ -56,6 +58,11 @@ export default function SideBar() {
   }, [login]);
 
   useEffect(() => {
+    dispatch(searchActions.getRecentQueries())
+    console.log('yo')
+  }, [dispatch])
+
+  useEffect(() => {
     if (!login && !hide && loginSlide.includes("overflow-hidden")) {
       console.log('58-1');
       if (slide == 'ml-[-300px]') {
@@ -100,9 +107,9 @@ export default function SideBar() {
             <h1 className="p-2 border-b">Saved Queries</h1>
             <h1 className="p-2 border-b">Recent Queries</h1>
             <div>
-              {user &&
-                user.recentQueries &&
-                user.recentQueries.slice(0, 5).map((query) => {
+              {recentQueries &&
+                recentQueries.length &&
+                recentQueries.slice(0, 5).map((query) => {
                   return (
                     <p className="truncate text-sm p-1 pl-4">
                       {query.query.split(";").join(" ")}
