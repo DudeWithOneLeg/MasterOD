@@ -43,7 +43,7 @@ router.post("/", async (req, res) => {
     engine: params.engine,
   };
 
-  await Queries.create(newQuery);
+  const validQuery = await Queries.create(newQuery);
 
   console.log(params, "47");
 
@@ -97,7 +97,7 @@ router.post("/", async (req, res) => {
               currentPage: currPage,
               totalPages,
             };
-            return res.json(obj);
+            return res.json({results: obj, newQuery});
           }
         });
       };
