@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as searchActions from "../../store/search";
+import * as sessionActions from "../../store/session";
 import Results from "../Results";
 import Parameter from "../Parameter";
 import QueryParam from "../QueryParam";
@@ -8,7 +9,7 @@ import { bingSettings } from "./BingSettings/bingSettings";
 import { googleSettings } from "./GoogleSettings/googleSettings";
 import Browser from "../Browser";
 
-export default function SearchBar() {
+export default function Search() {
   const [query, setQuery] = useState([]);
   const [geolocation, setGeolocation] = useState({ lat: 0, lng: 0 });
   const [showOptions, setShowOptions] = useState(false);
@@ -22,7 +23,7 @@ export default function SearchBar() {
   const [start, setStart] = useState(0);
   const [browseHistory, setBrowseHistory] = useState([]);
   const [browseHistoryIndex, setBrowseHistoryIndex] = useState(0);
-  const docExtensions = ['pdf', 'ppt', 'doc', 'docx']
+  const docExtensions = ["pdf", "ppt", "doc", "docx"];
 
   const settings = { Google: googleSettings, Bing: bingSettings };
 
@@ -54,6 +55,7 @@ export default function SearchBar() {
     // function error() {
     //   console.log("Unable to retrieve your location");
     // }
+
     if (query) {
       setShowOptions(false);
       dispatch(
@@ -64,19 +66,31 @@ export default function SearchBar() {
           engine: engine.toLocaleLowerCase(),
           start: 0,
         })
-      );
+      ).then(async () => {
+        dispatch(
+          sessionActions.newQuery({
+            q: query.join(";"),
+            cr: country,
+            hl: language,
+            engine: engine.toLocaleLowerCase(),
+            start: 0,
+          })
+        );
+      });
     }
   };
+
+  //Only fetch data if link is a page, not a file
   useEffect(() => {
-    if (preview && !docExtensions.includes(preview.split('.').slice(-1)[0])) {
+    if (preview && !docExtensions.includes(preview.split(".").slice(-1)[0])) {
       dispatch(searchActions.data(preview));
       if (!browseHistory.length) {
         setBrowseHistory([preview]);
       }
     }
-
   }, [preview, dispatch]);
 
+  //Grab index of the last result to start next load
   useEffect(() => {
     if (results) {
       const lastResultIndex = Number(Object.keys(results).slice(-2, -1)[0]);
@@ -123,15 +137,34 @@ export default function SearchBar() {
                   : ""}
               </div>
             </div>
-            <div>
+            <div className="flex flex-row">
+              {query.length ? (
+                <div
+                  className="px-2 mx-2 border rounded"
+                  onClick={() => setQuery([])}
+                >
+                  Clear
+                </div>
+              ) : (
+                <></>
+              )}
               <label className="h-fit m-0">
                 Search Engine:
-                <select onClick={(e) => setEngine(e.target.value)} className="bg-slate-500 rounded ml-1">
-                  <option selected value={"Google"} onClick={() => setEngine('Google')}>
+                <select
+                  onClick={(e) => setEngine(e.target.value)}
+                  className="bg-slate-500 rounded ml-1"
+                >
+                  <option
+                    selected
+                    value={"Google"}
+                    onClick={() => setEngine("Google")}
+                  >
                     Google
                   </option>
                   {/* <option value={"Baidu"}>Baidu</option> */}
-                  <option value={"Bing"} onClick={() => setEngine('Bing')}>Bing</option>
+                  <option value={"Bing"} onClick={() => setEngine("Bing")}>
+                    Bing
+                  </option>
                   {/* <option value={"Yandex"}>Yandex</option> */}
                 </select>
               </label>
@@ -212,7 +245,11 @@ export default function SearchBar() {
       {results ? (
         <>
           <div className="rounded text-slate-200 h-fit" id="result-header">
-            <div className="flex justify-content-center py-2">
+            <div
+              className={`flex justify-content-center py-2 ${
+                showResult ? "w-1/2" : ""
+              }`}
+            >
               <div className="flex flex-row w-fit">
                 <input
                   placeholder={results.info.currentPage}

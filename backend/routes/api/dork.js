@@ -45,6 +45,14 @@ router.post("/", async (req, res) => {
 
   await Queries.create(newQuery);
 
+  const recentQueries = await Queries.findAll({
+    where: {
+      userId : user.id,
+    },
+    order: [['updatedAt', 'DESC']],
+    limit: 5
+  })
+
   console.log(params, "47");
 
   const obj = {};
@@ -97,7 +105,7 @@ router.post("/", async (req, res) => {
               currentPage: currPage,
               totalPages,
             };
-            return res.json(obj);
+            return res.json({results: obj, recentQueries});
           }
         });
       };
@@ -144,5 +152,20 @@ router.post("/", async (req, res) => {
     console.log(error);
   }
 });
+
+router.get('/queries/recent', async (req, res) => {
+  const { user } = req
+  const recentQueries = await Queries.findAll({
+    where: {
+      userId : user.id,
+    },
+    order: [['updatedAt', 'DESC']],
+    limit: 5
+  })
+  // console.log(recentQueries)
+  res.status(200)
+  console.log(res)
+  return res.json(recentQueries)
+})
 
 module.exports = router;
