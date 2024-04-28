@@ -38,7 +38,7 @@ router.get(
       where: {
         userId : user.id,
       },
-      sort: ['createdAt', 'Ascending'],
+      order: [['updatedAt', 'DESC']],
       limit: 10
     })
     if (user) {
