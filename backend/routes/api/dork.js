@@ -164,7 +164,7 @@ router.get('/queries/recent', async (req, res) => {
   })
   // console.log(recentQueries)
   res.status(200)
-  console.log(res)
+  // console.log(res)
   return res.json(recentQueries)
 })
 
