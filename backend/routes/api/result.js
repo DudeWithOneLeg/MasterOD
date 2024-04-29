@@ -2,28 +2,33 @@ const express = require("express");
 const router = express.Router();
 const { Result } = require("../../db/models");
 
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
+  const { id: userId } = req.user;
 
-    const {id: userId} = req.user
+  const savedResults = await Result.findAll({
+    where: {
+      userId,
+    },
+    limit: 5,
+  });
 
-    const savedResults = await Result.findAll({
-        where: {
-            userId
-        }
-    })
+  return res.json(savedResults);
+});
 
-    res.json(savedResults)
+router.post("/", async (req, res) => {
+  const { newResult } = req;
+  const { id: userId } = req.user;
+  await Result.create({ ...newResult, userId });
 
-})
+  const savedResults = await Result.findAll({
+    where: {
+      userId,
+    },
+    limit: 5,
+  });
 
-router.post('/', async (req, res) => {
-    const {result} = req
-    const {id: userId} = req.user
-
-    const newResult = await Result.create({...result, userId})
-
-    res.json(newResult)
-
-})
+  res.status(200)
+  return res.json(savedResults);
+});
 
 module.exports = router;

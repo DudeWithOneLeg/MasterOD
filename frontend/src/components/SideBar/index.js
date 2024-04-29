@@ -1,10 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import * as sessionActions from "../../store/session";
-import * as searchActions from '../../store/search'
+import * as searchActions from "../../store/search";
+import * as resultActions from "../../store/result";
 import SignupFormPage from "../SignupFormPage";
 import LoginFormPage from "../LoginFormPage";
-import SearchBar from "../SearchBar";
+// import SearchBar from "../SearchBar";
 
 export default function SideBar() {
   const dispatch = useDispatch();
@@ -54,24 +55,24 @@ export default function SideBar() {
       setLoginSlide("w-[300px]");
     } else {
       setLoginSlide("w-0 overflow-hidden");
-      console.log("login off");
+      // console.log("login off");
     }
   }, [login]);
 
   useEffect(() => {
-    dispatch(searchActions.getRecentQueries())
-    console.log('yo')
-  }, [dispatch])
+    dispatch(searchActions.getRecentQueries());
+    dispatch(resultActions.getRecentSavedResults());
+    // console.log('yo')
+  }, [dispatch]);
 
   useEffect(() => {
     if (!login && !hide && loginSlide.includes("overflow-hidden")) {
-      console.log('58-1');
-      if (slide == 'ml-[-300px]') {
-        setSlide("ml-[-600px]")
+      console.log("58-1");
+      if (slide == "ml-[-300px]") {
+        setSlide("ml-[-600px]");
         // console.log('hit 1')
-      }
-      else {
-        setSlide("ml-[-900px]")
+      } else {
+        setSlide("ml-[-900px]");
         // console.log('hit 2')
       }
 
@@ -95,7 +96,6 @@ export default function SideBar() {
 
   return (
     <div className="h-full w-[300px] bg-slate-800 overflow-hidden flex flex-row text-slate-100 rounded border-2 border-slate-600">
-
       <div
         className={`flex flex-row transition-all duration-700 ease-in-out ${slide}`}
       >
@@ -108,15 +108,17 @@ export default function SideBar() {
             <h1 className="p-2 border-b">Saved Queries</h1>
             <h1 className="p-2 border-b">Recent Queries</h1>
             <div>
-              {recentQueries &&
-                recentQueries.length ?
+              {recentQueries && recentQueries.length ? (
                 recentQueries.slice(0, 5).map((query) => {
                   return (
                     <p className="truncate text-sm p-1 pl-4">
                       {query.query.split(";").join(" ")}
                     </p>
                   );
-                }) : <></>}
+                })
+              ) : (
+                <></>
+              )}
             </div>
             <p
               className={`p-2 border-b transition-all duration-700 ease-in-out ${
@@ -183,7 +185,7 @@ export default function SideBar() {
                         setLogin(false);
                       }, 500);
                     }}
-                    src='/icons/arrow_back_2.png'
+                    src="/icons/arrow_back_2.png"
                     className="w-10 hover:bg-slate-600 rounded-full p-1.5 cursor-pointer"
                   />
                   <LoginFormPage setLogin={setLogin} setSignup={setSignup} />
@@ -196,21 +198,20 @@ export default function SideBar() {
                   className={`flex flex-col w-[300px] transition-all ease-in-out duration-700 p-4 ${signupSlideDown}`}
                 >
                   <div className="flex flex-row items-end">
-
-                  <img
-                    onClick={async () => {
-                      // ;
-                      setHide(true);
-                      // if (!signup && login) setLogin(false)
-                      await setTimeout(async () => {
-                        setSignup(false);
-                        setLogin(false);
-                      }, 500);
-                    }}
-                    src='/icons/arrow_back_2.png'
-                    className="w-10 hover:bg-slate-600 rounded-full p-1.5 cursor-pointer"
-                  />
-                  <h1 className="w-full text-center">Sign up</h1>
+                    <img
+                      onClick={async () => {
+                        // ;
+                        setHide(true);
+                        // if (!signup && login) setLogin(false)
+                        await setTimeout(async () => {
+                          setSignup(false);
+                          setLogin(false);
+                        }, 500);
+                      }}
+                      src="/icons/arrow_back_2.png"
+                      className="w-10 hover:bg-slate-600 rounded-full p-1.5 cursor-pointer"
+                    />
+                    <h1 className="w-full text-center">Sign up</h1>
                   </div>
                   <SignupFormPage setSignup={setSignup} setHide={setHide} />
                 </div>

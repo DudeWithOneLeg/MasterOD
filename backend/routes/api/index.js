@@ -22,13 +22,13 @@ router.use('/results', resultRouter)
 router.get(
   '/restore-user',
   async (req, res) => {
-    const recentQueries = await Queries.findAll({
-      where: {
-        userId : user.id,
-      },
-      sort: ['createdAt', 'Ascending'],
-      limit: 10
-    })
+    // const recentQueries = await Queries.findAll({
+    //   where: {
+    //     userId : user.id,
+    //   },
+    //   sort: ['createdAt', 'Ascending'],
+    //   limit: 10
+    // })
     return res.json(req.user);
   }
 );

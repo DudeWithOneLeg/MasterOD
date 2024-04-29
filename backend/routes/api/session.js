@@ -32,7 +32,7 @@ router.get(
           userId : user.id,
         },
         sort: ['updatedAt', 'DESC'],
-        limit: 10
+        limit: 5
       })
 
       const recentQueries = await Queries.findAll({
@@ -47,7 +47,7 @@ router.get(
         id: user.id,
         email: user.email,
         username: user.username,
-        recentQueries
+        recentQueries,
       };
       return res.json({
         user: safeUser
