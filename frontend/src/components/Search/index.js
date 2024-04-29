@@ -6,6 +6,9 @@ import Browser from "../Browser";
 import SearchBar from "../SearchBar";
 
 export default function Search() {
+  const data = useSelector((state) => state.search.data);
+  const results = useSelector((state) => state.search.results);
+
   const [query, setQuery] = useState([]);
   const [geolocation, setGeolocation] = useState({ lat: 0, lng: 0 });
   const [preview, setPreview] = useState("");
@@ -13,19 +16,14 @@ export default function Search() {
   const [language, setLanguage] = useState("");
   const [country, setCountry] = useState("");
   const [engine, setEngine] = useState("Google");
-  const data = useSelector((state) => state.search.data);
-  const results = useSelector((state) => state.search.results);
   const [start, setStart] = useState(0);
   const [browseHistory, setBrowseHistory] = useState([]);
   const [browseHistoryIndex, setBrowseHistoryIndex] = useState(0);
   const docExtensions = ["pdf", "ppt", "doc", "docx"];
 
-
   const dispatch = useDispatch();
 
-
-
-  //Only fetch data if link is a page, not a file
+  //Only fetch data if link is not a file
   useEffect(() => {
     if (preview && !docExtensions.includes(preview.split(".").slice(-1)[0])) {
       dispatch(searchActions.data(preview));
@@ -49,7 +47,16 @@ export default function Search() {
       className={`flex flex-col bg-slate-900 w-full px-2 pt-2`}
       id="search-bar"
     >
-      <SearchBar query={query} setQuery={setQuery} language={language} setLanguage={setLanguage} country={country} setCountry={setCountry} engine={engine} setEngine={setEngine}/>
+      <SearchBar
+        query={query}
+        setQuery={setQuery}
+        language={language}
+        setLanguage={setLanguage}
+        country={country}
+        setCountry={setCountry}
+        engine={engine}
+        setEngine={setEngine}
+      />
 
       {results ? (
         <>
