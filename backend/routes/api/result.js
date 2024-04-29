@@ -10,22 +10,25 @@ router.get("/", async (req, res) => {
       userId,
     },
     limit: 5,
+    order: [['createdAt', 'DESC']]
   });
 
   return res.json(savedResults);
 });
 
 router.post("/", async (req, res) => {
-  const { newResult } = req;
+  const newResult  = req.body;
   const { id: userId } = req.user;
   await Result.create({ ...newResult, userId });
 
   const savedResults = await Result.findAll({
-    where: {
-      userId,
-    },
-    limit: 5,
-  });
+      where: {
+          userId,
+        },
+        limit: 5,
+        order: [['createdAt', 'DESC']]
+    });
+    console.log(savedResults)
 
   res.status(200)
   return res.json(savedResults);

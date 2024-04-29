@@ -11,6 +11,7 @@ export default function SideBar() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.session.user);
   const recentQueries = useSelector((state) => state.search.recentQueries);
+  const recentSavedResults = useSelector(state => state.results.recentSavedResults)
   const [hide, setHide] = useState(true);
   const [login, setLogin] = useState(false);
   const [signup, setSignup] = useState(false);
@@ -134,6 +135,15 @@ export default function SideBar() {
             >
               Saved Results
             </p>
+            <div>
+              {
+                recentSavedResults && Object.values(recentSavedResults).length ? (
+                  Object.values(recentSavedResults).map(result => {
+                    return <p className="truncate text-sm p-1 pl-4">{result.title}</p>
+                  })
+                ) : <></>
+              }
+            </div>
             <p
               className={`p-2 border-b transition-all duration-700 ease-in-out ${
                 user ? "ml-0" : "-ml-96"

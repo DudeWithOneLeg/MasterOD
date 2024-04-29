@@ -27,7 +27,7 @@ export default function Result({
     const result = data[rowKey]
     const newResult = {
       title: result.title,
-      description: result.description,
+      description: result.snippet,
       url: result.link,
       queryId: lastSearchId
     }

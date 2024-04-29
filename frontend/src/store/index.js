@@ -8,7 +8,7 @@
   const rootReducer = combineReducers({
     session: sessionReducer,
     search: searchReducer,
-    resuls: resultReducer
+    results: resultReducer
   });
 
   let enhancer;
