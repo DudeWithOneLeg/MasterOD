@@ -4,6 +4,7 @@ import * as sessionActions from "../../store/session";
 import * as searchActions from '../../store/search'
 import SignupFormPage from "../SignupFormPage";
 import LoginFormPage from "../LoginFormPage";
+import SearchBar from "../SearchBar";
 
 export default function SideBar() {
   const dispatch = useDispatch();
@@ -108,14 +109,14 @@ export default function SideBar() {
             <h1 className="p-2 border-b">Recent Queries</h1>
             <div>
               {recentQueries &&
-                recentQueries.length &&
+                recentQueries.length ?
                 recentQueries.slice(0, 5).map((query) => {
                   return (
                     <p className="truncate text-sm p-1 pl-4">
                       {query.query.split(";").join(" ")}
                     </p>
                   );
-                })}
+                }) : <></>}
             </div>
             <p
               className={`p-2 border-b transition-all duration-700 ease-in-out ${
