@@ -68,23 +68,23 @@ export default function SideBar() {
       console.log('58-1');
       if (slide == 'ml-[-300px]') {
         setSlide("ml-[-600px]")
-        console.log('hit 1')
+        // console.log('hit 1')
       }
       else {
         setSlide("ml-[-900px]")
-        console.log('hit 2')
+        // console.log('hit 2')
       }
 
-      console.log(slide);
+      // console.log(slide);
     } else if (hide) {
       setSlide("ml-[-300px]");
-      console.log('58-2');
+      // console.log('58-2');
     } else {
       setSlide("ml-[-600px]");
-      console.log("58-3");
+      // console.log("58-3");
     }
-    console.log(slide);
-    console.log("hide:", hide, login, slide, loginSlide);
+    // console.log(slide);
+    // console.log("hide:", hide, login, slide, loginSlide);
   }, [hide]);
 
   useEffect(() => {
@@ -130,7 +130,7 @@ export default function SideBar() {
                 user ? "ml-0" : "-ml-96"
               }`}
             >
-              Saved Sites
+              Saved Results
             </p>
             <p
               className={`p-2 border-b transition-all duration-700 ease-in-out ${

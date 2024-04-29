@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import { useDispatch } from "react-redux";
 
 export default function Result({
   data,
@@ -7,6 +8,7 @@ export default function Result({
   setShowResult,
   setPreview,
 }) {
+  const dispatch = useDispatch()
   const [showInfo, setShowInfo] = useState(false);
 
   const docExtensions = ["pdf", "doc", "docx"];
@@ -16,6 +18,10 @@ export default function Result({
     setShowResult(true);
     setPreview(data[rowKey].link);
   };
+
+  const saveResult = () => {
+    
+  }
 
   return (
     <div
@@ -27,7 +33,9 @@ export default function Result({
     >
       <div className=""></div>
       <div className="flex flex-col items-center justify-content-around min-w-10 h-full">
-        <img src="/icons/bookmark.png" />
+        <img
+        onClick={saveResult}
+        src="/icons/bookmark.png" />
         <div className="flex font-bold h-fit w-fit bg-slate-300 rounded"></div>
       </div>
       <div
