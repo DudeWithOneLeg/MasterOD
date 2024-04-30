@@ -11,13 +11,45 @@ export default function SideBar() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.session.user);
   const recentQueries = useSelector((state) => state.search.recentQueries);
-  const recentSavedResults = useSelector(state => state.results.recentSavedResults)
+  const recentSavedResults = useSelector(
+    (state) => state.results.recentSavedResults
+  );
   const [hide, setHide] = useState(true);
   const [login, setLogin] = useState(false);
   const [signup, setSignup] = useState(false);
   const [slide, setSlide] = useState("");
   const [signupSlideDown, setSignupSlideDown] = useState("");
   const [loginSlide, setLoginSlide] = useState("w-[300px]");
+
+  const timeFunc = (dateTime) => {
+    // date = new Date(date)
+    dateTime = new Date(dateTime);
+    const currDateTime = new Date(Date.now());
+    // Calculate the difference in milliseconds
+const timeDifference = currDateTime - dateTime;
+
+// Convert the difference from milliseconds to seconds
+const secondsDifference = timeDifference / 1000;
+
+// Convert the difference from milliseconds to minutes
+const minutesDifference = timeDifference / (1000 * 60);
+
+// Convert the difference from milliseconds to hours
+const hoursDifference = timeDifference / (1000 * 60 * 60);
+
+// Convert the difference from milliseconds to days
+const daysDifference = timeDifference / (1000 * 60 * 60 * 24);
+
+// Display the results
+// console.log(`Time difference in milliseconds: ${timeDifference}`);
+if (secondsDifference < 60) dateTime = secondsDifference.toFixed(0) + 's '
+else dateTime = minutesDifference.toFixed(0) + 'min '
+
+if (minutesDifference > 60) dateTime = hoursDifference.toFixed(0) + 'h '
+if (hoursDifference > 24) dateTime = daysDifference.toFixed(0) + 'd '
+
+    return dateTime.toString();
+  };
 
   const handleLogOut = (e) => {
     e.preventDefault();
@@ -112,9 +144,14 @@ export default function SideBar() {
               {recentQueries && recentQueries.length ? (
                 recentQueries.slice(0, 5).map((query) => {
                   return (
-                    <p className="truncate text-sm p-1 pl-4">
+                    <div className="flex flex-row truncate text-sm py-1 px-2">
+                      <p className="pr-1 text-gray-400">
+                        {timeFunc(query.createdAt)}
+                      </p>
+                    <p className="">
                       {query.query.split(";").join(" ")}
                     </p>
+                    </div>
                   );
                 })
               ) : (
@@ -136,13 +173,24 @@ export default function SideBar() {
               Saved Results
             </p>
             <div>
-              {
-                recentSavedResults && Object.values(recentSavedResults).length ? (
-                  Object.values(recentSavedResults).map(result => {
-                    return <p className="truncate text-sm p-1 pl-4">{result.title}</p>
-                  })
-                ) : <></>
-              }
+              {recentSavedResults &&
+              Object.values(recentSavedResults).length ? (
+                Object.values(recentSavedResults).map((result) => {
+                  return (
+                    <div className="flex flex-row truncate text-sm py-1 px-2">
+                      <p className="pr-1 text-gray-400">
+
+                      {timeFunc(result.createdAt)}
+                      </p>
+                      <p className="">
+                      {result.title}
+                    </p>
+                    </div>
+                  );
+                })
+              ) : (
+                <></>
+              )}
             </div>
             <p
               className={`p-2 border-b transition-all duration-700 ease-in-out ${
