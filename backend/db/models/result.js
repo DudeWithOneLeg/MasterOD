@@ -25,6 +25,9 @@ module.exports = (sequelize, DataTypes) => {
     },
     queryId: {
       type: DataTypes.INTEGER
+    },
+    userId: {
+      type: DataTypes.INTEGER
     }
   }, {
     sequelize,

@@ -1,4 +1,7 @@
 import { useEffect, useState, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import * as resultActions from '../../store/result'
+
 
 export default function Result({
   data,
@@ -7,7 +10,10 @@ export default function Result({
   setShowResult,
   setPreview,
 }) {
+  const dispatch = useDispatch()
   const [showInfo, setShowInfo] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const lastSearchId = useSelector(state => Object.values(state.search.recentQueries)[0].id)
 
   const docExtensions = ["pdf", "doc", "docx"];
 
@@ -16,6 +22,19 @@ export default function Result({
     setShowResult(true);
     setPreview(data[rowKey].link);
   };
+
+  const saveResult = () => {
+    const result = data[rowKey]
+    const newResult = {
+      title: result.title,
+      description: result.snippet,
+      url: result.link,
+      queryId: lastSearchId
+    }
+
+    dispatch(resultActions.postSavedResult(newResult))
+    setSaved(true)
+  }
 
   return (
     <div
@@ -27,7 +46,9 @@ export default function Result({
     >
       <div className=""></div>
       <div className="flex flex-col items-center justify-content-around min-w-10 h-full">
-        <img src="/icons/bookmark.png" />
+        {saved ? <img src='/icons/bookmark_FILL.png'/> : <img
+        onClick={saveResult}
+        src="/icons/bookmark.png" />}
         <div className="flex font-bold h-fit w-fit bg-slate-300 rounded"></div>
       </div>
       <div

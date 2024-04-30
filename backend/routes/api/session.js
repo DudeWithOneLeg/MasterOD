@@ -6,7 +6,7 @@ const bcrypt = require('bcryptjs');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { setTokenCookie, restoreUser } = require('../../utils/auth');
-const { User, Queries } = require('../../db/models');
+const { User, Queries, Result } = require('../../db/models');
 
 const validateLogin = [
   check('credential')
@@ -27,6 +27,14 @@ router.get(
     const { user } = req;
     if (user) {
 
+      const savedResults = await Result.findAll({
+        where: {
+          userId : user.id,
+        },
+        sort: ['updatedAt', 'DESC'],
+        limit: 5
+      })
+
       const recentQueries = await Queries.findAll({
         where: {
           userId : user.id,
@@ -39,7 +47,7 @@ router.get(
         id: user.id,
         email: user.email,
         username: user.username,
-        recentQueries
+        recentQueries,
       };
       return res.json({
         user: safeUser
