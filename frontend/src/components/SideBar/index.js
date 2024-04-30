@@ -20,36 +20,78 @@ export default function SideBar() {
   const [slide, setSlide] = useState("");
   const [signupSlideDown, setSignupSlideDown] = useState("");
   const [loginSlide, setLoginSlide] = useState("w-[300px]");
-
   const timeFunc = (dateTime) => {
     // date = new Date(date)
     dateTime = new Date(dateTime);
     const currDateTime = new Date(Date.now());
-    // Calculate the difference in milliseconds
-const timeDifference = currDateTime - dateTime;
+    const timeDifference = currDateTime - dateTime;
+    const secondsDifference = timeDifference / 1000;
+    const minutesDifference = timeDifference / (1000 * 60);
+    const hoursDifference = timeDifference / (1000 * 60 * 60);
+    const daysDifference = timeDifference / (1000 * 60 * 60 * 24);
 
-// Convert the difference from milliseconds to seconds
-const secondsDifference = timeDifference / 1000;
+    if (secondsDifference < 60) dateTime = secondsDifference.toFixed(0) + "s ";
+    else dateTime = minutesDifference.toFixed(0) + "min ";
 
-// Convert the difference from milliseconds to minutes
-const minutesDifference = timeDifference / (1000 * 60);
-
-// Convert the difference from milliseconds to hours
-const hoursDifference = timeDifference / (1000 * 60 * 60);
-
-// Convert the difference from milliseconds to days
-const daysDifference = timeDifference / (1000 * 60 * 60 * 24);
-
-// Display the results
-// console.log(`Time difference in milliseconds: ${timeDifference}`);
-if (secondsDifference < 60) dateTime = secondsDifference.toFixed(0) + 's '
-else dateTime = minutesDifference.toFixed(0) + 'min '
-
-if (minutesDifference > 60) dateTime = hoursDifference.toFixed(0) + 'h '
-if (hoursDifference > 24) dateTime = daysDifference.toFixed(0) + 'd '
+    if (minutesDifference > 60) dateTime = hoursDifference.toFixed(0) + "h ";
+    if (hoursDifference > 24) dateTime = daysDifference.toFixed(0) + "d ";
 
     return dateTime.toString();
   };
+  const navBarStats = [
+    {
+      stat: "Saved Queries",
+      recent: <></>,
+    },
+    {
+      stat: "Recent Queries",
+      recent:
+        recentQueries && recentQueries.length ? (
+          recentQueries.slice(0, 5).map((query) => {
+            return (
+              <div className="flex flex-row truncate text-sm py-1 px-2">
+                <p className="pr-1 text-gray-400">
+                  {timeFunc(query.createdAt)}
+                </p>
+                <p className="">{query.query.split(";").join(" ")}</p>
+              </div>
+            );
+          })
+        ) : (
+          <></>
+        ),
+    },
+    {
+      stat: "Visited",
+      recent: <></>,
+    },
+    {
+      stat: "Saved Results",
+      recent:
+        recentSavedResults && Object.values(recentSavedResults).length ? (
+          Object.values(recentSavedResults)
+            .reverse()
+            .map((result) => {
+              return (
+                <div className="flex flex-row truncate text-sm py-1 px-2">
+                  <p className="pr-1 text-gray-400">
+                    {timeFunc(result.createdAt)}
+                  </p>
+                  <p className="">{result.title}</p>
+                </div>
+              );
+            })
+        ) : (
+          <></>
+        ),
+    },
+    {
+      stat: "Site History",
+      recent: <></>,
+    },
+  ];
+  const obj = {};
+
 
   const handleLogOut = (e) => {
     e.preventDefault();
@@ -138,67 +180,14 @@ if (hoursDifference > 24) dateTime = daysDifference.toFixed(0) + 'd '
             <p className="pl-4">{user ? user.username : ""}</p>
           </div>
           <div className={`p-4 text-lg`}>
-            <h1 className="p-2 border-b">Saved Queries</h1>
-            <h1 className="p-2 border-b">Recent Queries</h1>
-            <div>
-              {recentQueries && recentQueries.length ? (
-                recentQueries.slice(0, 5).map((query) => {
-                  return (
-                    <div className="flex flex-row truncate text-sm py-1 px-2">
-                      <p className="pr-1 text-gray-400">
-                        {timeFunc(query.createdAt)}
-                      </p>
-                    <p className="">
-                      {query.query.split(";").join(" ")}
-                    </p>
-                    </div>
-                  );
-                })
-              ) : (
-                <></>
-              )}
-            </div>
-            <p
-              className={`p-2 border-b transition-all duration-700 ease-in-out ${
-                user ? "ml-0" : "-ml-96"
-              }`}
-            >
-              Visited
-            </p>
-            <p
-              className={`p-2 border-b transition-all duration-700 ease-in-out ${
-                user ? "ml-0" : "-ml-96"
-              }`}
-            >
-              Saved Results
-            </p>
-            <div>
-              {recentSavedResults &&
-              Object.values(recentSavedResults).length ? (
-                Object.values(recentSavedResults).map((result) => {
-                  return (
-                    <div className="flex flex-row truncate text-sm py-1 px-2">
-                      <p className="pr-1 text-gray-400">
-
-                      {timeFunc(result.createdAt)}
-                      </p>
-                      <p className="">
-                      {result.title}
-                    </p>
-                    </div>
-                  );
-                })
-              ) : (
-                <></>
-              )}
-            </div>
-            <p
-              className={`p-2 border-b transition-all duration-700 ease-in-out ${
-                user ? "ml-0" : "-ml-96"
-              }`}
-            >
-              Site History
-            </p>
+            {Object.values(navBarStats).map((object) => {
+              return (
+                <div>
+                  <h1 className="p-2 border-b">{object.stat}</h1>
+                  <div>{object.recent}</div>
+                </div>
+              );
+            })}
           </div>
           <p onClick={(e) => handleLogOut(e)}>Sign out</p>
         </div>
