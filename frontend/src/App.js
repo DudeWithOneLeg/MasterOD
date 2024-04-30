@@ -4,10 +4,9 @@ import { Route, Switch } from "react-router-dom";
 import LoginFormPage from "./components/LoginFormPage";
 import SignupFormPage from "./components/SignupFormPage";
 import * as sessionActions from "./store/session";
-import Navigation from "./components/Navigation";
 import Search from "./components/Search";
-import Results from "./components/Results";
 import SideBar from "./components/SideBar";
+import QueryStats from "./components/QueryStats";
 
 
 function App() {
@@ -27,9 +26,16 @@ function App() {
 
       </div>
       {
-        isLoaded && user && <>
-        <Search />
-        </>
+        isLoaded && user && <Switch>
+          <Route path='/queries'>
+            <QueryStats />
+
+          </Route>
+          <Route path='/'>
+            <Search />
+
+          </Route>
+        </Switch>
       }
 
       {isLoaded && !user && (

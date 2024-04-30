@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import * as sessionActions from "../../store/session";
 import * as searchActions from "../../store/search";
 import * as resultActions from "../../store/result";
@@ -20,6 +21,8 @@ export default function SideBar() {
   const [slide, setSlide] = useState("");
   const [signupSlideDown, setSignupSlideDown] = useState("");
   const [loginSlide, setLoginSlide] = useState("w-[300px]");
+  const history = useHistory()
+
   const timeFunc = (dateTime) => {
     // date = new Date(date)
     dateTime = new Date(dateTime);
@@ -42,6 +45,7 @@ export default function SideBar() {
     {
       stat: "Saved Queries",
       recent: <></>,
+      path: '/'
     },
     {
       stat: "Recent Queries",
@@ -60,10 +64,12 @@ export default function SideBar() {
         ) : (
           <></>
         ),
+        path:'/queries'
     },
     {
       stat: "Recently Visited",
       recent: <></>,
+      path: ''
     },
     {
       stat: "Saved Results",
@@ -84,14 +90,13 @@ export default function SideBar() {
         ) : (
           <></>
         ),
+        path: ''
     },
     // {
     //   stat: "Site History",
     //   recent: <></>,
     // },
   ];
-  const obj = {};
-
 
   const handleLogOut = (e) => {
     e.preventDefault();
@@ -183,7 +188,9 @@ export default function SideBar() {
             {Object.values(navBarStats).map((object) => {
               return (
                 <div>
-                  <h1 className="p-2 border-b">{object.stat}</h1>
+                  <div onClick={() => history.push(object.path)}>
+                    <h1 className="p-2 border-b">{object.stat}</h1>
+                  </div>
                   <div>{object.recent}</div>
                 </div>
               );

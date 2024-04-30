@@ -71,7 +71,7 @@ export default function Search() {
                   placeholder={results.info.currentPage}
                   className="w-10 rounded text-center text-slate-600"
                 />{" "}
-                / <p>{results.info.totalPages}</p>
+                / <p>{results.info.totalPages != NaN ? results.info.totalPages : ''}</p>
               </div>
             </div>
           </div>

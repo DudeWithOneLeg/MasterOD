@@ -1,4 +1,5 @@
 import { csrfFetch } from "./csrf";
+import { flatten } from "./csrf";
 
 const GET_RECENT_SAVED_RESULTS = "results/recent";
 const SAVE_RESULT = "result/save";
@@ -42,13 +43,7 @@ const initialState = { recentSavedResults: null };
 
 const resultReducer = (state = initialState, action) => {
   let newState;
-  const flatten = (arr) => {
-    const obj = {};
-    for (let result of arr) {
-      obj[result.id] = result;
-    }
-    return obj;
-  };
+
   switch (action.type) {
     case GET_RECENT_SAVED_RESULTS:
         console.log(state)

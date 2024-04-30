@@ -4,6 +4,7 @@ const sessionRouter = require('./session.js');
 const usersRouter = require('./users.js');
 const dorkRouter = require('./dork.js')
 const resultRouter = require('./result.js')
+const queryRouter = require('./queries.js')
 const { setTokenCookie } = require('../../utils/auth.js');
 const { User, Queries } = require('../../db/models');
 const { restoreUser } = require('../../utils/auth.js');
@@ -18,6 +19,8 @@ router.use('/users', usersRouter);
 router.use('/dork', dorkRouter);
 
 router.use('/results', resultRouter)
+
+router.use('/queries', queryRouter)
 
 router.get(
   '/restore-user',
