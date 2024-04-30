@@ -49,11 +49,11 @@ export default function SideBar() {
         recentQueries && recentQueries.length ? (
           recentQueries.slice(0, 5).map((query) => {
             return (
-              <div className="flex flex-row truncate text-sm py-1 px-2">
+              <div className="flex flex-row text-sm py-1 px-2">
                 <p className="pr-1 text-gray-400">
                   {timeFunc(query.createdAt)}
                 </p>
-                <p className="">{query.query.split(";").join(" ")}</p>
+                <p className="truncate">{query.query.split(";").join(" ")}</p>
               </div>
             );
           })
@@ -62,7 +62,7 @@ export default function SideBar() {
         ),
     },
     {
-      stat: "Visited",
+      stat: "Recently Visited",
       recent: <></>,
     },
     {
@@ -77,7 +77,7 @@ export default function SideBar() {
                   <p className="pr-1 text-gray-400">
                     {timeFunc(result.createdAt)}
                   </p>
-                  <p className="">{result.title}</p>
+                  <p className="truncate">{result.title}</p>
                 </div>
               );
             })
@@ -85,10 +85,10 @@ export default function SideBar() {
           <></>
         ),
     },
-    {
-      stat: "Site History",
-      recent: <></>,
-    },
+    // {
+    //   stat: "Site History",
+    //   recent: <></>,
+    // },
   ];
   const obj = {};
 
