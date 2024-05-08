@@ -12,7 +12,7 @@ const setQueries = (queries) => {
 
 export const getQueries = () => async (dispatch) => {
     const res = await csrfFetch('/api/queries')
-    if (res.ok && res.status == 200) {
+    if (res.ok && res.status === 200) {
         const queries = await res.json()
         dispatch(setQueries(queries))
     }

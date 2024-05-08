@@ -24,7 +24,7 @@ export const postSavedResult = (newResult) => async (dispatch) => {
     body: JSON.stringify(newResult),
   });
 
-  if (res.ok && res.status == 200) {
+  if (res.ok && res.status === 200) {
     const savedResults = await res.json();
     dispatch(setSavedResults(savedResults));
   }
@@ -33,7 +33,7 @@ export const postSavedResult = (newResult) => async (dispatch) => {
 export const getRecentSavedResults = () => async (dispatch) => {
   const res = await csrfFetch("/api/results");
 
-  if (res.ok && res.status == 200) {
+  if (res.ok && res.status === 200) {
     const recentSavedResults = await res.json();
     dispatch(setRecentSavedResults(recentSavedResults));
   }
