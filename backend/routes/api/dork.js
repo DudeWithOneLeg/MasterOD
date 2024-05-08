@@ -155,17 +155,20 @@ router.post("/", async (req, res) => {
 
 router.get('/queries/recent', async (req, res) => {
   const { user } = req
-  const recentQueries = await Queries.findAll({
-    where: {
-      userId : user.id,
-    },
-    order: [['updatedAt', 'DESC']],
-    limit: 5
-  })
-  // console.log(recentQueries)
-  res.status(200)
-  // console.log(res)
-  return res.json(recentQueries)
+  if (user) {
+
+    const recentQueries = await Queries.findAll({
+      where: {
+        userId : user.id,
+      },
+      order: [['updatedAt', 'DESC']],
+      limit: 5
+    })
+    // console.log(recentQueries)
+    res.status(200)
+    // console.log(res)
+    return res.json(recentQueries)
+  }
 })
 
 module.exports = router;

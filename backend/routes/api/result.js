@@ -3,17 +3,20 @@ const router = express.Router();
 const { Result } = require("../../db/models");
 
 router.get("/", async (req, res) => {
-  const { id: userId } = req.user;
+  if (req.user) {
 
-  const savedResults = await Result.findAll({
-    where: {
-      userId,
-    },
-    limit: 5,
-    order: [['createdAt', 'DESC']]
-  });
+    const { id: userId } = req.user;
 
-  return res.json(savedResults);
+    const savedResults = await Result.findAll({
+      where: {
+        userId,
+      },
+      limit: 5,
+      order: [['createdAt', 'DESC']]
+    });
+
+    return res.json(savedResults);
+  }
 });
 
 router.post("/", async (req, res) => {

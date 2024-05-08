@@ -6,6 +6,7 @@ import SignupFormPage from "./components/SignupFormPage";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import Search from "./components/Search";
+import QueryStats from "./components/QueryStats";
 import Results from "./components/Results";
 import SideBar from "./components/SideBar";
 
@@ -27,9 +28,16 @@ function App() {
 
       </div>
       {
-        isLoaded && user && <>
-        <Search />
-        </>
+        isLoaded && user && <Switch>
+          <Route path='/'>
+            <Search />
+
+          </Route>
+          <Route path='/queries'>
+            <QueryStats />
+
+          </Route>
+        </Switch>
       }
 
       {isLoaded && !user && (
@@ -38,7 +46,7 @@ function App() {
           <LoginFormPage />
 
           </Route>
-          <Route path='signup'>
+          <Route path='/signup'>
 
             <SignupFormPage />
           </Route>

@@ -58,7 +58,17 @@ export default function SideBar() {
             );
           })
         ) : (
-          <></>
+          user && user.recentQueries && user.recentQueries.length ?
+          user.recentQueries.slice(0, 5).map((query) => {
+            return (
+              <div className="flex flex-row text-sm py-1 px-2">
+                <p className="pr-1 text-gray-400">
+                  {timeFunc(query.createdAt)}
+                </p>
+                <p className="truncate">{query.query.split(";").join(" ")}</p>
+              </div>
+            );
+          }) : <></>
         ),
     },
     {
