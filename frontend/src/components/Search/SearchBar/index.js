@@ -4,14 +4,26 @@ import Parameter from "../Parameter";
 import QueryParam from "../QueryParam";
 import { bingSettings } from "./BingSettings/bingSettings";
 import { googleSettings } from "./GoogleSettings/googleSettings";
-import * as sessionActions from "../../store/session";
-import * as searchActions from '../../store/search'
+import * as sessionActions from "../../../store/session";
+import * as searchActions from '../../../store/search'
 
 export default function SearchBar({query, setQuery, country, setCountry, language, setLanguage, engine, setEngine}) {
   const [showOptions, setShowOptions] = useState(false);
   const dispatch = useDispatch();
 
   const settings = { Google: googleSettings, Bing: bingSettings };
+
+  const saveQuery = () => {
+    dispatch(
+      searchActions.saveQuery({
+        q: query.join(";"),
+        cr: country,
+        hl: language,
+        engine: engine.toLocaleLowerCase(),
+        start: 0,
+      })
+    )
+  }
 
   const handleSubmit = () => {
     // e.preventDefault()
@@ -85,6 +97,7 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
             />
             <p>Query</p>
             <div className="flex flex-wrap jusitfy-content-center h-fit max-w-fit overflow-wrap">
+              <input defaultValue="Enter keyword" className="px-2 m-1 bg-slate-600 rounded w-fit outline-none"/>
               {query.length
                 ? query.map((param) => {
                     return (
@@ -101,14 +114,20 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
           <div className="flex flex-row">
             {query.length ? (
               <div
-                className="px-2 mx-2 border rounded"
-                onClick={() => setQuery([])}
+              className="flex flex-row align-items-center"
               >
-                Clear
+                <img className="h-10 pointer" src='/icons/save.png' onClick={() => saveQuery()}/>
+                <p
+                className="px-2 mx-2 border rounded h-8 flex align-items-center hover:bg-red-600 bg-red-900"
+                onClick={() => setQuery([])}
+                >Clear</p>
+
               </div>
             ) : (
               <></>
             )}
+            <div className="flex align-items-center">
+
             <label className="h-fit m-0">
               Search Engine:
               <select
@@ -117,7 +136,7 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
               >
                 <option
                   selected
-                  value={"Google"}
+                  defaultValue="Google"
                   onClick={() => setEngine("Google")}
                 >
                   Google
@@ -129,6 +148,7 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
                 {/* <option value={"Yandex"}>Yandex</option> */}
               </select>
             </label>
+            </div>
           </div>
         </div>
         {query.length ? (

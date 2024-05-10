@@ -4,7 +4,6 @@ const SerpApi = require("google-search-results-nodejs");
 require("dotenv").config();
 const SERP_API_ACCESS_KEY = process.env.SERP_API_ACCESS_KEY;
 const search = new SerpApi.GoogleSearch(SERP_API_ACCESS_KEY);
-const fs = require("fs");
 const { getArchive } = require("./utils");
 const { Queries } = require("../../db/models");
 
@@ -26,7 +25,7 @@ router.post("/iframe/", async (req, res) => {
 });
 router.post("/", async (req, res) => {
   //   const { query, lat, lng } = req.body;
-  const quote = ["intitle", "inurl", "-intitle", "-inurl", "intext", "-intext"];
+  // const quote = ["intitle", "inurl", "-intitle", "-inurl", "intext", "-intext"];
   const params = req.body;
   const { user } = req;
   params.q = params.q
@@ -169,6 +168,56 @@ router.get('/queries/recent', async (req, res) => {
     return res.json(recentQueries)
 
   }
+})
+
+router.post('/save', async (req, res) => {
+  const params = req.body;
+  const { user } = req;
+  params.q = params.q
+    .split(";")
+    .map((q) =>
+      q.includes(":")
+        ? `${q.split(":")[0]}:"${q.split(":")[1]}"`
+        : '"' + q + '"'
+    )
+    .join(" ");
+  const newQuery = {
+    userId: user.id,
+    query: params.q,
+    engine: params.engine,
+    saved: true
+  };
+
+
+  await Queries.create(newQuery);
+  const recentSavedQueries = await Queries.findAll({
+    where: {
+      userId: user.id,
+      saved: true
+    },
+    order: [['updatedAt', 'DESC']],
+    limit: 5
+  })
+
+  res.statusCode = 200
+  return res.json(recentSavedQueries)
+})
+
+router.get('/save', async (req, res) => {
+  const { user } = req
+
+  const savedQueries = await Queries.findAll({
+    where: {
+      userId: user.id,
+      saved: true
+    },
+    order: [['updatedAt', 'DESC']],
+    limit: 5
+  })
+
+  res.statusCode = 200
+  res.json(savedQueries)
+
 })
 
 module.exports = router;
