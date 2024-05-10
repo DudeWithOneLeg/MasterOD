@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as searchActions from "../../store/search";
 import Results from "../Results";
 import Browser from "../Browser";
-import SearchBar from "../SearchBar";
+import SearchBar from "./SearchBar";
 
 export default function Search() {
   const data = useSelector((state) => state.search.data);

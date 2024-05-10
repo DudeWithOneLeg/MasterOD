@@ -9,6 +9,9 @@ export default function RecentStats() {
   const recentSavedResults = useSelector(
     (state) => state.results.recentSavedResults
   );
+  const recentSavedQueries = useSelector(
+    (state) => state.search.recentSavedQueries
+  );
 
   const timeFunc = (dateTime) => {
     // date = new Date(date)
@@ -32,7 +35,23 @@ export default function RecentStats() {
   const navBarStats = [
     {
       stat: "Saved Queries",
-      recent: <></>,
+      recent:
+      recentSavedQueries && Object.values(recentSavedQueries).length ? (
+        Object.values(recentSavedQueries)
+        .slice(0, 5)
+        .reverse()
+        .map((query) => {
+          return (
+            <div className="flex flex-row text-sm py-1 px-2">
+              <p className="pr-1 text-gray-400 w-10">
+                {timeFunc(query.createdAt)}
+              </p>
+              <p className="truncate">{query.query.split(";").join(" ")}</p>
+            </div>
+          );
+        })
+      ) : (
+          <></>),
       path: "/",
     },
     {
