@@ -4,11 +4,13 @@
   import sessionReducer from "./session";
   import searchReducer from "./search";
   import resultReducer from "./result";
+  import queryReducer from "./query";
 
   const rootReducer = combineReducers({
     session: sessionReducer,
     search: searchReducer,
-    results: resultReducer
+    results: resultReducer,
+    queries: queryReducer
   });
 
   let enhancer;
@@ -21,6 +23,8 @@
       window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
     enhancer = composeEnhancers(applyMiddleware(thunk, logger));
   }
+
+  
 
   const configureStore = (preloadedState) => {
     return createStore(rootReducer, preloadedState, enhancer);

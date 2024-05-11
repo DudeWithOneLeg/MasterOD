@@ -40,7 +40,7 @@ router.get(
           userId : user.id,
         },
         sort: ['updatedAt', 'DESC'],
-        limit: 10
+        limit: 5
       })
 
       const safeUser = {
@@ -48,6 +48,7 @@ router.get(
         email: user.email,
         username: user.username,
         recentQueries,
+        savedResults
       };
       return res.json({
         user: safeUser

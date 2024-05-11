@@ -31,4 +31,11 @@
   export function restoreCSRF() {
     return csrfFetch('/api/csrf/restore');
   }
-                
+
+  export const flatten = (arr) => {
+    const obj = {};
+    for (let result of arr) {
+      obj[result.id] = result;
+    }
+    return obj;
+  };

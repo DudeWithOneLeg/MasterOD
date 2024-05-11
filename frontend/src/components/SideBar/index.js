@@ -1,97 +1,24 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import * as sessionActions from "../../store/session";
 import * as searchActions from "../../store/search";
 import * as resultActions from "../../store/result";
 import SignupFormPage from "../SignupFormPage";
 import LoginFormPage from "../LoginFormPage";
+import RecentStats from "./RecentStats";
 // import SearchBar from "../SearchBar";
 
 export default function SideBar() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.session.user);
-  const recentQueries = useSelector((state) => state.search.recentQueries);
-  const recentSavedResults = useSelector(
-    (state) => state.results.recentSavedResults
-  );
+
   const [hide, setHide] = useState(true);
   const [login, setLogin] = useState(false);
   const [signup, setSignup] = useState(false);
   const [slide, setSlide] = useState("");
   const [signupSlideDown, setSignupSlideDown] = useState("");
   const [loginSlide, setLoginSlide] = useState("w-[300px]");
-  const timeFunc = (dateTime) => {
-    // date = new Date(date)
-    dateTime = new Date(dateTime);
-    const currDateTime = new Date(Date.now());
-    const timeDifference = currDateTime - dateTime;
-    const secondsDifference = timeDifference / 1000;
-    const minutesDifference = timeDifference / (1000 * 60);
-    const hoursDifference = timeDifference / (1000 * 60 * 60);
-    const daysDifference = timeDifference / (1000 * 60 * 60 * 24);
-
-    if (secondsDifference < 60) dateTime = secondsDifference.toFixed(0) + "s ";
-    else dateTime = minutesDifference.toFixed(0) + "min ";
-
-    if (minutesDifference > 60) dateTime = hoursDifference.toFixed(0) + "h ";
-    if (hoursDifference > 24) dateTime = daysDifference.toFixed(0) + "d ";
-
-    return dateTime.toString();
-  };
-  const navBarStats = [
-    {
-      stat: "Saved Queries",
-      recent: <></>,
-    },
-    {
-      stat: "Recent Queries",
-      recent:
-        recentQueries && recentQueries.length ? (
-          recentQueries.slice(0, 5).map((query) => {
-            return (
-              <div className="flex flex-row text-sm py-1 px-2">
-                <p className="pr-1 text-gray-400">
-                  {timeFunc(query.createdAt)}
-                </p>
-                <p className="truncate">{query.query.split(";").join(" ")}</p>
-              </div>
-            );
-          })
-        ) : (
-          <></>
-        ),
-    },
-    {
-      stat: "Recently Visited",
-      recent: <></>,
-    },
-    {
-      stat: "Saved Results",
-      recent:
-        recentSavedResults && Object.values(recentSavedResults).length ? (
-          Object.values(recentSavedResults)
-            .reverse()
-            .map((result) => {
-              return (
-                <div className="flex flex-row truncate text-sm py-1 px-2">
-                  <p className="pr-1 text-gray-400">
-                    {timeFunc(result.createdAt)}
-                  </p>
-                  <p className="truncate">{result.title}</p>
-                </div>
-              );
-            })
-        ) : (
-          <></>
-        ),
-    },
-    // {
-    //   stat: "Site History",
-    //   recent: <></>,
-    // },
-  ];
-  const obj = {};
-
 
   const handleLogOut = (e) => {
     e.preventDefault();
@@ -174,23 +101,16 @@ export default function SideBar() {
       <div
         className={`flex flex-row transition-all duration-700 ease-in-out ${slide}`}
       >
-        <div className={`p-4 w-[300px]`}>
+        {user ? <div className={`p-4 w-[300px]`}>
           <div className="flex flex-row items-center">
             <img src="icons/profile.jpg" className="rounded-full h-14"></img>
             <p className="pl-4">{user ? user.username : ""}</p>
           </div>
           <div className={`p-4 text-lg`}>
-            {Object.values(navBarStats).map((object) => {
-              return (
-                <div>
-                  <h1 className="p-2 border-b">{object.stat}</h1>
-                  <div>{object.recent}</div>
-                </div>
-              );
-            })}
+            <RecentStats />
           </div>
           <p onClick={(e) => handleLogOut(e)}>Sign out</p>
-        </div>
+        </div> : <></>}
 
         {!user ? (
           <>
