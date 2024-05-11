@@ -1,8 +1,25 @@
 const express = require("express");
 const router = express.Router();
-const { Result } = require("../../db/models");
+const { Result, BrowseHistory } = require("../../db/models");
 
-router.get("/", async (req, res) => {
+router.get("/recent", async (req, res) => {
+  if (req.user) {
+
+    const { id: userId } = req.user;
+
+    const savedResults = await BrowseHistory.findAll({
+      where: {
+        userId,
+      },
+      limit: 5,
+      order: [['createdAt', 'DESC']]
+    });
+
+    return res.json(savedResults);
+  }
+});
+
+router.get("/saved", async (req, res) => {
   if (req.user) {
 
     const { id: userId } = req.user;
@@ -19,7 +36,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/save", async (req, res) => {
   const newResult  = req.body;
   const { id: userId } = req.user;
   await Result.create({ ...newResult, userId });
@@ -31,9 +48,9 @@ router.post("/", async (req, res) => {
         limit: 5,
         order: [['createdAt', 'DESC']]
     });
-    console.log(savedResults)
+    // console.log(savedResults)
 
-  res.status(200)
+  res.statusCode = 200
   return res.json(savedResults);
 });
 

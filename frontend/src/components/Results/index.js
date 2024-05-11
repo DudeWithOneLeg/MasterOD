@@ -12,6 +12,7 @@ export default function Results({
   start,
   setStart,
   params,
+  setResult
 }) {
   const resultState = useSelector((state) => state.search.results);
   const [results, setResults] = useState({});
@@ -78,6 +79,7 @@ export default function Results({
                   showResult={showResult}
                   setShowResult={setShowResult}
                   setPreview={setPreview}
+                  setResult={setResult}
                 />
               );
             })}

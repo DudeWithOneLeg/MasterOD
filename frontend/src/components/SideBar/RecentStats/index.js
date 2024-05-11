@@ -34,7 +34,7 @@ export default function RecentStats() {
 
   const navBarStats = [
     {
-      stat: "Saved Queries",
+      stat: "Saved Searches",
       recent:
       recentSavedQueries && Object.values(recentSavedQueries).length ? (
         Object.values(recentSavedQueries)
@@ -55,7 +55,7 @@ export default function RecentStats() {
       path: "/",
     },
     {
-      stat: "Recent Queries",
+      stat: "Recent Searches",
       recent:
         recentQueries && recentQueries.length ? (
           recentQueries.slice(0, 5).map((query) => {

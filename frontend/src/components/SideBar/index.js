@@ -64,6 +64,7 @@ export default function SideBar() {
   useEffect(() => {
     dispatch(searchActions.getRecentQueries());
     dispatch(resultActions.getRecentSavedResults());
+    dispatch(searchActions.getRecentSavedQueries());
     // console.log('yo')
   }, [dispatch]);
 
@@ -101,16 +102,29 @@ export default function SideBar() {
       <div
         className={`flex flex-row transition-all duration-700 ease-in-out ${slide}`}
       >
-        {user ? <div className={`p-4 w-[300px]`}>
-          <div className="flex flex-row items-center">
-            <img src="icons/profile.jpg" className="rounded-full h-14"></img>
-            <p className="pl-4">{user ? user.username : ""}</p>
+        {user ? (
+          <div className={`p-4 w-[300px]`}>
+            <div className="w-full flex flex-row items-center justify-between">
+              <div className="flex flex-row items-center">
+                <img
+                  src="icons/profile.jpg"
+                  className="rounded-full h-14"
+                ></img>
+                <p className="pl-4">{user ? user.username : ""}</p>
+              </div>
+              <img
+                src="/icons/logout.png"
+                onClick={(e) => handleLogOut(e)}
+                className="h-8 cursor-pointer"
+              />
+            </div>
+            <div className={`p-4 text-lg`}>
+              <RecentStats />
+            </div>
           </div>
-          <div className={`p-4 text-lg`}>
-            <RecentStats />
-          </div>
-          <p onClick={(e) => handleLogOut(e)}>Sign out</p>
-        </div> : <></>}
+        ) : (
+          <></>
+        )}
 
         {!user ? (
           <>

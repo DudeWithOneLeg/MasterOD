@@ -6,10 +6,10 @@ const SET_DATA = "search/setData";
 const SET_RECENT_QUERIES = "queries/recent";
 const SET_SAVED_QUERY = 'query/save'
 
-const setSavedQuery = (query) => {
+const setRecentSavedQueries = (queries) => {
   return {
     type: SET_SAVED_QUERY,
-    payload: query
+    payload: queries
   }
 }
 
@@ -35,15 +35,23 @@ const setData = (data) => {
 };
 
 export const saveQuery = (query) => async (dispatch) => {
-  console.log(query)
-  const res = await csrfFetch('/api/dork/save', {
+  const res = await csrfFetch('/api/queries/save', {
     method: 'post',
     body: JSON.stringify(query)
   })
 
   if (res.status === 200) {
     const data = await res.json()
-    dispatch(setSavedQuery(data))
+    dispatch(setRecentSavedQueries(data))
+  }
+}
+
+export const getRecentSavedQueries = () => async (dispatch) => {
+  const res = await csrfFetch('/api/queries/save')
+
+  if (res.status === 200) {
+    const recentQueries = await res.json()
+    dispatch(setRecentSavedQueries(recentQueries))
   }
 }
 
@@ -76,11 +84,11 @@ export const search = (params) => async (dispatch) => {
   }
 };
 
-export const data = (url) => async (dispatch) => {
+export const fetchResult = (result) => async (dispatch) => {
   // const { credential, password } = user;
   const response = await csrfFetch(`/api/dork/iframe/`, {
     method: "POST",
-    body: JSON.stringify({ url }),
+    body: JSON.stringify(result),
   });
   await response.json().then(async (data) => {
     // console.log(data)

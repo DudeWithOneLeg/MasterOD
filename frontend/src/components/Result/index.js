@@ -9,6 +9,7 @@ export default function Result({
   showResult,
   setShowResult,
   setPreview,
+  setResult
 }) {
   const dispatch = useDispatch()
   const [showInfo, setShowInfo] = useState(false);
@@ -18,8 +19,10 @@ export default function Result({
   const docExtensions = ["pdf", "doc", "docx"];
 
   const handlClick = () => {
+    const result = data[rowKey]
     setShowInfo(!showInfo);
     setShowResult(true);
+    setResult(result)
     setPreview(data[rowKey].link);
   };
 

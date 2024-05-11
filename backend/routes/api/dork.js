@@ -8,8 +8,9 @@ const { getArchive } = require("./utils");
 const { Queries, BrowseHistory } = require("../../db/models");
 
 router.post("/iframe/", async (req, res) => {
-  const { url } = req.body;
-  const data = await fetch(url)
+  const { link, title, snippet, archive } = req.body;
+  // console.log(req.body)
+  const data = await fetch(link)
     .then(async (res) => {
       if (res.status == 200) {
         return res.text();
@@ -17,13 +18,14 @@ router.post("/iframe/", async (req, res) => {
     })
     .then(async (data) => {
       const response = data;
-      await BrowseHistory.create({})
+      await BrowseHistory.create({url: link, description: snippet, title})
       return response;
     })
     .catch((e) => console.log(e));
 
   return res.json({ data });
 });
+
 router.post("/", async (req, res) => {
   //   const { query, lat, lng } = req.body;
   // const quote = ["intitle", "inurl", "-intitle", "-inurl", "intext", "-intext"];
@@ -169,56 +171,6 @@ router.get('/queries/recent', async (req, res) => {
     return res.json(recentQueries)
 
   }
-})
-
-router.post('/save', async (req, res) => {
-  const params = req.body;
-  const { user } = req;
-  params.q = params.q
-    .split(";")
-    .map((q) =>
-      q.includes(":")
-        ? `${q.split(":")[0]}:"${q.split(":")[1]}"`
-        : '"' + q + '"'
-    )
-    .join(" ");
-  const newQuery = {
-    userId: user.id,
-    query: params.q,
-    engine: params.engine,
-    saved: true
-  };
-
-
-  await Queries.create(newQuery);
-  const recentSavedQueries = await Queries.findAll({
-    where: {
-      userId: user.id,
-      saved: true
-    },
-    order: [['updatedAt', 'DESC']],
-    limit: 5
-  })
-
-  res.statusCode = 200
-  return res.json(recentSavedQueries)
-})
-
-router.get('/save', async (req, res) => {
-  const { user } = req
-
-  const savedQueries = await Queries.findAll({
-    where: {
-      userId: user.id,
-      saved: true
-    },
-    order: [['updatedAt', 'DESC']],
-    limit: 5
-  })
-
-  res.statusCode = 200
-  res.json(savedQueries)
-
 })
 
 module.exports = router;
