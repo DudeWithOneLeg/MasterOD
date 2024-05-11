@@ -42,13 +42,14 @@ export default function Browser({ preview, setPreview, browseHistory, setBrowseH
 
   const handleForward = () => {
     const nextIndex = browseHistoryIndex + 1
-    console.log(nextIndex)
+    // console.log(nextIndex)
     if (nextIndex < browseHistory.length) {
 
         setPreview(browseHistory[nextIndex])
         setBrowseHistoryIndex(nextIndex)
     }
   }
+
   const handleBack = () => {
     const nextIndex = browseHistoryIndex - 1
 
@@ -76,7 +77,7 @@ export default function Browser({ preview, setPreview, browseHistory, setBrowseH
           <p className="w-full truncate rounded bg-slate-100 p-1">{preview}</p>
         </div>
       </div>
-      {!docExtensions.includes(preview.split('.').slice(-1)[0]) ? <div
+      {!docExtensions.includes(preview.split('.').slice(-1)[0]) && !(preview.includes('https')) ? <div
         className="w-full overflow-scroll h-full"
         dangerouslySetInnerHTML={{ __html: data }}
         ref={domRef}
