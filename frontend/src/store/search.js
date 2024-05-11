@@ -1,8 +1,17 @@
 import { csrfFetch } from "./csrf";
+import { flatten } from "./csrf";
 
 const SET_SEARCH = "search/setSearch";
 const SET_DATA = "search/setData";
-const SET_RECENT_QUERIES= "queries/recent";
+const SET_RECENT_QUERIES = "queries/recent";
+const SET_SAVED_QUERY = 'query/save'
+
+const setSavedQuery = (query) => {
+  return {
+    type: SET_SAVED_QUERY,
+    payload: query
+  }
+}
 
 const setRecentQueries = (queries) => {
   return {
@@ -25,10 +34,22 @@ const setData = (data) => {
   };
 };
 
-export const getRecentQueries = () => async dispatch => {
+export const saveQuery = (query) => async (dispatch) => {
+  console.log(query)
+  const res = await csrfFetch('/api/dork/save', {
+    method: 'post',
+    body: JSON.stringify(query)
+  })
+
+  if (res.status === 200) {
+    const data = await res.json()
+    dispatch(setSavedQuery(data))
+  }
+}
+
+export const getRecentQueries = () => async (dispatch) => {
   const res = await csrfFetch('/api/dork/queries/recent')
 
-  console.log('yo')
   if (res.status === 200) {
     const recentQueries = await res.json()
     dispatch(setRecentQueries(recentQueries))
@@ -64,12 +85,12 @@ export const data = (url) => async (dispatch) => {
   await response.json().then(async (data) => {
     // console.log(data)
     await dispatch(setData(data));
-    console.log(data);
+    // console.log(data);
   });
   return response;
 };
 
-const initialState = { results: null, data: null, recentQueries: null };
+const initialState = { results: null, data: null, recentQueries: null, recentSavedQueries: null };
 
 const searchReducer = (state = initialState, action) => {
   let newState;
@@ -95,7 +116,7 @@ const searchReducer = (state = initialState, action) => {
           }
           lastIndex = newIndex;
         }
-        console.log(results);
+        // console.log(results);
         newState = { ...state, results:{...results}, recentQueries: action.payload.recentQueries};
         return { ...newState };
       } else {
@@ -107,11 +128,16 @@ const searchReducer = (state = initialState, action) => {
       newState = Object.assign({}, state);
       newState.data = action.payload.data;
       return newState;
-      case SET_RECENT_QUERIES:
+    case SET_RECENT_QUERIES:
+      newState = Object.assign({}, state);
+      // console.log(action.payload)
+      newState.recentQueries = action.payload;
+      return newState;
+    case SET_SAVED_QUERY:
       newState = Object.assign({}, state);
       console.log(action.payload)
-      newState['recentQueries'] = action.payload;
-      return newState;
+      newState.recentSavedQueries = flatten(action.payload)
+      return newState
     default:
       return state;
   }
