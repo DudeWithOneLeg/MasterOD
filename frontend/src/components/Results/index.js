@@ -26,14 +26,14 @@ export default function Results({
           resultsContainer.scrollTop + resultsContainer.clientHeight;
         const bottomPosition = resultsContainer.scrollHeight;
 
-        console.log(scrollPosition, bottomPosition);
+        // console.log(scrollPosition, bottomPosition);
         if (scrollPosition >= bottomPosition - 1) {
           resultsContainer.removeEventListener("scroll", scrollFunction);
-          console.log("hit");
+          // console.log("hit");
           setLoading(true);
 
           // const nextResultsPage = start + 100;
-          console.log(params);
+          // console.log(params);
           return dispatch(searchActions.search({ ...params, start }))
             .then(async () => {
               const lastIndex = Number(Object.keys(results).slice(-2, -1)[0]);
