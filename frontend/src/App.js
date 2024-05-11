@@ -5,7 +5,6 @@ import LoginFormPage from "./components/LoginFormPage";
 import SignupFormPage from "./components/SignupFormPage";
 import * as sessionActions from "./store/session";
 import Search from "./components/Search";
-import Results from "./components/Results";
 import SideBar from "./components/SideBar";
 import QueryStats from "./components/QueryStats";
 
@@ -21,35 +20,30 @@ function App() {
   return (
     <>
       <div className="h-screen w-screen flex ">
-      <div className="p-2 rounded">
-        <SideBar/>
+        <div className="p-2 rounded">
+          <SideBar />
+        </div>
+        {isLoaded && user && (
+          <Switch>
+            <Route path="/queries">
+              <QueryStats />
+            </Route>
+            <Route path="/">
+              <Search />
+            </Route>
+          </Switch>
+        )}
 
-      </div>
-      {
-        isLoaded && user && <Switch>
-          <Route path='/'>
-            <Search />
-
-          </Route>
-          <Route path='/queries'>
-            <QueryStats />
-
-          </Route>
-        </Switch>
-      }
-
-      {isLoaded && !user && (
-        <Switch className="flex flex-col jusify-content-around items-center h-fit w-fit">
-          <Route path='/login'>
-          <LoginFormPage />
-
-          </Route>
-          <Route path='/signup'>
-
-            <SignupFormPage />
-          </Route>
-        </Switch>
-      )}
+        {isLoaded && !user && (
+          <Switch className="flex flex-col jusify-content-around items-center h-fit w-fit">
+            <Route path="/login">
+              <LoginFormPage />
+            </Route>
+            <Route path="signup">
+              <SignupFormPage />
+            </Route>
+          </Switch>
+        )}
       </div>
     </>
   );

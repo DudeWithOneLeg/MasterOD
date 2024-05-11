@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as queryActions from "../../store/query";
 
 export default function QueryStats() {
   const dispatch = useDispatch();
   const queries = useSelector((state) => state.queries.all);
-  const [viewAll, setViewAll] = useState(true);
 
   useEffect(() => {
     dispatch(queryActions.getQueries());
