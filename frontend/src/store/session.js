@@ -1,5 +1,6 @@
 
   import { csrfFetch } from "./csrf";
+  import { flatten } from "./csrf";
 
   const SET_USER = "session/setUser";
   const REMOVE_USER = "session/removeUser";
@@ -83,14 +84,14 @@
       case SET_USER:
         newState = Object.assign({}, state);
         newState.user = action.payload;
+        newState.user.recentQueries = flatten(newState.user.recentQueries)
+        newState.user.savedResults = flatten(newState.user.savedResults)
+        newState.user.savedQueries = flatten(newState.user.savedQueries)
         return newState;
       case REMOVE_USER:
         newState = Object.assign({}, state);
         newState.user = null;
         return newState;
-      case SET_QUERY:
-        newState = Object.assign({}, state);
-        
       default:
         return state;
     }

@@ -35,12 +35,20 @@ router.get(
         limit: 5
       })
 
+      const savedQueries = await Queries.findAll({
+        where: {
+          userId: user.id,
+          saved: true
+        },
+        limit: 5
+      })
+
       const recentQueries = await Queries.findAll({
         where: {
           userId : user.id,
         },
         sort: ['updatedAt', 'DESC'],
-        limit: 10
+        limit: 5
       })
 
       const safeUser = {
@@ -48,6 +56,8 @@ router.get(
         email: user.email,
         username: user.username,
         recentQueries,
+        savedResults,
+        savedQueries
       };
       return res.json({
         user: safeUser
@@ -95,7 +105,7 @@ router.post(
       limit: 5
     })
 
-    console.log(recentQueries)
+    // console.log(recentQueries)
 
     const safeUser = {
       id: user.id,
