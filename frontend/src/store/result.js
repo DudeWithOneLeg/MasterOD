@@ -5,7 +5,7 @@ const GET_RECENT_SAVED_RESULTS = "results/recent";
 const GET_RECENT_VISITED_RESULTS = "results/visited";
 const SAVE_RESULT = "result/save";
 
-const setRecentVisitesResults = (recentVisitedResults) => {
+const setRecentVisitedResults = (recentVisitedResults) => {
   return {
     type: GET_RECENT_VISITED_RESULTS,
     payload: recentVisitedResults,
@@ -48,11 +48,11 @@ export const getRecentSavedResults = () => async (dispatch) => {
 };
 
 export const getRecentVisitedResults = () => async (dispatch) => {
-  const res = await csrfFetch("/api/results");
+  const res = await csrfFetch("/api/results/history");
 
   if (res.ok && res.status === 200) {
-    const recentSavedResults = await res.json();
-    dispatch(setRecentSavedResults(recentSavedResults));
+    const recentVisitedResults = await res.json();
+    dispatch(setRecentVisitedResults(recentVisitedResults));
   }
 };
 
@@ -63,19 +63,20 @@ const resultReducer = (state = initialState, action) => {
 
   switch (action.type) {
     case GET_RECENT_SAVED_RESULTS:
-        console.log(state)
         newState = {
             ...state,
             recentSavedResults: { ...flatten(action.payload) },
         };
         return {...newState};
     case SAVE_RESULT:
-        // console.log(action.payload);
       newState = {
         ...state,
         recentSavedResults: { ...flatten(action.payload) },
       };
       return {...newState};
+    case GET_RECENT_VISITED_RESULTS:
+      newState = {...state, recentVisited: flatten(action.payload)}
+      return newState
     default:
       return state;
   }

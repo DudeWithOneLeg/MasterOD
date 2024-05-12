@@ -65,6 +65,7 @@ export default function SideBar() {
     dispatch(searchActions.getRecentQueries());
     dispatch(resultActions.getRecentSavedResults());
     dispatch(searchActions.getRecentSavedQueries());
+    dispatch(resultActions.getRecentVisitedResults());
     // console.log('yo')
   }, [dispatch]);
 

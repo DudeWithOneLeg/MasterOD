@@ -84,9 +84,6 @@
       case SET_USER:
         newState = Object.assign({}, state);
         newState.user = action.payload;
-        newState.user.recentQueries = flatten(newState.user.recentQueries)
-        newState.user.savedResults = flatten(newState.user.savedResults)
-        newState.user.savedQueries = flatten(newState.user.savedQueries)
         return newState;
       case REMOVE_USER:
         newState = Object.assign({}, state);

@@ -12,6 +12,9 @@ export default function RecentStats() {
   const recentSavedQueries = useSelector(
     (state) => state.search.recentSavedQueries
   );
+  const recentVisitedResults = useSelector(
+    (state) => state.results.recentVisited
+  );
 
   const timeFunc = (dateTime) => {
     // date = new Date(date)
@@ -43,9 +46,10 @@ export default function RecentStats() {
         .map((query) => {
           return (
             <div className="flex flex-row text-sm py-1 px-2">
-              <p className="pr-1 text-gray-400 w-10">
+              <p className="text-gray-400">
                 {timeFunc(query.createdAt)}
               </p>
+              <div className="w-2"></div>
               <p className="truncate">{query.query.split(";").join(" ")}</p>
             </div>
           );
@@ -61,9 +65,12 @@ export default function RecentStats() {
           recentQueries.slice(0, 5).map((query) => {
             return (
               <div className="flex flex-row text-sm py-1 px-2">
-                <p className="pr-1 text-gray-400 w-10">
+                <p className="text-gray-400">
                   {timeFunc(query.createdAt)}
                 </p>
+                <div className="w-2">
+
+                </div>
                 <p className="truncate">{query.query.split(";").join(" ")}</p>
               </div>
             );
@@ -86,7 +93,23 @@ export default function RecentStats() {
     },
     {
       stat: "Recently Visited",
-      recent: <div className="h-[140px]"></div>,
+      recent: recentVisitedResults && Object.values(recentVisitedResults).length ? (
+        Object.values(recentVisitedResults)
+        .slice(0, 5)
+        .reverse()
+        .map((result) => {
+          return (
+            <div className="flex flex-row text-sm py-1 px-2">
+              <p className="text-gray-400">
+                {timeFunc(result.createdAt)}
+              </p>
+              <div className="w-2"></div>
+              <p className="truncate">{result.title}</p>
+            </div>
+          );
+        })
+      ) : (
+          <></>),
       path: "",
     },
     {
@@ -98,9 +121,10 @@ export default function RecentStats() {
             .map((result) => {
               return (
                 <div className="flex flex-row truncate text-sm py-1 px-2">
-                  <p className="pr-1 text-gray-400 w-10">
+                  <p className="text-gray-400">
                     {timeFunc(result.createdAt)}
                   </p>
+                  <div className="w-2"></div>
                   <p className="truncate">{result.title}</p>
                 </div>
               );

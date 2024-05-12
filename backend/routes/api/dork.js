@@ -8,22 +8,27 @@ const { getArchive } = require("./utils");
 const { Queries, BrowseHistory } = require("../../db/models");
 
 router.post("/iframe/", async (req, res) => {
-  const { link, title, snippet, archive } = req.body;
-  // console.log(req.body)
-  const data = await fetch(link)
-    .then(async (res) => {
-      if (res.status == 200) {
-        return res.text();
-      }
-    })
-    .then(async (data) => {
-      const response = data;
-      await BrowseHistory.create({url: link, description: snippet, title})
-      return response;
-    })
-    .catch((e) => console.log(e));
+  const { link, title, snippet, archive, queryId } = req.body;
+  const {user} = req
 
-  return res.json({ data });
+  if (user) {
+
+    const data = await fetch(link)
+      .then(async (res) => {
+        if (res.status == 200) {
+          return res.text();
+        }
+      })
+      .then(async (data) => {
+        const response = data;
+        await BrowseHistory.create({url: link, description: snippet, title, queryId, userId: user.id})
+        return response;
+      })
+      .catch((e) => console.log(e));
+
+    return res.json({ data });
+  }
+  // console.log(req.body)
 });
 
 router.post("/", async (req, res) => {
@@ -55,7 +60,7 @@ router.post("/", async (req, res) => {
     limit: 5
   })
 
-  console.log(params, "47");
+  // console.log(params, "47");
 
   const obj = {};
   const callback = async (data) => {
@@ -147,7 +152,7 @@ router.post("/", async (req, res) => {
     // device: "tablet",
     // travel_mode: 3,
   };
-  console.log(request);
+  // console.log(request);
   try {
     await search.json(request, callback);
   } catch (error) {

@@ -19,10 +19,11 @@ export default function Result({
   const docExtensions = ["pdf", "doc", "docx"];
 
   const handlClick = () => {
-    const result = data[rowKey]
+    const newResult = {...data[rowKey]}
+    newResult.queryId = lastSearchId
     setShowInfo(!showInfo);
     setShowResult(true);
-    setResult(result)
+    setResult(newResult)
     setPreview(data[rowKey].link);
   };
 
