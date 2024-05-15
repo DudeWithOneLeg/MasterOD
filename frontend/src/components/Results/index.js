@@ -12,18 +12,16 @@ export default function Results({
   start,
   setStart,
   params,
-  setResult,
-  infiniteScroll,
-  data
+  setResult
 }) {
-  // const data = useSelector((state) => state.search.results);
+  const resultState = useSelector((state) => state.search.results);
   const [results, setResults] = useState({});
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
     const resultsContainer = window.document.querySelector("#inner-result");
-    if (data && resultsContainer && infiniteScroll) {
+    if (resultState && resultsContainer) {
       const scrollFunction = () => {
         const scrollPosition =
           resultsContainer.scrollTop + resultsContainer.clientHeight;
@@ -44,6 +42,9 @@ export default function Results({
               setLoading(false);
               // console.log("yo");
             })
+            // .then(async () => {
+            //   // resultsContainer.addEventListener("scroll", scrollFunction);
+            // });
         }
       };
       resultsContainer.addEventListener("scroll", scrollFunction);
@@ -51,15 +52,12 @@ export default function Results({
   }, [results]);
 
   useEffect(() => {
-    if (infiniteScroll) {
-
-      setResults(data);
-    }
-  }, [data]);
+    setResults(resultState);
+  }, [resultState]);
 
   return (
-    data &&
-    Object.values(data).length > 0 && (
+    results &&
+    Object.values(results).length > 0 && (
       //KEEP CLASS NAME AS IS
       <div
         className={`flex flex-col justify-center h-full overflow-hidden pb-1 ${
@@ -71,13 +69,13 @@ export default function Results({
           className="rounded flex-col flex h-full py-2 px-2 w-full items-center overflow-y-scroll overflow-x-hidden"
           id="inner-result"
         >
-          {Object.keys(data)
+          {Object.keys(results)
             .slice(0, -1)
             .map((rowKey) => {
               return (
                 <Result
                   rowKey={rowKey}
-                  data={data}
+                  data={resultState}
                   showResult={showResult}
                   setShowResult={setShowResult}
                   setPreview={setPreview}

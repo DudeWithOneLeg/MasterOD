@@ -21,7 +21,7 @@ router.post("/iframe/", async (req, res) => {
       })
       .then(async (data) => {
         const response = data;
-        await BrowseHistory.create({link, snippet, title, queryId, userId: user.id})
+        await BrowseHistory.create({url: link, description: snippet, title, queryId, userId: user.id})
         return response;
       })
       .catch((e) => console.log(e));

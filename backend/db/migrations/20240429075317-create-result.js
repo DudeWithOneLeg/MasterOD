@@ -16,10 +16,10 @@ module.exports = {
       title: {
         type: Sequelize.STRING
       },
-      snippet: {
+      description: {
         type: Sequelize.STRING
       },
-      link: {
+      url: {
         type: Sequelize.STRING
       },
       queryId: {
@@ -27,9 +27,6 @@ module.exports = {
       },
       userId: {
         type: Sequelize.INTEGER
-      },
-      saved: {
-        type: Sequelize.BOOLEAN
       },
       createdAt: {
         allowNull: false,
