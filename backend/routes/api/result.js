@@ -2,22 +2,29 @@ const express = require("express");
 const router = express.Router();
 const { Result, BrowseHistory } = require("../../db/models");
 
-// router.get("/recent", async (req, res) => {
-//   if (req.user) {
+router.get("/", async (req, res) => {
+  if (req.user) {
 
-//     const { id: userId } = req.user;
+    const { id: userId } = req.user;
 
-//     const savedResults = await BrowseHistory.findAll({
-//       where: {
-//         userId,
-//       },
-//       limit: 5,
-//       order: [['createdAt', 'DESC']]
-//     });
+    const history = await BrowseHistory.findAll({
+      where: {
+        userId,
+      },
+      order: [['createdAt', 'DESC']]
+    });
 
-//     return res.json(savedResults);
-//   }
-// });
+    const saved = await Result.findAll({
+      where: {
+        userId,
+      },
+      order: [['createdAt', 'DESC']]
+    });
+
+    res.statusCode = 200
+    return res.json({history, saved});
+  }
+});
 
 router.get("/saved", async (req, res) => {
   if (req.user) {

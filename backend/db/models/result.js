@@ -17,10 +17,10 @@ module.exports = (sequelize, DataTypes) => {
     title: {
       type: DataTypes.STRING
     },
-    description: {
+    snippet: {
       type: DataTypes.STRING
     },
-    url: {
+    link: {
       type: DataTypes.STRING
     },
     queryId: {
@@ -28,6 +28,9 @@ module.exports = (sequelize, DataTypes) => {
     },
     userId: {
       type: DataTypes.INTEGER
+    },
+    saved: {
+      type: DataTypes.BOOLEAN
     }
   }, {
     sequelize,

@@ -92,6 +92,8 @@ export default function Search() {
                 engine: engine.toLocaleLowerCase(),
               }}
               setResult={setResult}
+              infiniteScroll={true}
+              data={results}
             />
             {((showResult && data) || (showResult && preview)) && (
               <Browser
