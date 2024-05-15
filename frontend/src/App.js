@@ -6,7 +6,8 @@ import SignupFormPage from "./components/SignupFormPage";
 import * as sessionActions from "./store/session";
 import Search from "./components/Search";
 import SideBar from "./components/SideBar";
-import QueryStats from "./components/QueryStats";
+import QueryPage from "./components/QueryPage";
+import ResultsPage from "./components/ResultsPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -26,7 +27,10 @@ function App() {
         {isLoaded && user && (
           <Switch>
             <Route path="/queries">
-              <QueryStats />
+              <QueryPage />
+            </Route>
+            <Route path="/results">
+              <ResultsPage />
             </Route>
             <Route path="/">
               <Search />
