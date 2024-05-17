@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 const options = {}
 if (process.env.NODE_ENV === 'production') {
-  options.schema = process.env.SHEMA
+  options.process.env.SHEMA
 }
 module.exports = {
   async up(queryInterface, Sequelize) {
