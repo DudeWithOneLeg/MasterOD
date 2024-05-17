@@ -26,14 +26,14 @@ function App() {
         </div>
         {isLoaded && user && (
           <Switch>
+            <Route path="/">
+              <Search />
+            </Route>
             <Route path="/queries">
               <QueryPage />
             </Route>
             <Route path="/results">
               <ResultsPage />
-            </Route>
-            <Route path="/">
-              <Search />
             </Route>
           </Switch>
         )}
