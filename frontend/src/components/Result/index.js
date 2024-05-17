@@ -68,7 +68,7 @@ export default function Result({
               <h3 className="font-bold text-slate-300 text-2xl text-wrap underline w-full">
                 {result.title}
               </h3>
-              {docExtensions.includes(result.link.split(".").slice(-1)[0]) && (
+              {result.link && docExtensions.includes(result.link.split(".").slice(-1)[0]) && (
                 <img src="images/document.png" className="w-8 h-8" />
               )}
             </div>

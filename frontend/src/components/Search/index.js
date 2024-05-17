@@ -39,6 +39,7 @@ export default function Search() {
   useEffect(() => {
     if (results) {
       const lastResultIndex = Number(Object.keys(results).slice(-2, -1)[0]);
+      console.log('helllo')
       setStart(lastResultIndex);
     }
   }, [results]);
@@ -92,6 +93,7 @@ export default function Search() {
                 engine: engine.toLocaleLowerCase(),
               }}
               setResult={setResult}
+              data={results}
             />
             {((showResult && data) || (showResult && preview)) && (
               <Browser
