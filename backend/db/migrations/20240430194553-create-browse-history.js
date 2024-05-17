@@ -16,10 +16,10 @@ module.exports = {
       title: {
         type: Sequelize.STRING
       },
-      description: {
+      snippet: {
         type: Sequelize.STRING
       },
-      url: {
+      link: {
         type: Sequelize.STRING
       },
       queryId: {

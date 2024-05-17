@@ -7,6 +7,7 @@ import * as sessionActions from "./store/session";
 import Search from "./components/Search";
 import SideBar from "./components/SideBar";
 import QueryStats from "./components/QueryStats";
+import ResultsPage from "./components/ResultsPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -25,11 +26,14 @@ function App() {
         </div>
         {isLoaded && user && (
           <Switch>
-            <Route path="/">
-              <Search />
-            </Route>
             <Route path="/queries">
               <QueryStats />
+            </Route>
+            <Route path='/results'>
+              <ResultsPage />
+            </Route>
+            <Route path="/">
+              <Search />
             </Route>
           </Switch>
         )}
