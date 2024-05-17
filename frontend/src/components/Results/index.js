@@ -12,16 +12,18 @@ export default function Results({
   start,
   setStart,
   params,
-  setResult
+  setResult,
+  infiniteScroll,
+  data
 }) {
-  const resultState = useSelector((state) => state.search.results);
+  // const data = useSelector((state) => state.search.results);
   const [results, setResults] = useState({});
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
     const resultsContainer = window.document.querySelector("#inner-result");
-    if (resultState && resultsContainer) {
+    if (data && resultsContainer && infiniteScroll) {
       const scrollFunction = () => {
         const scrollPosition =
           resultsContainer.scrollTop + resultsContainer.clientHeight;
@@ -42,9 +44,6 @@ export default function Results({
               setLoading(false);
               // console.log("yo");
             })
-            // .then(async () => {
-            //   // resultsContainer.addEventListener("scroll", scrollFunction);
-            // });
         }
       };
       resultsContainer.addEventListener("scroll", scrollFunction);
@@ -52,12 +51,15 @@ export default function Results({
   }, [results]);
 
   useEffect(() => {
-    setResults(resultState);
-  }, [resultState]);
+    if (infiniteScroll) {
+
+      setResults(data);
+    }
+  }, [data]);
 
   return (
-    results &&
-    Object.values(results).length > 0 && (
+    data &&
+    Object.values(data).length > 0 && (
       //KEEP CLASS NAME AS IS
       <div
         className={`flex flex-col justify-center h-full overflow-hidden pb-1 ${
@@ -69,13 +71,13 @@ export default function Results({
           className="rounded flex-col flex h-full py-2 px-2 w-full items-center overflow-y-scroll overflow-x-hidden"
           id="inner-result"
         >
-          {Object.keys(results)
+          {Object.keys(data)
             .slice(0, -1)
             .map((rowKey) => {
               return (
                 <Result
                   rowKey={rowKey}
-                  data={resultState}
+                  data={data}
                   showResult={showResult}
                   setShowResult={setShowResult}
                   setPreview={setPreview}
@@ -94,3 +96,4 @@ export default function Results({
     )
   );
 }
+
