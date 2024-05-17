@@ -62,10 +62,10 @@ export default function SideBar() {
   }, [login]);
 
   useEffect(() => {
-    if (user){dispatch(searchActions.getRecentQueries());
+    dispatch(searchActions.getRecentQueries());
     dispatch(resultActions.getRecentSavedResults());
     dispatch(searchActions.getRecentSavedQueries());
-    dispatch(resultActions.getRecentVisitedResults());}
+    dispatch(resultActions.getRecentVisitedResults());
     // console.log('yo')
   }, [dispatch, user]);
 
@@ -124,7 +124,7 @@ export default function SideBar() {
             </div>
           </div>
         ) : (
-          <div className="w-[300px]"></div>
+          <></>
         )}
 
         {!user ? (
