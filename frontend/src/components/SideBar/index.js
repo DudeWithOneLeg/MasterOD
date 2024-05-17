@@ -67,7 +67,7 @@ export default function SideBar() {
     dispatch(searchActions.getRecentSavedQueries());
     dispatch(resultActions.getRecentVisitedResults());}
     // console.log('yo')
-  }, [dispatch]);
+  }, [dispatch, user]);
 
   useEffect(() => {
     if (!login && !hide && loginSlide.includes("overflow-hidden")) {
