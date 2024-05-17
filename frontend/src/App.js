@@ -19,17 +19,17 @@ function App() {
 
   return (
     <>
-      <div className="h-screen w-screen flex ">
+      <div className="h-screen w-screen flex">
         <div className="p-2 rounded">
           <SideBar />
         </div>
         {isLoaded && user && (
           <Switch>
-            <Route path="/queries">
-              <QueryStats />
-            </Route>
             <Route path="/">
               <Search />
+            </Route>
+            <Route path="/queries">
+              <QueryStats />
             </Route>
           </Switch>
         )}

@@ -9,6 +9,7 @@ export default function Result({
   showResult,
   setShowResult,
   setPreview,
+  setResult
 }) {
   const dispatch = useDispatch()
   const [showInfo, setShowInfo] = useState(false);
@@ -18,8 +19,11 @@ export default function Result({
   const docExtensions = ["pdf", "doc", "docx"];
 
   const handlClick = () => {
+    const newResult = {...data[rowKey]}
+    newResult.queryId = lastSearchId
     setShowInfo(!showInfo);
     setShowResult(true);
+    setResult(newResult)
     setPreview(data[rowKey].link);
   };
 

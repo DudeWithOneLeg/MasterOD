@@ -19,6 +19,8 @@ export default function Search() {
   const [start, setStart] = useState(0);
   const [browseHistory, setBrowseHistory] = useState([]);
   const [browseHistoryIndex, setBrowseHistoryIndex] = useState(0);
+  const [result, setResult] = useState({})
+
   const docExtensions = ["pdf", "ppt", "doc", "docx"];
 
   const dispatch = useDispatch();
@@ -26,7 +28,7 @@ export default function Search() {
   //Only fetch data if link is not a file
   useEffect(() => {
     if (preview && !docExtensions.includes(preview.split(".").slice(-1)[0])) {
-      dispatch(searchActions.data(preview));
+      dispatch(searchActions.fetchResult(result));
       if (!browseHistory.length) {
         setBrowseHistory([preview]);
       }
@@ -89,6 +91,7 @@ export default function Search() {
                 hl: language,
                 engine: engine.toLocaleLowerCase(),
               }}
+              setResult={setResult}
             />
             {((showResult && data) || (showResult && preview)) && (
               <Browser

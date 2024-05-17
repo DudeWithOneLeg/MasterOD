@@ -8,22 +8,29 @@ const { getArchive } = require("./utils");
 const { Queries, BrowseHistory } = require("../../db/models");
 
 router.post("/iframe/", async (req, res) => {
-  const { url } = req.body;
-  const data = await fetch(url)
-    .then(async (res) => {
-      if (res.status == 200) {
-        return res.text();
-      }
-    })
-    .then(async (data) => {
-      const response = data;
-      await BrowseHistory.create({})
-      return response;
-    })
-    .catch((e) => console.log(e));
+  const { link, title, snippet, archive, queryId } = req.body;
+  const {user} = req
 
-  return res.json({ data });
+  if (user) {
+
+    const data = await fetch(link)
+      .then(async (res) => {
+        if (res.status == 200) {
+          return res.text();
+        }
+      })
+      .then(async (data) => {
+        const response = data;
+        await BrowseHistory.create({url: link, description: snippet, title, queryId, userId: user.id})
+        return response;
+      })
+      .catch((e) => console.log(e));
+
+    return res.json({ data });
+  }
+  // console.log(req.body)
 });
+
 router.post("/", async (req, res) => {
   //   const { query, lat, lng } = req.body;
   // const quote = ["intitle", "inurl", "-intitle", "-inurl", "intext", "-intext"];
@@ -53,7 +60,7 @@ router.post("/", async (req, res) => {
     limit: 5
   })
 
-  console.log(params, "47");
+  // console.log(params, "47");
 
   const obj = {};
   const callback = async (data) => {
@@ -145,7 +152,7 @@ router.post("/", async (req, res) => {
     // device: "tablet",
     // travel_mode: 3,
   };
-  console.log(request);
+  // console.log(request);
   try {
     await search.json(request, callback);
   } catch (error) {
@@ -169,56 +176,6 @@ router.get('/queries/recent', async (req, res) => {
     return res.json(recentQueries)
 
   }
-})
-
-router.post('/save', async (req, res) => {
-  const params = req.body;
-  const { user } = req;
-  params.q = params.q
-    .split(";")
-    .map((q) =>
-      q.includes(":")
-        ? `${q.split(":")[0]}:"${q.split(":")[1]}"`
-        : '"' + q + '"'
-    )
-    .join(" ");
-  const newQuery = {
-    userId: user.id,
-    query: params.q,
-    engine: params.engine,
-    saved: true
-  };
-
-
-  await Queries.create(newQuery);
-  const recentSavedQueries = await Queries.findAll({
-    where: {
-      userId: user.id,
-      saved: true
-    },
-    order: [['updatedAt', 'DESC']],
-    limit: 5
-  })
-
-  res.statusCode = 200
-  return res.json(recentSavedQueries)
-})
-
-router.get('/save', async (req, res) => {
-  const { user } = req
-
-  const savedQueries = await Queries.findAll({
-    where: {
-      userId: user.id,
-      saved: true
-    },
-    order: [['updatedAt', 'DESC']],
-    limit: 5
-  })
-
-  res.statusCode = 200
-  res.json(savedQueries)
-
 })
 
 module.exports = router;

@@ -10,7 +10,7 @@ export default function Browser({ preview, setPreview, browseHistory, setBrowseH
   const docExtensions = ['pdf', 'ppt', 'doc', 'docx']
   const msOfficeDocs = ['ppt', 'doc', 'docx']
 
-  useEffect(() => {console.log('change')},[browseHistoryIndex])
+  // useEffect(() => {console.log('change')},[browseHistoryIndex])
 
 //   console.log(preview)
 
@@ -30,7 +30,7 @@ export default function Browser({ preview, setPreview, browseHistory, setBrowseH
         setPreview(preview + path);
         newHistory.push(preview + path);
       } else {
-        dispatch(searchActions.data(preview + href));
+        dispatch(searchActions.fetchResult({link: preview + href}));
         setPreview(preview + href);
         newHistory.push(preview + href);
       }
