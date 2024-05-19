@@ -4,6 +4,7 @@ import * as searchActions from "../../store/search";
 import Results from "../Results";
 import Browser from "../Browser";
 import SearchBar from "./SearchBar";
+import QueryStats from '../QueryStats'
 
 
 export default function Search() {
@@ -40,7 +41,7 @@ export default function Search() {
   useEffect(() => {
     if (results) {
       const lastResultIndex = Number(Object.keys(results).slice(-2, -1)[0]);
-      console.log('helllo')
+      // console.log('helllo')
       setStart(lastResultIndex);
     }
   }, [results]);
@@ -110,7 +111,9 @@ export default function Search() {
           </div>
         </>
       ) : (
-        <></>
+        <div className="h-full overflow-hidden py-2">
+          <QueryStats />
+        </div>
       )}
     </div>
   );

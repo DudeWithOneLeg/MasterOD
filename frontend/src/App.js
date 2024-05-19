@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Route, Switch } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import LoginFormPage from "./components/LoginFormPage";
 import SignupFormPage from "./components/SignupFormPage";
 import * as sessionActions from "./store/session";
@@ -21,33 +21,20 @@ function App() {
   return (
     <>
       <div className="h-screen w-screen flex">
-        <div className="p-2 rounded">
+        <div className="p-2 rounded h-full">
           <SideBar />
         </div>
         {isLoaded && user && (
-          <Switch>
-            <Route path="/queries">
-              <QueryStats />
-            </Route>
-            <Route path='/results'>
-              <ResultsPage />
-            </Route>
-            <Route path="/">
-              <Search />
-            </Route>
-          </Switch>
+          <Routes>
+            {/* <> */}
+            <Route path="/queries" element={<QueryStats />}/>
+            <Route path="/results/:params" element={<ResultsPage />}/>
+            <Route path="/" element={<Search />}/>
+            {/* </> */}
+          </Routes>
         )}
 
-        {isLoaded && !user && (
-          <Switch className="flex flex-col jusify-content-around items-center h-fit w-fit">
-            <Route path="/login">
-              <LoginFormPage />
-            </Route>
-            <Route path="signup">
-              <SignupFormPage />
-            </Route>
-          </Switch>
-        )}
+       
       </div>
     </>
   );

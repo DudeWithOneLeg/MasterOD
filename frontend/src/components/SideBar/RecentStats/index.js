@@ -1,8 +1,8 @@
 import { useSelector } from "react-redux";
-import {useHistory} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 
 export default function RecentStats() {
-    const history = useHistory()
+    const navigate = useNavigate()
 
   const user = useSelector((state) => state.session.user);
   const recentQueries = useSelector((state) => state.search.recentQueries);
@@ -157,7 +157,7 @@ export default function RecentStats() {
     Object.values(navBarStats).map((object) => {
         return (
           <div>
-            <div onClick={() => history.push(object.path)}>
+            <div onClick={() => navigate(object.path)}>
               <h1 className="p-2 border-b">{object.stat}</h1>
             </div>
             <div className="h-[140px]">{object.recent}</div>

@@ -1,5 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { useParams, useSearchParams } from 'react-router-dom'
+// import { u }
 import Results from "../Results";
 import Browser from "../Browser";
 import * as resultActions from "../../store/result";
@@ -7,6 +9,8 @@ import * as searchActions from "../../store/search";
 
 export default function ResultsPage() {
   const dispatch = useDispatch();
+  const params = useParams()
+  const [searchParams, setSearchParams] = useSearchParams()
   const allResults = useSelector((state) => state.results.allResults);
   const visited = useSelector((state) => state.results.visited);
   const data = useSelector((state) => state.search.data);
@@ -31,6 +35,10 @@ export default function ResultsPage() {
       }
     }
   }, [preview, dispatch]);
+
+  useEffect(() => {
+    console.log(params)
+  },[])
 
   return (
     <div className="flex flex-col h-full w-full p-2">

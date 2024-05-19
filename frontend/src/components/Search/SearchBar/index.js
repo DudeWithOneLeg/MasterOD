@@ -116,7 +116,7 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
             </div>
           </div>
           <div className="flex flex-row">
-            {query.length ? (
+            {query.length || keywords ? (
               <div
               className="flex flex-row align-items-center"
               >
@@ -155,7 +155,7 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
             </div>
           </div>
         </div>
-        {query.length ? (
+        {query.length || keywords ? (
           <div className="flex justify-self-end px-3" onClick={handleSubmit}>
             <button>Search</button>
           </div>
