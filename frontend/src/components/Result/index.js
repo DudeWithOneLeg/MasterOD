@@ -65,9 +65,14 @@ export default function Result({
         {result && (
           <div key={result.id} className={`flex flex-col text-slate-400 h-fit`}>
             <div className="flex flex-row ">
-              <h3 className="font-bold text-slate-300 text-2xl text-wrap underline w-full">
+              <div>
+                <h3 className="font-bold text-slate-300 text-2xl text-wrap underline w-full">
                 {result.title}
               </h3>
+              <p className="text-sm">{result.link}</p>
+              </div>
+
+
               {result.link && docExtensions.includes(result.link.split(".").slice(-1)[0]) && (
                 <img src="images/document.png" className="w-8 h-8" />
               )}
@@ -81,8 +86,8 @@ export default function Result({
               </p>
             </div>
 
-            {result?.archived_snapshots?.closest?.url && <a
-              href={result.archived_snapshots.closest.url}
+            { result.archive && result.archive.archived_snapshots && result?.archive?.archived_snapshots?.closest?.url && <a
+              href={result.archive.archived_snapshots.closest.url}
               target="_blank"
               className="font-bold text-slate-400"
             >

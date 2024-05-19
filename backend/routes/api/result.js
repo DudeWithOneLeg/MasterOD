@@ -22,7 +22,7 @@ router.get("/", async (req, res) => {
     });
 
     res.statusCode = 200
-    return res.json({history, saved});
+    return res.json({history, saved}).status(200)
   }
 });
 
@@ -40,7 +40,7 @@ router.get("/saved", async (req, res) => {
     });
 
     res.statusCode = 200
-    return res.json(savedResults);
+    return res.json(savedResults).status(200)
   }
 });
 
@@ -58,7 +58,7 @@ router.get("/history", async (req, res) => {
     });
 
     res.statusCode = 200
-    return res.json(browseHistory);
+    return res.json(browseHistory).status(200)
   }
 });
 
@@ -77,8 +77,7 @@ router.post("/save", async (req, res) => {
     // console.log(savedResults)
 
   res.statusCode = 200
-  return res.json(savedResults);
+  return res.json(savedResults).status(200)
 });
 
 module.exports = router;
-

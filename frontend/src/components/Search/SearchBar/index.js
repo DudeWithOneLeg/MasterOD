@@ -9,6 +9,7 @@ import * as searchActions from '../../../store/search'
 
 export default function SearchBar({query, setQuery, country, setCountry, language, setLanguage, engine, setEngine}) {
   const [showOptions, setShowOptions] = useState(false);
+  const [keywords, setKeywords] = useState("test")
   const dispatch = useDispatch();
 
   const settings = { Google: googleSettings, Bing: bingSettings };
@@ -21,6 +22,7 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
         hl: language,
         engine: engine.toLocaleLowerCase(),
         start: 0,
+        keywords
       })
     )
   }
@@ -52,7 +54,7 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
     //   console.log("Unable to retrieve your location");
     // }
 
-    if (query) {
+    if (query || keywords) {
       setShowOptions(false);
       dispatch(
         searchActions.search({
@@ -61,6 +63,7 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
           hl: language,
           engine: engine.toLocaleLowerCase(),
           start: 0,
+          keywords
         })
       ).then(async () => {
         dispatch(
@@ -70,6 +73,7 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
             hl: language,
             engine: engine.toLocaleLowerCase(),
             start: 0,
+            keywords
           })
         );
       });
@@ -97,7 +101,7 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
             />
             <p>Query</p>
             <div className="flex flex-wrap jusitfy-content-center h-fit max-w-fit overflow-wrap">
-              <input defaultValue="Enter keyword" className="px-2 m-1 bg-slate-600 rounded w-fit outline-none"/>
+              <input placeholder="Enter keyword" className="px-2 m-1 bg-slate-600 rounded w-fit outline-none" value={keywords} onChange={(e) => setKeywords(e.target.value)}/>
               {query.length
                 ? query.map((param) => {
                     return (

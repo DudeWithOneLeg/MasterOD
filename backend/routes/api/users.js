@@ -48,10 +48,12 @@ router.get(
         username: user.username,
         recentQueries
       };
+
+      res.statusCode = 200
       return res.json({
         user: safeUser
       });
-    } else return res.json({ user: null });
+    } else return res.json({ user: null }).status(200)
   }
 );
 
@@ -72,9 +74,10 @@ router.post(
 
     await setTokenCookie(res, safeUser);
 
+    res.statusCode = 200
     return res.json({
       user: safeUser
-    });
+    }).status(200)
   }
 );
 

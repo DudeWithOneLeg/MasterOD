@@ -5,6 +5,7 @@ import Results from "../Results";
 import Browser from "../Browser";
 import SearchBar from "./SearchBar";
 
+
 export default function Search() {
   const data = useSelector((state) => state.search.data);
   const results = useSelector((state) => state.search.results);

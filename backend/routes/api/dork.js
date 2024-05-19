@@ -46,7 +46,7 @@ router.post("/", async (req, res) => {
     .join(" ");
   const newQuery = {
     userId: user.id,
-    query: params.q,
+    query: `${params.q} ${params.keywords}`,
     engine: params.engine,
   };
 
@@ -119,7 +119,7 @@ router.post("/", async (req, res) => {
 
       await results(response);
     } else {
-      res.json({ message: "End of results" });
+      res.json({ message: "End of results" }).status(200)
     }
 
     // console.log(currPage + "/" + totalPages);
@@ -148,6 +148,7 @@ router.post("/", async (req, res) => {
     // engine: "google_maps_directions",
     ...params,
     num: 100,
+    q: `${params.q} ${params.keywords}`
     // ll:`@${lat},${lng}`
     // device: "tablet",
     // travel_mode: 3,
@@ -170,10 +171,8 @@ router.get('/queries/recent', async (req, res) => {
       order: [['updatedAt', 'DESC']],
       limit: 5
     })
-    // console.log(recentQueries)
-    res.statusCode = 200
-    // console.log(res)
-    return res.json(recentQueries)
+
+    return res.json(recentQueries).status(200)
 
   }
 })
