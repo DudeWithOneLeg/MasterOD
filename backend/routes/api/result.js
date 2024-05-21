@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const { Result, BrowseHistory } = require("../../db/models");
+const Sequelize = require('sequelize');
+const { Result, BrowseHistory, Queries } = require("../../db/models");
 
 router.get("/", async (req, res) => {
   if (req.user) {
@@ -20,6 +21,19 @@ router.get("/", async (req, res) => {
       },
       order: [['createdAt', 'DESC']]
     });
+
+    // const queries = await Queries.findAll({
+    //   where: {
+    //     userId
+    //   },
+    //   include: {
+    //     model: Result,
+    //     where: {
+    //       queryId: Sequelize.col('Query.id')
+    //     }
+    //   }
+    // })
+    // console.log(queries)
 
     res.statusCode = 200
     return res.json({history, saved}).status(200)

@@ -47,7 +47,7 @@ export default function Result({
       data-collapse-target="collapse"
       data-collapse="collapse"
       id="result"
-      className={`h-fit cursor-pointer border-secondary flex w-full items-center rounded border py-2 mb-2 mr-1 transition-all duration-300 ease-in-out `}
+      className={`h-fit cursor-pointer border-secondary flex w-full items-center rounded bg-gradient-to-r from-slate-800 via-slate-800 hover:bg-gradient-to-r hover:from-slate-700 hover:via-slate-800 py-2 mb-2 mr-1 transition-all duration-300 ease-in-out `}
     >
       <div className=""></div>
       <div className="flex flex-col items-center justify-content-around min-w-10 h-full">
@@ -56,6 +56,7 @@ export default function Result({
         ) : (
           <img onClick={saveResult} src={require("../../assets/icons/bookmark.png")} />
         )}
+        {result.title.toLowerCase().includes('index of /') ? (<div className="rounded bg-green-200  w-6">Idx</div>) : (<></>)}
         <div className="flex font-bold h-fit w-fit bg-slate-300 rounded"></div>
       </div>
       <div
@@ -74,7 +75,7 @@ export default function Result({
 
 
               {result.link && docExtensions.includes(result.link.split(".").slice(-1)[0]) && (
-                <img src="images/document.png" className="w-8 h-8" />
+                <img src={require("../../assets/images/document.png")} className="w-8 h-8" />
               )}
             </div>
             <div>
@@ -84,7 +85,7 @@ export default function Result({
             { result.archive && result.archive.archived_snapshots && result?.archive?.archived_snapshots?.closest?.url && <a
               href={result.archive.archived_snapshots.closest.url}
               target="_blank"
-              className="font-bold text-slate-400"
+              className="font-bold text-slate-400 w-fit"
             >
               Archive
             </a>}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import LoginFormPage from "./components/LoginFormPage";
 import SignupFormPage from "./components/SignupFormPage";
 import * as sessionActions from "./store/session";
@@ -11,12 +11,23 @@ import ResultsPage from "./components/ResultsPage";
 
 function App() {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const [isLoaded, setIsLoaded] = useState(false);
   const user = useSelector((state) => state.session.user);
 
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
   }, [dispatch]);
+
+  useEffect(() => {
+    // dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
+    const path = window.location.pathname
+    if (user && path == '/') {
+      console.log(path)
+      navigate('/search')
+
+    }
+  }, [user]);
 
   return (
     <>
@@ -28,13 +39,14 @@ function App() {
           <Routes>
             {/* <> */}
             <Route path="/queries" element={<QueryStats />}/>
-            <Route path="/results/:params" element={<ResultsPage />}/>
-            <Route path="/" element={<Search />}/>
+            <Route path="/results" element={<ResultsPage />}/>
+            <Route path="/results/:view" element={<ResultsPage />}/>
+            <Route path="/search" element={<Search />}/>
             {/* </> */}
           </Routes>
         )}
 
-       
+
       </div>
     </>
   );

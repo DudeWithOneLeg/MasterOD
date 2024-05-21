@@ -46,7 +46,7 @@ export default function Parameter({ query, setQuery, param, text }) {
             type="submit"
             className="rounded-right bg-slate-400 hover:bg-slate-600 "
           >
-            <img src="/images/plus.png" className="w-fit mr-0 self-end px-1" />
+            <img src={require("../../../assets/images/plus.png")} className="w-fit mr-0 self-end px-1" />
           </button>
         )}
       </div>

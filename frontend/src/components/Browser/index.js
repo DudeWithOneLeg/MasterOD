@@ -82,8 +82,8 @@ export default function Browser({ preview, setPreview, browseHistory, setBrowseH
       <div className="bg-slate-400 flex flex-row h-11 items-center">
         <div className="w-full flex flex-row justify-content-between h-11 p-2">
           <div className="flex flex-row mr-1">
-            <img src="icons/arrow_back.png" onClick={() => handleBack()}/>
-            <img src="icons/arrow_forward.png" onClick={() => handleForward()}/>
+            <img src={require("../../assets/icons/arrow_back.png")} onClick={() => handleBack()}/>
+            <img src={require("../../assets/icons/arrow_forward.png")} onClick={() => handleForward()}/>
           </div>
           <p className="w-full truncate rounded bg-slate-100 p-1">{preview}</p>
         </div>

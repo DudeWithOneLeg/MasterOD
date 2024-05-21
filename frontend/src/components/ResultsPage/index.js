@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { useParams, useSearchParams } from 'react-router-dom'
+import { useParams, useSearchParams } from "react-router-dom";
 // import { u }
 import Results from "../Results";
 import Browser from "../Browser";
@@ -9,8 +9,8 @@ import * as searchActions from "../../store/search";
 
 export default function ResultsPage() {
   const dispatch = useDispatch();
-  const params = useParams()
-  const [searchParams, setSearchParams] = useSearchParams()
+  const { view } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const allResults = useSelector((state) => state.results.allResults);
   const visited = useSelector((state) => state.results.visited);
   const data = useSelector((state) => state.search.data);
@@ -21,7 +21,7 @@ export default function ResultsPage() {
   const [browseHistory, setBrowseHistory] = useState([]);
   const [browseHistoryIndex, setBrowseHistoryIndex] = useState(0);
   const [filterInput, setFilterInput] = useState("");
-  // const [searchParams, setSearchParams] = useSearchParams();
+  const [viewAll, setViewAll] = useState(null);
 
   const docExtensions = ["pdf", "ppt", "doc", "docx"];
 
@@ -39,20 +39,41 @@ export default function ResultsPage() {
   }, [preview, dispatch]);
 
   useEffect(() => {
-    console.log(setSearchParams(params))
-  },[])
+    // console.log(view)
+    if (view === "all") {
+      setViewAll(true);
+    } else if (view === "saved") {
+      setViewAll(false);
+    } else {
+      setViewAll(true);
+    }
+  }, []);
 
   return (
     <div className="flex flex-col h-full w-full p-2">
       <div className="flex items-center justify-content-center w-full my-2">
           <input className="w-1/2 rounded-full h-8 px-3 text-black" placeholder='Filter searches' value={filterInput} onChange={(e) => setFilterInput(e.target.value)}/>
         </div>
-        <div className="flex flex-row">
-            <p>Saved</p>
-            <p>History</p>
+        <div className="flex w-full justify-content-center">
+          <div className="flex flex-row w-fit rounded bg-slate-500">
+            <p
+              onClick={() => setViewAll(true)}
+              className={`px-1 cursor-pointer ${viewAll ? "border-b-4" : ""}`}
+            >
+              All
+            </p>
+            <p
+              onClick={() => setViewAll(false)}
+              className={`ml-1 px-1 cursor-pointer ${
+                viewAll ? "" : "border-b-4"
+              }`}
+            >
+              Saved
+            </p>
+          </div>
         </div>
       <div className="flex w-full h-full overflow-y-hidden">
-        {allResults ? (
+        {allResults && viewAll ? (
           <>
             <Results
               setPreview={setPreview}
