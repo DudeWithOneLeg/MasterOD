@@ -54,11 +54,11 @@ export default function QueryPage() {
                     <div className="flex flex-row divide divide-x justify-content-between w-full p-1 hover:bg-slate-500">
                       <div className="flex flex-row w-1/3">
                         <img
-                          src={`${
+                          src={
                             query.saved
-                              ? "/icons/bookmark_FILL.png"
-                              : "/icons/bookmark.png"
-                          }`}
+                              ? require("../../assets/icons/bookmark_FILL.png")
+                              : require("../../assets/icons/bookmark.png")
+                          }
                           className="h-8"
                         />
                         <p className="w-full flex align-items-center justify-content-center">
@@ -70,9 +70,9 @@ export default function QueryPage() {
                       </p>
                       <div className="w-1/3 flex align-items-center justify-content-center">
                         {query.engine == "google" ? (
-                          <img className="h-7 rounded" src="/icons/google.png" />
+                          <img className="h-7 rounded" src={require("../../assets/icons/google.png")} />
                         ) : (
-                          <img className="h-7 rounded" src="/icons/bing.jpg" />
+                          <img className="h-7 rounded" src={require("../../assets/icons/bing.jpg")} />
                         )}
                       </div>
                     </div>
@@ -84,11 +84,9 @@ export default function QueryPage() {
                       <div className="flex flex-row divide divide-x justify-content-between w-full p-1 hover:bg-slate-500">
                         <div className="flex flex-row w-1/3">
                           <img
-                            src={`${
-                              query.saved
-                                ? "/icons/bookmark_FILL.png"
-                                : "/icons/bookmark.png"
-                            }`}
+                            src={query.saved
+                              ? require("../../assets/icons/bookmark_FILL.png")
+                              : require("../../assets/icons/bookmark.png")}
                             className="h-8"
                           />
                           <p className="w-full flex align-items-center justify-content-center">
@@ -100,9 +98,9 @@ export default function QueryPage() {
                         </p>
                         <div className="w-1/3 flex align-items-center justify-content-center">
                           {query.engine == "google" ? (
-                            <img className="h-7 rounded" src="/icons/google.png" />
+                            <img className="h-7 rounded" src={require("../../assets/icons/google.png")} />
                           ) : (
-                            <img className="h-7 rounded" src="/icons/bing.jpg" />
+                            <img className="h-7 rounded" src={require("../../assets/icons/bing.jpg")} />
                           )}
                         </div>
                       </div>
@@ -114,14 +112,12 @@ export default function QueryPage() {
               Object.values(queries).map((query) => {
                 if (query.saved) {
                   return (
-                    <div className="flex flex-row divide divide-x justify-content-between w-full p-1">
+                    <div className="flex flex-row divide divide-x justify-content-between w-full p-1 hover:bg-slate-500">
                       <div className="flex flex-row w-1/3">
                         <img
-                          src={`${
-                            query.saved
-                              ? "/icons/bookmark_FILL.png"
-                              : "/icons/bookmark.png"
-                          }`}
+                          src={query.saved
+                            ? require("../../assets/icons/bookmark_FILL.png")
+                            : require("../../assets/icons/bookmark.png")}
                           className="h-8"
                         />
                         <p className="w-full flex align-items-center justify-content-center">
@@ -135,10 +131,10 @@ export default function QueryPage() {
                         {query.engine == "google" ? (
                           <img
                             className="h-7 rounded"
-                            src="/icons/google.png"
+                            src={require("../../assets/icons/google.png")}
                           />
                         ) : (
-                          <img className="h-7 rounded" src="/icons/bing.jpg" />
+                          <img className="h-7 rounded" src={require("../../assets/icons/bing.jpg")} />
                         )}
                       </div>
                     </div>

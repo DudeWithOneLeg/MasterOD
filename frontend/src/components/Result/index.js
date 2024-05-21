@@ -52,9 +52,9 @@ export default function Result({
       <div className=""></div>
       <div className="flex flex-col items-center justify-content-around min-w-10 h-full">
         {saved ? (
-          <img src="/icons/bookmark_FILL.png" />
+          <img src={require("../../assets/icons/bookmark_FILL.png")} />
         ) : (
-          <img onClick={saveResult} src="/icons/bookmark.png" />
+          <img onClick={saveResult} src={require("../../assets/icons/bookmark.png")} />
         )}
         <div className="flex font-bold h-fit w-fit bg-slate-300 rounded"></div>
       </div>
@@ -79,11 +79,6 @@ export default function Result({
             </div>
             <div>
               <p className={"underline"}>{result.snippet}</p>
-            </div>
-            <div>
-              <p className={"text-sm text-slate-300 flex w-full"}>
-                {result.createdAt}
-              </p>
             </div>
 
             { result.archive && result.archive.archived_snapshots && result?.archive?.archived_snapshots?.closest?.url && <a

@@ -20,6 +20,8 @@ export default function ResultsPage() {
   const [result, setResult] = useState({});
   const [browseHistory, setBrowseHistory] = useState([]);
   const [browseHistoryIndex, setBrowseHistoryIndex] = useState(0);
+  const [filterInput, setFilterInput] = useState("");
+  // const [searchParams, setSearchParams] = useSearchParams();
 
   const docExtensions = ["pdf", "ppt", "doc", "docx"];
 
@@ -37,11 +39,14 @@ export default function ResultsPage() {
   }, [preview, dispatch]);
 
   useEffect(() => {
-    console.log(params)
+    console.log(setSearchParams(params))
   },[])
 
   return (
     <div className="flex flex-col h-full w-full p-2">
+      <div className="flex items-center justify-content-center w-full my-2">
+          <input className="w-1/2 rounded-full h-8 px-3 text-black" placeholder='Filter searches' value={filterInput} onChange={(e) => setFilterInput(e.target.value)}/>
+        </div>
         <div className="flex flex-row">
             <p>Saved</p>
             <p>History</p>
