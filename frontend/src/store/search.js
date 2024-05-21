@@ -125,7 +125,7 @@ const searchReducer = (state = initialState, action) => {
           lastIndex = newIndex;
         }
         // console.log(results);
-        newState = { ...state, results:{...results}, recentQueries: action.payload.recentQueries};
+        newState = { ...state, results:{...results}, recentQueries: {...action.payload.recentQueries}};
         return { ...newState };
       } else {
         newState.results = { ...action.payload.results };

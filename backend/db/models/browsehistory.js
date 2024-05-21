@@ -16,10 +16,10 @@ module.exports = (sequelize, DataTypes) => {
       title: {
         type: DataTypes.STRING,
       },
-      description: {
+      snippet: {
         type: DataTypes.STRING,
       },
-      url: {
+      link: {
         type: DataTypes.STRING,
       },
       queryId: {

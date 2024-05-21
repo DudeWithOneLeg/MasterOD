@@ -9,6 +9,7 @@ import * as searchActions from '../../../store/search'
 
 export default function SearchBar({query, setQuery, country, setCountry, language, setLanguage, engine, setEngine}) {
   const [showOptions, setShowOptions] = useState(false);
+  const [keywords, setKeywords] = useState("test")
   const dispatch = useDispatch();
 
   const settings = { Google: googleSettings, Bing: bingSettings };
@@ -21,6 +22,7 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
         hl: language,
         engine: engine.toLocaleLowerCase(),
         start: 0,
+        keywords
       })
     )
   }
@@ -52,7 +54,7 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
     //   console.log("Unable to retrieve your location");
     // }
 
-    if (query) {
+    if (query || keywords) {
       setShowOptions(false);
       dispatch(
         searchActions.search({
@@ -61,6 +63,7 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
           hl: language,
           engine: engine.toLocaleLowerCase(),
           start: 0,
+          keywords
         })
       ).then(async () => {
         dispatch(
@@ -70,6 +73,7 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
             hl: language,
             engine: engine.toLocaleLowerCase(),
             start: 0,
+            keywords
           })
         );
       });
@@ -91,13 +95,13 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
         <div className="flex px- items-center w-full h-fit justify-content-between p-2">
           <div className="flex flex-row items-center">
             <img
-              src="/images/plus.png"
+              src={require("../../../assets/images/plus.png")}
               className="h-10 w-10 flex flex-row"
               onClick={() => setShowOptions(!showOptions)}
             />
-            <p>Query</p>
+            <p>Search</p>
             <div className="flex flex-wrap jusitfy-content-center h-fit max-w-fit overflow-wrap">
-              <input defaultValue="Enter keyword" className="px-2 m-1 bg-slate-600 rounded w-fit outline-none"/>
+              <input placeholder="Enter keyword" className="px-2 m-1 bg-slate-600 rounded w-fit outline-none" value={keywords} onChange={(e) => setKeywords(e.target.value)}/>
               {query.length
                 ? query.map((param) => {
                     return (
@@ -112,11 +116,11 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
             </div>
           </div>
           <div className="flex flex-row">
-            {query.length ? (
+            {query.length || keywords ? (
               <div
               className="flex flex-row align-items-center"
               >
-                <img className="h-10 pointer" src='/icons/save.png' onClick={() => saveQuery()}/>
+                <img className="h-10 pointer" src={require('../../../assets/icons/save.png')} onClick={() => saveQuery()}/>
                 <p
                 className="px-2 mx-2 border rounded h-8 flex align-items-center hover:bg-red-600 bg-red-900"
                 onClick={() => setQuery([])}
@@ -151,7 +155,7 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
             </div>
           </div>
         </div>
-        {query.length ? (
+        {query.length || keywords ? (
           <div className="flex justify-self-end px-3" onClick={handleSubmit}>
             <button>Search</button>
           </div>

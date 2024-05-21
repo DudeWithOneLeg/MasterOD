@@ -1,23 +1,44 @@
 const express = require("express");
 const router = express.Router();
-const { Result, BrowseHistory } = require("../../db/models");
+const Sequelize = require('sequelize');
+const { Result, BrowseHistory, Queries } = require("../../db/models");
 
-// router.get("/recent", async (req, res) => {
-//   if (req.user) {
+router.get("/", async (req, res) => {
+  if (req.user) {
 
-//     const { id: userId } = req.user;
+    const { id: userId } = req.user;
 
-//     const savedResults = await BrowseHistory.findAll({
-//       where: {
-//         userId,
-//       },
-//       limit: 5,
-//       order: [['createdAt', 'DESC']]
-//     });
+    const history = await BrowseHistory.findAll({
+      where: {
+        userId,
+      },
+      order: [['createdAt', 'DESC']]
+    });
 
-//     return res.json(savedResults);
-//   }
-// });
+    const saved = await Result.findAll({
+      where: {
+        userId,
+      },
+      order: [['createdAt', 'DESC']]
+    });
+
+    // const queries = await Queries.findAll({
+    //   where: {
+    //     userId
+    //   },
+    //   include: {
+    //     model: Result,
+    //     where: {
+    //       queryId: Sequelize.col('Query.id')
+    //     }
+    //   }
+    // })
+    // console.log(queries)
+
+    res.statusCode = 200
+    return res.json({history, saved}).status(200)
+  }
+});
 
 router.get("/saved", async (req, res) => {
   if (req.user) {
@@ -33,7 +54,7 @@ router.get("/saved", async (req, res) => {
     });
 
     res.statusCode = 200
-    return res.json(savedResults);
+    return res.json(savedResults).status(200)
   }
 });
 
@@ -51,7 +72,7 @@ router.get("/history", async (req, res) => {
     });
 
     res.statusCode = 200
-    return res.json(browseHistory);
+    return res.json(browseHistory).status(200)
   }
 });
 
@@ -70,7 +91,7 @@ router.post("/save", async (req, res) => {
     // console.log(savedResults)
 
   res.statusCode = 200
-  return res.json(savedResults);
+  return res.json(savedResults).status(200)
 });
 
 module.exports = router;

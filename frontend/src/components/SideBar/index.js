@@ -1,6 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
 import * as sessionActions from "../../store/session";
 import * as searchActions from "../../store/search";
 import * as resultActions from "../../store/result";
@@ -108,13 +107,13 @@ export default function SideBar() {
             <div className="w-full flex flex-row items-center justify-between">
               <div className="flex flex-row items-center">
                 <img
-                  src="icons/profile.jpg"
+                  src={require('../../assets/icons/profile.jpg')}
                   className="rounded-full h-14"
                 ></img>
                 <p className="pl-4">{user ? user.username : ""}</p>
               </div>
               <img
-                src="/icons/logout.png"
+                src={require('../../assets/icons/logout.png')}
                 onClick={(e) => handleLogOut(e)}
                 className="h-8 cursor-pointer"
               />
@@ -153,6 +152,16 @@ export default function SideBar() {
                 >
                   Sign up
                 </p>
+                <p
+                  onClick={() => {
+                    // setMoveRight(true);
+                    dispatch(sessionActions.login({credential: "demo@user.com", password: 'password'}))
+                  }}
+                  className="cursor-pointer hover:bg-slate-600 rounded text-center p-1"
+                >
+                  Demo Login
+                </p>
+
               </div>
             </div>
             <div className="flex flex-row w-fit h-fit">

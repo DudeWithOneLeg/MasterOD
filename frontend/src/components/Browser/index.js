@@ -7,6 +7,8 @@ export default function Browser({ preview, setPreview, browseHistory, setBrowseH
   const dispatch = useDispatch();
   const domRef = useRef(null);
   const data = useSelector((state) => state.search.data);
+  const iframeRef = useRef(null)
+
   const docExtensions = ['pdf', 'ppt', 'doc', 'docx']
   const msOfficeDocs = ['ppt', 'doc', 'docx']
 
@@ -66,13 +68,22 @@ export default function Browser({ preview, setPreview, browseHistory, setBrowseH
     }
   },[preview])
 
+  useEffect(() => {
+    if (iframeRef.current) {
+      iframeRef.current.addEventListener("load", (e) => {
+        console.log(e)
+      })
+
+    }
+  },[iframeRef])
+
   return (
     <div className="truncate h-full w-full flex flex-col bg-slate-300 ml-2 p-1 rounded overflow-scroll">
       <div className="bg-slate-400 flex flex-row h-11 items-center">
         <div className="w-full flex flex-row justify-content-between h-11 p-2">
           <div className="flex flex-row mr-1">
-            <img src="icons/arrow_back.png" onClick={() => handleBack()}/>
-            <img src="icons/arrow_forward.png" onClick={() => handleForward()}/>
+            <img src={require("../../assets/icons/arrow_back.png")} onClick={() => handleBack()}/>
+            <img src={require("../../assets/icons/arrow_forward.png")} onClick={() => handleForward()}/>
           </div>
           <p className="w-full truncate rounded bg-slate-100 p-1">{preview}</p>
         </div>
@@ -82,7 +93,7 @@ export default function Browser({ preview, setPreview, browseHistory, setBrowseH
         dangerouslySetInnerHTML={{ __html: data }}
         ref={domRef}
         onClick={(e) => handleDomClick(e)}
-      />: <iframe src={preview} className="h-full overflow-scroll"/>}
+      />: <iframe ref={iframeRef} src={preview} className="h-full overflow-scroll"/>}
     </div>
   );
 }

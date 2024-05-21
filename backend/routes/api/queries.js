@@ -11,7 +11,8 @@ router.get('/', async (req, res) => {
             userId: user.id
         }
     })
-    res.json(queries)
+    res.statusCode = 200
+    res.json(queries).status(200)
 })
 
 router.get('/save', async (req, res) => {
@@ -26,8 +27,9 @@ router.get('/save', async (req, res) => {
       limit: 5
     })
 
-    res.statusCode = 200
-    res.json(savedQueries)
+
+    // console.log(res.statusCode)
+    return res.json(savedQueries).status(200)
 
 })
 
@@ -42,13 +44,13 @@ router.post('/save', async (req, res) => {
           : '"' + q + '"'
       )
       .join(" ");
+
     const newQuery = {
       userId: user.id,
       query: params.q,
       engine: params.engine,
       saved: true
     };
-
 
     await Queries.create(newQuery);
     const recentSavedQueries = await Queries.findAll({
@@ -61,7 +63,7 @@ router.post('/save', async (req, res) => {
     })
 
     res.statusCode = 200
-    return res.json(recentSavedQueries)
+    return res.json(recentSavedQueries).status(200)
   })
 
 module.exports = router

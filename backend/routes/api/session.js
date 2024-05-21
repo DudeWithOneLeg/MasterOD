@@ -82,14 +82,15 @@ router.post("/", validateLogin, async (req, res, next) => {
 
   await setTokenCookie(res, safeUser);
 
+  // res.setStatus = 200
   return res.json({
     user: safeUser,
-  });
+  }).status(200)
 });
 
 router.delete("/", (_req, res) => {
   res.clearCookie("token");
-  return res.json({ message: "success" });
+  return res.json({ message: "success" }).status(200)
 });
 
 module.exports = router;
