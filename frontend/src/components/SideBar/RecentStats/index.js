@@ -89,7 +89,7 @@ export default function RecentStats() {
         //     );
         //   }) : <div className="h-[139.9px]"></div>
         ),
-      path: "/queries",
+      path: "/search",
     },
     {
       stat: "Recently Visited",
