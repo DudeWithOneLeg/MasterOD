@@ -56,7 +56,7 @@ export default function RecentStats() {
         })
       ) : (
           <></>),
-      path: "/",
+      path: "/search/saved",
     },
     {
       stat: "Recent Searches",
@@ -89,7 +89,7 @@ export default function RecentStats() {
         //     );
         //   }) : <div className="h-[139.9px]"></div>
         ),
-      path: "/search",
+      path: "/search/all",
     },
     {
       stat: "Recently Visited",
@@ -110,7 +110,7 @@ export default function RecentStats() {
         })
       ) : (
           <></>),
-      path: "",
+      path: "/results/all",
     },
     {
       stat: "Saved Results",
@@ -145,7 +145,7 @@ export default function RecentStats() {
         //       );
         //     }) : <div className="h-[140px]"></div>
         ),
-      path: "",
+      path: "/results/saved",
     },
     // {
     //   stat: "Site History",

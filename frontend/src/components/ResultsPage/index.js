@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
-// import { u }
 import Results from "../Results";
 import Browser from "../Browser";
 import * as resultActions from "../../store/result";
@@ -9,8 +8,8 @@ import * as searchActions from "../../store/search";
 
 export default function ResultsPage() {
   const dispatch = useDispatch();
-  const { view } = useParams();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const params = useParams();
+  // const [searchParams, setSearchParams] = useSearchParams();
   const allResults = useSelector((state) => state.results.allResults);
   const visited = useSelector((state) => state.results.visited);
   const data = useSelector((state) => state.search.data);
@@ -21,7 +20,7 @@ export default function ResultsPage() {
   const [browseHistory, setBrowseHistory] = useState([]);
   const [browseHistoryIndex, setBrowseHistoryIndex] = useState(0);
   const [filterInput, setFilterInput] = useState("");
-  const [viewAll, setViewAll] = useState(null);
+  const [viewAll, setViewAll] = useState(true);
 
   const docExtensions = ["pdf", "ppt", "doc", "docx"];
 
@@ -39,15 +38,14 @@ export default function ResultsPage() {
   }, [preview, dispatch]);
 
   useEffect(() => {
-    // console.log(view)
-    if (view === "all") {
-      setViewAll(true);
-    } else if (view === "saved") {
-      setViewAll(false);
-    } else {
-      setViewAll(true);
-    }
-  }, []);
+    const {view} = params
+
+    if (view === 'saved') setViewAll(false)
+    else if (view === 'all') setViewAll(true)
+    else setViewAll(true)
+  },[params])
+
+  useEffect(() => {console.log(allResults)},[allResults])
 
   return (
     <div className="flex flex-col h-full w-full p-2">
@@ -73,7 +71,7 @@ export default function ResultsPage() {
           </div>
         </div>
       <div className="flex w-full h-full overflow-y-hidden">
-        {allResults && viewAll ? (
+        {allResults && !viewAll ? (
           <>
             <Results
               setPreview={setPreview}
@@ -88,6 +86,17 @@ export default function ResultsPage() {
         ) : (
           <></>
         )}
+        {visited && viewAll ? (
+          <><Results
+          setPreview={setPreview}
+              preview={preview}
+              showResult={showResult}
+              setShowResult={setShowResult}
+              setResult={setResult}
+              infiniteScroll={false}
+              data={visited}
+          /></>
+        ): <></>}
         {(showResult && data) || (showResult && preview) ? (
           <Browser
             preview={preview}

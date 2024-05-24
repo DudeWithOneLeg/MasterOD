@@ -42,6 +42,7 @@ function App() {
             <Route path="/results" element={<ResultsPage />}/>
             <Route path="/results/:view" element={<ResultsPage />}/>
             <Route path="/search" element={<Search />}/>
+            <Route path="/search/:view" element={<Search />}/>
             {/* </> */}
           </Routes>
         )}

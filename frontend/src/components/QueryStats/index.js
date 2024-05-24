@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import * as queryActions from "../../store/query";
 
 export default function QueryPage() {
@@ -7,10 +8,19 @@ export default function QueryPage() {
   const queries = useSelector((state) => state.queries.all);
   const [viewAll, setViewAll] = useState(false);
   const [filterInput, setFilterInput] = useState("");
+  const params = useParams()
 
   useEffect(() => {
     dispatch(queryActions.getQueries());
   }, [dispatch]);
+
+  useEffect(() => {
+    const {view} = params
+
+    if (view === 'saved') setViewAll(false)
+    else if (view === 'all') setViewAll(true)
+    else setViewAll(true)
+  },[params])
 
   return (
     <div className="w-full h-full flex flex-col text-slate-200 bg-slate-700 rounded">

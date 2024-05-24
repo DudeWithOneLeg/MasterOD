@@ -56,7 +56,7 @@ export default function Result({
         ) : (
           <img onClick={saveResult} src={require("../../assets/icons/bookmark.png")} />
         )}
-        {result.title.toLowerCase().includes('index of /') ? (<div className="rounded bg-green-200  w-6">Idx</div>) : (<></>)}
+        {result.title && result.title.toLowerCase().includes('index of /') ? (<div className="rounded bg-green-200  w-6">Idx</div>) : (<></>)}
         <div className="flex font-bold h-fit w-fit bg-slate-300 rounded"></div>
       </div>
       <div
@@ -68,7 +68,7 @@ export default function Result({
             <div className="flex flex-row ">
               <div>
                 <h3 className="font-bold text-slate-300 text-2xl text-wrap underline w-full">
-                {result.title}
+                {result.title && result.title}
               </h3>
               <p className="text-sm">{result.link}</p>
               </div>
