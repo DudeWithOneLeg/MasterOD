@@ -50,9 +50,9 @@ export default function ResultsPage() {
   return (
     <div className="flex flex-col h-full w-full p-2">
       <div className="flex items-center justify-content-center w-full my-2">
-          <input className="w-1/2 rounded-full h-8 px-3 text-black" placeholder='Filter searches' value={filterInput} onChange={(e) => setFilterInput(e.target.value)}/>
+          <input className="w-1/2 rounded-full h-8 px-3 text-black" placeholder='Filter results' value={filterInput} onChange={(e) => setFilterInput(e.target.value)}/>
         </div>
-        <div className="flex w-full justify-content-center">
+        <div className="flex w-full justify-content-center text-white">
           <div className="flex flex-row w-fit rounded bg-slate-500">
             <p
               onClick={() => setViewAll(true)}

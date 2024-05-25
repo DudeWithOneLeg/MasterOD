@@ -1,9 +1,7 @@
 import { useSelector } from "react-redux";
-import {useNavigate} from 'react-router-dom'
+import RecentStat from "../RecentStat";
 
 export default function RecentStats() {
-    const navigate = useNavigate()
-
   const user = useSelector((state) => state.session.user);
   const recentQueries = useSelector((state) => state.search.recentQueries);
   const recentSavedResults = useSelector(
@@ -39,23 +37,22 @@ export default function RecentStats() {
     {
       stat: "Saved Searches",
       recent:
-      recentSavedQueries && Object.values(recentSavedQueries).length ? (
-        Object.values(recentSavedQueries)
-        .slice(0, 5)
-        .reverse()
-        .map((query) => {
-          return (
-            <div className="flex flex-row text-sm py-1 px-2">
-              <p className="text-gray-400">
-                {timeFunc(query.createdAt)}
-              </p>
-              <div className="w-2"></div>
-              <p className="truncate">{query.query.split(";").join(" ")}</p>
-            </div>
-          );
-        })
-      ) : (
-          <></>),
+        recentSavedQueries && Object.values(recentSavedQueries).length ? (
+          Object.values(recentSavedQueries)
+            .slice(0, 5)
+            .reverse()
+            .map((query) => {
+              return (
+                <div className="flex flex-row text-sm py-1 px-2">
+                  <p className="text-gray-400">{timeFunc(query.createdAt)}</p>
+                  <div className="w-2"></div>
+                  <p className="truncate">{query.query.split(";").join(" ")}</p>
+                </div>
+              );
+            })
+        ) : (
+          <></>
+        ),
       path: "/search/saved",
     },
     {
@@ -65,51 +62,47 @@ export default function RecentStats() {
           recentQueries.slice(0, 5).map((query) => {
             return (
               <div className="flex flex-row text-sm py-1 px-2">
-                <p className="text-gray-400">
-                  {timeFunc(query.createdAt)}
-                </p>
-                <div className="w-2">
-
-                </div>
+                <p className="text-gray-400">{timeFunc(query.createdAt)}</p>
+                <div className="w-2"></div>
                 <p className="truncate">{query.query.split(";").join(" ")}</p>
               </div>
             );
           })
         ) : (
-            <></>
-        //   user.recentQueries && Object.values(user.recentQueries).length ?
-        //   Object.values(user.recentQueries).slice(0, 5).map((query) => {
-        //     return (
-        //       <div className="flex flex-row text-sm py-1 px-2">
-        //         <p className="pr-1 text-gray-400">
-        //           {timeFunc(query.createdAt)}
-        //         </p>
-        //         <p className="truncate">{query.query.split(";").join(" ")}</p>
-        //       </div>
-        //     );
-        //   }) : <div className="h-[139.9px]"></div>
+          <></>
+          //   user.recentQueries && Object.values(user.recentQueries).length ?
+          //   Object.values(user.recentQueries).slice(0, 5).map((query) => {
+          //     return (
+          //       <div className="flex flex-row text-sm py-1 px-2">
+          //         <p className="pr-1 text-gray-400">
+          //           {timeFunc(query.createdAt)}
+          //         </p>
+          //         <p className="truncate">{query.query.split(";").join(" ")}</p>
+          //       </div>
+          //     );
+          //   }) : <div className="h-[139.9px]"></div>
         ),
       path: "/search/all",
     },
     {
       stat: "Recently Visited",
-      recent: recentVisitedResults && Object.values(recentVisitedResults).length ? (
-        Object.values(recentVisitedResults)
-        .slice(0, 5)
-        .reverse()
-        .map((result) => {
-          return (
-            <div className="flex flex-row text-sm py-1 px-2">
-              <p className="text-gray-400">
-                {timeFunc(result.createdAt)}
-              </p>
-              <div className="w-2"></div>
-              <p className="truncate">{result.title}</p>
-            </div>
-          );
-        })
-      ) : (
-          <></>),
+      recent:
+        recentVisitedResults && Object.values(recentVisitedResults).length ? (
+          Object.values(recentVisitedResults)
+            .slice(0, 5)
+            .reverse()
+            .map((result) => {
+              return (
+                <div className="flex flex-row text-sm py-1 px-2">
+                  <p className="text-gray-400">{timeFunc(result.createdAt)}</p>
+                  <div className="w-2"></div>
+                  <p className="truncate">{result.title}</p>
+                </div>
+              );
+            })
+        ) : (
+          <></>
+        ),
       path: "/results/all",
     },
     {
@@ -121,29 +114,27 @@ export default function RecentStats() {
             .map((result) => {
               return (
                 <div className="flex flex-row truncate text-sm py-1 px-2">
-                  <p className="text-gray-400">
-                    {timeFunc(result.createdAt)}
-                  </p>
+                  <p className="text-gray-400">{timeFunc(result.createdAt)}</p>
                   <div className="w-2"></div>
                   <p className="truncate">{result.title}</p>
                 </div>
               );
             })
         ) : (
-            <></>
-        //   user.savedResults && Object.values(user.savedResults).length ?
-        //   Object.values(user.savedResults)
-        //     .reverse()
-        //     .map((result) => {
-        //       return (
-        //         <div className="flex flex-row truncate text-sm py-1 px-2">
-        //           <p className="pr-1 text-gray-400">
-        //             {timeFunc(result.createdAt)}
-        //           </p>
-        //           <p className="truncate">{result.title}</p>
-        //         </div>
-        //       );
-        //     }) : <div className="h-[140px]"></div>
+          <></>
+          //   user.savedResults && Object.values(user.savedResults).length ?
+          //   Object.values(user.savedResults)
+          //     .reverse()
+          //     .map((result) => {
+          //       return (
+          //         <div className="flex flex-row truncate text-sm py-1 px-2">
+          //           <p className="pr-1 text-gray-400">
+          //             {timeFunc(result.createdAt)}
+          //           </p>
+          //           <p className="truncate">{result.title}</p>
+          //         </div>
+          //       );
+          //     }) : <div className="h-[140px]"></div>
         ),
       path: "/results/saved",
     },
@@ -153,16 +144,9 @@ export default function RecentStats() {
     // },
   ];
 
-  return (
-    Object.values(navBarStats).map((object) => {
-        return (
-          <div>
-            <div onClick={() => navigate(object.path)}>
-              <h1 className="p-2 border-b">{object.stat}</h1>
-            </div>
-            <div className="h-[140px]">{object.recent}</div>
-          </div>
-        );
-      })
-  );
+  return Object.values(navBarStats).map((object) => {
+    return (
+      <RecentStat object={object}/>
+    );
+  });
 }

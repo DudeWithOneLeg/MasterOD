@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as resultActions from "../../store/result";
+import SaveResult from "../SaveResult";
 
 export default function Result({
   data,
@@ -51,11 +52,7 @@ export default function Result({
     >
       <div className=""></div>
       <div className="flex flex-col items-center justify-content-around min-w-10 h-full">
-        {saved ? (
-          <img src={require("../../assets/icons/bookmark_FILL.png")} />
-        ) : (
-          <img onClick={saveResult} src={require("../../assets/icons/bookmark.png")} />
-        )}
+        <SaveResult result={result} saved={saved} setSaved={setSaved}/>
         {result.title && result.title.toLowerCase().includes('index of /') ? (<div className="rounded bg-green-200  w-6">Idx</div>) : (<></>)}
         <div className="flex font-bold h-fit w-fit bg-slate-300 rounded"></div>
       </div>

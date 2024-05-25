@@ -37,13 +37,13 @@ export default function QueryPage() {
           <div className="flex flex-row w-fit rounded bg-slate-500">
             <p
               onClick={() => setViewAll(true)}
-              className={`px-1 cursor-pointer ${viewAll ? "border-b-4" : "hover:bg-slate-600 hover:border-b-4"}`}
+              className={`px-1 cursor-pointer rounded ${viewAll ? "border-b-4" : "hover:bg-slate-600 hover:border-b-4 hover:border-gray-400"}`}
             >
               All
             </p>
             <p
               onClick={() => setViewAll(false)}
-              className={`ml-1 px-1 cursor-pointer ${
+              className={`px-1 cursor-pointer rounded ${
                 viewAll ? "hover:bg-slate-600 hover:border-b-4" : "border-b-4"
               }`}
             >
