@@ -20,8 +20,12 @@ export default function SaveResult({ result, saved, setSaved }) {
     setSaved(true);
   };
 
-  return saved ? (
-    <img src={require("../../assets/icons/bookmark_FILL.png")} />
+  const deleteResult = () => {
+    dispatch(resultActions.deleteResult(result.id))
+  }
+
+  return saved || result.queryId? (
+    <img onClick={deleteResult} src={require("../../assets/icons/bookmark_FILL.png")} />
   ) : (
     <img onClick={saveResult} src={require("../../assets/icons/bookmark.png")} />
   );

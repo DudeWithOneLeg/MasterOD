@@ -28,6 +28,9 @@ module.exports = (sequelize, DataTypes) => {
     },
     userId: {
       type: DataTypes.INTEGER
+    },
+    saved: {
+      type: DataTypes.BOOLEAN
     }
   }, {
     sequelize,

@@ -7,9 +7,8 @@ import { googleSettings } from "./GoogleSettings/googleSettings";
 import * as sessionActions from "../../../store/session";
 import * as searchActions from '../../../store/search'
 
-export default function SearchBar({query, setQuery, country, setCountry, language, setLanguage, engine, setEngine}) {
+export default function SearchBar({query, setQuery, country, setCountry, language, setLanguage, engine, setEngine, keywords, setKeywords}) {
   const [showOptions, setShowOptions] = useState(false);
-  const [keywords, setKeywords] = useState("test")
   const dispatch = useDispatch();
 
   const settings = { Google: googleSettings, Bing: bingSettings };

@@ -5,6 +5,14 @@ const GET_RECENT_SAVED_RESULTS = "results/recent";
 const GET_RECENT_VISITED_RESULTS = "results/visited";
 const SAVE_RESULT = "result/save";
 const GET_ALL_RESULTS = 'results/all'
+const DELETE_RESULT = 'result/delete'
+
+const removeResult = (id) => {
+  return {
+    type: DELETE_RESULT,
+    action: id
+  }
+}
 
 const setAllResults = (results) => {
   return {
@@ -34,6 +42,16 @@ const setSavedResults = (newResult) => {
   };
 };
 
+export const deleteResult = (id) => async (dispatch) => {
+  const res = await csrfFetch(`/api/results/${id}`, {
+    method: "DELETE",
+  });
+
+  if (res.ok && res.status === 200) {
+    dispatch(removeResult(id));
+  }
+};
+
 export const postSavedResult = (newResult) => async (dispatch) => {
   const res = await csrfFetch("/api/results/save", {
     method: "POST",
@@ -48,7 +66,7 @@ export const postSavedResult = (newResult) => async (dispatch) => {
 
 export const getRecentSavedResults = () => async (dispatch) => {
   const res = await csrfFetch("/api/results/saved");
-
+  console.log('getRecentSavedR')
   if (res.ok && res.status === 200) {
     const recentSavedResults = await res.json();
     dispatch(setRecentSavedResults(recentSavedResults));
@@ -57,7 +75,7 @@ export const getRecentSavedResults = () => async (dispatch) => {
 
 export const getRecentVisitedResults = () => async (dispatch) => {
   const res = await csrfFetch("/api/results/history");
-
+  console.log('getRecentVisitedR')
   if (res.ok && res.status === 200) {
     const recentVisitedResults = await res.json();
     dispatch(setRecentVisitedResults(recentVisitedResults));
@@ -66,7 +84,7 @@ export const getRecentVisitedResults = () => async (dispatch) => {
 
 export const getallResults = () => async (dispatch) => {
   const res = await csrfFetch("/api/results");
-
+  console.log('getallResults')
   if (res.ok && res.status === 200) {
     const results = await res.json();
     dispatch(setAllResults(results));
@@ -99,10 +117,15 @@ const resultReducer = (state = initialState, action) => {
 
     case GET_ALL_RESULTS:
       const data = action.payload
-      newState = {...state, allResults: {...flatten(data.saved)}, visited: {...flatten(data.history)}}
-      console.log(newState)
+      newState = {...state, saved: {...flatten(data.results.filter(result => result.saved))}, visited: {...flatten(data.results)}}
+      console.log(newState.visited)
       return newState;
-
+    case DELETE_RESULT:
+      const resultId = action.payload
+      newState = {...state}
+      const allResults = newState.allResults
+      delete allResults[resultId]
+      return newState
     default:
       return state;
   }

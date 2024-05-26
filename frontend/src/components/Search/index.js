@@ -21,7 +21,9 @@ export default function Search() {
   const [start, setStart] = useState(0);
   const [browseHistory, setBrowseHistory] = useState([]);
   const [browseHistoryIndex, setBrowseHistoryIndex] = useState(0);
-  const [result, setResult] = useState({})
+  const [result, setResult] = useState({});
+  const [keywords, setKeywords] = useState("test")
+
 
   const docExtensions = ["pdf", "ppt", "doc", "docx"];
 
@@ -61,6 +63,8 @@ export default function Search() {
         setCountry={setCountry}
         engine={engine}
         setEngine={setEngine}
+        keywords={keywords}
+        setKeywords={setKeywords}
       />
 
       {results ? (
@@ -93,9 +97,11 @@ export default function Search() {
                 cr: country,
                 hl: language,
                 engine: engine.toLocaleLowerCase(),
+                keywords
               }}
               setResult={setResult}
               data={results}
+              infiniteScroll={true}
             />
             {((showResult && data) || (showResult && preview)) && (
               <Browser

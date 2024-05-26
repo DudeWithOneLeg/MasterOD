@@ -1,7 +1,8 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import * as searchActions from "../../store/search";
 import Result from "../Result";
+const loadingImg = require('../../assets/icons/loading.png')
 
 // import './index.css'
 
@@ -24,19 +25,19 @@ export default function Results({
   useEffect(() => {
     const resultsContainer = window.document.querySelector("#inner-result");
     if (data && resultsContainer && infiniteScroll) {
+      // console.log(resultsContainer.scrollTop + resultsContainer.clientHeight, resultsContainer.scrollHeight, resultsContainer.scrollTop + resultsContainer.clientHeight >= resultsContainer.scrollHeight - 1);
       const scrollFunction = () => {
         const scrollPosition =
           resultsContainer.scrollTop + resultsContainer.clientHeight;
         const bottomPosition = resultsContainer.scrollHeight;
 
-        // console.log(scrollPosition, bottomPosition);
         if (scrollPosition >= bottomPosition - 1) {
           resultsContainer.removeEventListener("scroll", scrollFunction);
           // console.log("hit");
           setLoading(true);
 
           // const nextResultsPage = start + 100;
-          // console.log(params);
+          // console.log(params, start);
           return dispatch(searchActions.search({ ...params, start }))
             .then(async () => {
               const lastIndex = Number(Object.keys(results).slice(-2, -1)[0]);
@@ -59,7 +60,7 @@ export default function Results({
 
   return (
     data &&
-    Object.values(data).length > 0 && (
+    Object.values(data).length ? (
       //KEEP CLASS NAME AS IS
       <div
         className={`flex flex-col justify-center h-full overflow-hidden pb-1 ${
@@ -72,7 +73,7 @@ export default function Results({
           id="inner-result"
         >
           {Object.keys(data)
-            .slice(0, -1)
+          .filter(key => !data[key].currentPage)
             .map((rowKey) => {
               return (
                 <Result
@@ -87,13 +88,12 @@ export default function Results({
             })}
           {loading && (
             <img
-              src="/icons/loading.png"
+              src={loadingImg}
               className="h-26 w-26 rounded-full animate-spin mb-4"
             />
           )}
         </div>
       </div>
-    )
+    ) : <></>
   );
 }
-

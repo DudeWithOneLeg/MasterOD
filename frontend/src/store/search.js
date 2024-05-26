@@ -4,21 +4,21 @@ import { flatten } from "./csrf";
 const SET_SEARCH = "search/setSearch";
 const SET_DATA = "search/setData";
 const SET_RECENT_QUERIES = "queries/recent";
-const SET_SAVED_QUERY = 'query/save'
+const SET_SAVED_QUERY = "query/save";
 
 const setRecentSavedQueries = (queries) => {
   return {
     type: SET_SAVED_QUERY,
-    payload: queries
-  }
-}
+    payload: queries,
+  };
+};
 
 const setRecentQueries = (queries) => {
   return {
     type: SET_RECENT_QUERIES,
-    payload: queries
-  }
-}
+    payload: queries,
+  };
+};
 
 const setSearch = (results) => {
   return {
@@ -35,34 +35,33 @@ const setData = (data) => {
 };
 
 export const saveQuery = (query) => async (dispatch) => {
-  const res = await csrfFetch('/api/queries/save', {
-    method: 'post',
-    body: JSON.stringify(query)
-  })
+  const res = await csrfFetch("/api/queries/save", {
+    method: "POST",
+    body: JSON.stringify(query),
+  });
 
   if (res.status === 200) {
-    const data = await res.json()
-    dispatch(setRecentSavedQueries(data))
+    const data = await res.json();
+    dispatch(setRecentSavedQueries(data));
   }
-}
+};
 
 export const getRecentSavedQueries = () => async (dispatch) => {
-  const res = await csrfFetch('/api/queries/save')
-
+  const res = await csrfFetch("/api/queries/save");
   if (res.status === 200) {
-    const recentQueries = await res.json()
-    dispatch(setRecentSavedQueries(recentQueries))
+    const recentQueries = await res.json();
+    dispatch(setRecentSavedQueries(recentQueries));
   }
-}
+};
 
 export const getRecentQueries = () => async (dispatch) => {
-  const res = await csrfFetch('/api/dork/queries/recent')
+  const res = await csrfFetch("/api/dork/queries/recent");
 
   if (res.status === 200) {
-    const recentQueries = await res.json()
-    dispatch(setRecentQueries(recentQueries))
+    const recentQueries = await res.json();
+    dispatch(setRecentQueries(recentQueries));
   }
-}
+};
 
 export const search = (params) => async (dispatch) => {
   // const { credential, password } = user;
@@ -72,12 +71,9 @@ export const search = (params) => async (dispatch) => {
   });
 
   if (response.ok && response.status === 200) {
-
     await response.json().then(async (data) => {
-      // console.log(data)
       if (!data.message) {
-        await dispatch(setSearch(data))
-
+        await dispatch(setSearch(data));
       }
       return data;
     });
@@ -98,18 +94,21 @@ export const fetchResult = (result) => async (dispatch) => {
   return response;
 };
 
-const initialState = { results: null, data: null, recentQueries: null, recentSavedQueries: null };
+const initialState = {
+  results: null,
+  data: null,
+  recentQueries: null,
+  recentSavedQueries: null,
+};
 
 const searchReducer = (state = initialState, action) => {
   let newState;
   switch (action.type) {
     case SET_SEARCH:
-
       newState = { ...state };
 
       // console.log(newState.results);
       if (newState.results) {
-
         const results = newState.results;
         const newResults = action.payload.results;
         const resultKeys = Object.keys(results).slice(0, -1);
@@ -120,12 +119,15 @@ const searchReducer = (state = initialState, action) => {
           const result = newResults[key];
           if (result) {
             results[newIndex] = result;
-
           }
           lastIndex = newIndex;
         }
         // console.log(results);
-        newState = { ...state, results:{...results}, recentQueries: {...action.payload.recentQueries}};
+        newState = {
+          ...state,
+          results: { ...results },
+          recentQueries: { ...action.payload.recentQueries },
+        };
         return { ...newState };
       } else {
         newState.results = { ...action.payload.results };
@@ -143,9 +145,9 @@ const searchReducer = (state = initialState, action) => {
       return newState;
     case SET_SAVED_QUERY:
       newState = Object.assign({}, state);
-      console.log(action.payload)
-      newState.recentSavedQueries = flatten(action.payload)
-      return newState
+      console.log(action.payload);
+      newState.recentSavedQueries = flatten(action.payload);
+      return newState;
     default:
       return state;
   }

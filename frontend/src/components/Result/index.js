@@ -1,6 +1,5 @@
-import { useEffect, useState, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import * as resultActions from "../../store/result";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import SaveResult from "../SaveResult";
 
 export default function Result({
@@ -11,7 +10,6 @@ export default function Result({
   setPreview,
   setResult,
 }) {
-  const dispatch = useDispatch();
   const [showInfo, setShowInfo] = useState(false);
   const [saved, setSaved] = useState(false);
   const lastSearchId = useSelector(
@@ -30,17 +28,7 @@ export default function Result({
     setPreview(data[rowKey].link);
   };
 
-  const saveResult = () => {
-    const newResult = {
-      title: result.title,
-      snippet: result.snippet,
-      link: result.link,
-      queryId: lastSearchId,
-    };
-
-    dispatch(resultActions.postSavedResult(newResult));
-    setSaved(true);
-  };
+  // console.log(result)
 
   return (
     <div
@@ -60,7 +48,7 @@ export default function Result({
         onClick={handlClick}
         className="flex flex-col items-start h-full w-full"
       >
-        {result && (
+        {result ? (
           <div key={result.id} className={`flex flex-col text-slate-400 h-fit`}>
             <div className="flex flex-row ">
               <div>
@@ -87,7 +75,7 @@ export default function Result({
               Archive
             </a>}
           </div>
-        )}
+        ):<></>}
       </div>
     </div>
   );

@@ -5,7 +5,7 @@ require("dotenv").config();
 const SERP_API_ACCESS_KEY = process.env.SERP_API_ACCESS_KEY;
 const search = new SerpApi.GoogleSearch(SERP_API_ACCESS_KEY);
 const { getArchive } = require("./utils");
-const { Queries, BrowseHistory } = require("../../db/models");
+const { Queries, Result } = require("../../db/models");
 
 router.post("/iframe/", async (req, res) => {
   const { link, title, snippet, archive, queryId } = req.body;
@@ -21,7 +21,7 @@ router.post("/iframe/", async (req, res) => {
       })
       .then(async (data) => {
         const response = data;
-        await BrowseHistory.create({link, snippet, title, queryId, userId: user.id})
+        await Result.create({link, snippet, title, queryId, userId: user.id, saved: false})
         return response;
       })
       .catch((e) => console.log(e));
