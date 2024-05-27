@@ -100,6 +100,7 @@ const resultReducer = (state = initialState, action) => {
     case GET_ALL_RESULTS:
       const data = action.payload
       newState = {...state, allResults: {...flatten(data.saved)}, visited: {...flatten(data.history)}}
+      console.log(newState)
       return newState;
 
     default:
