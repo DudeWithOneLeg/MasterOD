@@ -7,10 +7,10 @@ const SAVE_RESULT = "result/save";
 const GET_ALL_RESULTS = 'results/all'
 const DELETE_RESULT = 'result/delete'
 
-const removeResult = (id) => {
+const removeResult = (results, id) => {
   return {
     type: DELETE_RESULT,
-    action: id
+    payload: {results, id}
   }
 }
 
@@ -48,7 +48,8 @@ export const deleteResult = (id) => async (dispatch) => {
   });
 
   if (res.ok && res.status === 200) {
-    dispatch(removeResult(id));
+    const results = await res.json()
+    dispatch(removeResult(results.savedResults, id));
   }
 };
 
@@ -118,13 +119,25 @@ const resultReducer = (state = initialState, action) => {
     case GET_ALL_RESULTS:
       const data = action.payload
       newState = {...state, saved: {...flatten(data.results.filter(result => result.saved))}, visited: {...flatten(data.results)}}
-      console.log(newState.visited)
       return newState;
     case DELETE_RESULT:
-      const resultId = action.payload
+      // console.log(action.payload)
+      const recentSaved = flatten(action.payload.results)
+      const resultId = action.payload.id
       newState = {...state}
-      const allResults = newState.allResults
-      delete allResults[resultId]
+      newState.recentSavedResults = {...recentSaved}
+      const newSaved = newState.saved
+      const newVisited = newState.visited
+      if (newSaved[resultId]) {
+        delete newSaved[resultId]
+      }
+      if (newVisited[resultId]) {
+        const result = {...newVisited[resultId]}
+        result.saved = false
+        newVisited[resultId] = {...result}
+      }
+      newState.saved = {...newSaved}
+      newState.visited = {...newVisited}
       return newState
     default:
       return state;

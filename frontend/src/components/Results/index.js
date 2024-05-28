@@ -25,7 +25,6 @@ export default function Results({
   useEffect(() => {
     const resultsContainer = window.document.querySelector("#inner-result");
     if (data && resultsContainer && infiniteScroll) {
-      // console.log(resultsContainer.scrollTop + resultsContainer.clientHeight, resultsContainer.scrollHeight, resultsContainer.scrollTop + resultsContainer.clientHeight >= resultsContainer.scrollHeight - 1);
       const scrollFunction = () => {
         const scrollPosition =
           resultsContainer.scrollTop + resultsContainer.clientHeight;
@@ -36,8 +35,6 @@ export default function Results({
           // console.log("hit");
           setLoading(true);
 
-          // const nextResultsPage = start + 100;
-          // console.log(params, start);
           return dispatch(searchActions.search({ ...params, start }))
             .then(async () => {
               const lastIndex = Number(Object.keys(results).slice(-2, -1)[0]);
@@ -72,7 +69,20 @@ export default function Results({
           className="rounded flex-col flex h-full py-2 px-2 w-full items-center overflow-y-scroll overflow-x-hidden"
           id="inner-result"
         >
-          {Object.keys(data)
+          {Object.values(data)[0] && Object.values(data)[0].queryId ? Object.keys(data).reverse()
+          .filter(key => !data[key].currentPage)
+            .map((rowKey) => {
+              return (
+                <Result
+                  rowKey={rowKey}
+                  data={data}
+                  showResult={showResult}
+                  setShowResult={setShowResult}
+                  setPreview={setPreview}
+                  setResult={setResult}
+                />
+              );
+            }) : Object.keys(data)
           .filter(key => !data[key].currentPage)
             .map((rowKey) => {
               return (

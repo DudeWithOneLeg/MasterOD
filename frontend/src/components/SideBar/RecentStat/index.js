@@ -8,7 +8,7 @@ export default function RecentStat({ object }) {
 
   return (
     <div>
-      <div className="p-2 border-b flex flex-row align-items-center cursor-pointer justify-content-between"  onClick={() => navigate(object.path)}>
+      <div className="p-2 border-b flex flex-row align-items-end cursor-pointer justify-content-between"  onClick={() => navigate(object.path)}>
         <h1 onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>{object.stat}</h1>
         {hover ? <img src={arrowforward} className="h-8 rounded-full"/> : <div className='h-8'></div>}
       </div>

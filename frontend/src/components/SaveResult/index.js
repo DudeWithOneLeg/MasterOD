@@ -8,6 +8,8 @@ export default function SaveResult({ result, saved, setSaved }) {
     (state) => Object.values(state.search.recentQueries)[0].id
   );
 
+  useEffect(() => {console.log(result)},[result])
+
   const saveResult = () => {
     const newResult = {
       title: result.title,
@@ -22,9 +24,10 @@ export default function SaveResult({ result, saved, setSaved }) {
 
   const deleteResult = () => {
     dispatch(resultActions.deleteResult(result.id))
+    setSaved(false)
   }
 
-  return saved || result.queryId? (
+  return saved || result.saved ? (
     <img onClick={deleteResult} src={require("../../assets/icons/bookmark_FILL.png")} />
   ) : (
     <img onClick={saveResult} src={require("../../assets/icons/bookmark.png")} />
