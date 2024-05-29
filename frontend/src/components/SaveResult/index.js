@@ -8,8 +8,6 @@ export default function SaveResult({ result, saved, setSaved }) {
     (state) => Object.values(state.search.recentQueries)[0].id
   );
 
-  useEffect(() => {console.log(result)},[result])
-
   const saveResult = () => {
     const newResult = {
       title: result.title,
@@ -18,7 +16,7 @@ export default function SaveResult({ result, saved, setSaved }) {
       queryId: lastSearchId,
     };
 
-    dispatch(resultActions.postSavedResult(newResult));
+    dispatch(resultActions.postSavedResult(newResult, result.id));
     setSaved(true);
   };
 

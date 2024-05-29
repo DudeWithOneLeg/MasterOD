@@ -9,7 +9,7 @@ import QueryStats from '../QueryStats'
 
 export default function Search() {
   const data = useSelector((state) => state.search.data);
-  const results = useSelector((state) => state.search.results);
+  const results = useSelector((state) => state.results.results);
 
   const [query, setQuery] = useState([]);
   const [geolocation, setGeolocation] = useState({ lat: 0, lng: 0 });
@@ -23,6 +23,7 @@ export default function Search() {
   const [browseHistoryIndex, setBrowseHistoryIndex] = useState(0);
   const [result, setResult] = useState({});
   const [keywords, setKeywords] = useState("test")
+  const [status, setStatus] = useState('');
 
 
   const docExtensions = ["pdf", "ppt", "doc", "docx"];
@@ -43,7 +44,7 @@ export default function Search() {
   useEffect(() => {
     if (results) {
       const lastResultIndex = Number(Object.keys(results).slice(-2, -1)[0]);
-      // console.log('helllo')
+      console.log('helllo', lastResultIndex)
       setStart(lastResultIndex);
     }
   }, [results]);
@@ -65,6 +66,8 @@ export default function Search() {
         setEngine={setEngine}
         keywords={keywords}
         setKeywords={setKeywords}
+        status={status}
+        setStatus={setStatus}
       />
 
       {results ? (
@@ -102,6 +105,8 @@ export default function Search() {
               setResult={setResult}
               data={results}
               infiniteScroll={true}
+              status={status}
+              setStatus={setStatus}
             />
             {((showResult && data) || (showResult && preview)) && (
               <Browser

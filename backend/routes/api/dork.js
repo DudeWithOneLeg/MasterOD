@@ -36,6 +36,7 @@ router.post("/", async (req, res) => {
   //   const { query, lat, lng } = req.body;
   // const quote = ["intitle", "inurl", "-intitle", "-inurl", "intext", "-intext"];
   const params = req.body;
+  console.log(params)
   const { user } = req;
   params.q = params.q
     .split(";")
@@ -72,24 +73,25 @@ router.post("/", async (req, res) => {
     // console.log(data.serpapi_pagination);
 
     if (data.organic_results) {
+      console.log(data.dmca_messages)
       const results = async (rest) => {
         const index = {};
         // console.log(rest, 'hello')
         Object.values(rest).forEach(async (resp) => {
           const link = resp.link;
           if (!index[link]) {
-            await getArchive(link).then(async (archive) => {
-              // console.log(archive, 'hello')
-              index[link] = archive;
-              obj[resp.position] = {
-                id: resp.position,
-                title: resp.title,
-                link: resp.link,
-                snippet: resp.snippet,
-                archive: archive,
-              };
-              // console.log(archive);
-            });
+            obj[resp.position] = {
+              id: resp.position,
+              title: resp.title,
+              link: resp.link,
+              snippet: resp.snippet,
+              // archive: archive,
+            };
+            // await getArchive(link).then(async (archive) => {
+            //   // console.log(archive, 'hello')
+            //   index[link] = archive;
+            //   // console.log(archive);
+            // });
           } else {
             obj[resp.position] = {
               id: resp.position,

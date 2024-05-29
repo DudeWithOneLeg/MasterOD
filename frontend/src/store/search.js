@@ -1,7 +1,6 @@
 import { csrfFetch } from "./csrf";
 import { flatten } from "./csrf";
 
-const SET_SEARCH = "search/setSearch";
 const SET_DATA = "search/setData";
 const SET_RECENT_QUERIES = "queries/recent";
 const SET_SAVED_QUERY = "query/save";
@@ -20,12 +19,6 @@ const setRecentQueries = (queries) => {
   };
 };
 
-const setSearch = (results) => {
-  return {
-    type: SET_SEARCH,
-    payload: results,
-  };
-};
 
 const setData = (data) => {
   return {
@@ -63,23 +56,6 @@ export const getRecentQueries = () => async (dispatch) => {
   }
 };
 
-export const search = (params) => async (dispatch) => {
-  // const { credential, password } = user;
-  const response = await csrfFetch("/api/dork", {
-    method: "POST",
-    body: JSON.stringify(params),
-  });
-
-  if (response.ok && response.status === 200) {
-    await response.json().then(async (data) => {
-      if (!data.message) {
-        await dispatch(setSearch(data));
-      }
-      return data;
-    });
-  }
-};
-
 export const fetchResult = (result) => async (dispatch) => {
   // const { credential, password } = user;
   const response = await csrfFetch(`/api/dork/iframe/`, {
@@ -104,36 +80,7 @@ const initialState = {
 const searchReducer = (state = initialState, action) => {
   let newState;
   switch (action.type) {
-    case SET_SEARCH:
-      newState = { ...state };
-
-      // console.log(newState.results);
-      if (newState.results) {
-        const results = newState.results;
-        const newResults = action.payload.results;
-        const resultKeys = Object.keys(results).slice(0, -1);
-        let lastIndex = Number(resultKeys.slice(-2, -1)[0]);
-
-        for (let key of resultKeys) {
-          const newIndex = lastIndex + 1;
-          const result = newResults[key];
-          if (result) {
-            results[newIndex] = result;
-          }
-          lastIndex = newIndex;
-        }
-        // console.log(results);
-        newState = {
-          ...state,
-          results: { ...results },
-          recentQueries: { ...action.payload.recentQueries },
-        };
-        return { ...newState };
-      } else {
-        newState.results = { ...action.payload.results };
-        return { ...newState, recentQueries: action.payload.recentQueries };
-      }
-
+    
     case SET_DATA:
       newState = Object.assign({}, state);
       newState.data = action.payload.data;

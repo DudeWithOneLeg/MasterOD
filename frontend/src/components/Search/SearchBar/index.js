@@ -6,8 +6,9 @@ import { bingSettings } from "./BingSettings/bingSettings";
 import { googleSettings } from "./GoogleSettings/googleSettings";
 import * as sessionActions from "../../../store/session";
 import * as searchActions from '../../../store/search'
+import * as resultActions from '../../../store/result'
 
-export default function SearchBar({query, setQuery, country, setCountry, language, setLanguage, engine, setEngine, keywords, setKeywords}) {
+export default function SearchBar({query, setQuery, country, setCountry, language, setLanguage, engine, setEngine, keywords, setKeywords, status, setStatus}) {
   const [showOptions, setShowOptions] = useState(false);
   const dispatch = useDispatch();
 
@@ -54,17 +55,21 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
     // }
 
     if (query || keywords) {
+      setStatus('initial')
       setShowOptions(false);
       dispatch(
-        searchActions.search({
+        resultActions.search({
           q: query.join(";"),
           cr: country,
           hl: language,
           engine: engine.toLocaleLowerCase(),
           start: 0,
           keywords
-        })
+        }, status = 'initial')
       ).then(async () => {
+        const resultsContainer = window.document.querySelector("#inner-result");
+        // const bottomPosition = resultsContainer.scrollHeight;
+              resultsContainer.scrollTo(0, 0)
         dispatch(
           sessionActions.newQuery({
             q: query.join(";"),
@@ -76,6 +81,8 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
           })
         );
       });
+      console.log(status)
+      setStatus('next')
     }
   };
 

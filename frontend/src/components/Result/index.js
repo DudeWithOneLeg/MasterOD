@@ -38,8 +38,8 @@ export default function Result({
       id="result"
       className={`h-fit cursor-pointer border-secondary flex w-full items-center rounded bg-gradient-to-r from-slate-800 via-slate-800 hover:bg-gradient-to-r hover:from-slate-700 hover:via-slate-800 py-2 mb-2 mr-1 transition-all duration-300 ease-in-out `}
     >
-      <div className=""></div>
       <div className="flex flex-col items-center justify-content-around min-w-10 h-full">
+      <div className="text-white">{result.id}</div>
         <SaveResult result={result} saved={saved} setSaved={setSaved}/>
         {result.title && result.title.toLowerCase().includes('index of /') ? (<div className="rounded bg-green-200  w-6">Idx</div>) : (<></>)}
         <div className="flex font-bold h-fit w-fit bg-slate-300 rounded"></div>

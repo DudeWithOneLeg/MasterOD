@@ -81,7 +81,11 @@ router.delete("/:resultId", async (req, res) => {
       id: resultId,
     },
   });
+
   await result.update({ saved: false });
+  await result.save()
+  
+  console.log(result)
   const savedResults = await Result.findAll({
     where: {
       userId,
@@ -92,7 +96,7 @@ router.delete("/:resultId", async (req, res) => {
   });
 
 
-  return res.json({savedResults}).status(200);
+  return res.json({savedResults, id: resultId}).status(200);
 });
 
 module.exports = router;
