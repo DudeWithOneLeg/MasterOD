@@ -39,15 +39,11 @@ export default function ResultsPage() {
 
   useEffect(() => {
     const { view } = params;
-    console.log(params)
+    // console.log(params)
     if (view === "saved") setViewAll(false);
     else if (view === "all") setViewAll(true);
     else setViewAll(true);
   }, [params]);
-
-  useEffect(() => {
-    console.log(visited);
-  }, [visited]);
 
   return (
     <div className="flex flex-col h-full w-full p-2">

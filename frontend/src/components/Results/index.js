@@ -37,11 +37,11 @@ export default function Results({
         const scrollPosition = resultsContainer.scrollTop + resultsContainer.clientHeight;
         const bottomPosition = resultsContainer.scrollHeight;
 
-        console.log(scrollPosition.toFixed(0), bottomPosition.toFixed(0), scrollPosition.toFixed(0) >= bottomPosition.toFixed(0) - 1)
+        // console.log(scrollPosition.toFixed(0), bottomPosition.toFixed(0), scrollPosition.toFixed(0) >= bottomPosition.toFixed(0) - 1)
         if (scrollPosition >= bottomPosition - 1) {
           // console.log(start)
           resultsContainer.removeEventListener("scroll", scrollFunction);
-          console.log("hit");
+          // console.log("hit");
           setLoading(true);
 
           return dispatch(resultActions.search({ ...params, start: Number(Object.keys(data).slice(-2, -1)[0]) }, status = 'next'))
@@ -55,7 +55,7 @@ export default function Results({
             })
         }
       };
-      console.log('listener mounted')
+      // console.log('listener mounted')
       return resultsContainer.addEventListener("scroll", scrollFunction);
     }
   }, [data]);
