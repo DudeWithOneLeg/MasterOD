@@ -1,6 +1,5 @@
-import { useEffect, useState, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import * as resultActions from "../../store/result";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import SaveResult from "../SaveResult";
 
 export default function Result({
@@ -11,7 +10,6 @@ export default function Result({
   setPreview,
   setResult,
 }) {
-  const dispatch = useDispatch();
   const [showInfo, setShowInfo] = useState(false);
   const [saved, setSaved] = useState(false);
   const lastSearchId = useSelector(
@@ -30,17 +28,7 @@ export default function Result({
     setPreview(data[rowKey].link);
   };
 
-  const saveResult = () => {
-    const newResult = {
-      title: result.title,
-      snippet: result.snippet,
-      link: result.link,
-      queryId: lastSearchId,
-    };
-
-    dispatch(resultActions.postSavedResult(newResult));
-    setSaved(true);
-  };
+  // console.log(result)
 
   return (
     <div
@@ -50,8 +38,8 @@ export default function Result({
       id="result"
       className={`h-fit cursor-pointer border-secondary flex w-full items-center rounded bg-gradient-to-r from-slate-800 via-slate-800 hover:bg-gradient-to-r hover:from-slate-700 hover:via-slate-800 py-2 mb-2 mr-1 transition-all duration-300 ease-in-out `}
     >
-      <div className=""></div>
       <div className="flex flex-col items-center justify-content-around min-w-10 h-full">
+      <div className="text-white">{result.id}</div>
         <SaveResult result={result} saved={saved} setSaved={setSaved}/>
         {result.title && result.title.toLowerCase().includes('index of /') ? (<div className="rounded bg-green-200  w-6">Idx</div>) : (<></>)}
         <div className="flex font-bold h-fit w-fit bg-slate-300 rounded"></div>
@@ -60,7 +48,7 @@ export default function Result({
         onClick={handlClick}
         className="flex flex-col items-start h-full w-full"
       >
-        {result && (
+        {result ? (
           <div key={result.id} className={`flex flex-col text-slate-400 h-fit`}>
             <div className="flex flex-row ">
               <div>
@@ -87,7 +75,7 @@ export default function Result({
               Archive
             </a>}
           </div>
-        )}
+        ):<></>}
       </div>
     </div>
   );

@@ -786,6 +786,44 @@ const apachIcons = async () => {
 // ipMapper("https://www.kwasan.kyoto-u.ac.jp/~sakaue/AR_catalogue/movie4K/");
 // console.log(obj, total)
 
-reddit(
-  "https://www.reddit.com/r/pushshift/comments/142y0pd/any_good_reddit_scrapers/"
-);
+// reddit(
+//   "https://www.reddit.com/r/pushshift/comments/142y0pd/any_good_reddit_scrapers/"
+// );
+
+const func = async (url) => {
+  const browser = await puppeteer.launch({ headless: false });
+  const page = await browser.newPage();
+  await page.goto(url);
+
+  let data = await page.content();
+  data = JSON.parse(
+      data
+        .split(
+          '<html><head><meta name="color-scheme" content="light dark"></head><body><pre style="word-wrap: break-word; white-space: pre-wrap;">'
+        )[1]
+        .split("</pre></body></html>")[0]
+    )
+
+    const posts = data.data.children
+    const urls = []
+
+    for (let post of posts) {
+      const text = post.data.selftext
+      let start = 0
+      let end = 0
+      for (let letter in text) {
+        if (text[letter] === '[') start = letter + 1
+        if (text[letter] === ']') {
+          end = letter
+          const link = text.split('').slice(start, end).join('')
+          if (link) urls.push(link)
+        }
+      }
+    }
+
+    const lastPostId = posts[posts.length - 1].data.name
+    console.log(urls, lastPostId)
+return
+}
+
+func('https://reddit.com/r/opendirectories/new.json?limit=100')

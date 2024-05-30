@@ -1,7 +1,9 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import * as searchActions from "../../store/search";
+import * as resultActions from "../../store/result";
 import Result from "../Result";
+const loadingImg = require('../../assets/icons/loading.png')
 
 // import './index.css'
 
@@ -14,41 +16,49 @@ export default function Results({
   params,
   setResult,
   infiniteScroll,
-  data
+  data,
+  status,
+  setStatus
 }) {
   // const data = useSelector((state) => state.search.results);
   const [results, setResults] = useState({});
   const [loading, setLoading] = useState(false);
+  // const data = useSelector((state) => state.results.results);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
+
+    //select element
     const resultsContainer = window.document.querySelector("#inner-result");
-    if (data && resultsContainer && infiniteScroll) {
+
+    if (data && resultsContainer && infiniteScroll && status === 'next') {
       const scrollFunction = () => {
-        const scrollPosition =
-          resultsContainer.scrollTop + resultsContainer.clientHeight;
+        const scrollPosition = resultsContainer.scrollTop + resultsContainer.clientHeight;
         const bottomPosition = resultsContainer.scrollHeight;
 
-        // console.log(scrollPosition, bottomPosition);
+        // console.log(scrollPosition.toFixed(0), bottomPosition.toFixed(0), scrollPosition.toFixed(0) >= bottomPosition.toFixed(0) - 1)
         if (scrollPosition >= bottomPosition - 1) {
+          // console.log(start)
           resultsContainer.removeEventListener("scroll", scrollFunction);
           // console.log("hit");
           setLoading(true);
 
-          // const nextResultsPage = start + 100;
-          // console.log(params);
-          return dispatch(searchActions.search({ ...params, start }))
-            .then(async () => {
+          return dispatch(resultActions.search({ ...params, start: Number(Object.keys(data).slice(-2, -1)[0]) }, status = 'next'))
+          .then(async () => {
+            resultsContainer.scrollTo(0, bottomPosition)
+            setStatus('next')
               const lastIndex = Number(Object.keys(results).slice(-2, -1)[0]);
               setStart(lastIndex);
               setLoading(false);
-              // console.log("yo");
+              // setStatus('next')
             })
         }
       };
-      resultsContainer.addEventListener("scroll", scrollFunction);
+      // console.log('listener mounted')
+      return resultsContainer.addEventListener("scroll", scrollFunction);
     }
-  }, [results]);
+  }, [data]);
 
   useEffect(() => {
     if (infiniteScroll) {
@@ -59,7 +69,7 @@ export default function Results({
 
   return (
     data &&
-    Object.values(data).length > 0 && (
+    Object.values(data).length ? (
       //KEEP CLASS NAME AS IS
       <div
         className={`flex flex-col justify-center h-full overflow-hidden pb-1 ${
@@ -71,8 +81,21 @@ export default function Results({
           className="rounded flex-col flex h-full py-2 px-2 w-full items-center overflow-y-scroll overflow-x-hidden"
           id="inner-result"
         >
-          {Object.keys(data)
-            .slice(0, -1)
+          {Object.values(data)[0] && Object.values(data)[0].queryId ? Object.keys(data).reverse()
+          .filter(key => !data[key].currentPage)
+            .map((rowKey) => {
+              return (
+                <Result
+                  rowKey={rowKey}
+                  data={data}
+                  showResult={showResult}
+                  setShowResult={setShowResult}
+                  setPreview={setPreview}
+                  setResult={setResult}
+                />
+              );
+            }) : Object.keys(data)
+          .filter(key => !data[key].currentPage)
             .map((rowKey) => {
               return (
                 <Result
@@ -87,13 +110,12 @@ export default function Results({
             })}
           {loading && (
             <img
-              src="/icons/loading.png"
+              src={loadingImg}
               className="h-26 w-26 rounded-full animate-spin mb-4"
             />
           )}
         </div>
       </div>
-    )
+    ) : <></>
   );
 }
-

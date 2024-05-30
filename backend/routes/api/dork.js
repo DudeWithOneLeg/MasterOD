@@ -5,7 +5,7 @@ require("dotenv").config();
 const SERP_API_ACCESS_KEY = process.env.SERP_API_ACCESS_KEY;
 const search = new SerpApi.GoogleSearch(SERP_API_ACCESS_KEY);
 const { getArchive } = require("./utils");
-const { Queries, BrowseHistory } = require("../../db/models");
+const { Queries, Result } = require("../../db/models");
 
 router.post("/iframe/", async (req, res) => {
   const { link, title, snippet, archive, queryId } = req.body;
@@ -21,10 +21,11 @@ router.post("/iframe/", async (req, res) => {
       })
       .then(async (data) => {
         const response = data;
-        await BrowseHistory.create({link, snippet, title, queryId, userId: user.id})
+        await Result.create({link, snippet, title, queryId, userId: user.id, saved: false})
         return response;
       })
       .catch((e) => console.log(e));
+
 
     return res.json({ data });
   }
@@ -35,6 +36,7 @@ router.post("/", async (req, res) => {
   //   const { query, lat, lng } = req.body;
   // const quote = ["intitle", "inurl", "-intitle", "-inurl", "intext", "-intext"];
   const params = req.body;
+  console.log(params)
   const { user } = req;
   params.q = params.q
     .split(";")
@@ -71,24 +73,25 @@ router.post("/", async (req, res) => {
     // console.log(data.serpapi_pagination);
 
     if (data.organic_results) {
+      console.log(data.dmca_messages)
       const results = async (rest) => {
         const index = {};
         // console.log(rest, 'hello')
         Object.values(rest).forEach(async (resp) => {
           const link = resp.link;
           if (!index[link]) {
-            await getArchive(link).then(async (archive) => {
-              // console.log(archive, 'hello')
-              index[link] = archive;
-              obj[resp.position] = {
-                id: resp.position,
-                title: resp.title,
-                link: resp.link,
-                snippet: resp.snippet,
-                archive: archive,
-              };
-              // console.log(archive);
-            });
+            obj[resp.position] = {
+              id: resp.position,
+              title: resp.title,
+              link: resp.link,
+              snippet: resp.snippet,
+              // archive: archive,
+            };
+            // await getArchive(link).then(async (archive) => {
+            //   // console.log(archive, 'hello')
+            //   index[link] = archive;
+            //   // console.log(archive);
+            // });
           } else {
             obj[resp.position] = {
               id: resp.position,

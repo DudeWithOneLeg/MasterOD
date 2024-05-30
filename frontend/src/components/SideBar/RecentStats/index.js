@@ -51,7 +51,7 @@ export default function RecentStats() {
               );
             })
         ) : (
-          <></>
+          <p className="text-sm flex justify-content-center">Empty</p>
         ),
       path: "/search/saved",
     },
@@ -69,7 +69,7 @@ export default function RecentStats() {
             );
           })
         ) : (
-          <></>
+          <p className="text-sm flex justify-content-center">Empty</p>
           //   user.recentQueries && Object.values(user.recentQueries).length ?
           //   Object.values(user.recentQueries).slice(0, 5).map((query) => {
           //     return (
@@ -101,7 +101,7 @@ export default function RecentStats() {
               );
             })
         ) : (
-          <></>
+          <p className="text-sm flex justify-content-center">Empty</p>
         ),
       path: "/results/all",
     },
@@ -121,7 +121,7 @@ export default function RecentStats() {
               );
             })
         ) : (
-          <></>
+          <p className="text-sm flex justify-content-center">Empty</p>
           //   user.savedResults && Object.values(user.savedResults).length ?
           //   Object.values(user.savedResults)
           //     .reverse()

@@ -16,10 +16,9 @@ export default function QueryPage() {
 
   useEffect(() => {
     const {view} = params
-
+    console.log(view)
     if (view === 'saved') setViewAll(false)
     else if (view === 'all') setViewAll(true)
-    else setViewAll(true)
   },[params])
 
   return (

@@ -176,7 +176,7 @@ export default function SideBar() {
                         setLogin(false);
                       }, 500);
                     }}
-                    src="/icons/arrow_back_2.png"
+                    src={require("../../assets/icons/arrow_back_2.png")}
                     className="w-10 hover:bg-slate-600 rounded-full p-1.5 cursor-pointer"
                   />
                   <LoginFormPage setLogin={setLogin} setSignup={setSignup} />
@@ -199,7 +199,7 @@ export default function SideBar() {
                           setLogin(false);
                         }, 500);
                       }}
-                      src="/icons/arrow_back_2.png"
+                      src={require("../../assets/icons/arrow_back_2.png")}
                       className="w-10 hover:bg-slate-600 rounded-full p-1.5 cursor-pointer"
                     />
                     <h1 className="w-full text-center">Sign up</h1>
