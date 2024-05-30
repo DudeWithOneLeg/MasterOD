@@ -7,7 +7,7 @@ import SearchBar from "./SearchBar";
 import QueryStats from '../QueryStats'
 
 
-export default function Search() {
+export default function Search({search, setSearch}) {
   const data = useSelector((state) => state.search.data);
   const results = useSelector((state) => state.results.results);
 
@@ -68,9 +68,10 @@ export default function Search() {
         setKeywords={setKeywords}
         status={status}
         setStatus={setStatus}
+        setSearch={setSearch}
       />
 
-      {results ? (
+      {results && search ? (
         <>
           <div className="rounded text-slate-200 h-fit" id="result-header">
             <div

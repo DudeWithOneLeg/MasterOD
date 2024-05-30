@@ -18,7 +18,8 @@ export default function Results({
   infiniteScroll,
   data,
   status,
-  setStatus
+  setStatus,
+  filterInput
 }) {
   // const data = useSelector((state) => state.search.results);
   const [results, setResults] = useState({});
@@ -84,16 +85,34 @@ export default function Results({
           {Object.values(data)[0] && Object.values(data)[0].queryId ? Object.keys(data).reverse()
           .filter(key => !data[key].currentPage)
             .map((rowKey) => {
-              return (
-                <Result
-                  rowKey={rowKey}
-                  data={data}
-                  showResult={showResult}
-                  setShowResult={setShowResult}
-                  setPreview={setPreview}
-                  setResult={setResult}
-                />
-              );
+              if (filterInput) {
+                const result = data[rowKey]
+                if ((result && result.title) && (result.title.toLowerCase().includes(filterInput) || result.snippet.toLowerCase().includes(filterInput) || result.link.toLowerCase().includes(filterInput))) {
+                  return (
+                    <Result
+                      rowKey={rowKey}
+                      data={data}
+                      showResult={showResult}
+                      setShowResult={setShowResult}
+                      setPreview={setPreview}
+                      setResult={setResult}
+                    />
+                  );
+                }
+              }
+              else {
+
+                return (
+                  <Result
+                    rowKey={rowKey}
+                    data={data}
+                    showResult={showResult}
+                    setShowResult={setShowResult}
+                    setPreview={setPreview}
+                    setResult={setResult}
+                  />
+                );
+              }
             }) : Object.keys(data)
           .filter(key => !data[key].currentPage)
             .map((rowKey) => {

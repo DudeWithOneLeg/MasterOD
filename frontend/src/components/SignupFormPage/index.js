@@ -46,6 +46,7 @@
         <div className="flex flex-col h-fit w-full items-center border-t-2 pt-2">
 
           <form onSubmit={handleSubmit} className="flex flex-col w-fit h-fit">
+            <h1>Email</h1>
               <input
                 type="text"
                 placeholder="Email"
@@ -55,7 +56,7 @@
                 className="my-1 rounded"
               />
             {errors.email && <p>{errors.email}</p>}
-
+            <h1>Username</h1>
               <input
                 type="text"
                 value={username}
@@ -66,7 +67,7 @@
               />
             {errors.username && <p>{errors.username}</p>}
 
-              <input
+              {/* <input
                 type="text"
                 placeholder="First Name"
                 value={firstName}
@@ -84,8 +85,8 @@
                 required
                 className="my-1 rounded"
               />
-            {errors.lastName && <p>{errors.lastName}</p>}
-
+            {errors.lastName && <p>{errors.lastName}</p>} */}
+              <h1>Password</h1>
               <input
                 type="password"
                 placeholder="Password"

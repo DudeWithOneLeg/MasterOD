@@ -8,7 +8,7 @@ import LoginFormPage from "../LoginFormPage";
 import RecentStats from "./RecentStats";
 // import SearchBar from "../SearchBar";
 
-export default function SideBar() {
+export default function SideBar({setSearch}) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.session.user);
 
@@ -119,7 +119,7 @@ export default function SideBar() {
               />
             </div>
             <div className={`p-4 text-lg`}>
-              <RecentStats />
+              <RecentStats setSearch={setSearch}/>
             </div>
           </div>
         ) : (
@@ -152,7 +152,7 @@ export default function SideBar() {
                 >
                   Sign up
                 </p>
-                <p
+                {/* <p
                   onClick={() => {
                     // setMoveRight(true);
                     dispatch(sessionActions.login({credential: "demo@user.com", password: 'password'}))
@@ -160,7 +160,7 @@ export default function SideBar() {
                   className="cursor-pointer hover:bg-slate-600 rounded text-center p-1"
                 >
                   Demo Login
-                </p>
+                </p> */}
 
               </div>
             </div>
@@ -169,16 +169,19 @@ export default function SideBar() {
                 <div
                   className={`flex flex-col transition-all duration-700 ease-in-out ${loginSlide} p-4`}
                 >
-                  <img
-                    onClick={async () => {
-                      setHide(true);
-                      await setTimeout(async () => {
-                        setLogin(false);
-                      }, 500);
-                    }}
-                    src={require("../../assets/icons/arrow_back_2.png")}
-                    className="w-10 hover:bg-slate-600 rounded-full p-1.5 cursor-pointer"
-                  />
+                  <div className="flex flex-row items-center">
+                    <img
+                      onClick={async () => {
+                        setHide(true);
+                        await setTimeout(async () => {
+                          setLogin(false);
+                        }, 500);
+                      }}
+                      src={require("../../assets/icons/arrow_back_2.png")}
+                      className="w-10 hover:bg-slate-600 rounded-full p-1.5 cursor-pointer"
+                    />
+                    <h1 className="text-center">Login</h1>
+                  </div>
                   <LoginFormPage setLogin={setLogin} setSignup={setSignup} />
                 </div>
               ) : (
@@ -188,7 +191,7 @@ export default function SideBar() {
                 <div
                   className={`flex flex-col w-[300px] transition-all ease-in-out duration-700 p-4 ${signupSlideDown}`}
                 >
-                  <div className="flex flex-row items-end">
+                  <div className="flex flex-row items-center">
                     <img
                       onClick={async () => {
                         // ;

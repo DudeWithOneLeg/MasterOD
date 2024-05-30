@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import RecentStat from "../RecentStat";
 
-export default function RecentStats() {
+export default function RecentStats({setSearch}) {
   const user = useSelector((state) => state.session.user);
   const recentQueries = useSelector((state) => state.search.recentQueries);
   const recentSavedResults = useSelector(
@@ -146,7 +146,7 @@ export default function RecentStats() {
 
   return Object.values(navBarStats).map((object) => {
     return (
-      <RecentStat object={object}/>
+      <RecentStat object={object} setSearch={setSearch}/>
     );
   });
 }

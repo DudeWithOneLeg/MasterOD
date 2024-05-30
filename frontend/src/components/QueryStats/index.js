@@ -29,7 +29,7 @@ export default function QueryPage() {
             className="w-1/2 rounded-full h-8 px-3 text-black"
             placeholder="Filter searches"
             value={filterInput}
-            onChange={(e) => setFilterInput(e.target.value)}
+            onChange={(e) => setFilterInput(e.target.value.toLowerCase())}
           />
         </div>
         <div className="flex w-full justify-content-center">
@@ -100,10 +100,10 @@ export default function QueryPage() {
                   if (
                     query.engine
                       .toLowerCase()
-                      .includes(filterInput.toLowerCase()) ||
+                      .includes(filterInput) ||
                     query.query
                       .toLowerCase()
-                      .includes(filterInput.toLowerCase())
+                      .includes(filterInput)
                   ) {
                     return (
                       <div className="flex flex-row divide divide-x justify-content-between w-full p-1 hover:bg-slate-500">
