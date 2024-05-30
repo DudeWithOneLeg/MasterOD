@@ -21,6 +21,9 @@ const validateLogin = [
 const router = express.Router();
 
 router.get("/", async (req, res) => {
+  const response = await fetch("https://www.reddit.com/r/opendirectories/search.json?q=python&restrict_sr=on&sort=new&t=all");
+    const data = await response.text();
+console.log(data)
   const { user } = req;
   if (user) {
     const safeUser = {

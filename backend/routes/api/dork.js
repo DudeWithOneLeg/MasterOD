@@ -43,14 +43,16 @@ router.post("/", async (req, res) => {
     .map((q) =>
       q.includes(":")
         ? `${q.split(":")[0]}:"${q.split(":")[1]}"`
-        : '"' + q + '"'
+        : ''
     )
     .join(" ");
   const newQuery = {
     userId: user.id,
-    query: `${params.q} ${params.keywords}`,
+    query: `${params.q + ' '}${params.keywords}`,
     engine: params.engine,
   };
+
+  console.log(newQuery)
 
   await Queries.create(newQuery);
 

@@ -12,7 +12,7 @@
       const [password, setPassword] = useState("");
       const [errors, setErrors] = useState({});
 
-      if (sessionUser) return redirect("/");
+      // if (sessionUser) return redirect("/");
 
       const handleSubmit = (e) => {
         e.preventDefault();
@@ -26,7 +26,7 @@
       };
 
       return (
-        <div className="w-full flex flex-col items-center justify-content-center p-6 px-5">
+        <div className="w-full flex flex-col items-center justify-content-center p-6 px-5 border-t-2">
           {/* <h1>Log In</h1> */}
           <form onSubmit={handleSubmit} className="flex flex-col w-full">
               <input

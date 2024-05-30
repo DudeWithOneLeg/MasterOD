@@ -790,40 +790,95 @@ const apachIcons = async () => {
 //   "https://www.reddit.com/r/pushshift/comments/142y0pd/any_good_reddit_scrapers/"
 // );
 
-const func = async (url) => {
+const func = async () => {
+  const url = "https://reddit.com/r/opendirectories/new.json?limit=100";
+  let after = "";
   const browser = await puppeteer.launch({ headless: false });
   const page = await browser.newPage();
   await page.goto(url);
 
   let data = await page.content();
+  await browser.close();
   data = JSON.parse(
-      data
-        .split(
-          '<html><head><meta name="color-scheme" content="light dark"></head><body><pre style="word-wrap: break-word; white-space: pre-wrap;">'
-        )[1]
-        .split("</pre></body></html>")[0]
-    )
+    data
+      .split(
+        '<html><head><meta name="color-scheme" content="light dark"></head><body><pre style="word-wrap: break-word; white-space: pre-wrap;">'
+      )[1]
+      .split("</pre></body></html>")[0]
+  );
 
-    const posts = data.data.children
-    const urls = []
+  const posts = data.data.children;
+  const urls = [];
+  // const second = []
 
-    for (let post of posts) {
-      const text = post.data.selftext
-      let start = 0
-      let end = 0
-      for (let letter in text) {
-        if (text[letter] === '[') start = letter + 1
-        if (text[letter] === ']') {
-          end = letter
-          const link = text.split('').slice(start, end).join('')
-          if (link) urls.push(link)
+  for (let post of posts) {
+    console.log("=======================================================");
+    // console.log()
+    // console.log('POST URL: ',post.data.url)
+    const obj = {};
+    const text = post.data.selftext;
+    obj.postUrl = `https://reddit.com/r/opendirectories/comments/${post.data.id}`;
+    const postUrls = [];
+    // obj.urls = []
+    obj.text = text;
+    // console.log(text.split("\n").join(" ").split(" ").join(" "));
+    const arr = text
+      .split("\n")
+      .join(" ")
+      .split(" ")
+      .filter((text) => !text.includes("[http") && !text.includes("(http"));
+
+    const links = arr.filter(
+      (text) =>
+        text.includes("http") ||
+        text.includes("www") ||
+        (!isNaN(parseInt(text.split(".")[1])) &&
+          !isNaN(parseInt(text.split(".")[2])) &&
+          !isNaN(parseInt(text.split(".")[3])))
+    );
+    // console.log(links);
+    //  for (let text of links) {
+    //     const splitByDot = text.split('.')
+    //     if (!isNaN(parseInt(splitByDot[1])) && !isNaN(parseInt(splitByDot[2])) && !isNaN(parseInt(splitByDot[3]))) {
+    //       // console.log(!isNaN(parseInt(splitByDot[1])) && !isNaN(parseInt(splitByDot[2])) && !isNaN(parseInt(splitByDot[3])),splitByDot.join('.'))
+    //       postUrls.push(splitByDot.join('.'))
+    //       console.log(splitByDot.join('.'))
+
+    //     }
+    //   }
+    // console.log(text)
+
+    let start = 0;
+    let end = 0;
+    const newText = text.split("\n").join(" ").split(" ").join(" ");
+    for (let letter in newText) {
+      if (text[letter] === "[") {
+        start = Number(letter) + 1
+        // console.log(letter)
+      }
+      if (text[letter] === "]") {
+        end = Number(letter);
+        const link = newText.split("").slice(start, end).join("");
+        // console.log("LINKS: ", link, start, end);
+        if (link) {
+          urls.push(link);
+          postUrls.push(link);
         }
+        start = 0
+        end = 0
       }
     }
+    obj.urls = postUrls.concat(links);
+    // console.log(postUrls, obj.urls);
+    console.log(obj);
+    if (!text) console.log(post.data.url);
+    console.log("=======================================================");
+    // if (links && links.length) console.log(links)
+  }
 
-    const lastPostId = posts[posts.length - 1].data.name
-    console.log(urls, lastPostId)
-return
-}
+  const lastPostId = posts[posts.length - 1].data.name;
+  // console.log(urls, lastPostId)
+  return;
+};
 
-func('https://reddit.com/r/opendirectories/new.json?limit=100')
+func();

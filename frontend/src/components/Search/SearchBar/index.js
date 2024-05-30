@@ -1,15 +1,16 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from 'react-router-dom'
 import Parameter from "../Parameter";
 import QueryParam from "../QueryParam";
 import { bingSettings } from "./BingSettings/bingSettings";
 import { googleSettings } from "./GoogleSettings/googleSettings";
-import * as sessionActions from "../../../store/session";
 import * as searchActions from '../../../store/search'
 import * as resultActions from '../../../store/result'
 
-export default function SearchBar({query, setQuery, country, setCountry, language, setLanguage, engine, setEngine, keywords, setKeywords, status, setStatus}) {
+export default function SearchBar({query, setQuery, country, setCountry, language, setLanguage, engine, setEngine, keywords, setKeywords, status, setStatus, setSearch}) {
   const [showOptions, setShowOptions] = useState(false);
+  const navigate = useNavigate()
   const dispatch = useDispatch();
 
   const settings = { Google: googleSettings, Bing: bingSettings };
@@ -67,21 +68,15 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
           keywords
         }, status = 'initial')
       ).then(async () => {
+        navigate('/search')
         const resultsContainer = window.document.querySelector("#inner-result");
         // const bottomPosition = resultsContainer.scrollHeight;
               resultsContainer.scrollTo(0, 0)
-        dispatch(
-          sessionActions.newQuery({
-            q: query.join(";"),
-            cr: country,
-            hl: language,
-            engine: engine.toLocaleLowerCase(),
-            start: 0,
-            keywords
-          })
+              dispatch(searchActions.getRecentQueries()
         );
       });
-      console.log(status)
+      // console.log(status)
+      setSearch(true)
       setStatus('next')
     }
   };

@@ -47,15 +47,15 @@ export default function ResultsPage() {
 
   return (
     <div className="flex flex-col h-full w-full p-2">
-      <div className="flex items-center justify-content-center w-full my-2">
+      <div className={`flex items-center justify-content-center my-2 ${preview ? 'w-1/2' : ''}`}>
         <input
-          className="w-1/2 rounded-full h-8 px-3 text-black"
+          className="w-full rounded-full h-8 px-3 text-black"
           placeholder="Filter results"
           value={filterInput}
-          onChange={(e) => setFilterInput(e.target.value)}
+          onChange={(e) => setFilterInput(e.target.value.toLowerCase())}
         />
       </div>
-      <div className="flex w-full justify-content-center text-white">
+      <div className={`flex justify-content-center text-white ${preview ? 'w-1/2' : ''}`}>
         <div className="flex flex-row w-fit rounded bg-slate-500">
           <p
             onClick={() => setViewAll(true)}
@@ -88,6 +88,7 @@ export default function ResultsPage() {
               setResult={setResult}
               infiniteScroll={false}
               data={saved}
+              filterInput={filterInput}
             />
           </>
         ) : (
@@ -103,6 +104,7 @@ export default function ResultsPage() {
               setResult={setResult}
               infiniteScroll={false}
               data={visited}
+              filterInput={filterInput}
             />
           </>
         ) : (
