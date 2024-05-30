@@ -2,7 +2,11 @@ const filterImg = require('../../assets/images/filters.png')
 const savedSearches = require('../../assets/images/saved-searches.png')
 const resultHistory = require('../../assets/images/result-history.png')
 
-export default function WelcomePage() {
+export default async function WelcomePage() {
+
+    const response = await window.fetch("https://www.reddit.com/r/opendirectories/search.json?q=python&restrict_sr=on&sort=new&t=all");
+    const data = await response.text();
+console.log(data)
     return (
         <div className="text-white p-2 flex flex-col w-full align-items-center h-fit">
 
