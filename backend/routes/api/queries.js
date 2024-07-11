@@ -11,8 +11,18 @@ router.get('/', async (req, res) => {
             userId: user.id
         }
     })
-    res.statusCode = 200
-    res.json(queries).status(200)
+    return res.json(queries).status(200)
+})
+
+router.post('/:queryId', async (req, res) => {
+
+  const {queryId} = req.params
+
+  const query = await Queries.findByPk(queryId)
+  query.update({
+    saved: !query.saved
+  })
+  return res.json(query).status(200)
 })
 
 router.get('/save', async (req, res) => {
@@ -28,7 +38,7 @@ router.get('/save', async (req, res) => {
     })
 
 
-    // console.log(res.statusCode)
+    console.log(savedQueries)
     return res.json(savedQueries).status(200)
 
 })
@@ -58,7 +68,7 @@ router.post('/save', async (req, res) => {
         userId: user.id,
         saved: true
       },
-      order: [['updatedAt', 'DESC']],
+      order: [['createdAt', 'DESC']],
       limit: 5
     })
 

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import * as queryActions from "../../store/query";
+import * as searchActions from '../../store/search'
 
 export default function QueryPage() {
   const dispatch = useDispatch();
@@ -16,10 +17,14 @@ export default function QueryPage() {
 
   useEffect(() => {
     const {view} = params
-    console.log(view)
     if (view === 'saved') setViewAll(false)
     else if (view === 'all') setViewAll(true)
   },[params])
+
+  const updateQuery = (queryId) => {
+    dispatch(queryActions.updateQuery(queryId))
+    dispatch(searchActions.getRecentSavedQueries())
+  }
 
   return (
     <div className="w-full h-full flex flex-col text-slate-200 bg-slate-700 rounded">
@@ -71,7 +76,8 @@ export default function QueryPage() {
                               ? require("../../assets/icons/bookmark_FILL.png")
                               : require("../../assets/icons/bookmark.png")
                           }
-                          className="h-8"
+                          className="h-8 cursor-pointer"
+                          onClick={() => updateQuery(query.id)}
                         />
                         <p className="w-full flex align-items-center justify-content-center">
                           {query.query}
@@ -114,7 +120,8 @@ export default function QueryPage() {
                                 ? require("../../assets/icons/bookmark_FILL.png")
                                 : require("../../assets/icons/bookmark.png")
                             }
-                            className="h-8"
+                            className="h-8 cursor-pointer"
+                          onClick={() => updateQuery(query.id)}
                           />
                           <p className="w-full flex align-items-center justify-content-center">
                             {query.query}
@@ -153,7 +160,8 @@ export default function QueryPage() {
                               ? require("../../assets/icons/bookmark_FILL.png")
                               : require("../../assets/icons/bookmark.png")
                           }
-                          className="h-8"
+                          className="h-8 cursor-pointer"
+                          onClick={() => updateQuery(query.id)}
                         />
                         <p className="w-full flex align-items-center justify-content-center">
                           {query.query}

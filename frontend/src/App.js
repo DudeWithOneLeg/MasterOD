@@ -44,7 +44,7 @@ function App() {
             <Route path="/search/:view" element={<Search setSearch={setSearch} search={search}/>}/>
           </Routes>
         ) : (
-          <div className="overflow-y-scroll">
+          <div className="">
             <Routes>
               <Route path="/search" element={<WelcomePage />}/>
             </Routes>
