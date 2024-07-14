@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import SaveResult from "../SaveResult";
 const newTab = require("../../assets/icons/open_in_new.png");
 
@@ -10,6 +10,7 @@ export default function Result({
   setShowResult,
   setPreview,
   setResult,
+  setWidth
 }) {
   const [showInfo, setShowInfo] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -27,6 +28,7 @@ export default function Result({
     setShowResult(true);
     setResult(newResult);
     setPreview(data[rowKey].link);
+    setWidth('w-full')
     return;
   };
 
@@ -44,7 +46,7 @@ export default function Result({
       data-collapse-target="collapse"
       data-collapse="collapse"
       id="result"
-      className={`h-fit cursor-pointer border-secondary flex w-full items-center rounded bg-gradient-to-r from-slate-800 via-slate-800 hover:bg-gradient-to-r hover:from-slate-700 hover:via-slate-800 py-2 mb-2 mr-1 transition-all duration-300 ease-in-out `}
+      className={`h-fit w-full cursor-pointer border-secondary flex items-center rounded bg-gradient-to-r from-slate-800 via-slate-800 hover:bg-gradient-to-r hover:from-slate-700 hover:via-slate-800 py-2 mb-2 mr-1 transition-all duration-300 ease-in-out `}
     >
       <div className="flex flex-col items-center justify-content-around min-w-10 h-full">
         {/* <div className="text-white">{result.id}</div> */}
@@ -61,14 +63,14 @@ export default function Result({
         className="flex flex-col items-start h-full w-full"
       >
         {result ? (
-          <div key={result.id} className={`flex flex-col text-slate-400 h-fit`}>
+          <div key={result.id} className={`flex flex-col text-slate-400 h-fit w-full`}>
             <div className="flex flex-row ">
               <div className="w-full">
                 <div className="flex flex-row justify-content-between w-full">
                   <h3 className="font-bold text-slate-300 text-xl text-wrap underline w-full">
                     {result.title && result.title}
                   </h3>
-                  <img src={newTab} className="h-8" onClick={handleNewTab}/>
+                  <img src={newTab} className="h-8" onClick={handleNewTab} alt='new tab'/>
                 </div>
                 <p className="text-sm">{result.link}</p>
               </div>
@@ -78,6 +80,7 @@ export default function Result({
                   <img
                     src={require("../../assets/images/document.png")}
                     className="w-8 h-8"
+                    alt='document'
                   />
                 )}
             </div>
@@ -92,6 +95,7 @@ export default function Result({
                   href={result.archive.archived_snapshots.closest.url}
                   target="_blank"
                   className="font-bold text-slate-400 w-fit"
+                  rel="noreferrer"
                 >
                   Archive
                 </a>

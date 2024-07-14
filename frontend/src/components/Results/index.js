@@ -26,6 +26,8 @@ export default function Results({
   const [loading, setLoading] = useState(false);
   // const data = useSelector((state) => state.results.results);
 
+  const [width, setWidth] = useState('w-1/2')
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -79,9 +81,11 @@ export default function Results({
         id="results"
       >
         <div
-          className="rounded flex-col flex h-full py-2 px-2 w-full items-center overflow-y-scroll overflow-x-hidden"
+          className={`rounded flex-col flex h-full py-2 px-2 w-full items-center overflow-y-scroll overflow-x-hidden`}
           id="inner-result"
         >
+          <div className={`${width}`}>
+
           {Object.values(data)[0] && Object.values(data)[0].queryId ? Object.keys(data).reverse()
           .filter(key => !data[key].currentPage)
             .map((rowKey) => {
@@ -96,6 +100,7 @@ export default function Results({
                       setShowResult={setShowResult}
                       setPreview={setPreview}
                       setResult={setResult}
+                      setWidth={setWidth}
                     />
                   );
                 }
@@ -110,6 +115,7 @@ export default function Results({
                     setShowResult={setShowResult}
                     setPreview={setPreview}
                     setResult={setResult}
+                    setWidth={setWidth}
                   />
                 );
               }
@@ -124,9 +130,11 @@ export default function Results({
                   setShowResult={setShowResult}
                   setPreview={setPreview}
                   setResult={setResult}
+                  setWidth={setWidth}
                 />
               );
             })}
+          </div>
           {loading && (
             <img
               src={loadingImg}

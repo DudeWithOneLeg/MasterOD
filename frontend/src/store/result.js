@@ -102,7 +102,6 @@ export const getRecentSavedResults = () => async (dispatch) => {
 
 export const getRecentVisitedResults = () => async (dispatch) => {
   const res = await csrfFetch("/api/results/history");
-  console.log("getRecentVisitedR");
   if (res.ok && res.status === 200) {
     const recentVisitedResults = await res.json();
     dispatch(setRecentVisitedResults(recentVisitedResults));
@@ -111,7 +110,6 @@ export const getRecentVisitedResults = () => async (dispatch) => {
 
 export const getallResults = () => async (dispatch) => {
   const res = await csrfFetch("/api/results");
-  console.log("getallResults");
   if (res.ok && res.status === 200) {
     const results = await res.json();
     dispatch(setAllResults(results));

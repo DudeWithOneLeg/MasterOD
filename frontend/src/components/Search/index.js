@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as searchActions from "../../store/search";
+import * as resultActions from '../../store/result'
 import Results from "../Results";
 import Browser from "../Browser";
 import SearchBar from "./SearchBar";
@@ -37,6 +38,8 @@ export default function Search({search, setSearch}) {
       if (!browseHistory.length) {
         setBrowseHistory([preview]);
       }
+
+    dispatch(resultActions.getRecentVisitedResults())
     }
   }, [preview, dispatch]);
 
@@ -44,7 +47,6 @@ export default function Search({search, setSearch}) {
   useEffect(() => {
     if (results) {
       const lastResultIndex = Number(Object.keys(results).slice(-2, -1)[0]);
-      console.log('helllo', lastResultIndex)
       setStart(lastResultIndex);
     }
   }, [results]);
