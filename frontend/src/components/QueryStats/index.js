@@ -22,8 +22,8 @@ export default function QueryPage() {
   },[params])
 
   const updateQuery = (queryId) => {
-    dispatch(queryActions.updateQuery(queryId))
-    dispatch(searchActions.getRecentSavedQueries())
+    dispatch(queryActions.updateQuery(queryId)).then(() => dispatch(searchActions.getRecentSavedQueries()))
+
   }
 
   return (

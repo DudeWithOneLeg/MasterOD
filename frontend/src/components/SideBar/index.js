@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import * as sessionActions from "../../store/session";
 import * as searchActions from "../../store/search";
 import * as resultActions from "../../store/result";
@@ -10,7 +11,9 @@ import RecentStats from "./RecentStats";
 
 export default function SideBar({setSearch}) {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const user = useSelector((state) => state.session.user);
+
 
   const [hide, setHide] = useState(true);
   const [login, setLogin] = useState(false);
@@ -119,6 +122,15 @@ export default function SideBar({setSearch}) {
               />
             </div>
             <div className={`p-4 text-lg`}>
+            <div
+              onClick={() => navigate('/search')}
+              className="flex flex-row items-center cursor-pointer border-2 rounded hover:bg-slate-600">
+            <img
+                src={require('../../assets/images/plus-white.png')}
+                className="h-8"
+              />
+              New Search
+            </div>
               <RecentStats setSearch={setSearch}/>
             </div>
           </div>

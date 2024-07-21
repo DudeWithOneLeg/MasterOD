@@ -99,6 +99,7 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
               src={require("../../../assets/images/plus.png")}
               className="h-10 w-10 flex flex-row"
               onClick={() => setShowOptions(!showOptions)}
+              alt='show options'
             />
             <p>Search</p>
             <div className="flex flex-wrap jusitfy-content-center h-fit max-w-fit overflow-wrap">
@@ -121,7 +122,7 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
               <div
               className="flex flex-row align-items-center"
               >
-                <img className="h-10 pointer" src={require('../../../assets/icons/save.png')} onClick={() => saveQuery()}/>
+                <img className="h-10 pointer" src={require('../../../assets/icons/save.png')} onClick={() => saveQuery()} alt='save query'/>
                 <p
                 className="px-2 mx-2 border rounded h-8 flex align-items-center hover:bg-red-600 bg-red-900"
                 onClick={() => setQuery([])}
@@ -217,7 +218,7 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
                 {Object.keys(settings[engine].countries).map((name) => (
                   <option
                     value={name}
-                    selected={settings[engine].countries[name] == country}
+                    selected={settings[engine].countries[name] === country}
                   >
                     {name}
                   </option>
