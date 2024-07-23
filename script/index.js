@@ -869,49 +869,53 @@ const func = async () => {
     }
   };
 
-  await fetchAndProcess();
+  // await fetchAndProcess();
 };
 
 // func();
 
 const cleanup = async () => {
-  let duplicates = 0
-  let count = 0
+//   let duplicates = 0
+//   let count = 0
   const newMaster = {}
-const masterStack = []
-  const data = await fs.readFileSync('master-index.json')
+// const masterStack = {}
+  const data = await fs.readFileSync('final.json')
   const json = JSON.parse(data)
   for (let post of Object.keys(json)) {
-    const stack = []
-    json[post].urls = json[post].urls.filter(link => link != 'removed' && link != 'deleted')
-    const arr = json[post].urls.filter(link => link.includes('http') && link.split('.').length >= 2)
-    if (arr.length) {
-      // console.log(arr)
+    json[post].url = post
+    const url = json[post]
+    newMaster[url.id] = url
+    // const stack = []
+    // json[post].urls = json[post].urls.filter(link => link != 'removed' && link != 'deleted')
+    // const arr = json[post].urls.filter(link => link.includes('http') && link.split('.').length >= 2)
+    // if (arr.length) {
+    //   // console.log(arr)
 
-      for (let link of arr) {
-        if (!masterStack.includes(link)) {
-          masterStack.push(link.split('/').slice(2, link.split('/').length - 1))
-          stack.push(link)
-        }
-        else {
-          duplicates++
-          // console.log(stack[stack.indexOf(link)])
-          // console.log(link)
+    //   for (let link of arr) {
+    //     if (!masterStack[link]) {
+    //       masterStack[link] = true
+    //       stack.push(link)
+    //     }
+    //     else {
+    //       duplicates++
+    //       // console.log(stack[stack.indexOf(link)])
+    //       // console.log('Dupes: ',duplicates)
 
-        }
-      }
-      // stack.concat(arr)
-      json[post].urls = stack
-      if (json[post].urls.length) {
-        newMaster[count] = json[post]
-        console.log(json[post])
-        console.log(count, '/', post)
-        count++
-      }
+    //     }
+    //   }
+    //   // stack.concat(arr)
+    //   json[post].urls = stack
+    //   if (stack.length) {
+    //     newMaster[count] = json[post]
+    //     // console.log(stack)
+    //     // console.log(count, '/', post)
+    //     count++
+    //   }
       // console.log(post)
-      fs.writeFileSync(`master-index3.json`, JSON.stringify({masterStack}, null, 2));
-    }
+      fs.writeFileSync(`final.json`, JSON.stringify(newMaster, null, 2));
+    // }
   }
+  return
 }
 
-cleanup()
+// cleanup()

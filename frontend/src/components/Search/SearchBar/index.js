@@ -23,7 +23,7 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
         hl: language,
         engine: engine.toLocaleLowerCase(),
         start: 0,
-        keywords
+        string: keywords
       })
     )
   }
@@ -65,7 +65,7 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
           hl: language,
           engine: engine.toLocaleLowerCase(),
           start: 0,
-          keywords
+          string: keywords
         }, status = 'initial')
       ).then(async () => {
         navigate('/search')
@@ -104,7 +104,7 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
             <p>Search</p>
             <div className="flex flex-wrap jusitfy-content-center h-fit max-w-fit overflow-wrap">
               <input placeholder="Enter keyword" className="px-2 m-1 bg-slate-600 rounded w-fit outline-none" value={keywords} onChange={(e) => setKeywords(e.target.value)}/>
-              {query.length
+              {query && query.length
                 ? query.map((param) => {
                     return (
                       <QueryParam
@@ -118,7 +118,7 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
             </div>
           </div>
           <div className="flex flex-row">
-            {query.length || keywords ? (
+            {(query && query.length) || keywords ? (
               <div
               className="flex flex-row align-items-center"
               >
@@ -157,7 +157,7 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
             </div>
           </div>
         </div>
-        {query.length || keywords ? (
+        {(query && query.length) || keywords ? (
           <div className="flex justify-self-end px-3" onClick={handleSubmit}>
             <button>Search</button>
           </div>

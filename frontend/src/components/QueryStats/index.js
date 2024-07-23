@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import * as queryActions from "../../store/query";
 import * as searchActions from '../../store/search'
 
-export default function QueryPage() {
+export default function QueryPage({ setQuery, setKeywords}) {
   const dispatch = useDispatch();
   const queries = useSelector((state) => state.queries.all);
   const [viewAll, setViewAll] = useState(false);
@@ -23,7 +23,11 @@ export default function QueryPage() {
 
   const updateQuery = (queryId) => {
     dispatch(queryActions.updateQuery(queryId)).then(() => dispatch(searchActions.getRecentSavedQueries()))
+  }
 
+  const addToSearch = (query) => {
+    setKeywords(query.string)
+    setQuery(query.query.split('" ').join('";').split(";"))
   }
 
   return (
@@ -68,7 +72,8 @@ export default function QueryPage() {
               Object.values(queries).map((query) => {
                 if (!filterInput) {
                   return (
-                    <div className="flex flex-row divide divide-x justify-content-between w-full p-1 hover:bg-slate-500">
+                    <div className="flex flex-row divide divide-x justify-content-between w-full p-1 hover:bg-slate-500"
+                      onClick={() => addToSearch(query)}>
                       <div className="flex flex-row w-1/3">
                         <img
                           src={
@@ -80,7 +85,7 @@ export default function QueryPage() {
                           onClick={() => updateQuery(query.id)}
                         />
                         <p className="w-full flex align-items-center justify-content-center">
-                          {query.query}
+                          {query.string ? query.query + ' ' + query.string : query.query}
                         </p>
                       </div>
                       <p className="w-1/3 flex align-items-center justify-content-center">
@@ -112,7 +117,8 @@ export default function QueryPage() {
                       .includes(filterInput)
                   ) {
                     return (
-                      <div className="flex flex-row divide divide-x justify-content-between w-full p-1 hover:bg-slate-500">
+                      <div className="flex flex-row divide divide-x justify-content-between w-full p-1 hover:bg-slate-500"
+                      onClick={() => addToSearch(query)}>
                         <div className="flex flex-row w-1/3">
                           <img
                             src={
@@ -152,7 +158,8 @@ export default function QueryPage() {
               Object.values(queries).map((query) => {
                 if (query.saved) {
                   return (
-                    <div className="flex flex-row divide divide-x justify-content-between w-full p-1 hover:bg-slate-500">
+                    <div className="flex flex-row divide divide-x justify-content-between w-full p-1 hover:bg-slate-500"
+                      onClick={() => addToSearch(query)}>
                       <div className="flex flex-row w-1/3">
                         <img
                           src={

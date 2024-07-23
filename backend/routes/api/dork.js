@@ -48,8 +48,9 @@ router.post("/", async (req, res) => {
     .join(" ");
   const newQuery = {
     userId: user.id,
-    query: `${params.q + ' '}${params.keywords}`,
+    query: params.q,
     engine: params.engine,
+    string: params.string
   };
 
   console.log(newQuery)

@@ -25,6 +25,9 @@ module.exports = (sequelize, DataTypes) => {
       saved: {
         type: DataTypes.BOOLEAN,
       },
+      string: {
+        type: DataTypes.STRING,
+      },
     },
     {
       sequelize,

@@ -9,6 +9,7 @@ router.get("/", async (req, res) => {
     where: {
       userId: user.id,
     },
+    order: [["createdAt", "DESC"]]
   });
   return res.json(queries).status(200);
 });
@@ -31,7 +32,7 @@ router.get("/save", async (req, res) => {
       userId: user.id,
       saved: true,
     },
-    order: [["updatedAt", "DESC"]],
+    order: [["createdAt", "DESC"]],
     limit: 5,
   });
 
@@ -41,6 +42,7 @@ router.get("/save", async (req, res) => {
 router.post("/save", async (req, res) => {
   const params = req.body;
   const { user } = req;
+  console.log(params)
   params.q = params.q
     .split(";")
     .map((q) =>

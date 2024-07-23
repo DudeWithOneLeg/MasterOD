@@ -46,7 +46,7 @@ export default function RecentStats({setSearch}) {
                 <div className="flex flex-row text-sm py-1 px-2">
                   <p className="text-gray-400">{timeFunc(query.createdAt)}</p>
                   <div className="w-2"></div>
-                  <p className="truncate">{query.query.split(";").join(" ")}</p>
+                  <p className="truncate">{query.query.split(";").join(" ") + ' ' + query.string}</p>
                 </div>
               );
             })
@@ -64,7 +64,7 @@ export default function RecentStats({setSearch}) {
               <div className="flex flex-row text-sm py-1 px-2">
                 <p className="text-gray-400">{timeFunc(query.createdAt)}</p>
                 <div className="w-2"></div>
-                <p className="truncate">{query.query.split(";").join(" ")}</p>
+                <p className="truncate">{query.query.split(";").join(" ") + ' ' + query.string}</p>
               </div>
             );
           })

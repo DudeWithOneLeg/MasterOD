@@ -19,146 +19,172 @@ module.exports = {
     */
     const validQueries = [
       {
-        query: 'test query',
+        query: 'intitle:"index of /"',
+        string:'test',
         engine: 'bing',
         userId: 1,
         saved: false
       },
       {
-        query: 'test query',
+        query: 'intitle:"index of /"',
+        string:'test',
         engine: 'google',
         userId: 1,
         saved: true
       },
       {
-        query: 'test query',
+        query: 'intitle:"index of /"',
+        string:'test',
         engine: 'bing',
         userId: 1,
         saved: false
       },
       {
-        query: 'test query',
-        engine: 'google',
-        userId: 1,
-        saved: true
-      },{
-        query: 'test query',
-        engine: 'bing',
-        userId: 1,
-        saved: false
-      },
-      {
-        query: 'test query',
+        query: 'intitle:"index of /"',
+        string:'test',
         engine: 'google',
         userId: 1,
         saved: true
       },{
-        query: 'test query',
+        query: 'intitle:"index of /"',
+        string:'test',
         engine: 'bing',
         userId: 1,
         saved: false
       },
       {
-        query: 'test query',
+        query: 'intitle:"index of /"',
+        string:'test',
         engine: 'google',
         userId: 1,
         saved: true
       },{
-        query: 'test query',
+        query: 'intitle:"index of /"',
+        string:'test',
         engine: 'bing',
         userId: 1,
         saved: false
       },
       {
-        query: 'test query',
+        query: 'intitle:"index of /"',
+        string:'test',
         engine: 'google',
         userId: 1,
         saved: true
       },{
-        query: 'test query',
+        query: 'intitle:"index of /"',
+        string:'test',
         engine: 'bing',
         userId: 1,
         saved: false
       },
       {
-        query: 'test query',
+        query: 'intitle:"index of /"',
+        string:'test',
         engine: 'google',
         userId: 1,
         saved: true
       },{
-        query: 'test query',
+        query: 'intitle:"index of /"',
+        string:'test',
         engine: 'bing',
         userId: 1,
         saved: false
       },
       {
-        query: 'test query',
+        query: 'intitle:"index of /"',
+        string:'test',
         engine: 'google',
         userId: 1,
         saved: true
       },{
-        query: 'test query',
+        query: 'intitle:"index of /"',
+        string:'test',
         engine: 'bing',
         userId: 1,
         saved: false
       },
       {
-        query: 'test query',
+        query: 'intitle:"index of /"',
+        string:'test',
         engine: 'google',
         userId: 1,
         saved: true
       },{
-        query: 'test query',
+        query: 'intitle:"index of /"',
+        string:'test',
         engine: 'bing',
         userId: 1,
         saved: false
       },
       {
-        query: 'test query',
+        query: 'intitle:"index of /"',
+        string:'test',
         engine: 'google',
         userId: 1,
         saved: true
       },{
-        query: 'test query',
+        query: 'intitle:"index of /"',
+        string:'test',
         engine: 'bing',
         userId: 1,
         saved: false
       },
       {
-        query: 'test query',
+        query: 'intitle:"index of /"',
+        string:'test',
         engine: 'google',
         userId: 1,
         saved: true
       },{
-        query: 'test query',
+        query: 'intitle:"index of /"',
+        string:'test',
         engine: 'bing',
         userId: 1,
         saved: false
       },
       {
-        query: 'test query',
+        query: 'intitle:"index of /"',
+        string:'test',
         engine: 'google',
         userId: 1,
         saved: true
       },{
-        query: 'test query',
+        query: 'intitle:"index of /"',
+        string:'test',
         engine: 'bing',
         userId: 1,
         saved: false
       },
       {
-        query: 'test query',
+        query: 'intitle:"index of /"',
+        string:'test',
         engine: 'google',
         userId: 1,
         saved: true
       },{
-        query: 'test query',
+        query: 'intitle:"index of /"',
+        string:'test',
         engine: 'bing',
         userId: 1,
         saved: false
       },
       {
-        query: 'test query',
+        query: 'intitle:"index of /"',
+        string:'test',
+        engine: 'google',
+        userId: 1,
+        saved: true
+      },{
+        query: 'intitle:"index of /"',
+        string:'test',
+        engine: 'bing',
+        userId: 1,
+        saved: false
+      },
+      {
+        query: 'intitle:"index of /"',
+        string:'test',
         engine: 'google',
         userId: 1,
         saved: true
