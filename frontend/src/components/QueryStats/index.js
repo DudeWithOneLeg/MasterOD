@@ -130,7 +130,7 @@ export default function QueryPage({ setQuery, setKeywords}) {
                           onClick={() => updateQuery(query.id)}
                           />
                           <p className="w-full flex align-items-center justify-content-center">
-                            {query.query}
+                            {query.string ? query.query + ' ' + query.string : query.query}
                           </p>
                         </div>
                         <p className="w-1/3 flex align-items-center justify-content-center">
@@ -171,7 +171,7 @@ export default function QueryPage({ setQuery, setKeywords}) {
                           onClick={() => updateQuery(query.id)}
                         />
                         <p className="w-full flex align-items-center justify-content-center">
-                          {query.query}
+                          {query.string ? query.query + ' ' + query.string : query.query}
                         </p>
                       </div>
                       <p className="w-1/3 flex align-items-center justify-content-center">
