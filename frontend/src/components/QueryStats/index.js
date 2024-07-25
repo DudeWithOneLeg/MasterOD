@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import QueryRow from "./QueryRow";
 import * as queryActions from "../../store/query";
 import * as searchActions from '../../store/search'
 
@@ -20,15 +21,6 @@ export default function QueryPage({ setQuery, setKeywords}) {
     if (view === 'saved') setViewAll(false)
     else if (view === 'all') setViewAll(true)
   },[params])
-
-  const updateQuery = (queryId) => {
-    dispatch(queryActions.updateQuery(queryId)).then(() => dispatch(searchActions.getRecentSavedQueries()))
-  }
-
-  const addToSearch = (query) => {
-    setKeywords(query.string)
-    setQuery(query.query.split('" ').join('";').split(";"))
-  }
 
   return (
     <div className="w-full h-full flex flex-col text-slate-200 bg-slate-700 rounded">
@@ -72,39 +64,7 @@ export default function QueryPage({ setQuery, setKeywords}) {
               Object.values(queries).map((query) => {
                 if (!filterInput) {
                   return (
-                    <div className="flex flex-row divide divide-x justify-content-between w-full p-1 hover:bg-slate-500"
-                      onClick={() => addToSearch(query)}>
-                      <div className="flex flex-row w-1/3">
-                        <img
-                          src={
-                            query.saved
-                              ? require("../../assets/icons/bookmark_FILL.png")
-                              : require("../../assets/icons/bookmark.png")
-                          }
-                          className="h-8 cursor-pointer"
-                          onClick={() => updateQuery(query.id)}
-                        />
-                        <p className="w-full flex align-items-center justify-content-center">
-                          {query.string ? query.query + ' ' + query.string : query.query}
-                        </p>
-                      </div>
-                      <p className="w-1/3 flex align-items-center justify-content-center">
-                        {new Date(query.createdAt).toString()}
-                      </p>
-                      <div className="w-1/3 flex align-items-center justify-content-center">
-                        {query.engine == "google" ? (
-                          <img
-                            className="h-7 rounded"
-                            src={require("../../assets/icons/google.png")}
-                          />
-                        ) : (
-                          <img
-                            className="h-7 rounded"
-                            src={require("../../assets/icons/bing.jpg")}
-                          />
-                        )}
-                      </div>
-                    </div>
+                    <QueryRow query={query} setKeywords={setKeywords} setQuery={setQuery}/>
                   );
                 }
                 if (filterInput) {
@@ -117,39 +77,7 @@ export default function QueryPage({ setQuery, setKeywords}) {
                       .includes(filterInput)
                   ) {
                     return (
-                      <div className="flex flex-row divide divide-x justify-content-between w-full p-1 hover:bg-slate-500"
-                      onClick={() => addToSearch(query)}>
-                        <div className="flex flex-row w-1/3">
-                          <img
-                            src={
-                              query.saved
-                                ? require("../../assets/icons/bookmark_FILL.png")
-                                : require("../../assets/icons/bookmark.png")
-                            }
-                            className="h-8 cursor-pointer"
-                          onClick={() => updateQuery(query.id)}
-                          />
-                          <p className="w-full flex align-items-center justify-content-center">
-                            {query.string ? query.query + ' ' + query.string : query.query}
-                          </p>
-                        </div>
-                        <p className="w-1/3 flex align-items-center justify-content-center">
-                          {new Date(query.createdAt).toString()}
-                        </p>
-                        <div className="w-1/3 flex align-items-center justify-content-center">
-                          {query.engine == "google" ? (
-                            <img
-                              className="h-7 rounded"
-                              src={require("../../assets/icons/google.png")}
-                            />
-                          ) : (
-                            <img
-                              className="h-7 rounded"
-                              src={require("../../assets/icons/bing.jpg")}
-                            />
-                          )}
-                        </div>
-                      </div>
+                      <QueryRow query={query} setKeywords={setKeywords} setQuery={setQuery}/>
                     );
                   }
                 }
@@ -158,39 +86,7 @@ export default function QueryPage({ setQuery, setKeywords}) {
               Object.values(queries).map((query) => {
                 if (query.saved) {
                   return (
-                    <div className="flex flex-row divide divide-x justify-content-between w-full p-1 hover:bg-slate-500"
-                      onClick={() => addToSearch(query)}>
-                      <div className="flex flex-row w-1/3">
-                        <img
-                          src={
-                            query.saved
-                              ? require("../../assets/icons/bookmark_FILL.png")
-                              : require("../../assets/icons/bookmark.png")
-                          }
-                          className="h-8 cursor-pointer"
-                          onClick={() => updateQuery(query.id)}
-                        />
-                        <p className="w-full flex align-items-center justify-content-center">
-                          {query.string ? query.query + ' ' + query.string : query.query}
-                        </p>
-                      </div>
-                      <p className="w-1/3 flex align-items-center justify-content-center">
-                        {new Date(query.createdAt).toString()}
-                      </p>
-                      <div className="w-1/3 flex align-items-center justify-content-center">
-                        {query.engine == "google" ? (
-                          <img
-                            className="h-7 rounded"
-                            src={require("../../assets/icons/google.png")}
-                          />
-                        ) : (
-                          <img
-                            className="h-7 rounded"
-                            src={require("../../assets/icons/bing.jpg")}
-                          />
-                        )}
-                      </div>
-                    </div>
+                    <QueryRow query={query} setKeywords={setKeywords} setQuery={setQuery}/>
                   );
                 }
               })

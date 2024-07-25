@@ -122,9 +122,9 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
               <div
               className="flex flex-row align-items-center"
               >
-                <img className="h-10 pointer" src={require('../../../assets/icons/save.png')} onClick={() => saveQuery()} alt='save query'/>
+                <img className="h-8 pointer" src={require('../../../assets/icons/save.png')} onClick={() => saveQuery()} alt='save query'/>
                 <p
-                className="px-2 mx-2 border rounded h-8 flex align-items-center hover:bg-red-600 bg-red-900"
+                className="px-2 mx-2 rounded h-8 flex align-items-center "
                 onClick={() => setQuery([])}
                 >Clear</p>
 
