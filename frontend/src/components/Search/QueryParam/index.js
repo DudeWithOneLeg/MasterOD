@@ -24,7 +24,7 @@ export default function QueryParam({ param}) {
     <div
       onMouseEnter={() => setHover(true)}
       onMouseOut={() => setHover(false)}
-      className={`mx-1 flex justify-content-end items-center rounded my-1 py-1 h-fit ${
+      className={`mx-1 flex justify-content-end items-center rounded my-1 p-1 h-fit ${
         param.split(":")[0].includes("-") ? "bg-red-200" : "bg-slate-500"
       }`}
       id="query-param"

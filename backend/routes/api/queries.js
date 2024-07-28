@@ -1,16 +1,32 @@
 const express = require("express");
 const router = express.Router();
 const { Queries } = require("../../db/models");
+const { Op } = require('@sequelize/core')
 
-router.get("/", async (req, res) => {
+router.post("/", async (req, res) => {
   const { user } = req;
+  const { limit, filter } = req.body
+  const filterOptions = {
+    where: {
+      userId: user.id,
+      [Op.or] : [
+        {query: {[Op.like]: `%${filter}%`}},
+        {engine: {[Op.like]: `%${filter}%`}},
+        {string: {[Op.like]: `%${filter}%`}}
+      ]
+    },
+    order: [["createdAt", "DESC"]],
+    limit
+  }
 
-  const queries = await Queries.findAll({
+  const queries = await Queries.findAll(filter ? filterOptions : {
     where: {
       userId: user.id,
     },
-    order: [["createdAt", "DESC"]]
+    order: [["createdAt", "DESC"]],
+    limit
   });
+
   return res.json(queries).status(200);
 });
 

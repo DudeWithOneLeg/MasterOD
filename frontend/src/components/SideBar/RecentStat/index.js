@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-const arrowforward = require("../../../assets/icons/arrow_forward.png");
+const arrowforward = require("../../../assets/images/arrow-forward-2.png");
 
 export default function RecentStat({ object, setSearch }) {
     const navigate = useNavigate();
@@ -13,7 +13,10 @@ export default function RecentStat({ object, setSearch }) {
         setSearch(false)
         }}>
         <h1 onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>{object.stat}</h1>
-        {hover ? <img src={arrowforward} className="h-8 rounded-full"/> : <div className='h-8'></div>}
+        <div className='h-8 flex items-end'>
+        {hover ? <img src={arrowforward} className="h-6 rounded-full"/> : <></>}
+
+        </div>
       </div>
       <div className="h-[140px]">{object.recent}</div>
     </div>

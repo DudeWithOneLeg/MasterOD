@@ -9,7 +9,7 @@ import LoginFormPage from "../LoginFormPage";
 import RecentStats from "./RecentStats";
 // import SearchBar from "../SearchBar";
 
-export default function SideBar({ setSearch }) {
+export default function SideBar({ setSearch, setQuery, setKeywords }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.session.user);
@@ -101,6 +101,12 @@ export default function SideBar({ setSearch }) {
     } else setSlide("ml-[-300px]");
   }, [user]);
 
+  const handleNewSearch = () => {
+    setQuery([])
+    setKeywords('')
+    navigate("/search")
+  }
+
   return (
     <div className="h-full w-[300px] bg-slate-800 overflow-hidden flex flex-row text-slate-100 rounded border-2 border-slate-600">
       <div
@@ -126,7 +132,7 @@ export default function SideBar({ setSearch }) {
             </div>
             <div className={`p-4 text-lg`}>
               <div
-                onClick={() => navigate("/search")}
+                onClick={handleNewSearch}
                 className="flex flex-row items-center cursor-pointer border-2 rounded hover:bg-slate-600"
               >
                 <img

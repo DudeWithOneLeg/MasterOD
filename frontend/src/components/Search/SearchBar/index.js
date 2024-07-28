@@ -103,7 +103,7 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
             />
             <p>Search</p>
             <div className="flex flex-wrap jusitfy-content-center h-fit max-w-fit overflow-wrap">
-              <input placeholder="Enter keyword" className="px-2 m-1 bg-slate-600 rounded w-fit outline-none" value={keywords} onChange={(e) => setKeywords(e.target.value)}/>
+              <input placeholder="Enter keyword" className="p-1 m-1 bg-slate-600 rounded w-fit outline-none" value={keywords} onChange={(e) => setKeywords(e.target.value)}/>
               {query && query.length
                 ? query.map((param) => {
                     return (
@@ -124,7 +124,7 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
               >
                 <img className="h-8 pointer" src={require('../../../assets/icons/save.png')} onClick={() => saveQuery()} alt='save query'/>
                 <p
-                className="px-2 mx-2 rounded h-8 flex align-items-center "
+                className="px-2 mx-2 rounded h-8 flex align-items-center hover:text-slate-900"
                 onClick={() => setQuery([])}
                 >Clear</p>
 
@@ -158,7 +158,7 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
           </div>
         </div>
         {(query && query.length) || keywords ? (
-          <div className="flex justify-self-end px-3" onClick={handleSubmit}>
+          <div className="flex justify-self-end px-3 py-1 mx-1 bg-slate-800 rounded-full hover:bg-slate-600" onClick={handleSubmit}>
             <button>Search</button>
           </div>
         ) : (

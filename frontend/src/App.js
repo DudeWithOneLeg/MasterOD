@@ -35,7 +35,7 @@ function App() {
     <>
       <div className="h-screen w-screen flex">
         <div className="p-2 rounded h-full">
-          <SideBar setSearch={setSearch}/>
+          <SideBar setSearch={setSearch} setQuery={setQuery} setKeywords={setKeywords}/>
         </div>
         {isLoaded && user ? (
           <Routes>

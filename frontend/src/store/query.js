@@ -18,8 +18,11 @@ const setNewQuery = (query) => {
     }
 }
 
-export const getQueries = () => async (dispatch) => {
-    const res = await csrfFetch('/api/queries')
+export const getQueries = (limit, filter) => async (dispatch) => {
+    const res = await csrfFetch('/api/queries', {
+        method: 'POST',
+        body: JSON.stringify({limit, filter})
+    })
     if (res.ok && res.status === 200) {
         const queries = await res.json()
         dispatch(setQueries(queries))
