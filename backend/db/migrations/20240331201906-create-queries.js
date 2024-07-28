@@ -25,6 +25,9 @@ module.exports = {
       saved: {
         type: Sequelize.BOOLEAN
       },
+      string: {
+        type: Sequelize.STRING,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

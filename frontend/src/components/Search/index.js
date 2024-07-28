@@ -1,17 +1,18 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as searchActions from "../../store/search";
+import * as resultActions from '../../store/result'
 import Results from "../Results";
 import Browser from "../Browser";
 import SearchBar from "./SearchBar";
 import QueryStats from '../QueryStats'
 
 
-export default function Search({search, setSearch}) {
+export default function Search({search, setSearch, query, setQuery, keywords, setKeywords}) {
   const data = useSelector((state) => state.search.data);
   const results = useSelector((state) => state.results.results);
 
-  const [query, setQuery] = useState([]);
+
   const [geolocation, setGeolocation] = useState({ lat: 0, lng: 0 });
   const [preview, setPreview] = useState("");
   const [showResult, setShowResult] = useState(false);
@@ -22,7 +23,6 @@ export default function Search({search, setSearch}) {
   const [browseHistory, setBrowseHistory] = useState([]);
   const [browseHistoryIndex, setBrowseHistoryIndex] = useState(0);
   const [result, setResult] = useState({});
-  const [keywords, setKeywords] = useState("test")
   const [status, setStatus] = useState('');
 
 
@@ -37,6 +37,8 @@ export default function Search({search, setSearch}) {
       if (!browseHistory.length) {
         setBrowseHistory([preview]);
       }
+
+    dispatch(resultActions.getRecentVisitedResults())
     }
   }, [preview, dispatch]);
 
@@ -44,7 +46,6 @@ export default function Search({search, setSearch}) {
   useEffect(() => {
     if (results) {
       const lastResultIndex = Number(Object.keys(results).slice(-2, -1)[0]);
-      console.log('helllo', lastResultIndex)
       setStart(lastResultIndex);
     }
   }, [results]);
@@ -124,7 +125,7 @@ export default function Search({search, setSearch}) {
         </>
       ) : (
         <div className="h-full overflow-hidden py-2">
-          <QueryStats />
+          <QueryStats setQuery={setQuery} setKeywords={setKeywords}/>
         </div>
       )}
     </div>

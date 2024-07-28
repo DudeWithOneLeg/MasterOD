@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Results from "../Results";
 import Browser from "../Browser";
 import * as resultActions from "../../store/result";
@@ -49,7 +49,7 @@ export default function ResultsPage() {
     <div className="flex flex-col h-full w-full p-2">
       <div className={`flex items-center justify-content-center my-2 ${preview ? 'w-1/2' : ''}`}>
         <input
-          className="w-full rounded-full h-8 px-3 text-black"
+          className="w-1/2 rounded-full h-8 px-3 text-black"
           placeholder="Filter results"
           value={filterInput}
           onChange={(e) => setFilterInput(e.target.value.toLowerCase())}

@@ -791,94 +791,131 @@ const apachIcons = async () => {
 // );
 
 const func = async () => {
-  const url = "https://reddit.com/r/opendirectories/new.json?limit=100";
-  let after = "";
-  const browser = await puppeteer.launch({ headless: false });
-  const page = await browser.newPage();
-  await page.goto(url);
+  const masterFile = {};
 
-  let data = await page.content();
-  await browser.close();
-  data = JSON.parse(
-    data
-      .split(
-        '<html><head><meta name="color-scheme" content="light dark"></head><body><pre style="word-wrap: break-word; white-space: pre-wrap;">'
-      )[1]
-      .split("</pre></body></html>")[0]
-  );
+  const url = "https://api.pullpush.io/reddit/search/submission/?subreddit=opendirectories&before=";
+  let index = 0;
+  let after = "1717095044";
+  let count = 0
 
-  const posts = data.data.children;
-  const urls = [];
-  // const second = []
+  const fetchData = async () => {
+    const res = await fetch(url + after);
+    const data = await res.json();
+    return data.data;
+  };
 
-  for (let post of posts) {
-    console.log("=======================================================");
-    // console.log()
-    // console.log('POST URL: ',post.data.url)
-    const obj = {};
-    const text = post.data.selftext;
-    obj.postUrl = `https://reddit.com/r/opendirectories/comments/${post.data.id}`;
+  const processPosts = async () => {
+    const posts = await fetchData();
+    count+= posts.length
+    after = posts[posts.length - 1].created_utc
+    console.log(new Date(after * 1000), count)
+
+    const urls = [];
     const postUrls = [];
-    // obj.urls = []
-    obj.text = text;
-    // console.log(text.split("\n").join(" ").split(" ").join(" "));
-    const arr = text
-      .split("\n")
-      .join(" ")
-      .split(" ")
-      .filter((text) => !text.includes("[http") && !text.includes("(http"));
 
-    const links = arr.filter(
-      (text) =>
-        text.includes("http") ||
-        text.includes("www") ||
-        (!isNaN(parseInt(text.split(".")[1])) &&
-          !isNaN(parseInt(text.split(".")[2])) &&
-          !isNaN(parseInt(text.split(".")[3])))
-    );
-    // console.log(links);
-    //  for (let text of links) {
-    //     const splitByDot = text.split('.')
-    //     if (!isNaN(parseInt(splitByDot[1])) && !isNaN(parseInt(splitByDot[2])) && !isNaN(parseInt(splitByDot[3]))) {
-    //       // console.log(!isNaN(parseInt(splitByDot[1])) && !isNaN(parseInt(splitByDot[2])) && !isNaN(parseInt(splitByDot[3])),splitByDot.join('.'))
-    //       postUrls.push(splitByDot.join('.'))
-    //       console.log(splitByDot.join('.'))
+    for (let post of posts) {
+      if (posts.length < 100 && index > posts.length) {
+        return;
+      }
+
+      const obj = {};
+      const text = post.selftext;
+      obj.text = text
+      const date = new Date(post.created_utc * 1000);
+
+      obj.createdAt = date;
+      obj.postUrl = `https://reddit.com/r/opendirectories/comments/${post.id}`;
+
+      const arr = text.split("\n").join(" ").split(" ").filter((text) => !text.includes("[http") && !text.includes("(http"));
+      const links = arr.filter(
+        (text) =>
+          text.includes("http") ||
+          text.includes("www") ||
+          (!isNaN(parseInt(text.split(".")[1])) &&
+            !isNaN(parseInt(text.split(".")[2])) &&
+            !isNaN(parseInt(text.split(".")[3])))
+      );
+
+      let start = 0;
+      let end = 0;
+      const newText = text.split("\n").join(" ").split(" ").join(" ");
+      for (let letter in newText) {
+        if (text[letter] === "[") {
+          start = Number(letter) + 1;
+        }
+        if (text[letter] === "]") {
+          end = Number(letter);
+          const link = newText.split("").slice(start, end).join("");
+          if (link && link != 'removed' && link != 'deleted' && !link.includes(' ')) {
+            urls.push(link);
+            postUrls.push(link);
+          }
+          start = 0;
+          end = 0;
+        }
+      }
+
+      obj.urls = postUrls.concat(links);
+      masterFile[index] = obj;
+      fs.writeFileSync(`master-index.json`, JSON.stringify(masterFile, null, 2));
+      index++;
+    }
+  };
+
+  const fetchAndProcess = async () => {
+    while (after) {
+      await processPosts();
+      await new Promise(resolve => setTimeout(resolve, 1000)); // Delay for 1 second
+    }
+  };
+
+  // await fetchAndProcess();
+};
+
+// func();
+
+const cleanup = async () => {
+//   let duplicates = 0
+//   let count = 0
+  const newMaster = {}
+// const masterStack = {}
+  const data = await fs.readFileSync('final.json')
+  const json = JSON.parse(data)
+  for (let post of Object.keys(json)) {
+    json[post].url = post
+    const url = json[post]
+    newMaster[url.id] = url
+    // const stack = []
+    // json[post].urls = json[post].urls.filter(link => link != 'removed' && link != 'deleted')
+    // const arr = json[post].urls.filter(link => link.includes('http') && link.split('.').length >= 2)
+    // if (arr.length) {
+    //   // console.log(arr)
+
+    //   for (let link of arr) {
+    //     if (!masterStack[link]) {
+    //       masterStack[link] = true
+    //       stack.push(link)
+    //     }
+    //     else {
+    //       duplicates++
+    //       // console.log(stack[stack.indexOf(link)])
+    //       // console.log('Dupes: ',duplicates)
 
     //     }
     //   }
-    // console.log(text)
-
-    let start = 0;
-    let end = 0;
-    const newText = text.split("\n").join(" ").split(" ").join(" ");
-    for (let letter in newText) {
-      if (text[letter] === "[") {
-        start = Number(letter) + 1
-        // console.log(letter)
-      }
-      if (text[letter] === "]") {
-        end = Number(letter);
-        const link = newText.split("").slice(start, end).join("");
-        // console.log("LINKS: ", link, start, end);
-        if (link) {
-          urls.push(link);
-          postUrls.push(link);
-        }
-        start = 0
-        end = 0
-      }
-    }
-    obj.urls = postUrls.concat(links);
-    // console.log(postUrls, obj.urls);
-    console.log(obj);
-    if (!text) console.log(post.data.url);
-    console.log("=======================================================");
-    // if (links && links.length) console.log(links)
+    //   // stack.concat(arr)
+    //   json[post].urls = stack
+    //   if (stack.length) {
+    //     newMaster[count] = json[post]
+    //     // console.log(stack)
+    //     // console.log(count, '/', post)
+    //     count++
+    //   }
+      // console.log(post)
+      fs.writeFileSync(`final.json`, JSON.stringify(newMaster, null, 2));
+    // }
   }
+  return
+}
 
-  const lastPostId = posts[posts.length - 1].data.name;
-  // console.log(urls, lastPostId)
-  return;
-};
-
-func();
+// cleanup()

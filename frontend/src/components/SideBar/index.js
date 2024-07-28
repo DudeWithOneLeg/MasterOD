@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import * as sessionActions from "../../store/session";
 import * as searchActions from "../../store/search";
 import * as resultActions from "../../store/result";
@@ -8,8 +9,9 @@ import LoginFormPage from "../LoginFormPage";
 import RecentStats from "./RecentStats";
 // import SearchBar from "../SearchBar";
 
-export default function SideBar({setSearch}) {
+export default function SideBar({ setSearch, setQuery, setKeywords }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const user = useSelector((state) => state.session.user);
 
   const [hide, setHide] = useState(true);
@@ -61,17 +63,19 @@ export default function SideBar({setSearch}) {
   }, [login]);
 
   useEffect(() => {
-    if (user){dispatch(searchActions.getRecentQueries());
-    dispatch(resultActions.getRecentSavedResults());
-    dispatch(searchActions.getRecentSavedQueries());
-    dispatch(resultActions.getRecentVisitedResults());}
+    if (user) {
+      dispatch(searchActions.getRecentQueries());
+      dispatch(resultActions.getRecentSavedResults());
+      dispatch(searchActions.getRecentSavedQueries());
+      dispatch(resultActions.getRecentVisitedResults());
+    }
     // console.log('yo')
   }, [dispatch, user]);
 
   useEffect(() => {
     if (!login && !hide && loginSlide.includes("overflow-hidden")) {
       console.log("58-1");
-      if (slide == "ml-[-300px]") {
+      if (slide === "ml-[-300px]") {
         setSlide("ml-[-600px]");
         // console.log('hit 1')
       } else {
@@ -97,6 +101,12 @@ export default function SideBar({setSearch}) {
     } else setSlide("ml-[-300px]");
   }, [user]);
 
+  const handleNewSearch = () => {
+    setQuery([])
+    setKeywords('')
+    navigate("/search")
+  }
+
   return (
     <div className="h-full w-[300px] bg-slate-800 overflow-hidden flex flex-row text-slate-100 rounded border-2 border-slate-600">
       <div
@@ -107,19 +117,32 @@ export default function SideBar({setSearch}) {
             <div className="w-full flex flex-row items-center justify-between">
               <div className="flex flex-row items-center">
                 <img
-                  src={require('../../assets/icons/profile.jpg')}
+                  src={require("../../assets/icons/profile.jpg")}
                   className="rounded-full h-14"
+                  alt="profile"
                 ></img>
                 <p className="pl-4">{user ? user.username : ""}</p>
               </div>
               <img
-                src={require('../../assets/icons/logout.png')}
+                src={require("../../assets/icons/logout.png")}
                 onClick={(e) => handleLogOut(e)}
                 className="h-8 cursor-pointer"
+                alt="logout"
               />
             </div>
             <div className={`p-4 text-lg`}>
-              <RecentStats setSearch={setSearch}/>
+              <div
+                onClick={handleNewSearch}
+                className="flex flex-row items-center cursor-pointer border-2 rounded hover:bg-slate-600"
+              >
+                <img
+                  src={require("../../assets/images/plus-white.png")}
+                  className="h-8"
+                  alt="new search"
+                />
+                New Search
+              </div>
+              <RecentStats setSearch={setSearch} />
             </div>
           </div>
         ) : (
@@ -161,7 +184,6 @@ export default function SideBar({setSearch}) {
                 >
                   Demo Login
                 </p> */}
-
               </div>
             </div>
             <div className="flex flex-row w-fit h-fit">
@@ -179,6 +201,7 @@ export default function SideBar({setSearch}) {
                       }}
                       src={require("../../assets/icons/arrow_back_2.png")}
                       className="w-10 hover:bg-slate-600 rounded-full p-1.5 cursor-pointer"
+                      alt="back"
                     />
                     <h1 className="text-center">Login</h1>
                   </div>
@@ -204,6 +227,7 @@ export default function SideBar({setSearch}) {
                       }}
                       src={require("../../assets/icons/arrow_back_2.png")}
                       className="w-10 hover:bg-slate-600 rounded-full p-1.5 cursor-pointer"
+                      alt="back"
                     />
                     <h1 className="w-full text-center">Sign up</h1>
                   </div>

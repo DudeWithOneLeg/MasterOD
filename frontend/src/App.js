@@ -13,6 +13,8 @@ function App() {
   const navigate = useNavigate()
   const [isLoaded, setIsLoaded] = useState(false);
   const [search, setSearch] = useState(false);
+  const [query, setQuery] = useState([]);
+  const [keywords, setKeywords] = useState("test")
   const user = useSelector((state) => state.session.user);
 
   useEffect(() => {
@@ -33,18 +35,18 @@ function App() {
     <>
       <div className="h-screen w-screen flex">
         <div className="p-2 rounded h-full">
-          <SideBar setSearch={setSearch}/>
+          <SideBar setSearch={setSearch} setQuery={setQuery} setKeywords={setKeywords}/>
         </div>
         {isLoaded && user ? (
           <Routes>
-            <Route path="/queries" element={<QueryStats />}/>
+            <Route path="/queries" element={<QueryStats setQuery={setQuery} setKeywords={setKeywords}/>}/>
             <Route path="/results" element={<ResultsPage />}/>
             <Route path="/results/:view" element={<ResultsPage />}/>
-            <Route path="/search" element={<Search setSearch={setSearch} search={search}/>}/>
-            <Route path="/search/:view" element={<Search setSearch={setSearch} search={search}/>}/>
+            <Route path="/search" element={<Search setSearch={setSearch} search={search} setQuery={setQuery} query={query} keywords={keywords} setKeywords={setKeywords}/>}/>
+            <Route path="/search/:view" element={<Search setSearch={setSearch} search={search} setQuery={setQuery} query={query} keywords={keywords} setKeywords={setKeywords}/>}/>
           </Routes>
         ) : (
-          <div className="overflow-y-scroll">
+          <div className="">
             <Routes>
               <Route path="/search" element={<WelcomePage />}/>
             </Routes>

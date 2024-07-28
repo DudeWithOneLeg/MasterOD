@@ -23,7 +23,7 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
         hl: language,
         engine: engine.toLocaleLowerCase(),
         start: 0,
-        keywords
+        string: keywords
       })
     )
   }
@@ -65,7 +65,7 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
           hl: language,
           engine: engine.toLocaleLowerCase(),
           start: 0,
-          keywords
+          string: keywords
         }, status = 'initial')
       ).then(async () => {
         navigate('/search')
@@ -99,11 +99,12 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
               src={require("../../../assets/images/plus.png")}
               className="h-10 w-10 flex flex-row"
               onClick={() => setShowOptions(!showOptions)}
+              alt='show options'
             />
             <p>Search</p>
             <div className="flex flex-wrap jusitfy-content-center h-fit max-w-fit overflow-wrap">
-              <input placeholder="Enter keyword" className="px-2 m-1 bg-slate-600 rounded w-fit outline-none" value={keywords} onChange={(e) => setKeywords(e.target.value)}/>
-              {query.length
+              <input placeholder="Enter keyword" className="p-1 m-1 bg-slate-600 rounded w-fit outline-none" value={keywords} onChange={(e) => setKeywords(e.target.value)}/>
+              {query && query.length
                 ? query.map((param) => {
                     return (
                       <QueryParam
@@ -117,13 +118,13 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
             </div>
           </div>
           <div className="flex flex-row">
-            {query.length || keywords ? (
+            {(query && query.length) || keywords ? (
               <div
               className="flex flex-row align-items-center"
               >
-                <img className="h-10 pointer" src={require('../../../assets/icons/save.png')} onClick={() => saveQuery()}/>
+                <img className="h-8 pointer" src={require('../../../assets/icons/save.png')} onClick={() => saveQuery()} alt='save query'/>
                 <p
-                className="px-2 mx-2 border rounded h-8 flex align-items-center hover:bg-red-600 bg-red-900"
+                className="px-2 mx-2 rounded h-8 flex align-items-center hover:text-slate-900"
                 onClick={() => setQuery([])}
                 >Clear</p>
 
@@ -156,8 +157,8 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
             </div>
           </div>
         </div>
-        {query.length || keywords ? (
-          <div className="flex justify-self-end px-3" onClick={handleSubmit}>
+        {(query && query.length) || keywords ? (
+          <div className="flex justify-self-end px-3 py-1 mx-1 bg-slate-800 rounded-full hover:bg-slate-600" onClick={handleSubmit}>
             <button>Search</button>
           </div>
         ) : (
@@ -217,7 +218,7 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
                 {Object.keys(settings[engine].countries).map((name) => (
                   <option
                     value={name}
-                    selected={settings[engine].countries[name] == country}
+                    selected={settings[engine].countries[name] === country}
                   >
                     {name}
                   </option>

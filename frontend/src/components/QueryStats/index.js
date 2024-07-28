@@ -1,25 +1,34 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import QueryRow from "./QueryRow";
 import * as queryActions from "../../store/query";
 
-export default function QueryPage() {
+export default function QueryPage({ setQuery, setKeywords}) {
   const dispatch = useDispatch();
   const queries = useSelector((state) => state.queries.all);
   const [viewAll, setViewAll] = useState(false);
-  const [filterInput, setFilterInput] = useState("");
+  const [filter, setFilter] = useState("");
+  const [limit, setLimit] = useState(25);
   const params = useParams()
 
   useEffect(() => {
-    dispatch(queryActions.getQueries());
+    dispatch(queryActions.getQueries(limit));
   }, [dispatch]);
 
   useEffect(() => {
+    dispatch(queryActions.getQueries(limit, filter));
+  },[dispatch, limit])
+
+  useEffect(() => {
     const {view} = params
-    console.log(view)
     if (view === 'saved') setViewAll(false)
     else if (view === 'all') setViewAll(true)
   },[params])
+
+  const handleSubmit = () => {
+    dispatch(queryActions.getQueries(limit, filter));
+  }
 
   return (
     <div className="w-full h-full flex flex-col text-slate-200 bg-slate-700 rounded">
@@ -28,8 +37,8 @@ export default function QueryPage() {
           <input
             className="w-1/2 rounded-full h-8 px-3 text-black"
             placeholder="Filter searches"
-            value={filterInput}
-            onChange={(e) => setFilterInput(e.target.value.toLowerCase())}
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
           />
         </div>
         <div className="flex w-full justify-content-center">
@@ -49,133 +58,33 @@ export default function QueryPage() {
               Saved
             </p>
           </div>
+            <select className="mx-2 text-slate-600 cursor-pointer rounded" onChange={(e) => setLimit(e.target.value)} value={limit}>
+              <option>25</option>
+              <option>50</option>
+              <option>100</option>
+            </select>
         </div>
       </div>
-      <div className="flex flex-row px-2">
-        <p className="w-1/3">Query</p>
-        <p className="w-1/3">Date</p>
-        <p className="w-1/3">Engine</p>
+      <div className="flex flex-row px-3 py-2">
+        <p className="w-1/3 text-lg text-center">Query</p>
+        <p className="w-1/3 text-lg text-center">Date</p>
+        <p className="w-1/3 text-lg text-center">Engine</p>
       </div>
       <div className=" h-full overflow-hidden rounded border-2 border-slate-600 bg-slate-800">
         <div className="flex flex-col divide divide-y h-full overflow-y-scroll">
           {queries && Object.values(queries).length ? (
             viewAll ? (
               Object.values(queries).map((query) => {
-                if (!filterInput) {
                   return (
-                    <div className="flex flex-row divide divide-x justify-content-between w-full p-1 hover:bg-slate-500">
-                      <div className="flex flex-row w-1/3">
-                        <img
-                          src={
-                            query.saved
-                              ? require("../../assets/icons/bookmark_FILL.png")
-                              : require("../../assets/icons/bookmark.png")
-                          }
-                          className="h-8"
-                        />
-                        <p className="w-full flex align-items-center justify-content-center">
-                          {query.query}
-                        </p>
-                      </div>
-                      <p className="w-1/3 flex align-items-center justify-content-center">
-                        {new Date(query.createdAt).toString()}
-                      </p>
-                      <div className="w-1/3 flex align-items-center justify-content-center">
-                        {query.engine == "google" ? (
-                          <img
-                            className="h-7 rounded"
-                            src={require("../../assets/icons/google.png")}
-                          />
-                        ) : (
-                          <img
-                            className="h-7 rounded"
-                            src={require("../../assets/icons/bing.jpg")}
-                          />
-                        )}
-                      </div>
-                    </div>
+                    <QueryRow query={query} setKeywords={setKeywords} setQuery={setQuery}/>
                   );
-                }
-                if (filterInput) {
-                  if (
-                    query.engine
-                      .toLowerCase()
-                      .includes(filterInput) ||
-                    query.query
-                      .toLowerCase()
-                      .includes(filterInput)
-                  ) {
-                    return (
-                      <div className="flex flex-row divide divide-x justify-content-between w-full p-1 hover:bg-slate-500">
-                        <div className="flex flex-row w-1/3">
-                          <img
-                            src={
-                              query.saved
-                                ? require("../../assets/icons/bookmark_FILL.png")
-                                : require("../../assets/icons/bookmark.png")
-                            }
-                            className="h-8"
-                          />
-                          <p className="w-full flex align-items-center justify-content-center">
-                            {query.query}
-                          </p>
-                        </div>
-                        <p className="w-1/3 flex align-items-center justify-content-center">
-                          {new Date(query.createdAt).toString()}
-                        </p>
-                        <div className="w-1/3 flex align-items-center justify-content-center">
-                          {query.engine == "google" ? (
-                            <img
-                              className="h-7 rounded"
-                              src={require("../../assets/icons/google.png")}
-                            />
-                          ) : (
-                            <img
-                              className="h-7 rounded"
-                              src={require("../../assets/icons/bing.jpg")}
-                            />
-                          )}
-                        </div>
-                      </div>
-                    );
-                  }
-                }
+
               })
             ) : (
               Object.values(queries).map((query) => {
                 if (query.saved) {
                   return (
-                    <div className="flex flex-row divide divide-x justify-content-between w-full p-1 hover:bg-slate-500">
-                      <div className="flex flex-row w-1/3">
-                        <img
-                          src={
-                            query.saved
-                              ? require("../../assets/icons/bookmark_FILL.png")
-                              : require("../../assets/icons/bookmark.png")
-                          }
-                          className="h-8"
-                        />
-                        <p className="w-full flex align-items-center justify-content-center">
-                          {query.query}
-                        </p>
-                      </div>
-                      <p className="w-1/3 flex align-items-center justify-content-center">
-                        {new Date(query.createdAt).toString()}
-                      </p>
-                      <div className="w-1/3 flex align-items-center justify-content-center">
-                        {query.engine == "google" ? (
-                          <img
-                            className="h-7 rounded"
-                            src={require("../../assets/icons/google.png")}
-                          />
-                        ) : (
-                          <img
-                            className="h-7 rounded"
-                            src={require("../../assets/icons/bing.jpg")}
-                          />
-                        )}
-                      </div>
-                    </div>
+                    <QueryRow query={query} setKeywords={setKeywords} setQuery={setQuery}/>
                   );
                 }
               })
