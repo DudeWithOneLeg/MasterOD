@@ -8,7 +8,7 @@ import { googleSettings } from "./GoogleSettings/googleSettings";
 import * as searchActions from '../../../store/search'
 import * as resultActions from '../../../store/result'
 
-export default function SearchBar({query, setQuery, country, setCountry, language, setLanguage, engine, setEngine, keywords, setKeywords, status, setStatus, setSearch}) {
+export default function SearchBar({query, setQuery, country, setCountry, language, setLanguage, engine, setEngine, string, setString, status, setStatus, setSearch}) {
   const [showOptions, setShowOptions] = useState(false);
   const navigate = useNavigate()
   const dispatch = useDispatch();
@@ -23,7 +23,7 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
         hl: language,
         engine: engine.toLocaleLowerCase(),
         start: 0,
-        string: keywords
+        string: string
       })
     )
   }
@@ -55,7 +55,7 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
     //   console.log("Unable to retrieve your location");
     // }
 
-    if (query || keywords) {
+    if (query || string) {
       setStatus('initial')
       setShowOptions(false);
       dispatch(
@@ -65,7 +65,7 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
           hl: language,
           engine: engine.toLocaleLowerCase(),
           start: 0,
-          string: keywords
+          string: string
         }, status = 'initial')
       ).then(async () => {
         navigate('/search')
@@ -103,7 +103,7 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
             />
             <p>Search</p>
             <div className="flex flex-wrap jusitfy-content-center h-fit max-w-fit overflow-wrap">
-              <input placeholder="Enter keyword" className="p-1 m-1 bg-slate-600 rounded w-fit outline-none" value={keywords} onChange={(e) => setKeywords(e.target.value)}/>
+              <input placeholder="Enter keyword" className="p-1 m-1 bg-slate-600 rounded w-fit outline-none" value={string} onChange={(e) => setString(e.target.value)}/>
               {query && query.length
                 ? query.map((param) => {
                     return (
@@ -118,7 +118,7 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
             </div>
           </div>
           <div className="flex flex-row">
-            {(query && query.length) || keywords ? (
+            {(query && query.length) || string ? (
               <div
               className="flex flex-row align-items-center"
               >
@@ -157,7 +157,7 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
             </div>
           </div>
         </div>
-        {(query && query.length) || keywords ? (
+        {(query && query.length) || string ? (
           <div className="flex justify-self-end px-3 py-1 mx-1 bg-slate-800 rounded-full hover:bg-slate-600" onClick={handleSubmit}>
             <button>Search</button>
           </div>

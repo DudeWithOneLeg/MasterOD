@@ -27,21 +27,23 @@ export default function QueryPage({ setQuery, setKeywords}) {
     else if (view === 'all') setViewAll(true)
   },[params])
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault()
     dispatch(queryActions.getQueries(limit, filter));
   }
 
   return (
     <div className="w-full h-full flex flex-col text-slate-200 bg-slate-700 rounded">
-      <div className="px-2">
-        <div className="flex items-center justify-content-center w-full my-2">
+      <div className="px-2 flex flex-col">
+        <form onSubmit={(e) => handleSubmit(e)} className="flex self-center justify-self-center justify-content-between rounded w-1/3 my-2 px-2 bg-white">
           <input
-            className="w-1/2 rounded-full h-8 px-3 text-black"
+            className="w-1/2 rounded-full h-8 text-black outline-none"
             placeholder="Filter searches"
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
           />
-        </div>
+          <button type='submit' className="text-black focus:outline-none">Search</button>
+        </form>
         <div className="flex w-full justify-content-center">
           <div className="flex flex-row w-fit rounded bg-slate-500">
             <p

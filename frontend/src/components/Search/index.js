@@ -8,7 +8,7 @@ import SearchBar from "./SearchBar";
 import QueryStats from '../QueryStats'
 
 
-export default function Search({search, setSearch, query, setQuery, keywords, setKeywords}) {
+export default function Search({search, setSearch, query, setQuery, string, setString}) {
   const data = useSelector((state) => state.search.data);
   const results = useSelector((state) => state.results.results);
 
@@ -65,8 +65,8 @@ export default function Search({search, setSearch, query, setQuery, keywords, se
         setCountry={setCountry}
         engine={engine}
         setEngine={setEngine}
-        keywords={keywords}
-        setKeywords={setKeywords}
+        string={string}
+        setString={setString}
         status={status}
         setStatus={setStatus}
         setSearch={setSearch}
@@ -102,7 +102,7 @@ export default function Search({search, setSearch, query, setQuery, keywords, se
                 cr: country,
                 hl: language,
                 engine: engine.toLocaleLowerCase(),
-                keywords
+                string
               }}
               setResult={setResult}
               data={results}
@@ -125,7 +125,7 @@ export default function Search({search, setSearch, query, setQuery, keywords, se
         </>
       ) : (
         <div className="h-full overflow-hidden py-2">
-          <QueryStats setQuery={setQuery} setKeywords={setKeywords}/>
+          <QueryStats setQuery={setQuery} setString={setString}/>
         </div>
       )}
     </div>

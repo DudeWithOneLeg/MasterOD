@@ -39,9 +39,9 @@ export default function QueryRow({ query, setKeywords, setQuery }) {
             <div>
             {hover ? <img
                 src={require("../../assets/images/search.png")}
-                className="h-8 cursor-pointer"
+                className="h-8 w-8 cursor-pointer"
                 onClick={() => addToSearch(query)}
-            /> : <></>}
+            /> : <div className="w-8"></div>}
             </div>
         </div>
         <p className="w-1/3 flex align-items-center justify-content-center">

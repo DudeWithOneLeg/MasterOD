@@ -9,10 +9,9 @@ const { Queries, Result } = require("../../db/models");
 
 router.post("/iframe/", async (req, res) => {
   const { link, title, snippet, archive, queryId } = req.body;
-  const {user} = req
+  const { user } = req;
 
   if (user) {
-
     const data = await fetch(link)
       .then(async (res) => {
         if (res.status == 200) {
@@ -21,11 +20,17 @@ router.post("/iframe/", async (req, res) => {
       })
       .then(async (data) => {
         const response = data;
-        await Result.create({link, snippet, title, queryId, userId: user.id, saved: false})
+        await Result.create({
+          link,
+          snippet,
+          title,
+          queryId,
+          userId: user.id,
+          saved: false,
+        });
         return response;
       })
       .catch((e) => console.log(e));
-
 
     return res.json({ data });
   }
@@ -36,34 +41,32 @@ router.post("/", async (req, res) => {
   //   const { query, lat, lng } = req.body;
   // const quote = ["intitle", "inurl", "-intitle", "-inurl", "intext", "-intext"];
   const params = req.body;
-  console.log(params)
+  console.log(params);
   const { user } = req;
   params.q = params.q
     .split(";")
     .map((q) =>
-      q.includes(":")
-        ? `${q.split(":")[0]}:"${q.split(":")[1]}"`
-        : ''
+      q.includes(":") ? `${q.split(":")[0]}:"${q.split(":")[1]}"` : ""
     )
     .join(" ");
   const newQuery = {
     userId: user.id,
     query: params.q,
     engine: params.engine,
-    string: params.string
+    string: params.string,
   };
 
-  console.log(newQuery)
+  console.log(newQuery);
 
   await Queries.create(newQuery);
 
   const recentQueries = await Queries.findAll({
     where: {
-      userId : user.id,
+      userId: user.id,
     },
-    order: [['updatedAt', 'DESC']],
-    limit: 5
-  })
+    order: [["updatedAt", "DESC"]],
+    limit: 5,
+  });
 
   // console.log(params, "47");
 
@@ -76,7 +79,7 @@ router.post("/", async (req, res) => {
     // console.log(data.serpapi_pagination);
 
     if (data.organic_results) {
-      console.log(data.dmca_messages)
+      console.log(data.dmca_messages);
       const results = async (rest) => {
         const index = {};
         // console.log(rest, 'hello')
@@ -118,14 +121,14 @@ router.post("/", async (req, res) => {
               currentPage: currPage,
               totalPages,
             };
-            return res.json({results: obj, recentQueries});
+            return res.json({ results: obj, recentQueries });
           }
         });
       };
 
       await results(response);
     } else {
-      res.json({ message: "End of results" }).status(200)
+      res.json({ message: "End of results" }).status(200);
     }
 
     // console.log(currPage + "/" + totalPages);
@@ -154,7 +157,7 @@ router.post("/", async (req, res) => {
     // engine: "google_maps_directions",
     ...params,
     num: 100,
-    q: `${params.q} ${params.keywords}`
+    q: `${params.q ? params.q : ""}${params.string ? " " + params.string : ""}`,
     // ll:`@${lat},${lng}`
     // device: "tablet",
     // travel_mode: 3,
@@ -167,20 +170,19 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.get('/queries/recent', async (req, res) => {
-  const { user } = req
+router.get("/queries/recent", async (req, res) => {
+  const { user } = req;
   if (user) {
     const recentQueries = await Queries.findAll({
       where: {
-        userId : user.id,
+        userId: user.id,
       },
-      order: [['updatedAt', 'DESC']],
-      limit: 5
-    })
+      order: [["updatedAt", "DESC"]],
+      limit: 5,
+    });
 
-    return res.json(recentQueries).status(200)
-
+    return res.json(recentQueries).status(200);
   }
-})
+});
 
 module.exports = router;
