@@ -5,27 +5,31 @@ const { Op } = require('@sequelize/core')
 
 router.post("/", async (req, res) => {
   const { user } = req;
-  const { limit, filter } = req.body
-  const filterOptions = {
+  const { limit, filter, saved } = req.body
+  const options = {
     where: {
+      userId: user.id
+    },
+    order: [["updatedAt", "DESC"]],
+    limit
+  }
+
+  if (filter) {
+    options.where = {
       userId: user.id,
       [Op.or] : [
         {query: {[Op.like]: `%${filter}%`}},
         {engine: {[Op.like]: `%${filter}%`}},
         {string: {[Op.like]: `%${filter}%`}}
       ]
-    },
-    order: [["createdAt", "DESC"]],
-    limit
+    }
+  }
+  
+  if (saved) {
+    options.where.saved = true
   }
 
-  const queries = await Queries.findAll(filter ? filterOptions : {
-    where: {
-      userId: user.id,
-    },
-    order: [["createdAt", "DESC"]],
-    limit
-  });
+  const queries = await Queries.findAll(options);
 
   return res.json(queries).status(200);
 });
@@ -73,6 +77,7 @@ router.post("/save", async (req, res) => {
     query: params.q,
     engine: params.engine,
     saved: true,
+    string: params.string
   };
 
   await Queries.create(newQuery);

@@ -49,12 +49,12 @@ export default function SideBar({ setSearch, setQuery, setKeywords }) {
   }, [signup]);
 
   useEffect(() => {
-    console.log("login slide:", loginSlide);
+    // console.log("login slide:", loginSlide);
   }, [loginSlide]);
 
   useEffect(() => {
     if (login) {
-      console.log("login on");
+      // console.log("login on");
       setLoginSlide("w-[300px]");
     } else {
       setLoginSlide("w-0 overflow-hidden");

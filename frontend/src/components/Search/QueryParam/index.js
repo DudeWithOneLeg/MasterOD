@@ -1,45 +1,73 @@
 import { useState, useEffect, useRef } from "react";
 
-export default function QueryParam({ param}) {
-  const [hover, setHover] = useState(false);
+export default function QueryParam({ param, query, setQuery, index }) {
+  const [paramValue, setParamValue] = useState(param.split(':')[1]);
   const [show, setShow] = useState(false);
-  const queryParamRef = useRef(null)
-  const optionsRef = useRef(null)
+  const [showOptionsIcon, setShowOptionsIcon] = useState(false);
+  const [edit, setEdit] = useState(false);
+  const queryParamRef = useRef(null);
+  const optionsRef = useRef(null);
 
-  useEffect(() => {
-    const width = queryParamRef.current.offsetWidth
-    const height = queryParamRef.current.offsetHeight
+  const handleUpdate = (e) => {
+    e.preventDefault();
+    const newParam = param.split(':')[0] + paramValue
+    const arr = query
+    arr[index] = newParam
+    setQuery(arr)
 
-    // if (hover) {
-    //   setShow(true)
-    //   queryParamRef.current.style.width = width + 'px'
-    // }
-    // else {
-    //   setShow(false)
-    //   queryParamRef.current.style.height = 'fit'
-    // }
-  },[hover])
+    setEdit(false)
+    setShow(false)
+  };
 
   return (
     <div
-      onMouseEnter={() => setHover(true)}
-      onMouseOut={() => setHover(false)}
       className={`mx-1 flex justify-content-end items-center rounded my-1 p-1 h-fit ${
         param.split(":")[0].includes("-") ? "bg-red-200" : "bg-slate-500"
       }`}
+      o
+      onMouseEnter={() => setShowOptionsIcon(true)}
+      onMouseLeave={() => setShowOptionsIcon(false)}
       id="query-param"
       ref={queryParamRef}
     >
-      {!show && <div>
-        <p>{param.split(":").join(": ")}</p>
-      </div>}
-      {show && (
-        <div className="rounded flex flex-row justify-self-end w-full h-full px-2 py-1 bg-slate-600"
-        ref={optionsRef}>
-          <p className="w-full px-1 mr-1 hover:bg-red-400">Remove</p>
-          <p className="w-full px-1 hover:bg-slate-400">Edit</p>
-        </div>
-      )}
+      <div
+        className="relative flex flex-row"
+      >
+        {edit ? <p>{param.split(":")[0]}: </p> : ""}
+        {!edit ? (
+          <p>{`${param.split(":")[0]}: ${paramValue}`}</p>
+        ) : (
+          <form onSubmit={(e) => handleUpdate(e)}>
+            <input
+              className="text-black rounded ml-1 outline-none"
+              value={paramValue}
+              onChange={(e) => setParamValue(e.target.value)}
+            />
+          </form>
+        )}
+        {show && !edit && (
+          <div
+            className="absolute top-[30px] left-0 rounded flex flex-row justify-self-end w-full h-[100%] bg-slate-600"
+            ref={optionsRef}
+          >
+            <p className="w-full px-1 mr-1 hover:bg-red-400 text-center">Remove</p>
+            <p
+              className="w-full px-1 hover:bg-slate-400 text-center"
+              onClick={() => setEdit(true)}
+            >
+              Edit
+            </p>
+          </div>
+        )}
+
+      </div>
+      {showOptionsIcon ?
+        <img src={require('../../../assets/icons/options.png')}
+        onClick={() => setShow(!show)}
+          className="flex h-4 rounded-full hover:bg-slate-600 align-self-start"/> :
+
+          <div className="w-4"></div>}
+
     </div>
   );
 }

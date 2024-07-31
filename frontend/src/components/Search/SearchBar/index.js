@@ -105,12 +105,13 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
             <div className="flex flex-wrap jusitfy-content-center h-fit max-w-fit overflow-wrap">
               <input placeholder="Enter keyword" className="p-1 m-1 bg-slate-600 rounded w-fit outline-none" value={string} onChange={(e) => setString(e.target.value)}/>
               {query && query.length
-                ? query.map((param) => {
+                ? query.map((param, index) => {
                     return (
                       <QueryParam
                         param={param}
                         query={query}
                         setQuery={setQuery}
+                        index={index}
                       />
                     );
                   })
