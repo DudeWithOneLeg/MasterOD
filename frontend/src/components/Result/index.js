@@ -9,10 +9,13 @@ export default function Result({
   setShowResult,
   setPreview,
   setResult,
-  setWidth
+  setWidth,
+  currentSelected,
+  setCurrentSelected
 }) {
   const [showInfo, setShowInfo] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [visited, setVisited] = useState(false);
   const lastSearchId = useSelector(
     (state) => Object.values(state.search.recentQueries)[0].id
   );
@@ -45,7 +48,11 @@ export default function Result({
       data-collapse-target="collapse"
       data-collapse="collapse"
       id="result"
-      className={`${result && result.title && result.title.toLowerCase().includes("index of /") ? 'border-2 border-green-200': ''} h-fit w-full cursor-pointer flex items-center rounded bg-gradient-to-r from-slate-800 via-slate-800 hover:bg-gradient-to-r hover:from-slate-700 hover:via-slate-800 py-2 mb-2 mr-1 transition-all duration-300 ease-in-out `}
+      onClick={() => {
+        setCurrentSelected(result.id)
+        setVisited(true)
+      }}
+      className={`${currentSelected === result.id ? 'border-2 border-green-200': (visited && currentSelected != result.id ? 'border-2 border-white' : '')} h-fit w-full cursor-pointer flex items-center rounded bg-gradient-to-r from-slate-800 via-slate-800 hover:bg-gradient-to-r hover:from-slate-700 hover:via-slate-800 py-2 mb-2 mr-1 transition-all duration-300 ease-in-out `}
     >
       <div className="flex flex-col items-center justify-content-around min-w-10 h-full">
         {/* <div className="text-white">{result.id}</div> */}
