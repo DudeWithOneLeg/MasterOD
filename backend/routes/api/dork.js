@@ -78,8 +78,8 @@ router.post("/", async (req, res) => {
     // console.log(data.search_parameters);
     // console.log(data.serpapi_pagination);
 
+    console.log(data);
     if (data.organic_results) {
-      console.log(data.dmca_messages);
       const results = async (rest) => {
         const index = {};
         // console.log(rest, 'hello')
@@ -109,17 +109,14 @@ router.post("/", async (req, res) => {
           }
 
           if (Object.values(obj).length == Object.values(response).length) {
-            const currPage = (
-              Number(data.organic_results?.slice(-1)[0].position) / 100
-            ).toFixed();
-            // console.log(data)
-            const totalPages = (
-              Number(data.search_information.total_results) /
-              data.organic_results?.length
-            ).toFixed(0);
+            const currPage = data.serpapi_pagination.current
+            // console.log(data.organic_results?.slice(-1)[0].position);
+            const totalPages = ((data.search_information.total_results / 100) + 1).toFixed()
+            console.log(currPage, totalPages)
             obj.info = {
               currentPage: currPage,
               totalPages,
+              dmca: data.dmca_messages,
             };
             return res.json({ results: obj, recentQueries });
           }

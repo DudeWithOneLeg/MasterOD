@@ -9,10 +9,13 @@ export default function Result({
   setShowResult,
   setPreview,
   setResult,
-  setWidth
+  setWidth,
+  currentSelected,
+  setCurrentSelected
 }) {
   const [showInfo, setShowInfo] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [visited, setVisited] = useState(false);
   const lastSearchId = useSelector(
     (state) => Object.values(state.search.recentQueries)[0].id
   );
@@ -45,7 +48,11 @@ export default function Result({
       data-collapse-target="collapse"
       data-collapse="collapse"
       id="result"
-      className={`${result && result.title && result.title.toLowerCase().includes("index of /") ? 'border-2 border-green-200': ''} h-fit w-full cursor-pointer flex items-center rounded bg-gradient-to-r from-slate-800 via-slate-800 hover:bg-gradient-to-r hover:from-slate-700 hover:via-slate-800 py-2 mb-2 mr-1 transition-all duration-300 ease-in-out `}
+      onClick={() => {
+        setCurrentSelected(result.id)
+        setVisited(true)
+      }}
+      className={`${currentSelected === result.id ? 'border-2 border-green-200': (visited && currentSelected != result.id ? 'border-2 border-white' : '')} h-fit w-full cursor-pointer flex items-center rounded bg-gradient-to-r from-slate-800 via-slate-800 hover:bg-gradient-to-r hover:from-slate-700 hover:via-slate-800 py-2 mb-2 mr-1 transition-all duration-300 ease-in-out `}
     >
       <div className="flex flex-col items-center justify-content-around min-w-10 h-full">
         {/* <div className="text-white">{result.id}</div> */}
@@ -66,12 +73,12 @@ export default function Result({
             <div className="flex flex-row ">
               <div className="w-full">
                 <div className="flex flex-row justify-content-between w-full">
-                  <h3 className="font-bold text-slate-300 text-xl text-wrap underline w-full">
+                  <h3 className="font-bold text-slate-300 text-xl text-wrap underline w-fit">
                     {result.title && result.title}
                   </h3>
                   <img src={newTab} className="h-8" onClick={handleNewTab} alt='new tab'/>
                 </div>
-                <p className="text-sm">{result.link}</p>
+                <p className="text-sm truncate w-3/4">{result.link.split('').slice(0, 50).join('')}...</p>
               </div>
 
               {result.link &&
@@ -84,7 +91,7 @@ export default function Result({
                 )}
             </div>
             <div>
-              <p className={"underline"}>{result.snippet}</p>
+              <p className="underline w-fit">{result.snippet}</p>
             </div>
 
             {result.archive &&

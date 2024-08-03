@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import * as queryActions from "../../store/query";
 import * as searchActions from '../../store/search'
 
-export default function QueryRow({ query, setKeywords, setQuery }) {
+export default function QueryRow({ query, setString, setQuery }) {
     const dispatch = useDispatch()
     const [hover, setHover] = useState(false)
 
@@ -14,7 +14,7 @@ export default function QueryRow({ query, setKeywords, setQuery }) {
     };
 
     const addToSearch = (query) => {
-        setKeywords(query.string);
+        setString(query.string);
         setQuery(query.query.split('" ').join('";').split(";"));
     };
     return (
@@ -30,6 +30,11 @@ export default function QueryRow({ query, setKeywords, setQuery }) {
                 ? require("../../assets/icons/bookmark_FILL.png")
                 : require("../../assets/icons/bookmark.png")
             }
+            alt={
+                query.saved
+                ? 'unsave'
+                : 'save'
+            }
             className="h-8 cursor-pointer"
             onClick={() => updateQuery(query.id)}
             />
@@ -41,6 +46,7 @@ export default function QueryRow({ query, setKeywords, setQuery }) {
                 src={require("../../assets/images/search.png")}
                 className="h-8 w-8 cursor-pointer"
                 onClick={() => addToSearch(query)}
+                alt='add to search'
             /> : <div className="w-8"></div>}
             </div>
         </div>
@@ -48,15 +54,17 @@ export default function QueryRow({ query, setKeywords, setQuery }) {
             {new Date(query.createdAt).toString()}
         </p>
         <div className="w-1/3 flex align-items-center justify-content-center">
-            {query.engine == "google" ? (
+            {query.engine === "google" ? (
             <img
                 className="h-7 rounded"
                 src={require("../../assets/icons/google.png")}
+                alt='google'
             />
             ) : (
             <img
                 className="h-7 rounded"
                 src={require("../../assets/icons/bing.jpg")}
+                alt='bing'
             />
             )}
         </div>

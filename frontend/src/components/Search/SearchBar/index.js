@@ -8,7 +8,7 @@ import { googleSettings } from "./GoogleSettings/googleSettings";
 import * as searchActions from '../../../store/search'
 import * as resultActions from '../../../store/result'
 
-export default function SearchBar({query, setQuery, country, setCountry, language, setLanguage, engine, setEngine, string, setString, status, setStatus, setSearch}) {
+export default function SearchBar({query, setQuery, country, setCountry, language, setLanguage, engine, setEngine, string, setString, status, setStatus, setSearch, setTotalPages}) {
   const [showOptions, setShowOptions] = useState(false);
   const navigate = useNavigate()
   const dispatch = useDispatch();
@@ -67,13 +67,16 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
           start: 0,
           string: string
         }, status = 'initial')
-      ).then(async () => {
+      ).then(async (data) => {
         navigate('/search')
         const resultsContainer = window.document.querySelector("#inner-result");
         // const bottomPosition = resultsContainer.scrollHeight;
               resultsContainer.scrollTo(0, 0)
               dispatch(searchActions.getRecentQueries()
         );
+        if (data.results.info && data.results.info.totalPages) {
+          setTotalPages(data.results.info.totalPages)
+        }
       });
       // console.log(status)
       setSearch(true)
@@ -105,12 +108,13 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
             <div className="flex flex-wrap jusitfy-content-center h-fit max-w-fit overflow-wrap">
               <input placeholder="Enter keyword" className="p-1 m-1 bg-slate-600 rounded w-fit outline-none" value={string} onChange={(e) => setString(e.target.value)}/>
               {query && query.length
-                ? query.map((param) => {
+                ? query.map((param, index) => {
                     return (
                       <QueryParam
                         param={param}
                         query={query}
                         setQuery={setQuery}
+                        index={index}
                       />
                     );
                   })

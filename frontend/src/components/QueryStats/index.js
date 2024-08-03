@@ -3,9 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import QueryRow from "./QueryRow";
 import * as queryActions from "../../store/query";
-import * as searchActions from '../../store/search'
 
-export default function QueryPage({ setQuery, setKeywords}) {
+export default function QueryPage({ setQuery, setString}) {
   const dispatch = useDispatch();
   const queries = useSelector((state) => state.queries.all);
   const [viewAll, setViewAll] = useState(false);
@@ -13,23 +12,30 @@ export default function QueryPage({ setQuery, setKeywords}) {
   const [limit, setLimit] = useState(25);
   const params = useParams()
 
-  useEffect(() => {
-    dispatch(queryActions.getQueries(limit));
-  }, [dispatch]);
 
   useEffect(() => {
-    dispatch(queryActions.getQueries(limit, filter));
+    dispatch(queryActions.getQueries({limit, filter, saved: !viewAll}));
   },[dispatch, limit])
 
   useEffect(() => {
     const {view} = params
     if (view === 'saved') setViewAll(false)
-    else if (view === 'all') setViewAll(true)
-  },[params])
+      else if (view === 'all') setViewAll(true)
+
+  },[params, dispatch])
+
+  useEffect(() => {
+
+    dispatch(queryActions.getQueries({limit, filter, saved: !viewAll}))
+  },[viewAll])
+
+  useEffect(() => {
+    dispatch(queryActions.getQueries({limit, filter, saved: !viewAll}));
+  }, [dispatch, limit]);
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    dispatch(queryActions.getQueries(limit, filter));
+    dispatch(queryActions.getQueries({limit, filter, saved: !viewAll}));
   }
 
   return (
@@ -61,7 +67,7 @@ export default function QueryPage({ setQuery, setKeywords}) {
               Saved
             </p>
           </div>
-            <select className="mx-2 text-slate-600 cursor-pointer rounded" onChange={(e) => setLimit(e.target.value)} value={limit}>
+            <select className="mx-2 text-slate-600 cursor-pointer rounded" onChange={(e) => setLimit(Number(e.target.value))} value={limit}>
               <option>25</option>
               <option>50</option>
               <option>100</option>
@@ -79,16 +85,17 @@ export default function QueryPage({ setQuery, setKeywords}) {
             viewAll ? (
               Object.values(queries).map((query) => {
                   return (
-                    <QueryRow query={query} setKeywords={setKeywords} setQuery={setQuery}/>
+                    <QueryRow query={query} setString={setString} setQuery={setQuery}/>
                   );
               })
             ) : (
               Object.values(queries).map((query) => {
                 if (query.saved) {
                   return (
-                    <QueryRow query={query} setKeywords={setKeywords} setQuery={setQuery}/>
+                    <QueryRow query={query} setString={setString} setQuery={setQuery}/>
                   );
                 }
+                return
               })
             )
           ) : (

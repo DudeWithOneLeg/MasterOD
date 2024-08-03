@@ -24,6 +24,7 @@ export default function Results({
   // const data = useSelector((state) => state.search.results);
   const [results, setResults] = useState({});
   const [loading, setLoading] = useState(false);
+  const [currentSelected, setCurrentSelected] = useState(null);
   // const data = useSelector((state) => state.results.results);
 
   const [width, setWidth] = useState('w-1/2')
@@ -101,6 +102,8 @@ export default function Results({
                       setPreview={setPreview}
                       setResult={setResult}
                       setWidth={setWidth}
+                      currentSelected={currentSelected}
+                      setCurrentSelected={setCurrentSelected}
                     />
                   );
                 }
@@ -116,6 +119,8 @@ export default function Results({
                     setPreview={setPreview}
                     setResult={setResult}
                     setWidth={setWidth}
+                    currentSelected={currentSelected}
+                    setCurrentSelected={setCurrentSelected}
                   />
                 );
               }
@@ -131,6 +136,8 @@ export default function Results({
                   setPreview={setPreview}
                   setResult={setResult}
                   setWidth={setWidth}
+                  currentSelected={currentSelected}
+                  setCurrentSelected={setCurrentSelected}
                 />
               );
             })}
