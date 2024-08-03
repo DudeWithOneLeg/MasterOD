@@ -13,7 +13,7 @@ export default function Search({search, setSearch, query, setQuery, string, setS
   const results = useSelector((state) => state.results.results);
 
 
-  const [geolocation, setGeolocation] = useState({ lat: 0, lng: 0 });
+  // const [geolocation, setGeolocation] = useState({ lat: 0, lng: 0 });
   const [preview, setPreview] = useState("");
   const [showResult, setShowResult] = useState(false);
   const [language, setLanguage] = useState("");
@@ -24,6 +24,8 @@ export default function Search({search, setSearch, query, setQuery, string, setS
   const [browseHistoryIndex, setBrowseHistoryIndex] = useState(0);
   const [result, setResult] = useState({});
   const [status, setStatus] = useState('');
+  const [pageNum, setPageNum] = useState(1)
+  const [totalPages, setTotalPages] = useState(null)
 
 
   const docExtensions = ["pdf", "ppt", "doc", "docx"];
@@ -50,6 +52,67 @@ export default function Search({search, setSearch, query, setQuery, string, setS
     }
   }, [results]);
 
+  const handleNextPage = () => {
+    dispatch(
+      resultActions.search({
+        q: query.join(";"),
+        cr: country,
+        hl: language,
+        engine: engine.toLocaleLowerCase(),
+        start: (pageNum) * 100,
+        string: string
+      })).then(async (data) => {
+        if (data.results && data.results.info.totalPages) {
+          setTotalPages(data.results.info.totalPages)
+        }
+        if (data.results) {
+
+          setPageNum(pageNum + 1)
+        }
+
+      })
+  }
+
+  const handlePreviousPage = () => {
+    dispatch(
+      resultActions.search({
+        q: query.join(";"),
+        cr: country,
+        hl: language,
+        engine: engine.toLocaleLowerCase(),
+        start: (pageNum - 2) * 100,
+        string: string
+      })).then(async (data) => {
+        if (data.results && data.results.info.totalPages) {
+          setTotalPages(data.results.info.totalPages)
+        }
+        if (data.results) {
+
+          setPageNum(pageNum - 1)
+        }
+
+      })
+  }
+
+  const goToPage = (e) => {
+    e.preventDefault()
+    dispatch(
+      resultActions.search({
+        q: query.join(";"),
+        cr: country,
+        hl: language,
+        engine: engine.toLocaleLowerCase(),
+        start: (pageNum - 1) * 100,
+        string: string
+      })).then(async (data) => {
+        if (data.results && data.results.info.totalPages) {
+          setTotalPages(data.results.info.totalPages)
+        }
+
+
+      })
+  }
+
   return (
     //KEEP CLASS AS IS
     <div
@@ -70,6 +133,7 @@ export default function Search({search, setSearch, query, setQuery, string, setS
         status={status}
         setStatus={setStatus}
         setSearch={setSearch}
+        setTotalPages={setTotalPages}
       />
 
       {results && search ? (
@@ -80,13 +144,28 @@ export default function Search({search, setSearch, query, setQuery, string, setS
                 showResult ? "w-1/2" : ""
               }`}
             >
-              <div className="flex flex-row w-fit">
-                <input
-                  placeholder={results.info.currentPage}
-                  className="w-10 rounded text-center text-slate-600"
-                />{" "}
-                / <p>{results.info.totalPages != NaN ? results.info.totalPages : ''}</p>
+              <div className="flex flex-row w-fit items-center">
+                {pageNum > 1 ? <img src={require('../../assets/icons/triangle-backward.png')} className="h-6 cursor-pointer" alt='previous page' onClick={handlePreviousPage}/>
+                : <div className="w-6"></div>}
+                <form onSubmit={(e) => goToPage(e)}>
+                  <input
+                    placeholder={pageNum}
+                    className="w-10 rounded text-center text-slate-600"
+                    onChange={(e) => setPageNum(e.target.value)}
+                    type="number"
+                  />
+
+                </form>
+                {pageNum < totalPages ? <img src={require('../../assets/icons/triangle-forward.png')} className="h-6 cursor-pointer" alt='next page' onClick={handleNextPage}/>
+                :<div className="w-6"></div>}
+                / <p>{totalPages}</p>
               </div>
+              {results && results.info && results.info.dmca ?
+              <div className="flex flex-row rounded bg-yellow-700 px-2 ml-2 items-center">
+                <img src={require('../../assets/icons/caution.png')} className="h-4"/>
+                <p>DMCA: Limited results</p>
+              </div>
+               : <></>}
             </div>
           </div>
           <div className="flex w-full h-screen overflow-y-hidden">

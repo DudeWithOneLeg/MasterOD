@@ -73,12 +73,12 @@ export default function Result({
             <div className="flex flex-row ">
               <div className="w-full">
                 <div className="flex flex-row justify-content-between w-full">
-                  <h3 className="font-bold text-slate-300 text-xl text-wrap underline w-full">
+                  <h3 className="font-bold text-slate-300 text-xl text-wrap underline w-fit">
                     {result.title && result.title}
                   </h3>
                   <img src={newTab} className="h-8" onClick={handleNewTab} alt='new tab'/>
                 </div>
-                <p className="text-sm">{result.link}</p>
+                <p className="text-sm truncate w-3/4">{result.link.split('').slice(0, 50).join('')}...</p>
               </div>
 
               {result.link &&
@@ -91,7 +91,7 @@ export default function Result({
                 )}
             </div>
             <div>
-              <p className={"underline"}>{result.snippet}</p>
+              <p className="underline w-fit">{result.snippet}</p>
             </div>
 
             {result.archive &&

@@ -87,7 +87,7 @@ export default function Browser({
   }, [iframeRef]);
 
   return (
-    <div className="truncate h-full w-full flex flex-col bg-slate-300 ml-2 p-1 rounded overflow-scroll">
+    <div className="flex flex-col truncate h-full w-[90%] bg-slate-300 ml-2 p-1 rounded overflow-scroll">
       <div className="bg-slate-400 flex flex-row h-11 items-center">
         <div className="w-full flex flex-row justify-content-between h-11 p-2">
           <div className="flex flex-row mr-1">

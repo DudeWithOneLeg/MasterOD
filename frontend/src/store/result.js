@@ -50,7 +50,7 @@ const setSavedResults = (newResults, id) => {
   };
 };
 
-export const search = (params, status) => async (dispatch) => {
+export const search = (params, status = 'initial') => async (dispatch) => {
   // const { credential, password } = user;
 
   const response = await csrfFetch("/api/dork", {
@@ -59,12 +59,10 @@ export const search = (params, status) => async (dispatch) => {
   });
 
   if (response.ok && response.status === 200) {
-    await response.json().then(async (data) => {
-      if (!data.message) {
-        await dispatch(setSearch(data, status));
-      }
-      return data;
-    });
+    const data = await response.json()
+    await dispatch(setSearch(data, status));
+    // console.log(data)
+    return data;
   }
 };
 
@@ -149,10 +147,12 @@ const resultReducer = (state = initialState, action) => {
           }
           lastIndex = newIndex;
         }
-        // console.log(results);
+        // results.info.currentPage = newResults.info.currentPage
+        const currentPage = ((Object.keys(results).length - 1) / 100).toFixed()
+        results.info.currentPage = currentPage + ''
         newState = {
           ...state,
-          results: { ...results },
+          results: { ...results},
           recentQueries: { ...action.payload.results.recentQueries },
         };
         return { ...newState };
