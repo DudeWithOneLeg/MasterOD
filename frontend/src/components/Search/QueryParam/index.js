@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 export default function QueryParam({ param, query, setQuery, index }) {
   const [paramValue, setParamValue] = useState(param.split(':')[1]);
@@ -6,11 +6,12 @@ export default function QueryParam({ param, query, setQuery, index }) {
   const [showOptionsIcon, setShowOptionsIcon] = useState(false);
   const [edit, setEdit] = useState(false);
   const queryParamRef = useRef(null);
+  const [queryParamWidth, setQueryParamWidth] = useState(0)
   const optionsRef = useRef(null);
 
   const handleUpdate = (e) => {
     e.preventDefault();
-    const newParam = param.split(':')[0] + paramValue
+    const newParam = param.split(':')[0] + ':' + paramValue
     const arr = query
     arr[index] = newParam
     setQuery(arr)
@@ -18,6 +19,20 @@ export default function QueryParam({ param, query, setQuery, index }) {
     setEdit(false)
     setShow(false)
   };
+
+  // useEffect(() => {
+
+  //   if (queryParamRef.current) {
+  //     setQueryParamWidth(queryParamRef.current.getBoundingClientRect().width)
+  //   }
+  // },[queryParamRef.current])
+
+  // useEffect(() => {
+  //   if (optionsRef.current) {
+  //     optionsRef.current.style.width = queryParamWidth + 'px';
+  //   }
+  // }, [queryParamWidth]);
+
 
   return (
     <div
@@ -47,7 +62,7 @@ export default function QueryParam({ param, query, setQuery, index }) {
         )}
         {show && !edit && (
           <div
-            className="absolute top-[30px] left-0 rounded flex flex-row justify-self-end w-full h-[100%] bg-slate-600"
+            className={`absolute top-[30px] rounded flex flex-row justify-self-end w-full h-[100%] mx-1 px-1 bg-slate-800`}
             ref={optionsRef}
           >
             <p className="w-full px-1 mr-1 hover:bg-red-400 text-center">Remove</p>

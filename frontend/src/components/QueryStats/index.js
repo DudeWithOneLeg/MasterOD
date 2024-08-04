@@ -43,7 +43,7 @@ export default function QueryPage({ setQuery, setString}) {
       <div className="px-2 flex flex-col">
         <form onSubmit={(e) => handleSubmit(e)} className="flex self-center justify-self-center justify-content-between rounded w-1/3 my-2 px-2 bg-white">
           <input
-            className="w-1/2 rounded-full h-8 text-black outline-none"
+            className="w-full h-8 text-black outline-none"
             placeholder="Filter searches"
             value={filter}
             onChange={(e) => setFilter(e.target.value)}

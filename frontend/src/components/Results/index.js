@@ -31,45 +31,45 @@ export default function Results({
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    //select element
-    const resultsContainer = window.document.querySelector("#inner-result");
+  //   //select element
+  //   const resultsContainer = window.document.querySelector("#inner-result");
 
-    if (data && resultsContainer && infiniteScroll && status === 'next') {
-      const scrollFunction = () => {
-        const scrollPosition = resultsContainer.scrollTop + resultsContainer.clientHeight;
-        const bottomPosition = resultsContainer.scrollHeight;
+  //   if (data && resultsContainer && infiniteScroll && status === 'next') {
+  //     const scrollFunction = () => {
+  //       const scrollPosition = resultsContainer.scrollTop + resultsContainer.clientHeight;
+  //       const bottomPosition = resultsContainer.scrollHeight;
 
-        // console.log(scrollPosition.toFixed(0), bottomPosition.toFixed(0), scrollPosition.toFixed(0) >= bottomPosition.toFixed(0) - 1)
-        if (scrollPosition >= bottomPosition - 1) {
-          // console.log(start)
-          resultsContainer.removeEventListener("scroll", scrollFunction);
-          // console.log("hit");
-          setLoading(true);
+  //       // console.log(scrollPosition.toFixed(0), bottomPosition.toFixed(0), scrollPosition.toFixed(0) >= bottomPosition.toFixed(0) - 1)
+  //       if (scrollPosition >= bottomPosition - 1) {
+  //         // console.log(start)
+  //         resultsContainer.removeEventListener("scroll", scrollFunction);
+  //         // console.log("hit");
+  //         setLoading(true);
 
-          return dispatch(resultActions.search({ ...params, start: Number(Object.keys(data).slice(-2, -1)[0]) }, status = 'next'))
-          .then(async () => {
-            resultsContainer.scrollTo(0, bottomPosition)
-            setStatus('next')
-              const lastIndex = Number(Object.keys(results).slice(-2, -1)[0]);
-              setStart(lastIndex);
-              setLoading(false);
-              // setStatus('next')
-            })
-        }
-      };
-      // console.log('listener mounted')
-      return resultsContainer.addEventListener("scroll", scrollFunction);
-    }
-  }, [data]);
+  //         return dispatch(resultActions.search({ ...params, start: Number(Object.keys(data).slice(-2, -1)[0]) }, status = 'next'))
+  //         .then(async () => {
+  //           resultsContainer.scrollTo(0, bottomPosition)
+  //           setStatus('next')
+  //             const lastIndex = Number(Object.keys(results).slice(-2, -1)[0]);
+  //             setStart(lastIndex);
+  //             setLoading(false);
+  //             // setStatus('next')
+  //           })
+  //       }
+  //     };
+  //     // console.log('listener mounted')
+  //     return resultsContainer.addEventListener("scroll", scrollFunction);
+  //   }
+  // }, [data]);
 
-  useEffect(() => {
-    if (infiniteScroll) {
+  // useEffect(() => {
+  //   if (infiniteScroll) {
 
-      setResults(data);
-    }
-  }, [data]);
+  //     setResults(data);
+  //   }
+  // }, [data]);
 
   return (
     data &&
