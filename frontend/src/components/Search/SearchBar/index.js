@@ -75,7 +75,7 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
               // resultsContainer.scrollTo(0, 0)
               dispatch(searchActions.getRecentQueries()
         );
-        if (data.results.info && data.results.info.totalPages) {
+        if (data.results && data.results.info && data.results.info.totalPages) {
           setTotalPages(data.results.info.totalPages)
         }
       });

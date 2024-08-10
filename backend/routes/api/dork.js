@@ -10,7 +10,7 @@ const { Queries, Result } = require("../../db/models");
 router.post("/iframe/", async (req, res) => {
   const { link, title, snippet, archive, queryId } = req.body;
   const { user } = req;
-
+  console.log('LIINKK',link)
   if (user) {
     const data = await fetch(link)
       .then(async (res) => {
@@ -55,8 +55,6 @@ router.post("/", async (req, res) => {
     engine: params.engine,
     string: params.string,
   };
-
-  console.log(newQuery);
 
   await Queries.create(newQuery);
 
@@ -128,23 +126,6 @@ router.post("/", async (req, res) => {
       res.json({ message: "End of results" }).status(200);
     }
 
-    // console.log(currPage + "/" + totalPages);
-
-    // const totalResults = data.search_information.total_results
-    // const totalPages = data.search_information.total_results / 100
-
-    //     await fetch(data.search_metadata.google_maps_url)
-    //     .then(async res => {
-    //         if (res.status == 200) return await res.text()
-    //     })
-    // .then(async data => {
-    //     fs.writeFileSync('test.html', data)
-    // })
-
-    // console.log('Results:', totalResults)
-    // console.log('Pages: ', totalPages)
-
-    // const
   };
 
   // console.log(final);

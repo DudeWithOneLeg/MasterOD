@@ -83,13 +83,17 @@ export default function QueryPage({ setQuery, setString}) {
         <div className="flex flex-col divide divide-y h-full overflow-y-scroll">
           {queries && Object.values(queries).length ? (
             viewAll ? (
-              Object.values(queries).map((query) => {
+              Object.values(queries)
+                .reverse()
+                .map((query) => {
                   return (
                     <QueryRow query={query} setString={setString} setQuery={setQuery}/>
                   );
               })
             ) : (
-              Object.values(queries).map((query) => {
+              Object.values(queries)
+              .reverse()
+                .map((query) => {
                 if (query.saved) {
                   return (
                     <QueryRow query={query} setString={setString} setQuery={setQuery}/>

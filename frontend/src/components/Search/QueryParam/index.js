@@ -1,13 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 
 export default function QueryParam({ param, query, setQuery, index }) {
-  const [paramValue, setParamValue] = useState(param.split(':')[1]);
-  const [show, setShow] = useState(false);
-  const [showOptionsIcon, setShowOptionsIcon] = useState(false);
-  const [edit, setEdit] = useState(false);
+  const [paramValue, setParamValue] = useState(param.split(':')[1].split('"').join(''));
+  const [showDeleteIcon, setShowDeleteIcon] = useState(false);
   const queryParamRef = useRef(null);
-  const [queryParamWidth, setQueryParamWidth] = useState(0)
-  const optionsRef = useRef(null);
 
   const handleUpdate = (e) => {
     e.preventDefault();
@@ -15,23 +11,16 @@ export default function QueryParam({ param, query, setQuery, index }) {
     const arr = query
     arr[index] = newParam
     setQuery(arr)
-
-    setEdit(false)
-    setShow(false)
+    return
   };
 
-  // useEffect(() => {
-
-  //   if (queryParamRef.current) {
-  //     setQueryParamWidth(queryParamRef.current.getBoundingClientRect().width)
-  //   }
-  // },[queryParamRef.current])
-
-  // useEffect(() => {
-  //   if (optionsRef.current) {
-  //     optionsRef.current.style.width = queryParamWidth + 'px';
-  //   }
-  // }, [queryParamWidth]);
+  const handleDelete = () => {
+    const newParams = query.filter((param, idx) => {
+      return idx = index
+    })
+    setQuery(newParams)
+    return
+  }
 
 
   return (
@@ -40,18 +29,15 @@ export default function QueryParam({ param, query, setQuery, index }) {
         param.split(":")[0].includes("-") ? "bg-red-200" : "bg-slate-500"
       }`}
       o
-      onMouseEnter={() => setShowOptionsIcon(true)}
-      onMouseLeave={() => setShowOptionsIcon(false)}
+      onMouseEnter={() => setShowDeleteIcon(true)}
+      onMouseLeave={() => setShowDeleteIcon(false)}
       id="query-param"
       ref={queryParamRef}
     >
       <div
         className="relative flex flex-row"
       >
-        {edit ? <p>{param.split(":")[0]}: </p> : ""}
-        {!edit ? (
-          <p>{`${param.split(":")[0]}: ${paramValue}`}</p>
-        ) : (
+        <p>{param.split(":")[0]}: </p>
           <form onSubmit={(e) => handleUpdate(e)}>
             <input
               className="text-black rounded ml-1 outline-none"
@@ -59,29 +45,14 @@ export default function QueryParam({ param, query, setQuery, index }) {
               onChange={(e) => setParamValue(e.target.value)}
             />
           </form>
-        )}
-        {show && !edit && (
-          <div
-            className={`absolute top-[30px] rounded flex flex-row justify-self-end w-full h-[100%] mx-1 px-1 bg-slate-800`}
-            ref={optionsRef}
-          >
-            <p className="w-full px-1 mr-1 hover:bg-red-400 text-center">Remove</p>
-            <p
-              className="w-full px-1 hover:bg-slate-400 text-center"
-              onClick={() => setEdit(true)}
-            >
-              Edit
-            </p>
-          </div>
-        )}
 
       </div>
-      {showOptionsIcon ?
-        <img src={require('../../../assets/icons/options.png')}
-        onClick={() => setShow(!show)}
-          className="flex h-4 rounded-full hover:bg-slate-600 align-self-start"/> :
+      {showDeleteIcon ?
+        <img src={require('../../../assets/images/trash.png')}
+        onClick={handleDelete}
+          className="flex h-6 rounded-full hover:bg-red-600 align-self-start cursor-pointer"/> :
 
-          <div className="w-4"></div>}
+          <div className="w-6"></div>}
 
     </div>
   );

@@ -15,7 +15,8 @@ export default function QueryRow({ query, setString, setQuery }) {
 
     const addToSearch = (query) => {
         setString(query.string);
-        setQuery(query.query.split('" ').join('";').split(";"));
+        setQuery(query.query.split('" ').join(';').split(";"));
+        // console.log(query)
     };
     return (
         <div
