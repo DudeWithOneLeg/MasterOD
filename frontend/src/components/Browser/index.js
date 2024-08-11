@@ -1,6 +1,7 @@
 import { useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as searchActions from "../../store/search";
+import Iframe from 'react-iframe'
 
 export default function Browser({
   preview,
@@ -30,7 +31,7 @@ export default function Browser({
 
       const href = e.target.getAttribute("href");
       const currUrl = window.location.href;
-      //   console.log("curr:", currUrl);
+      console.log(currUrl)
 
       if (href.includes(currUrl)) {
         const path = href.split(currUrl)[1];
@@ -38,9 +39,29 @@ export default function Browser({
         setPreview(preview + path);
         newHistory.push(preview + path);
       } else {
-        dispatch(searchActions.fetchResult({ link: preview + href }));
-        setPreview(preview + href);
-        newHistory.push(preview + href);
+        let nextUrl = ''
+        let newPreview = ''
+        if (preview.split('/')[preview.split('/').length - 1].includes('?') && preview.split('/')[-1].includes('=')) {
+          newPreview = preview.split('/').slice(0, -1).join('/')
+          console.log(newPreview)
+        }
+        else {
+          newPreview = preview
+        }
+        if (href === '/' || href === '../' && newPreview.split('/').length <= 3) {
+          nextUrl = newPreview.split('/').slice(0, -2).join('/')
+        }
+        else if (href[0] !== '/' && preview.split('/').length > 3) {
+          nextUrl = newPreview + href
+          console.log('hit')
+        }
+        else {
+          nextUrl = newPreview.split('/').slice(0, 3).join('/') + '/' + href
+        }
+        console.log(nextUrl)
+        dispatch(searchActions.fetchResult({ link: nextUrl }));
+        setPreview(nextUrl);
+        newHistory.push(nextUrl);
       }
       //   console.log(newHistory)
       setBrowseHistory(newHistory);
@@ -67,13 +88,15 @@ export default function Browser({
   };
 
   useEffect(() => {
+    // console.log('hit', msOfficeDocs.includes(preview.split(".").slice(-1)[0]))
     if (
       preview &&
-      msOfficeDocs.includes(preview.split(".").slice(-1)[0]) &&
+      docExtensions.includes(preview.split(".").slice(-1)[0]) &&
+      !preview.includes('https') &&
       !preview.includes("https://view.officeapps.live.com/op/embed.aspx?src=")
     ) {
       setPreview(
-        `https://view.officeapps.live.com/op/embed.aspx?src=${preview}`
+        `https://docs.google.com/viewer?embedded=true&url=${preview}`
       );
     }
   }, [preview]);
@@ -87,8 +110,8 @@ export default function Browser({
   }, [iframeRef]);
 
   return (
-    <div className="flex flex-col truncate h-full w-[90%] bg-slate-300 ml-2 p-1 rounded overflow-scroll">
-      <div className="bg-slate-400 flex flex-row h-11 items-center">
+    <div className="flex flex-col truncate h-full w-full bg-slate-300 ml-2 p-1 rounded overflow-scroll">
+      <div className="bg-slate-400 flex flex-row h-11 items-center w-full">
         <div className="w-full flex flex-row justify-content-between h-11 p-2">
           <div className="flex flex-row mr-1">
             <img
@@ -105,7 +128,7 @@ export default function Browser({
           <p className="w-full truncate rounded bg-slate-100 p-1">{preview}</p>
         </div>
       </div>
-      {!docExtensions.includes(preview.split(".").slice(-1)[0]) &&
+      {/* {!docExtensions.includes(preview.split(".").slice(-1)[0]) &&
       !preview.includes("https") ? (
         <div
           className="w-full overflow-scroll h-full"
@@ -113,13 +136,17 @@ export default function Browser({
           ref={domRef}
           onClick={(e) => handleDomClick(e)}
         />
-      ) : (
-        <iframe
+      ) : ( */}
+        {/* <object
           ref={iframeRef}
-          src={preview}
-          className="h-full overflow-scroll"
-        />
-      )}
+          data={preview}
+          className="flex h-full w-full overflow-scroll"
+          type='text/html'
+        >
+          <embed src={preview} className="w-full h-full"/>
+          </object> */}
+          <Iframe src={preview} className="h-full w-full"/>
+      {/* )} */}
     </div>
   );
 }

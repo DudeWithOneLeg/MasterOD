@@ -8,7 +8,25 @@ import { googleSettings } from "./GoogleSettings/googleSettings";
 import * as searchActions from '../../../store/search'
 import * as resultActions from '../../../store/result'
 
-export default function SearchBar({query, setQuery, country, setCountry, language, setLanguage, engine, setEngine, string, setString, status, setStatus, setSearch, setTotalPages}) {
+export default function SearchBar({
+  query,
+  setQuery,
+  country,
+  setCountry,
+  language,
+  setLanguage,
+  engine,
+  setEngine,
+  string,
+  setString,
+  status,
+  setStatus,
+  setSearch,
+  setTotalPages,
+  setVisitedResults,
+  setCurrentSelected,
+  setLoadingResults
+}) {
   const [showOptions, setShowOptions] = useState(false);
   const navigate = useNavigate()
   const dispatch = useDispatch();
@@ -56,8 +74,10 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
     // }
 
     if (query || string) {
+      setLoadingResults(true)
       setStatus('initial')
       setShowOptions(false);
+      console.log(query)
       dispatch(
         resultActions.search({
           q: query.join(";"),
@@ -69,18 +89,20 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
         }, status = 'initial')
       ).then(async (data) => {
         navigate('/search')
-        const resultsContainer = window.document.querySelector("#inner-result");
+        // const resultsContainer = window.document.querySelector("#inner-result");
         // const bottomPosition = resultsContainer.scrollHeight;
-              resultsContainer.scrollTo(0, 0)
-              dispatch(searchActions.getRecentQueries()
-        );
-        if (data.results.info && data.results.info.totalPages) {
+              // resultsContainer.scrollTo(0, 0)
+        dispatch(searchActions.getRecentQueries());
+        if (data.results && data.results.info && data.results.info.totalPages) {
           setTotalPages(data.results.info.totalPages)
         }
+        setLoadingResults(false)
       });
       // console.log(status)
       setSearch(true)
       setStatus('next')
+      setVisitedResults([])
+      setCurrentSelected(null)
     }
   };
 
@@ -93,14 +115,14 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
       data-collapse="collapse"
     >
       <div
-        className={`w-full flex cursor-pointer text-slate-200 items-center h-10 py-2`}
+        className={`w-full flex text-slate-200 items-center h-10 py-2`}
         data-collapse-target="collapse"
       >
         <div className="flex px- items-center w-full h-fit justify-content-between p-2">
           <div className="flex flex-row items-center">
             <img
-              src={require("../../../assets/images/plus.png")}
-              className="h-10 w-10 flex flex-row"
+              src={require("../../../assets/images/arrow-forward-2.png")}
+              className={`h-8 w-8 flex flex-row transition-all duration-300 ease-in-out ${showOptions ? 'rotate-90' : ''} cursor-pointer`}
               onClick={() => setShowOptions(!showOptions)}
               alt='show options'
             />
@@ -126,9 +148,9 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
               <div
               className="flex flex-row align-items-center"
               >
-                <img className="h-8 pointer" src={require('../../../assets/icons/save.png')} onClick={() => saveQuery()} alt='save query'/>
+                <img className="h-8 cursor-pointer" src={require('../../../assets/icons/save.png')} onClick={() => saveQuery()} alt='save query'/>
                 <p
-                className="px-2 mx-2 rounded h-8 flex align-items-center hover:text-slate-900"
+                className="px-2 mx-2 rounded h-8 flex align-items-center hover:text-slate-900 cursor-pointer"
                 onClick={() => setQuery([])}
                 >Clear</p>
 
@@ -142,7 +164,7 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
               Search Engine:
               <select
                 onClick={(e) => setEngine(e.target.value)}
-                className="bg-slate-500 rounded ml-1"
+                className="bg-slate-500 rounded ml-1 cursor-pointer"
               >
                 <option
                   selected
@@ -162,8 +184,8 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
           </div>
         </div>
         {(query && query.length) || string ? (
-          <div className="flex justify-self-end px-3 py-1 mx-1 bg-slate-800 rounded-full hover:bg-slate-600" onClick={handleSubmit}>
-            <button>Search</button>
+          <div className="flex justify-self-end px-3 py-1 mx-1 bg-slate-800 rounded-full hover:bg-slate-600 " onClick={handleSubmit}>
+            <button className="focus:outline-none">Search</button>
           </div>
         ) : (
           ""

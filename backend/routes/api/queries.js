@@ -24,7 +24,7 @@ router.post("/", async (req, res) => {
       ]
     }
   }
-  
+
   if (saved) {
     options.where.saved = true
   }
@@ -32,16 +32,6 @@ router.post("/", async (req, res) => {
   const queries = await Queries.findAll(options);
 
   return res.json(queries).status(200);
-});
-
-router.post("/:queryId", async (req, res) => {
-  const { queryId } = req.params;
-
-  const query = await Queries.findByPk(queryId);
-  query.update({
-    saved: !query.saved,
-  });
-  return res.json(query).status(200);
 });
 
 router.get("/save", async (req, res) => {
@@ -64,34 +54,45 @@ router.post("/save", async (req, res) => {
   const { user } = req;
   console.log(params)
   params.q = params.q
-    .split(";")
-    .map((q) =>
-      q.includes(":")
-        ? `${q.split(":")[0]}:"${q.split(":")[1]}"`
-        : '"' + q + '"'
-    )
-    .join(" ");
+  .split(";")
+  .map((q) =>
+    q.includes(":")
+  ? `${q.split(":")[0]}:"${q.split(":")[1]}"`
+  : ''
+)
+.join(" ");
 
-  const newQuery = {
+const newQuery = {
+  userId: user.id,
+  query: params.q,
+  engine: params.engine,
+  saved: true,
+  string: params.string
+};
+console.log(newQuery)
+
+await Queries.create(newQuery);
+const recentSavedQueries = await Queries.findAll({
+  where: {
     userId: user.id,
-    query: params.q,
-    engine: params.engine,
     saved: true,
-    string: params.string
-  };
+  },
+  order: [["createdAt", "DESC"]],
+  limit: 5,
+});
 
-  await Queries.create(newQuery);
-  const recentSavedQueries = await Queries.findAll({
-    where: {
-      userId: user.id,
-      saved: true,
-    },
-    order: [["createdAt", "DESC"]],
-    limit: 5,
+res.statusCode = 200;
+return res.json(recentSavedQueries).status(200);
+});
+
+router.post("/:queryId", async (req, res) => {
+  const { queryId } = req.params;
+
+  const query = await Queries.findByPk(queryId);
+  query.update({
+    saved: !query.saved,
   });
-
-  res.statusCode = 200;
-  return res.json(recentSavedQueries).status(200);
+  return res.json(query).status(200);
 });
 
 module.exports = router;

@@ -70,6 +70,7 @@ export const getRecentQueries = () => async (dispatch) => {
 
 export const fetchResult = (result) => async (dispatch) => {
   // const { credential, password } = user;
+  console.log(result)
   const response = await csrfFetch(`/api/dork/iframe/`, {
     method: "POST",
     body: JSON.stringify(result),
@@ -94,7 +95,7 @@ const searchReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_QUERY:
       newState = Object.assign({}, state);
-      
+
     case SET_DATA:
       newState = Object.assign({}, state);
       newState.data = action.payload.data;

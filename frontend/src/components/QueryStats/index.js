@@ -43,7 +43,7 @@ export default function QueryPage({ setQuery, setString}) {
       <div className="px-2 flex flex-col">
         <form onSubmit={(e) => handleSubmit(e)} className="flex self-center justify-self-center justify-content-between rounded w-1/3 my-2 px-2 bg-white">
           <input
-            className="w-1/2 rounded-full h-8 text-black outline-none"
+            className="w-full h-8 text-black outline-none"
             placeholder="Filter searches"
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
@@ -83,13 +83,17 @@ export default function QueryPage({ setQuery, setString}) {
         <div className="flex flex-col divide divide-y h-full overflow-y-scroll">
           {queries && Object.values(queries).length ? (
             viewAll ? (
-              Object.values(queries).map((query) => {
+              Object.values(queries)
+                .reverse()
+                .map((query) => {
                   return (
                     <QueryRow query={query} setString={setString} setQuery={setQuery}/>
                   );
               })
             ) : (
-              Object.values(queries).map((query) => {
+              Object.values(queries)
+              .reverse()
+                .map((query) => {
                 if (query.saved) {
                   return (
                     <QueryRow query={query} setString={setString} setQuery={setQuery}/>

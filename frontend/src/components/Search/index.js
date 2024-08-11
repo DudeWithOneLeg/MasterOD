@@ -26,6 +26,9 @@ export default function Search({search, setSearch, query, setQuery, string, setS
   const [status, setStatus] = useState('');
   const [pageNum, setPageNum] = useState(1)
   const [totalPages, setTotalPages] = useState(null)
+  const [visitedResults, setVisitedResults] = useState([])
+  const [currentSelected, setCurrentSelected] = useState(null);
+  const [loadingResults, setLoadingResults] = useState(false);
 
 
   const docExtensions = ["pdf", "ppt", "doc", "docx"];
@@ -53,6 +56,7 @@ export default function Search({search, setSearch, query, setQuery, string, setS
   }, [results]);
 
   const handleNextPage = () => {
+    setLoadingResults(true)
     dispatch(
       resultActions.search({
         q: query.join(";"),
@@ -62,18 +66,23 @@ export default function Search({search, setSearch, query, setQuery, string, setS
         start: (pageNum) * 100,
         string: string
       })).then(async (data) => {
+
         if (data.results && data.results.info.totalPages) {
           setTotalPages(data.results.info.totalPages)
         }
         if (data.results) {
 
           setPageNum(pageNum + 1)
+          setVisitedResults([])
+          setCurrentSelected(null)
+          setLoadingResults(false)
         }
 
       })
   }
 
   const handlePreviousPage = () => {
+    setLoadingResults(true)
     dispatch(
       resultActions.search({
         q: query.join(";"),
@@ -89,6 +98,9 @@ export default function Search({search, setSearch, query, setQuery, string, setS
         if (data.results) {
 
           setPageNum(pageNum - 1)
+          setVisitedResults([])
+          setCurrentSelected(null)
+          setLoadingResults(false)
         }
 
       })
@@ -96,6 +108,7 @@ export default function Search({search, setSearch, query, setQuery, string, setS
 
   const goToPage = (e) => {
     e.preventDefault()
+    setLoadingResults(true)
     dispatch(
       resultActions.search({
         q: query.join(";"),
@@ -109,7 +122,9 @@ export default function Search({search, setSearch, query, setQuery, string, setS
           setTotalPages(data.results.info.totalPages)
         }
 
-
+        setVisitedResults([])
+        setCurrentSelected(null)
+        setLoadingResults(false)
       })
   }
 
@@ -134,6 +149,9 @@ export default function Search({search, setSearch, query, setQuery, string, setS
         setStatus={setStatus}
         setSearch={setSearch}
         setTotalPages={setTotalPages}
+        setVisitedResults={setVisitedResults}
+        setCurrentSelected={setCurrentSelected}
+        setLoadingResults={setLoadingResults}
       />
 
       {results && search ? (
@@ -149,7 +167,7 @@ export default function Search({search, setSearch, query, setQuery, string, setS
                 : <div className="w-6"></div>}
                 <form onSubmit={(e) => goToPage(e)}>
                   <input
-                    placeholder={pageNum}
+                    value={pageNum}
                     className="w-10 rounded text-center text-slate-600"
                     onChange={(e) => setPageNum(e.target.value)}
                     type="number"
@@ -188,6 +206,12 @@ export default function Search({search, setSearch, query, setQuery, string, setS
               infiniteScroll={true}
               status={status}
               setStatus={setStatus}
+              visitedResults={visitedResults}
+              setVisitedResults={setVisitedResults}
+              currentSelected={currentSelected}
+              setCurrentSelected={setCurrentSelected}
+              loadingResults={loadingResults}
+              setLoadingResults={setLoadingResults}
             />
             {((showResult && data) || (showResult && preview)) && (
               <Browser
