@@ -5,14 +5,10 @@ export default function QueryParam({ param, query, setQuery, index }) {
   const [showDeleteIcon, setShowDeleteIcon] = useState(false);
   const queryParamRef = useRef(null);
 
-  const handleUpdate = (e) => {
-    e.preventDefault();
-    const newParam = param.split(':')[0] + ':' + paramValue
-    const arr = query
-    arr[index] = newParam
-    setQuery(arr)
-    return
-  };
+  // const handleUpdate = (e) => {
+  //   e.preventDefault();
+  //   return
+  // };
 
   const handleDelete = () => {
     const newParams = query.filter((param, idx) => {
@@ -21,6 +17,14 @@ export default function QueryParam({ param, query, setQuery, index }) {
     setQuery(newParams)
     return
   }
+
+  useEffect(() => {
+    const newParam = param.split(':')[0] + ':' + paramValue
+    const arr = query
+    arr[index] = newParam
+    setQuery(arr)
+
+  },[paramValue])
 
 
   return (
@@ -38,13 +42,13 @@ export default function QueryParam({ param, query, setQuery, index }) {
         className="relative flex flex-row"
       >
         <p>{param.split(":")[0]}: </p>
-          <form onSubmit={(e) => handleUpdate(e)}>
+          <div>
             <input
               className="text-black rounded ml-1 outline-none"
               value={paramValue}
               onChange={(e) => setParamValue(e.target.value)}
             />
-          </form>
+          </div>
 
       </div>
       {showDeleteIcon ?

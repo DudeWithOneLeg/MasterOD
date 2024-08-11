@@ -1,9 +1,6 @@
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import * as searchActions from "../../store/search";
-import * as resultActions from "../../store/result";
+import { useState } from "react";
 import Result from "../Result";
-const loadingImg = require('../../assets/icons/loading.png')
+const loadingImg = require("../../assets/icons/loading.png");
 
 // import './index.css'
 
@@ -11,25 +8,19 @@ export default function Results({
   setPreview,
   showResult,
   setShowResult,
-  start,
-  setStart,
-  params,
   setResult,
-  infiniteScroll,
   data,
-  status,
-  setStatus,
-  filterInput
+  filterInput,
+  visitedResults,
+  setVisitedResults,
+  currentSelected,
+  setCurrentSelected,
+  loadingResults,
 }) {
   // const data = useSelector((state) => state.search.results);
-  const [results, setResults] = useState({});
-  const [loading, setLoading] = useState(false);
-  const [currentSelected, setCurrentSelected] = useState(null);
   // const data = useSelector((state) => state.results.results);
 
-  const [width, setWidth] = useState('w-1/2')
-
-  const dispatch = useDispatch();
+  const [width, setWidth] = useState("w-1/2");
 
   // useEffect(() => {
 
@@ -71,85 +62,99 @@ export default function Results({
   //   }
   // }, [data]);
 
-  return (
-    data &&
-    Object.values(data).length ? (
-      //KEEP CLASS NAME AS IS
+  return data && Object.values(data).length ? (
+    //KEEP CLASS NAME AS IS
+    <div
+      className={`flex flex-col justify-center h-full overflow-hidden pb-1 ${
+        showResult ? "w-full" : "w-100"
+      }`}
+      id="results"
+    >
       <div
-        className={`flex flex-col justify-center h-full overflow-hidden pb-1 ${
-          showResult ? "w-full" : "w-100"
-        }`}
-        id="results"
+        className={`rounded flex-col flex h-full py-2 px-2 w-full items-center overflow-y-scroll overflow-x-hidden`}
+        id="inner-result"
       >
-        <div
-          className={`rounded flex-col flex h-full py-2 px-2 w-full items-center overflow-y-scroll overflow-x-hidden`}
-          id="inner-result"
-        >
-          <div className={`${width}`}>
-
-          {Object.values(data)[0] && Object.values(data)[0].queryId ? Object.keys(data).reverse()
-          .filter(key => !data[key].currentPage)
-            .map((rowKey) => {
-              if (filterInput) {
-                const result = data[rowKey]
-                if ((result && result.title) && (result.title.toLowerCase().includes(filterInput) || result.snippet.toLowerCase().includes(filterInput) || result.link.toLowerCase().includes(filterInput))) {
-                  return (
-                    <Result
-                      rowKey={rowKey}
-                      data={data}
-                      showResult={showResult}
-                      setShowResult={setShowResult}
-                      setPreview={setPreview}
-                      setResult={setResult}
-                      setWidth={setWidth}
-                      currentSelected={currentSelected}
-                      setCurrentSelected={setCurrentSelected}
-                    />
-                  );
-                }
-              }
-              else {
-
-                return (
-                  <Result
-                    rowKey={rowKey}
-                    data={data}
-                    showResult={showResult}
-                    setShowResult={setShowResult}
-                    setPreview={setPreview}
-                    setResult={setResult}
-                    setWidth={setWidth}
-                    currentSelected={currentSelected}
-                    setCurrentSelected={setCurrentSelected}
-                  />
-                );
-              }
-            }) : Object.keys(data)
-          .filter(key => !data[key].currentPage)
-            .map((rowKey) => {
-              return (
-                <Result
-                  rowKey={rowKey}
-                  data={data}
-                  showResult={showResult}
-                  setShowResult={setShowResult}
-                  setPreview={setPreview}
-                  setResult={setResult}
-                  setWidth={setWidth}
-                  currentSelected={currentSelected}
-                  setCurrentSelected={setCurrentSelected}
-                />
-              );
-            })}
-          </div>
-          {loading && (
+        {loadingResults ? (
+          <div className="flex justify-content-center items-center w-full h-full">
             <img
-              src={loadingImg}
+              src={require('../../assets/icons/loading.png')}
               className="h-26 w-26 rounded-full animate-spin mb-4"
             />
-          )}
-        </div>
+          </div>
+        ) : (
+          <div className={`${width}`}>
+            {Object.values(data)[0] && Object.values(data)[0].queryId
+              ? Object.keys(data)
+                  .reverse()
+                  .filter((key) => !data[key].currentPage)
+                  .map((rowKey) => {
+                    if (filterInput) {
+                      const result = data[rowKey];
+                      if (
+                        result &&
+                        result.title &&
+                        (result.title.toLowerCase().includes(filterInput) ||
+                          result.snippet.toLowerCase().includes(filterInput) ||
+                          result.link.toLowerCase().includes(filterInput))
+                      ) {
+                        return (
+                          <Result
+                            rowKey={rowKey}
+                            data={data}
+                            showResult={showResult}
+                            setShowResult={setShowResult}
+                            setPreview={setPreview}
+                            setResult={setResult}
+                            setWidth={setWidth}
+                            currentSelected={currentSelected}
+                            setCurrentSelected={setCurrentSelected}
+                            visitedResults={visitedResults}
+                            setVisitedResults={setVisitedResults}
+                          />
+                        );
+                      }
+                    } else {
+                      return (
+                        <Result
+                          rowKey={rowKey}
+                          data={data}
+                          showResult={showResult}
+                          setShowResult={setShowResult}
+                          setPreview={setPreview}
+                          setResult={setResult}
+                          setWidth={setWidth}
+                          currentSelected={currentSelected}
+                          setCurrentSelected={setCurrentSelected}
+                          visitedResults={visitedResults}
+                          setVisitedResults={setVisitedResults}
+                        />
+                      );
+                    }
+                  })
+              : Object.keys(data)
+                  .filter((key) => !data[key].currentPage)
+                  .map((rowKey) => {
+                    return (
+                      <Result
+                        rowKey={rowKey}
+                        data={data}
+                        showResult={showResult}
+                        setShowResult={setShowResult}
+                        setPreview={setPreview}
+                        setResult={setResult}
+                        setWidth={setWidth}
+                        currentSelected={currentSelected}
+                        setCurrentSelected={setCurrentSelected}
+                        visitedResults={visitedResults}
+                        setVisitedResults={setVisitedResults}
+                      />
+                    );
+                  })}
+          </div>
+        )}
       </div>
-    ) : <></>
+    </div>
+  ) : (
+    <></>
   );
 }

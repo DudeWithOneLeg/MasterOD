@@ -11,11 +11,12 @@ export default function Result({
   setResult,
   setWidth,
   currentSelected,
-  setCurrentSelected
+  setCurrentSelected,
+  visitedResults,
+  setVisitedResults
 }) {
   const [showInfo, setShowInfo] = useState(false);
   const [saved, setSaved] = useState(false);
-  const [visited, setVisited] = useState(false);
   const lastSearchId = useSelector(
     (state) => Object.values(state.search.recentQueries)[0].id
   );
@@ -50,9 +51,9 @@ export default function Result({
       id="result"
       onClick={() => {
         setCurrentSelected(result.id)
-        setVisited(true)
+        setVisitedResults([...visitedResults, result.id])
       }}
-      className={`${currentSelected === result.id ? 'border-4 border-green-200': (visited && currentSelected != result.id ? 'border-2 border-white' : '')} h-fit w-full cursor-pointer flex items-center rounded bg-gradient-to-r from-slate-800 via-slate-800 hover:bg-gradient-to-r hover:from-slate-700 hover:via-slate-800 py-2 mb-2 mr-1 transition-all duration-300 ease-in-out `}
+      className={`${currentSelected === result.id ? 'border-4 border-green-200': (visitedResults.includes(result.id) && currentSelected != result.id ? 'border-2 border-white' : '')} h-fit w-full cursor-pointer flex items-center rounded bg-gradient-to-r from-slate-800 via-slate-800 hover:bg-gradient-to-r hover:from-slate-700 hover:via-slate-800 py-2 mb-2 mr-1 transition-all duration-300 ease-in-out `}
     >
       <div className="flex flex-col items-center justify-content-around min-w-10 h-full">
         {/* <div className="text-white">{result.id}</div> */}

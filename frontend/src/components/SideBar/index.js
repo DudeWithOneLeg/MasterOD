@@ -9,7 +9,7 @@ import LoginFormPage from "../LoginFormPage";
 import RecentStats from "./RecentStats";
 // import SearchBar from "../SearchBar";
 
-export default function SideBar({ setSearch, setQuery, setKeywords }) {
+export default function SideBar({ setSearch, setQuery, setString }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.session.user);
@@ -103,7 +103,7 @@ export default function SideBar({ setSearch, setQuery, setKeywords }) {
 
   const handleNewSearch = () => {
     setQuery([])
-    setKeywords('')
+    setString('')
     navigate("/search")
   }
 

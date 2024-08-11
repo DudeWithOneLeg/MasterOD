@@ -8,7 +8,25 @@ import { googleSettings } from "./GoogleSettings/googleSettings";
 import * as searchActions from '../../../store/search'
 import * as resultActions from '../../../store/result'
 
-export default function SearchBar({query, setQuery, country, setCountry, language, setLanguage, engine, setEngine, string, setString, status, setStatus, setSearch, setTotalPages}) {
+export default function SearchBar({
+  query,
+  setQuery,
+  country,
+  setCountry,
+  language,
+  setLanguage,
+  engine,
+  setEngine,
+  string,
+  setString,
+  status,
+  setStatus,
+  setSearch,
+  setTotalPages,
+  setVisitedResults,
+  setCurrentSelected,
+  setLoadingResults
+}) {
   const [showOptions, setShowOptions] = useState(false);
   const navigate = useNavigate()
   const dispatch = useDispatch();
@@ -56,6 +74,7 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
     // }
 
     if (query || string) {
+      setLoadingResults(true)
       setStatus('initial')
       setShowOptions(false);
       console.log(query)
@@ -73,15 +92,17 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
         // const resultsContainer = window.document.querySelector("#inner-result");
         // const bottomPosition = resultsContainer.scrollHeight;
               // resultsContainer.scrollTo(0, 0)
-              dispatch(searchActions.getRecentQueries()
-        );
+        dispatch(searchActions.getRecentQueries());
         if (data.results && data.results.info && data.results.info.totalPages) {
           setTotalPages(data.results.info.totalPages)
         }
+        setLoadingResults(false)
       });
       // console.log(status)
       setSearch(true)
       setStatus('next')
+      setVisitedResults([])
+      setCurrentSelected(null)
     }
   };
 
@@ -127,7 +148,7 @@ export default function SearchBar({query, setQuery, country, setCountry, languag
               <div
               className="flex flex-row align-items-center"
               >
-                <img className="h-8 pointer" src={require('../../../assets/icons/save.png')} onClick={() => saveQuery()} alt='save query'/>
+                <img className="h-8 cursor-pointer" src={require('../../../assets/icons/save.png')} onClick={() => saveQuery()} alt='save query'/>
                 <p
                 className="px-2 mx-2 rounded h-8 flex align-items-center hover:text-slate-900 cursor-pointer"
                 onClick={() => setQuery([])}
