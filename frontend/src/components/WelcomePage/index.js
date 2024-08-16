@@ -17,10 +17,10 @@ export default function WelcomePage() {
     return (
         <div className="text-white p-2 flex flex-col w-full align-items-center h-fit">
 
+            <div className="flex flex-col w-1/3 justify-self-center rounded">
             <div className="text-lg w-full flex justify-content-center items-center h-40">
                 <h1>Welcome to Search Deck!</h1>
             </div>
-            <div className="flex w-1/3 justify-self-center rounded">
                 <p>
                 Welcome to SearchDeck – the all-in-one tool to make your web searching smoother and more organized. With SearchDeck, you can easily manage your search queries, see results side by side, and save your favorite finds. Whether you’re diving into research, hunting for the best deals, or just browsing around, SearchDeck keeps everything tidy and at your fingertips. Say goodbye to clutter and hello to a smarter way to search!
 

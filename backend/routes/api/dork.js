@@ -76,7 +76,7 @@ router.post("/", async (req, res) => {
     // console.log(data.search_parameters);
     // console.log(data.serpapi_pagination);
 
-    // console.log(data);
+    console.log(data);
     if (data.organic_results) {
       const results = async (rest) => {
         const index = {};
