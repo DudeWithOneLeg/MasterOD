@@ -16,6 +16,9 @@ function App() {
   const [query, setQuery] = useState([]);
   const [string, setString] = useState("test")
   const user = useSelector((state) => state.session.user);
+  const [visitedResults, setVisitedResults] = useState([])
+  const [currentSelected, setCurrentSelected] = useState(null);
+  const [loadingResults, setLoadingResults] = useState(false);
 
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
@@ -40,15 +43,15 @@ function App() {
         {isLoaded && user ? (
           <Routes>
             <Route path="/queries" element={<QueryStats setQuery={setQuery} setString={setString}/>}/>
-            <Route path="/results" element={<ResultsPage />}/>
-            <Route path="/results/:view" element={<ResultsPage />}/>
-            <Route path="/search" element={<Search setSearch={setSearch} search={search} setQuery={setQuery} query={query} string={string} setString={setString}/>}/>
+            <Route path="/results" element={<ResultsPage currentSelected={currentSelected} setCurrentSelected={setCurrentSelected} visitedResults={visitedResults} setVisitedResults={setVisitedResults} loadingResults={loadingResults}/>}/>
+            <Route path="/results/:view" element={<ResultsPage currentSelected={currentSelected} setCurrentSelected={setCurrentSelected} visitedResults={visitedResults} setVisitedResults={setVisitedResults} loadingResults={loadingResults}/>}/>
+            <Route path="/search" element={<Search setSearch={setSearch} search={search} setQuery={setQuery} query={query} string={string} setString={setString} currentSelected={currentSelected} setCurrentSelected={setCurrentSelected} visitedResults={visitedResults} setVisitedResults={setVisitedResults} loadingResults={loadingResults}/>}/>
             <Route path="/search/:view" element={<Search setSearch={setSearch} search={search} setQuery={setQuery} query={query} string={string} setString={setString}/>}/>
           </Routes>
         ) : (
           <div className="">
             <Routes>
-              <Route path="/search" element={<WelcomePage />}/>
+              <Route path="/" element={<WelcomePage />}/>
             </Routes>
 
           </div>

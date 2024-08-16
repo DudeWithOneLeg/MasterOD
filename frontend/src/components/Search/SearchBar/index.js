@@ -25,7 +25,8 @@ export default function SearchBar({
   setTotalPages,
   setVisitedResults,
   setCurrentSelected,
-  setLoadingResults
+  setLoadingResults,
+  setPageNum
 }) {
   const [showOptions, setShowOptions] = useState(false);
   const navigate = useNavigate()
@@ -103,23 +104,22 @@ export default function SearchBar({
       setStatus('next')
       setVisitedResults([])
       setCurrentSelected(null)
+      setPageNum(1)
     }
   };
 
   return (
     <div
-      className={`w-full divide-y divide-slate-500 bg-slate-700 border-2 border-slate-600 flex flex-col font-bold rounded transition-all duration-300 ease-in-out ${
-        showOptions ? `h-fit` : "h-fit"
-      }`}
+      className={`w-full divide-y divide-slate-500 bg-slate-700 border-2 border-slate-600 flex flex-col font-bold rounded transition-all duration-300 ease-in-out `}
       id="search-bar-inner"
       data-collapse="collapse"
     >
       <div
-        className={`w-full flex text-slate-200 items-center h-10 py-2`}
+        className={`w-full flex text-slate-200 items-center h-fit py-2`}
         data-collapse-target="collapse"
       >
         <div className="flex px- items-center w-full h-fit justify-content-between p-2">
-          <div className="flex flex-row items-center">
+          <div className="flex flex-row h-fit items-center">
             <img
               src={require("../../../assets/images/arrow-forward-2.png")}
               className={`h-8 w-8 flex flex-row transition-all duration-300 ease-in-out ${showOptions ? 'rotate-90' : ''} cursor-pointer`}
@@ -131,14 +131,24 @@ export default function SearchBar({
               <input placeholder="Enter keyword" className="p-1 m-1 bg-slate-600 rounded w-fit outline-none" value={string} onChange={(e) => setString(e.target.value)}/>
               {query && query.length
                 ? query.map((param, index) => {
+                  if (param.includes(':')) {
                     return (
+
                       <QueryParam
+
                         param={param}
+
                         query={query}
+
                         setQuery={setQuery}
+
                         index={index}
+
                       />
+
                     );
+
+                  }
                   })
                 : ""}
             </div>

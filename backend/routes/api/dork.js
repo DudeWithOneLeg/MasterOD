@@ -76,7 +76,7 @@ router.post("/", async (req, res) => {
     // console.log(data.search_parameters);
     // console.log(data.serpapi_pagination);
 
-    console.log(data);
+    // console.log(data);
     if (data.organic_results) {
       const results = async (rest) => {
         const index = {};
@@ -136,11 +136,12 @@ router.post("/", async (req, res) => {
     ...params,
     num: 100,
     q: `${params.q ? params.q : ""}${params.string ? " " + params.string : ""}`,
+    filter: 0
     // ll:`@${lat},${lng}`
     // device: "tablet",
     // travel_mode: 3,
   };
-  // console.log(request);
+  console.log(request);
   try {
     await search.json(request, callback);
   } catch (error) {

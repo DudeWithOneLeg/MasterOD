@@ -8,7 +8,7 @@ import SearchBar from "./SearchBar";
 import QueryStats from '../QueryStats'
 
 
-export default function Search({search, setSearch, query, setQuery, string, setString}) {
+export default function Search({search, setSearch, query, setQuery, string, setString, visitedResults, setVisitedResults, currentSelected, setCurrentSelected, loadingResults, setLoadingResults}) {
   const data = useSelector((state) => state.search.data);
   const results = useSelector((state) => state.results.results);
 
@@ -26,9 +26,6 @@ export default function Search({search, setSearch, query, setQuery, string, setS
   const [status, setStatus] = useState('');
   const [pageNum, setPageNum] = useState(1)
   const [totalPages, setTotalPages] = useState(null)
-  const [visitedResults, setVisitedResults] = useState([])
-  const [currentSelected, setCurrentSelected] = useState(null);
-  const [loadingResults, setLoadingResults] = useState(false);
 
 
   const docExtensions = ["pdf", "ppt", "doc", "docx"];
@@ -152,6 +149,7 @@ export default function Search({search, setSearch, query, setQuery, string, setS
         setVisitedResults={setVisitedResults}
         setCurrentSelected={setCurrentSelected}
         setLoadingResults={setLoadingResults}
+        setPageNum={setPageNum}
       />
 
       {results && search ? (
