@@ -25,6 +25,7 @@ export default function SideBar({ setSearch, setQuery, setString }) {
     e.preventDefault();
     dispatch(sessionActions.logout());
     setHide(true);
+    navigate('/')
   };
 
   useEffect(() => {

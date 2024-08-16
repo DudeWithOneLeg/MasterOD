@@ -6,7 +6,12 @@ import Browser from "../Browser";
 import * as resultActions from "../../store/result";
 import * as searchActions from "../../store/search";
 
-export default function ResultsPage() {
+export default function ResultsPage({
+  visitedResults,
+  setVisitedResults,
+  currentSelected,
+  setCurrentSelected,
+  loadingResults}) {
   const dispatch = useDispatch();
   const params = useParams();
   // const [searchParams, setSearchParams] = useSearchParams();
@@ -88,7 +93,7 @@ export default function ResultsPage() {
               setResult={setResult}
               infiniteScroll={false}
               data={saved}
-              filterInput={filterInput}
+              filterInput={filterInput} currentSelected={currentSelected} setCurrentSelected={setCurrentSelected} visitedResults={visitedResults} setVisitedResults={setVisitedResults} loadingResults={loadingResults}
             />
           </>
         ) : (
@@ -104,7 +109,7 @@ export default function ResultsPage() {
               setResult={setResult}
               infiniteScroll={false}
               data={visited}
-              filterInput={filterInput}
+              filterInput={filterInput} currentSelected={currentSelected} setCurrentSelected={setCurrentSelected} visitedResults={visitedResults} setVisitedResults={setVisitedResults} loadingResults={loadingResults}
             />
           </>
         ) : (
