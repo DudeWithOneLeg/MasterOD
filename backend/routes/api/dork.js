@@ -46,7 +46,7 @@ router.post("/", async (req, res) => {
   params.q = params.q
     .split(";")
     .map((q) =>
-      q.includes(":") ? `${q.split(":")[0]}:"${q.split(":")[1]}"` : ""
+      q.includes(":") ? (!q.includes('site') ? `${q.split(":")[0]}:"${q.split(":")[1]}"` : `${q.split(":")[0]}:${q.split(":")[1]}`) : ""
     )
     .join(" ");
   const newQuery = {
@@ -129,6 +129,7 @@ router.post("/", async (req, res) => {
   };
 
   // console.log(final);
+  // delete params.string
   const request = {
     // start_addr: `${lat},${lng}`,
     // end_addr: "hebron train station",

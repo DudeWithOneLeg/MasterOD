@@ -7,10 +7,10 @@ import * as sessionActions from "../../store/session";
 function SignupFormPage() {
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
-  const [email, setEmail] = useState("");
+  // const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  // const [firstName, setFirstName] = useState("");
+  // const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
@@ -23,10 +23,10 @@ function SignupFormPage() {
       setErrors({});
       return dispatch(
         sessionActions.signup({
-          email,
+          // email,
           username,
-          firstName,
-          lastName,
+          // firstName,
+          // lastName,
           password,
         })
       ).catch(async (res) => {
@@ -45,7 +45,7 @@ function SignupFormPage() {
   return (
     <div className="flex flex-col h-fit w-full items-center border-t-2 pt-2">
       <form onSubmit={handleSubmit} className="flex flex-col w-fit h-fit">
-        <div className="py-2">
+        {/* <div className="py-2">
           <h1>Email</h1>
           <input
             type="text"
@@ -56,7 +56,7 @@ function SignupFormPage() {
             className="my-1 rounded"
           />
           {errors.email && <p>{errors.email}</p>}
-        </div>
+        </div> */}
         <div className="py-2">
           <h1>Username</h1>
           <input
@@ -65,7 +65,7 @@ function SignupFormPage() {
             placeholder="Username"
             onChange={(e) => setUsername(e.target.value)}
             required
-            className="my-1 rounded"
+            className="my-1 rounded text-black"
           />
           {errors.username && <p>{errors.username}</p>}
         </div>
@@ -97,7 +97,7 @@ function SignupFormPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="my-1 rounded"
+            className="my-1 rounded text-black"
           />
           {errors.password && <p>{errors.password}</p>}
         </div>
@@ -109,7 +109,7 @@ function SignupFormPage() {
               placeholder="Confirm Password"
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
-              className="my-1 rounded"
+              className="my-1 rounded text-black"
             />
           </label>
           {errors.confirmPassword && <p>{errors.confirmPassword}</p>}

@@ -9,7 +9,7 @@
     // Create the token.
     const safeUser = {
       id: user.id,
-      email: user.email,
+      // email: user.email,
       username: user.username,
     };
     const token = jwt.sign(
@@ -45,7 +45,7 @@
         const { id } = jwtPayload.data;
         req.user = await User.findByPk(id, {
           attributes: {
-            include: ['email', 'createdAt', 'updatedAt']
+            include: ['username', 'createdAt', 'updatedAt']
           }
         });
       } catch (e) {
@@ -71,4 +71,3 @@
   };
 
   module.exports = { setTokenCookie, restoreUser, requireAuth };
-      
