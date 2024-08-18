@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const Sequelize = require("sequelize");
 const { Result } = require("../../db/models");
 
 router.get("/", async (req, res) => {
@@ -32,6 +31,7 @@ router.get("/saved", async (req, res) => {
       order: [["createdAt", "DESC"]],
     });
 
+
     res.statusCode = 200;
     return res.json(savedResults).status(200);
   }
@@ -48,6 +48,7 @@ router.get("/history", async (req, res) => {
       limit: 5,
       order: [["createdAt", "DESC"]],
     });
+    console.log()
 
     res.statusCode = 200;
     return res.json(browseHistory).status(200);
@@ -84,7 +85,7 @@ router.delete("/:resultId", async (req, res) => {
 
   await result.update({ saved: false });
   await result.save()
-  
+
   console.log(result)
   const savedResults = await Result.findAll({
     where: {

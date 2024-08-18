@@ -52,7 +52,6 @@ router.get("/save", async (req, res) => {
 router.post("/save", async (req, res) => {
   const params = req.body;
   const { user } = req;
-  console.log(params)
   params.q = params.q
   .split(";")
   .map((q) =>
@@ -69,7 +68,6 @@ const newQuery = {
   saved: true,
   string: params.string
 };
-console.log(newQuery)
 
 await Queries.create(newQuery);
 const recentSavedQueries = await Queries.findAll({

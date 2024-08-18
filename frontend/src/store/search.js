@@ -70,7 +70,6 @@ export const getRecentQueries = () => async (dispatch) => {
 
 export const fetchResult = (result) => async (dispatch) => {
   // const { credential, password } = user;
-  console.log(result)
   const response = await csrfFetch(`/api/dork/iframe/`, {
     method: "POST",
     body: JSON.stringify(result),

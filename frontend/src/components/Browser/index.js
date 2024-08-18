@@ -16,8 +16,6 @@ export default function Browser({
   const parentRef = useRef(null);
 
   const divRef = useRef(null);
-  const data = useSelector((state) => state.search.data);
-  const iframeRef = useRef(null);
 
   const docExtensions = ["pdf", "ppt", "doc", "docx"];
   const msOfficeDocs = ["ppt", "doc", "docx"];
@@ -34,7 +32,6 @@ export default function Browser({
 
       const href = e.target.getAttribute("href");
       const currUrl = window.location.href;
-      console.log(currUrl);
 
       if (href.includes(currUrl)) {
         const path = href.split(currUrl)[1];
@@ -49,7 +46,6 @@ export default function Browser({
           preview.split("/")[-1].includes("=")
         ) {
           newPreview = preview.split("/").slice(0, -1).join("/");
-          console.log(newPreview);
         } else {
           newPreview = preview;
         }
@@ -60,11 +56,9 @@ export default function Browser({
           nextUrl = newPreview.split("/").slice(0, -2).join("/");
         } else if (href[0] !== "/" && preview.split("/").length > 3) {
           nextUrl = newPreview + href;
-          console.log("hit");
         } else {
           nextUrl = newPreview.split("/").slice(0, 3).join("/") + "/" + href;
         }
-        console.log(nextUrl);
         dispatch(searchActions.fetchResult({ link: nextUrl }));
         setPreview(nextUrl);
         newHistory.push(nextUrl);

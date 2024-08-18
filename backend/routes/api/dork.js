@@ -10,16 +10,7 @@ const { Queries, Result } = require("../../db/models");
 router.post("/iframe/", async (req, res) => {
   const { link, title, snippet, archive, queryId } = req.body;
   const { user } = req;
-  console.log('LIINKK',link)
   if (user) {
-    const data = await fetch(link)
-      .then(async (res) => {
-        if (res.status == 200) {
-          return res.text();
-        }
-      })
-      .then(async (data) => {
-        const response = data;
         await Result.create({
           link,
           snippet,
@@ -28,11 +19,8 @@ router.post("/iframe/", async (req, res) => {
           userId: user.id,
           saved: false,
         });
-        return response;
-      })
-      .catch((e) => console.log(e));
 
-    return res.json({ data });
+    return res.json({data:''});
   }
   // console.log(req.body)
 });

@@ -6,13 +6,11 @@ export default function Parameter({ query, setQuery, param, text }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(query)
     if (input.split(param)[1]) {
 
       const parsed = input.split(text).join(param);
       const q = query;
       setQuery([...q, parsed]);
-      console.log(query);
       setInput("");
     }
   };
