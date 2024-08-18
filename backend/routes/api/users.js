@@ -8,10 +8,10 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
 const validateSignup = [
-  check('email')
-    .exists({ checkFalsy: true })
-    .isEmail()
-    .withMessage('Please provide a valid email.'),
+  // check('email')
+  //   .exists({ checkFalsy: true })
+  //   .isEmail()
+  //   .withMessage('Please provide a valid email.'),
   check('username')
     .exists({ checkFalsy: true })
     .isLength({ min: 4 })
@@ -44,7 +44,7 @@ router.get(
     if (user) {
       const safeUser = {
         id: user.id,
-        email: user.email,
+        // email: user.email,
         username: user.username,
         recentQueries
       };
@@ -62,13 +62,13 @@ router.post(
   '/',
   validateSignup,
   async (req, res) => {
-    const { email, password, username } = req.body;
+    const { password, username } = req.body;
     const hashedPassword = bcrypt.hashSync(password);
-    const user = await User.create({ email, username, hashedPassword });
+    const user = await User.create({ username, hashedPassword });
 
     const safeUser = {
       id: user.id,
-      email: user.email,
+      // email: user.email,
       username: user.username,
     };
 

@@ -21,12 +21,12 @@ const validateLogin = [
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-  
+
   const { user } = req;
   if (user) {
     const safeUser = {
       id: user.id,
-      email: user.email,
+      // email: user.email,
       username: user.username
     };
     return res.json({
@@ -40,10 +40,10 @@ router.post("/", validateLogin, async (req, res, next) => {
 
   const user = await User.findOne({
     where: {
-      [Op.or]: {
+
         username: credential,
-        email: credential,
-      },
+        // email: credential,
+
     },
   });
 
@@ -75,7 +75,7 @@ router.post("/", validateLogin, async (req, res, next) => {
 
   const safeUser = {
     id: user.id,
-    email: user.email,
+    // email: user.email,
     username: user.username,
     recentQueries,
     savedQueries,
@@ -84,6 +84,7 @@ router.post("/", validateLogin, async (req, res, next) => {
   await setTokenCookie(res, safeUser);
 
   // res.setStatus = 200
+  console.log(safeUser)
   return res.json({
     user: safeUser,
   }).status(200)
