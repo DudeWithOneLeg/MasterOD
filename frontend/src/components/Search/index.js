@@ -34,7 +34,7 @@ export default function Search({search, setSearch, query, setQuery, string, setS
 
   //Only fetch data if link is not a file
   useEffect(() => {
-    if (preview && !docExtensions.includes(preview.split(".").slice(-1)[0])) {
+    if (preview ) {
       dispatch(searchActions.fetchResult(result));
       if (!browseHistory.length) {
         setBrowseHistory([preview]);

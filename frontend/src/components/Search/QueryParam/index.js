@@ -13,11 +13,9 @@ export default function QueryParam({ param, query, setQuery, index }) {
   // };
 
   const handleDelete = () => {
-    console.log(query)
     const newParams = query.filter((param, idx) => {
       return (idx !== index);
     });
-    console.log(newParams)
     setQuery(newParams);
     return;
   };

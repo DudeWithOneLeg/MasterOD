@@ -135,15 +135,10 @@ export default function SearchBar({
                     return (
 
                       <QueryParam
-
                         param={param}
-
                         query={query}
-
                         setQuery={setQuery}
-
                         index={index}
-
                       />
 
                     );
