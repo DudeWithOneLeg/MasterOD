@@ -26,7 +26,9 @@ export default function SearchBar({
   setVisitedResults,
   setCurrentSelected,
   setLoadingResults,
-  setPageNum
+  setPageNum,
+  setPreview,
+  setShowResult
 }) {
   const [showOptions, setShowOptions] = useState(false);
   const navigate = useNavigate()
@@ -115,7 +117,7 @@ export default function SearchBar({
       data-collapse="collapse"
     >
       <div
-        className={`w-full flex text-slate-200 items-center h-fit py-2`}
+        className={`w-full flex text-slate-200 items-center h-fit`}
         data-collapse-target="collapse"
       >
         <div className="flex px- items-center w-full h-fit justify-content-between p-2">

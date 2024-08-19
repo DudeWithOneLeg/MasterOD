@@ -44,7 +44,7 @@ export default function QueryParam({ param, query, setQuery, index }) {
         <p>{param.split(":")[0]}: </p>
         <div>
           <input
-            className="text-black rounded ml-1 w-32 outline-none"
+            className="text-black rounded ml-1 w-36 outline-none px-1"
             value={paramValue}
             onChange={(e) => setParamValue(e.target.value)}
           />
@@ -54,10 +54,10 @@ export default function QueryParam({ param, query, setQuery, index }) {
         <img
           src={require("../../../assets/images/trash.png")}
           onClick={handleDelete}
-          className="flex h-6 rounded-full hover:bg-red-600 align-self-start cursor-pointer"
+          className="flex h-6 rounded ml-1 hover:bg-red-600 align-self-start cursor-pointer"
         />
       ) : (
-        <div className="w-6"></div>
+        <div className="w-7"></div>
       )}
     </div>
   );

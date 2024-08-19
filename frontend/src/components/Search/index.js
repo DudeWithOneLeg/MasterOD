@@ -67,8 +67,8 @@ export default function Search({search, setSearch, query, setQuery, string, setS
         if (data.results && data.results.info.totalPages) {
           setTotalPages(data.results.info.totalPages)
         }
-        if (data.results) {
 
+        if (data.results) {
           setPageNum(pageNum + 1)
           setVisitedResults([])
           setCurrentSelected(null)
@@ -150,6 +150,7 @@ export default function Search({search, setSearch, query, setQuery, string, setS
         setCurrentSelected={setCurrentSelected}
         setLoadingResults={setLoadingResults}
         setPageNum={setPageNum}
+        setShowResult={setShowResult}
       />
 
       {results && search ? (
