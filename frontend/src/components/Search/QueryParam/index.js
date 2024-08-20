@@ -32,7 +32,7 @@ export default function QueryParam({ param, query, setQuery, index }) {
   return (
     <div
       className={`mx-1 flex justify-content-end items-center rounded my-1 p-1 h-fit ${
-        param.split(":")[0].includes("-") ? "bg-red-200" : "bg-slate-500"
+        param.split(":")[0].includes("-") ? "bg-red-400" : "bg-slate-500"
       }`}
       o
       onMouseEnter={() => setShowDeleteIcon(true)}

@@ -20,8 +20,6 @@ export default function Search({search, setSearch, query, setQuery, string, setS
   const [country, setCountry] = useState("");
   const [engine, setEngine] = useState("Google");
   const [start, setStart] = useState(0);
-  const [browseHistory, setBrowseHistory] = useState([]);
-  const [browseHistoryIndex, setBrowseHistoryIndex] = useState(0);
   const [result, setResult] = useState({});
   const [status, setStatus] = useState('');
   const [pageNum, setPageNum] = useState(1)
@@ -36,9 +34,6 @@ export default function Search({search, setSearch, query, setQuery, string, setS
   useEffect(() => {
     if (preview ) {
       dispatch(searchActions.fetchResult(result));
-      if (!browseHistory.length) {
-        setBrowseHistory([preview]);
-      }
 
     dispatch(resultActions.getRecentVisitedResults())
     }
@@ -217,10 +212,6 @@ export default function Search({search, setSearch, query, setQuery, string, setS
                 preview={preview}
                 data={data}
                 setPreview={setPreview}
-                browseHistory={browseHistory}
-                setBrowseHistory={setBrowseHistory}
-                browseHistoryIndex={browseHistoryIndex}
-                setBrowseHistoryIndex={setBrowseHistoryIndex}
               />
             )}
           </div>

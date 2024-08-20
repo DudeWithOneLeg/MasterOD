@@ -72,22 +72,25 @@ export default function Result({
             <div className="flex flex-row ">
               <div className="w-full">
                 <div className="flex flex-row justify-content-between w-full">
-                  <h3 className="font-bold text-slate-300 text-xl text-wrap underline w-fit">
-                    {result.title && result.title}
-                  </h3>
+                  <div className="flex flex-row">
+                    <h3 className="font-bold text-slate-300 text-xl text-wrap underline w-fit">
+                      {result.title && result.title}
+                    </h3>
+
+                  {result.link &&
+                    docExtensions.includes(result.link.split(".").slice(-1)[0]) && (
+                      <img
+                        src={require("../../assets/images/document.png")}
+                        className="w-8 h-8"
+                        alt='document'
+                      />
+                    )}
+                  </div>
                   <img src={newTab} className="h-8" onClick={handleNewTab} alt='new tab'/>
                 </div>
                 <p className="text-sm truncate w-3/4">{result.link.split('').slice(0, 50).join('')}...</p>
               </div>
 
-              {result.link &&
-                docExtensions.includes(result.link.split(".").slice(-1)[0]) && (
-                  <img
-                    src={require("../../assets/images/document.png")}
-                    className="w-8 h-8"
-                    alt='document'
-                  />
-                )}
             </div>
             <div>
               <p className="underline w-fit">{result.snippet}</p>

@@ -5,12 +5,14 @@
   import searchReducer from "./search";
   import resultReducer from "./result";
   import queryReducer from "./query";
+  import archiveReducer from "./archive";
 
   const rootReducer = combineReducers({
     session: sessionReducer,
     search: searchReducer,
     results: resultReducer,
-    queries: queryReducer
+    queries: queryReducer,
+    archive: archiveReducer
   });
 
   let enhancer;
@@ -24,7 +26,7 @@
     enhancer = composeEnhancers(applyMiddleware(thunk, logger));
   }
 
-  
+
 
   const configureStore = (preloadedState) => {
     return createStore(rootReducer, preloadedState, enhancer);
