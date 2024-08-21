@@ -107,7 +107,7 @@ export default function SearchBar({
             />
             <p>Search</p>
             <div className="flex flex-wrap jusitfy-content-center h-fit max-w-fit overflow-wrap">
-              <input placeholder="Enter keyword" className="p-1 m-1 bg-slate-600 rounded w-fit outline-none" value={string} onChange={(e) => setString(e.target.value)}/>
+              <input placeholder="Enter keyword" className="p-1 m-1 bg-slate-600 rounded w-fit outline-none" value={string} onChange={(e) => setString(e.target.value)} onClick={() => setShowOptions(true)}/>
               {query && query.length
                 ? query.map((param, index) => {
                   if (param.includes(':')) {
