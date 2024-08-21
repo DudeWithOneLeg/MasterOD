@@ -61,7 +61,7 @@ export default function Browser({
           ref={domRef}
         ></iframe>
       ) : (
-        <GptDocAnalyze url={preview}/>
+        <Archive url={preview}/>
       )}
     </div>
   );
