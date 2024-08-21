@@ -7,7 +7,6 @@ const copyIcon = require('../../assets/images/copy.png')
 export default function Browser({
   preview,
 }) {
-  const dispatch = useDispatch();
   const domRef = useRef(null);
   const [showArchive, setShowArchive] = useState(false);
 
@@ -26,8 +25,8 @@ export default function Browser({
     setShowArchive(false)
   }, [preview]);
 
-  const showArchivebutton = () => {
-    setShowArchive(true);
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(preview)
   };
 
   return (
@@ -52,7 +51,7 @@ export default function Browser({
       <div className="bg-slate-400 flex flex-row items-center justify-content-between w-full p-2">
         <div className="w-full flex flex-row justify-content-between h-8 bg-slate-100 p-1 rounded">
           <p className="w-full truncate rounded">{preview}</p>
-          <img alt='copy url' src={copyIcon}/>
+          <img alt='copy url' className='cursor-pointer' src={copyIcon} onClick={copyToClipboard}/>
         </div>
       </div>
 
