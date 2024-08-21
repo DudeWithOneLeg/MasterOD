@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from "react";
-import GptDocAnalyze from "../GptDocAnalyze/GptDocAnalyze";
+// import GptDocAnalyze from "../GptDocAnalyze/GptDocAnalyze";
 import Archive from "../Archive/archive";
 const copyIcon = require('../../assets/images/copy.png')
 
