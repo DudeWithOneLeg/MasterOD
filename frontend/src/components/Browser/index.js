@@ -1,187 +1,69 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as searchActions from "../../store/search";
-import Iframe from "react-iframe";
+import Archive from "../Archive/archive";
+const copyIcon = require('../../assets/images/copy.png')
 
 export default function Browser({
   preview,
-  setPreview,
-  browseHistory,
-  setBrowseHistory,
-  browseHistoryIndex,
-  setBrowseHistoryIndex,
 }) {
-  const dispatch = useDispatch();
   const domRef = useRef(null);
-  const parentRef = useRef(null);
-
-  const divRef = useRef(null);
+  const [showArchive, setShowArchive] = useState(false);
 
   const docExtensions = ["pdf", "ppt", "doc", "docx"];
   const msOfficeDocs = ["ppt", "doc", "docx"];
 
-  // useEffect(() => {console.log('change')},[browseHistoryIndex])
-
-  //   console.log(preview)
-
-  const handleDomClick = (e) => {
-    const newHistory = [...browseHistory];
-    // newHistory.push(preview);
-    if (e.target.tagName === "A") {
-      e.preventDefault();
-
-      const href = e.target.getAttribute("href");
-      const currUrl = window.location.href;
-
-      if (href.includes(currUrl)) {
-        const path = href.split(currUrl)[1];
-        // console.log("yo");
-        setPreview(preview + path);
-        newHistory.push(preview + path);
-      } else {
-        let nextUrl = "";
-        let newPreview = "";
-        if (
-          preview.split("/")[preview.split("/").length - 1].includes("?") &&
-          preview.split("/")[-1].includes("=")
-        ) {
-          newPreview = preview.split("/").slice(0, -1).join("/");
-        } else {
-          newPreview = preview;
-        }
-        if (
-          href === "/" ||
-          (href === "../" && newPreview.split("/").length <= 3)
-        ) {
-          nextUrl = newPreview.split("/").slice(0, -2).join("/");
-        } else if (href[0] !== "/" && preview.split("/").length > 3) {
-          nextUrl = newPreview + href;
-        } else {
-          nextUrl = newPreview.split("/").slice(0, 3).join("/") + "/" + href;
-        }
-        dispatch(searchActions.fetchResult({ link: nextUrl }));
-        setPreview(nextUrl);
-        newHistory.push(nextUrl);
-      }
-      //   console.log(newHistory)
-      setBrowseHistory(newHistory);
-      setBrowseHistoryIndex(newHistory.length - 1);
-    }
-  };
-
-  const handleForward = () => {
-    const nextIndex = browseHistoryIndex + 1;
-    // console.log(nextIndex)
-    if (nextIndex < browseHistory.length) {
-      setPreview(browseHistory[nextIndex]);
-      setBrowseHistoryIndex(nextIndex);
-    }
-  };
-
-  const handleBack = () => {
-    const nextIndex = browseHistoryIndex - 1;
-
-    if (nextIndex > -1) {
-      setPreview(browseHistory[nextIndex]);
-      setBrowseHistoryIndex(nextIndex);
-    }
-  };
-
   useEffect(() => {
-    // console.log('hit', msOfficeDocs.includes(preview.split(".").slice(-1)[0]))
     if (
       preview &&
       docExtensions.includes(preview.split(".").slice(-1)[0]) &&
       !preview.includes("https") &&
       !preview.includes("https://view.officeapps.live.com/op/embed.aspx?src=")
     ) {
-      setPreview(`https://docs.google.com/viewer?embedded=true&url=${preview}`);
+      // setPreview(`https://docs.google.com/viewer?embedded=true&url=${preview}`);
     }
+    setShowArchive(false)
   }, [preview]);
 
-  // useEffect(() => {
-  //   if (iframeRef.current) {
-  //     iframeRef.current.addEventListener("load", (e) => {
-  //       // console.log(e);
-  //     });
-  //   }
-  // }, [iframeRef]);
-
-  // useEffect(() => {
-  //   if (domRef.current) {
-  //     const iframe = domRef.current;
-  //     domRef.current.onload = (e) => {
-  //       console.log(iframe.contentWindow.history);
-  //     };
-  //   }
-  // }, [domRef]);
-
-  // useEffect(() => {
-  //   if (domRef.current && parentRef.current) {
-  //     parentRef.current.addEventListener(
-  //       "message",
-  //       (event) => {
-  //         if (event.origin === "http://the-iframe-origin.com") {
-  //           console.log("Iframe URL:", event.data);
-  //           // Update UI or perform actions based on the received URL
-  //         }
-  //       },
-  //       false
-  //     );
-
-  //     window.parent.postMessage(window.location.href, 'http://your-parent-origin.com');
-  //   }
-  // }, []);
-
-  useEffect(() => {
-    if (domRef.current) {
-      console.log(divRef.current.location)
-    }
-  },[domRef.current])
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(preview)
+  };
 
   return (
     <div
       className="flex flex-col truncate h-full w-full bg-slate-300 ml-2 p-1 rounded overflow-scroll"
-      ref={parentRef}
+      // ref={parentRef}
     >
-      <div className="bg-slate-400 flex flex-row h-11 items-center w-full">
-        <div className="w-full flex flex-row justify-content-between h-11 p-2">
-          <div className="flex flex-row mr-1">
-            {/* <img
-              src={require("../../assets/icons/arrow_back.png")}
-              onClick={() => handleBack()}
-              alt='back'
-            />
-            <img
-              src={require("../../assets/icons/arrow_forward.png")}
-              onClick={() => handleForward()}
-              alt='forward'
-            /> */}
-          </div>
-          <p className="w-full truncate rounded bg-slate-100 p-1">{preview}</p>
+      <div className="fixed -mt-6 flex flex-row text-white pb-1">
+        <div
+          className={`bg-slate-${!showArchive ? '400' : '600 hover:bg-slate-400'} rounded mx-1 px-1 cursor-pointer`}
+          onClick={() => setShowArchive(false)}
+        >
+          Browser
+        </div>
+        <div
+          className={`bg-slate-${showArchive ? '400' : '600 hover:bg-slate-400'} rounded mx-1 px-1 cursor-pointer`}
+          onClick={() => setShowArchive(true)}
+        >
+          Archive
         </div>
       </div>
-      {/* {!docExtensions.includes(preview.split(".").slice(-1)[0]) &&
-      !preview.includes("https") ? (
-        <div
-          className="w-full overflow-scroll h-full"
-          dangerouslySetInnerHTML={{ __html: data }}
+      <div className="bg-slate-400 flex flex-row items-center justify-content-between w-full p-2">
+        <div className="w-full flex flex-row justify-content-between h-8 bg-slate-100 p-1 rounded">
+          <p className="w-full truncate rounded">{preview}</p>
+          <img alt='copy url' className='cursor-pointer' src={copyIcon} onClick={copyToClipboard}/>
+        </div>
+      </div>
+
+      {!showArchive ? (
+        <iframe
+          src={`${preview}`}
+          className="h-full w-full"
           ref={domRef}
-          onClick={(e) => handleDomClick(e)}
-        />
-      ) : ( */}
-      {/* <object
-          ref={iframeRef}
-          data={preview}
-          className="flex h-full w-full overflow-scroll"
-          type='text/html'
-        >
-          <embed src={preview} className="w-full h-full"/>
-          </object> */}
-      <iframe src={preview} className="h-full w-full" ref={domRef} >
-        <div ref={divRef}>TESTING</div>
-        </iframe>
-      {/* )} */}
+        ></iframe>
+      ) : (
+        <Archive url={preview}/>
+      )}
     </div>
   );
 }

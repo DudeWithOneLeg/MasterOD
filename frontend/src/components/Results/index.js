@@ -155,6 +155,8 @@ export default function Results({
       </div>
     </div>
   ) : (
-    <></>
+    <div className="flex justify-content-center align-items-center text-white w-full">
+      No results
+    </div>
   );
 }

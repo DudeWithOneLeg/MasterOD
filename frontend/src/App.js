@@ -14,7 +14,7 @@ function App() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [search, setSearch] = useState(false);
   const [query, setQuery] = useState([]);
-  const [string, setString] = useState("test")
+  const [string, setString] = useState("")
   const user = useSelector((state) => state.session.user);
   const [visitedResults, setVisitedResults] = useState([])
   const [currentSelected, setCurrentSelected] = useState(null);
