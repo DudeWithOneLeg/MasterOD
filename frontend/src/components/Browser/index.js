@@ -1,6 +1,5 @@
 import { useRef, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import * as searchActions from "../../store/search";
+import GptDocAnalyze from "../GptDocAnalyze/GptDocAnalyze";
 import Archive from "../Archive/archive";
 const copyIcon = require('../../assets/images/copy.png')
 
@@ -62,7 +61,7 @@ export default function Browser({
           ref={domRef}
         ></iframe>
       ) : (
-        <Archive url={preview}/>
+        <GptDocAnalyze url={preview}/>
       )}
     </div>
   );
