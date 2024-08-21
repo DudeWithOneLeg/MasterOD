@@ -1,13 +1,14 @@
 import { useRef, useEffect, useState } from "react";
-// import GptDocAnalyze from "../GptDocAnalyze/GptDocAnalyze";
+import GptDocAnalyze from "../GptDocAnalyze/GptDocAnalyze";
 import Archive from "../Archive/archive";
+import { io } from "socket.io-client";
 const copyIcon = require('../../assets/images/copy.png')
 
 export default function Browser({
   preview,
 }) {
   const domRef = useRef(null);
-  const [showArchive, setShowArchive] = useState(false);
+  const [showArchive, setShowArchive] = useState(true);
 
   const docExtensions = ["pdf", "ppt", "doc", "docx"];
   const msOfficeDocs = ["ppt", "doc", "docx"];
@@ -21,7 +22,7 @@ export default function Browser({
     ) {
       // setPreview(`https://docs.google.com/viewer?embedded=true&url=${preview}`);
     }
-    setShowArchive(false)
+    setShowArchive(true)
   }, [preview]);
 
   const copyToClipboard = () => {
@@ -30,10 +31,10 @@ export default function Browser({
 
   return (
     <div
-      className="flex flex-col truncate h-full w-full bg-slate-300 ml-2 p-1 rounded overflow-scroll"
+      className="flex flex-col h-full w-full bg-slate-300 ml-2 p-1 rounded overflow-none"
       // ref={parentRef}
     >
-      <div className="fixed -mt-6 flex flex-row text-white pb-1">
+      {/* <div className="fixed -mt-6 flex flex-row text-white pb-1">
         <div
           className={`bg-slate-${!showArchive ? '400' : '600 hover:bg-slate-400'} rounded mx-1 px-1 cursor-pointer`}
           onClick={() => setShowArchive(false)}
@@ -46,8 +47,8 @@ export default function Browser({
         >
           Archive
         </div>
-      </div>
-      <div className="bg-slate-400 flex flex-row items-center justify-content-between w-full p-2">
+      </div> */}
+      <div className="bg-slate-400 flex flex-row items-center justify-content-between w-full p-2 h-[5%]">
         <div className="w-full flex flex-row justify-content-between h-8 bg-slate-100 p-1 rounded">
           <p className="w-full truncate rounded">{preview}</p>
           <img alt='copy url' className='cursor-pointer' src={copyIcon} onClick={copyToClipboard}/>
@@ -63,6 +64,10 @@ export default function Browser({
       ) : (
         <Archive url={preview}/>
       )}
+      {/* {showArchive && preview ?
+      <div className="h-[95%] w-full">
+      <GptDocAnalyze url={preview}/>
+      </div>: <></>} */}
     </div>
   );
 }

@@ -6,6 +6,7 @@ const dorkRouter = require('./dork.js')
 const resultRouter = require('./result.js')
 const queryRouter = require('./queries.js')
 const archiveRouter = require('./archive.js')
+const chatgptRouter = require('./chatgpt.js')
 const { setTokenCookie } = require('../../utils/auth.js');
 const { User, Queries } = require('../../db/models');
 const { restoreUser } = require('../../utils/auth.js');
@@ -24,6 +25,8 @@ router.use('/results', resultRouter)
 router.use('/queries', queryRouter)
 
 router.use('/archive', archiveRouter)
+
+router.use('/chatgpt', chatgptRouter)
 
 router.get(
   '/restore-user',
