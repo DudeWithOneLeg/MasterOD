@@ -8,7 +8,7 @@ import SearchBar from "./SearchBar";
 import QueryStats from '../QueryStats'
 
 
-export default function Search({search, setSearch, query, setQuery, string, setString, visitedResults, setVisitedResults, currentSelected, setCurrentSelected, loadingResults, setLoadingResults}) {
+export default function Search({search, setSearch, query, setQuery, string, setString, visitedResults, setVisitedResults, currentSelected, setCurrentSelected, loadingResults, setLoadingResults, socket}) {
   const data = useSelector((state) => state.search.data);
   const results = useSelector((state) => state.results.results);
 
@@ -180,7 +180,10 @@ export default function Search({search, setSearch, query, setQuery, string, setS
                : <></>}
             </div>
           </div>
-          <div className="flex w-full h-screen overflow-y-hidden">
+          <div className="flex w-full h-full overflow-auto">
+            {/* change overflow to hidden for gpt */}
+            <div className="w-full h-full flex flex-row overflow-hidden">
+
             <Results
               setPreview={setPreview}
               preview={preview}
@@ -208,16 +211,18 @@ export default function Search({search, setSearch, query, setQuery, string, setS
               setLoadingResults={setLoadingResults}
             />
             {((showResult && data) || (showResult && preview)) && (
+
               <Browser
-                preview={preview}
-                data={data}
-                setPreview={setPreview}
+              preview={preview}
+              data={data}
+              setPreview={setPreview}
               />
             )}
+            </div>
           </div>
         </>
       ) : (
-        <div className="h-full overflow-hidden py-2">
+        <div className="h-full w-full overflow-hidden py-2">
           <QueryStats setQuery={setQuery} setString={setString}/>
         </div>
       )}
