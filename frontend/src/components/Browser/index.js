@@ -36,13 +36,13 @@ export default function Browser({
     >
       <div className="fixed -mt-6 flex flex-row text-white pb-1">
         <div
-          className={`bg-slate-${!showArchive ? '400' : '600'} rounded mx-1 px-1 cursor-pointer`}
+          className={`bg-slate-${!showArchive ? '400' : '600 hover:bg-slate-400'} rounded mx-1 px-1 cursor-pointer`}
           onClick={() => setShowArchive(false)}
         >
           Browser
         </div>
         <div
-          className={`bg-slate-${showArchive ? '400' : '600'} rounded mx-1 px-1 cursor-pointer`}
+          className={`bg-slate-${showArchive ? '400' : '600 hover:bg-slate-400'} rounded mx-1 px-1 cursor-pointer`}
           onClick={() => setShowArchive(true)}
         >
           Archive

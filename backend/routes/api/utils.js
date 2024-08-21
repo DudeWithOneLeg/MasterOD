@@ -2,7 +2,7 @@ const getClosestArchive = async (url) => {
   if (url.includes('https://')) url = url.split('https://').join('')
   if (url.includes('http://')) url = url.split('http://').join('')
   // const res = await fetch(`https://archive.org/wayback/available?url=${url}`)
-  const resExtra = await fetch(`https://web.archive.org/cdx/search/cdx?url=${url}&output=json`)
+  const resExtra = await fetch(`https://web.archive.org/cdx/search/cdx?url=${url}&output=json&filter=mimetype:text/html`)
 
   try {
     const datExtra = await resExtra.json()
@@ -25,7 +25,7 @@ const getClosestArchive = async (url) => {
       id++
     }
     // const data = await res.json()
-    
+
     return {snapshots: obj}
 
   } catch (error) {

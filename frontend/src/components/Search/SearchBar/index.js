@@ -49,32 +49,8 @@ export default function SearchBar({
     )
   }
 
-  const handleSubmit = () => {
-    // e.preventDefault()
-
-    // const { lat, lng } = geolocation;
-    // const today = new Date();
-    // const hours = today.getHours();
-    // const minutes = today.getMinutes();
-    // hours >= 12 ? console.log("PM") : console.log("AM");
-    // console.log(today);
-    // if (navigator.geolocation) {
-    //   navigator.geolocation.getCurrentPosition(success, error);
-    // } else {
-    //   console.log("Geolocation not supported");
-    // }
-
-    // function success(position) {
-    //   const latitude = position.coords.latitude;
-    //   const longitude = position.coords.longitude;
-    //   setGeolocation({ lat: latitude, lng: longitude });
-    //   // console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
-    //   // setGe
-    // }
-
-    // function error() {
-    //   console.log("Unable to retrieve your location");
-    // }
+  const handleSubmit = (e) => {
+    e.preventDefault()
 
     if (query || string) {
       setLoadingResults(true)
@@ -116,9 +92,10 @@ export default function SearchBar({
       id="search-bar-inner"
       data-collapse="collapse"
     >
-      <div
+      <form
         className={`w-full flex text-slate-200 items-center h-fit`}
         data-collapse-target="collapse"
+        onSubmit={(e) => handleSubmit(e)}
       >
         <div className="flex px- items-center w-full h-fit justify-content-between p-2">
           <div className="flex flex-row h-fit items-center">
@@ -191,13 +168,13 @@ export default function SearchBar({
           </div>
         </div>
         {(query && query.length) || string ? (
-          <div className="flex justify-self-end px-3 py-1 mx-1 bg-slate-800 rounded-full hover:bg-slate-600 " onClick={handleSubmit}>
+          <div className="flex justify-self-end px-3 py-1 mx-1 bg-slate-800 rounded-full hover:bg-slate-600 " type='submit'>
             <button className="focus:outline-none">Search</button>
           </div>
         ) : (
           ""
         )}
-      </div>
+      </form>
       {showOptions && (
         <div className="flex flex-row bg-slate-600 border-2 rounded">
           <div className="divide-y divide-slate-500 w-1/3">

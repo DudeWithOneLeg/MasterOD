@@ -7,18 +7,32 @@ import "flatpickr/dist/themes/material_green.css";
 export default function Archive({ url }) {
   const dispatch = useDispatch();
   const snapshots = useSelector((state) => state.archive.snapshots);
+
   const [allowedDates, setAllowedDates] = useState([]);
   const [availableYears, setAvailableYears] = useState([]);
   const [availableMonths, setAvailableMonths] = useState([]);
   const [availableDays, setAvailableDays] = useState([]);
-  const [availableDates, setAvailableDates] = useState([]);
   const [selectedYear, setSelectedYear] = useState("");
   const [selectedMonth, setSelectedMonth] = useState("");
   const [selectedDay, setSelectedDay] = useState("");
   const [archiveUrl, setArchiveUrl] = useState("");
-  const [availableSnapshots, setAvailableSnapshots] = useState([])
   const [loading, setLoading] = useState(false);
   const iframeRef = useRef(null);
+
+  const monthCode = {
+    '01':'Jan',
+    '02':'Feb',
+    '03':'Mar',
+    '04':'Apr',
+    '05':'May',
+    '06':'Jun',
+    '07':'Jul',
+    '08':'Aug',
+    '09':'Sep',
+    '10':'Oct',
+    '11':'Nov',
+    '12':'Dec',
+  }
   // const [url, setUrl] = useState('')
 
   useEffect(() => {
@@ -118,7 +132,7 @@ export default function Archive({ url }) {
                 newAvailableSnapshots.push(snapshot)
             }
         }
-        setAvailableSnapshots([...newAvailableSnapshots])
+
         if (newAvailableSnapshots.length) {
 
           const snapshot = newAvailableSnapshots.slice(-1)[0]
@@ -139,6 +153,7 @@ export default function Archive({ url }) {
             <select
               onChange={(e) => setSelectedYear(e.target.value)}
               value={selectedYear}
+              className="cursor-pointer"
             >
               {availableYears.length ? (
                 availableYears.map((year) => {
@@ -152,15 +167,17 @@ export default function Archive({ url }) {
             <select
               onChange={(e) => setSelectedMonth(e.target.value)}
               value={selectedMonth}
+              className="cursor-pointer"
             >
               {availableMonths.length ? availableMonths.map((month) => {
-                return <option value={month}>{month}</option>;
+                return <option value={month}>{monthCode[month]}</option>;
               }):<option disabled>None</option>}
             </select>
             <p className="px-1">Day: </p>
             <select
               onChange={(e) => setSelectedDay(e.target.value)}
               value={selectedDay}
+              className="cursor-pointer"
             >
               {availableDays.length ? availableDays.map((day) => {
                 return <option value={day}>{day}</option>;
