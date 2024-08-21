@@ -1,12 +1,19 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as resultActions from "../../store/result";
 
 export default function SaveResult({ result, saved, setSaved }) {
   const dispatch = useDispatch();
-  const lastSearchId = useSelector(
-    (state) => Object.values(state.search.recentQueries)[0].id
+  const [lastSearchId, setLastSearchId] = useState(0)
+  const lastSearch = useSelector(
+    (state) => state.search.recentQueries
   );
+
+  useEffect(()=> {
+    if (lastSearch && Object.values(lastSearch)[0]) {
+      setLastSearchId(Object.values(lastSearch)[0].id)
+    }
+  },[lastSearch])
 
   const saveResult = () => {
     const newResult = {

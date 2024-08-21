@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import SaveResult from "../SaveResult";
 const newTab = require("../../assets/icons/open_in_new.png");
@@ -17,9 +17,16 @@ export default function Result({
 }) {
   const [showInfo, setShowInfo] = useState(false);
   const [saved, setSaved] = useState(false);
-  const lastSearchId = useSelector(
-    (state) => Object.values(state.search.recentQueries)[0].id || 0
+  const [lastSearchId, setLastSearchId] = useState(0)
+  const lastSearch = useSelector(
+    (state) => state.search.recentQueries
   );
+
+  useEffect(()=> {
+    if (lastSearch && Object.values(lastSearch)[0]) {
+      setLastSearchId(Object.values(lastSearch)[0].id)
+    }
+  },[lastSearch])
 
   const docExtensions = ["pdf", "doc", "docx"];
   const result = data[rowKey];
