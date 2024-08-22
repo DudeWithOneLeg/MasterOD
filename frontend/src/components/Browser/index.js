@@ -23,7 +23,7 @@ export default function Browser({
     ) {
       // setPreview(`https://docs.google.com/viewer?embedded=true&url=${preview}`);
     }
-    setShowArchive(true)
+    setShowArchive(false)
   }, [preview]);
 
   const copyToClipboard = () => {
