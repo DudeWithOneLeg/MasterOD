@@ -168,7 +168,7 @@ export default function Search({search, setSearch, query, setQuery, string, setS
                   />
 
                 </form>
-                {pageNum < totalPages ? <img src={require('../../assets/icons/triangle-forward.png')} className="h-6 cursor-pointer" alt='next page' onClick={handleNextPage}/>
+                {pageNum < totalPages || totalPages === 'N/A' ? <img src={require('../../assets/icons/triangle-forward.png')} className="h-6 cursor-pointer" alt='next page' onClick={handleNextPage}/>
                 :<div className="w-6"></div>}
                 / <p>{totalPages}</p>
               </div>

@@ -97,11 +97,12 @@ router.post("/", async (req, res) => {
           if (Object.values(obj).length == Object.values(response).length) {
             const currPage = data.serpapi_pagination.current
             // console.log(data.organic_results?.slice(-1)[0].position);
-            const totalPages = ((data.search_information.total_results / 100) + 1).toFixed()
+            console.log(data)
+            const totalPages = ((data.search_information.total_results / (request.engine === 'google' ? 100 : 50)) + 1).toFixed()
             console.log(currPage, totalPages)
             obj.info = {
               currentPage: currPage,
-              totalPages,
+              totalPages: totalPages === NaN ? totalPages : 'N/A',
               dmca: data.dmca_messages,
             };
             return res.json({ results: obj, recentQueries });
@@ -130,6 +131,13 @@ router.post("/", async (req, res) => {
     // device: "tablet",
     // travel_mode: 3,
   };
+  if (params.engine === 'bing') {
+    const first = params.start
+    delete request.num
+    delete request.start
+    request.first = first
+    request.count = 50
+  }
   console.log(request);
   try {
     await search.json(request, callback);
