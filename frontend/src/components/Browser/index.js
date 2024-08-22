@@ -8,7 +8,7 @@ export default function Browser({
   preview,
 }) {
   const domRef = useRef(null);
-  const [showArchive, setShowArchive] = useState(true);
+  const [showArchive, setShowArchive] = useState(false);
 
   const docExtensions = ["pdf", "ppt", "doc", "docx"];
   const msOfficeDocs = ["ppt", "doc", "docx"];
