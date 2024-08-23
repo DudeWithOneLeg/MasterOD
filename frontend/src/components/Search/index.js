@@ -210,11 +210,11 @@ export default function Search({
       {results && search ? (
         <>
           <div
-            className="rounded text-slate-200 h-fit flex flex-row justify-content-center"
+            className={`rounded text-slate-200 h-fit w-full flex flex-row justify-content-${showResult ? 'start' : 'center'}`}
             id="result-header"
           >
             <div
-              className={`flex justify-content-center py-2 ${
+              className={`flex justify-content-center justify-self-start py-2 ${
                 showResult ? "w-1/2" : ""
               }`}
             >
@@ -291,7 +291,7 @@ export default function Search({
                 )}
               </div>
             ) : (
-              <></>
+              <div></div>
             )}
           </div>
           <div className="flex w-full h-full overflow-auto">

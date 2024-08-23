@@ -74,9 +74,9 @@ export default function Browser({
           Analyze with ChatGPT
         </div> : <></>} */}
       </div>
-      <div className="bg-slate-400 flex flex-row items-center justify-content-between w-full p-2 h-[5%]">
-        <div className="w-full flex flex-row justify-content-between h-8 bg-slate-100 p-1 rounded">
-          <p className="w-full truncate rounded">{preview}</p>
+      <div className="bg-slate-400 flex flex-row items-center justify-content-between w-full p-2 h-[5%] overflow-hidden">
+        <div className="w-full flex flex-row justify-content-between h-8 bg-slate-100 p-1 rounded overflow-hidden">
+          <p className="w-full truncate rounded overflow-hidden">{preview.split('').slice(0, 70).join('')}...</p>
           {copied ? <p>Copied!</p> : <img alt='copy url' className='cursor-pointer' src={copyIcon} onClick={copyToClipboard}/>}
         </div>
       </div>
