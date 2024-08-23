@@ -114,38 +114,41 @@ export default function SideBar({ setSearch, setQuery, setString }) {
         className={`flex flex-row transition-all duration-700 ease-in-out ${slide}`}
       >
         {user ? (
-          <div className={`p-4 w-[300px] flex flex-col justify-content-between`}>
-            <div className="w-full flex flex-row items-center justify-between">
-              <div className="flex flex-row items-center">
-                <img
-                  src={require("../../assets/icons/profile.jpg")}
-                  className="rounded-full h-14"
-                  alt="profile"
-                ></img>
-                <p className="pl-4">{user ? user.username : ""}</p>
-              </div>
-              <img
-                src={require("../../assets/icons/logout.png")}
-                onClick={(e) => handleLogOut(e)}
-                className="h-8 cursor-pointer"
-                alt="logout"
-              />
-            </div>
-            <div className={`p-4 text-lg`}>
-              <div
-                onClick={handleNewSearch}
-                className="flex flex-row items-center cursor-pointer border-2 rounded hover:bg-slate-600"
-              >
-                <img
-                  src={require("../../assets/images/plus-white.png")}
-                  className="h-8"
-                  alt="new search"
-                />
-                New Search
-              </div>
-              <RecentStats setSearch={setSearch} />
-            </div>
+          <div className={`p-4 w-[300px] flex flex-col justify-between h-full`}>
             <div className="flex flex-col">
+
+              <div className="w-full flex flex-row items-center justify-between h-fit">
+                <div className="flex flex-row items-center">
+                  <img
+                    src={require("../../assets/icons/profile.jpg")}
+                    className="rounded-full h-14"
+                    alt="profile"
+                  ></img>
+                  <p className="pl-4">{user ? user.username : ""}</p>
+                </div>
+                <img
+                  src={require("../../assets/icons/logout.png")}
+                  onClick={(e) => handleLogOut(e)}
+                  className="h-8 cursor-pointer"
+                  alt="logout"
+                />
+              </div>
+              <div className={`p-4 text-lg`}>
+                <div
+                  onClick={handleNewSearch}
+                  className="flex flex-row items-center cursor-pointer border-2 rounded hover:bg-slate-600"
+                >
+                  <img
+                    src={require("../../assets/images/plus-white.png")}
+                    className="h-8"
+                    alt="new search"
+                  />
+                  New Search
+                </div>
+                <RecentStats setSearch={setSearch} />
+              </div>
+            </div>
+            <div className="flex flex-col justify-self-end">
               Developed by :
               <a href='https://www.linkedin.com/in/romeo-galvan-9418b6225/' className="underline">Romeo (I need a job) Galvan</a>
             </div>
