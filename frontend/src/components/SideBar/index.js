@@ -114,7 +114,7 @@ export default function SideBar({ setSearch, setQuery, setString }) {
         className={`flex flex-row transition-all duration-700 ease-in-out ${slide}`}
       >
         {user ? (
-          <div className={`p-4 w-[300px]`}>
+          <div className={`p-4 w-[300px] flex flex-col justify-content-between`}>
             <div className="w-full flex flex-row items-center justify-between">
               <div className="flex flex-row items-center">
                 <img
@@ -144,6 +144,10 @@ export default function SideBar({ setSearch, setQuery, setString }) {
                 New Search
               </div>
               <RecentStats setSearch={setSearch} />
+            </div>
+            <div className="flex flex-col">
+              Developed by :
+              <a href='https://www.linkedin.com/in/romeo-galvan-9418b6225/' className="underline">Romeo (I need a job) Galvan</a>
             </div>
           </div>
         ) : (
@@ -238,6 +242,7 @@ export default function SideBar({ setSearch, setQuery, setString }) {
                 <></>
               )}
             </div>
+
           </>
         ) : (
           <></>

@@ -17,6 +17,7 @@ export default function Archive({ url }) {
   const [selectedDay, setSelectedDay] = useState("");
   const [archiveUrl, setArchiveUrl] = useState("");
   const [loading, setLoading] = useState(false);
+  const [hasResults, setHasResults] = useState(null)
   const iframeRef = useRef(null);
 
   const monthCode = {
@@ -33,18 +34,14 @@ export default function Archive({ url }) {
     '11':'Nov',
     '12':'Dec',
   }
-  // const [url, setUrl] = useState('')
 
   useEffect(() => {
-    setLoading(true);
-    if (iframeRef.current) {
-        iframeRef.current.addEventListener('onload', () => console.log('lloooooooooooooooooooooooooooooooooooooooooooooo'))
-    }
-  }, []);
-
-  useEffect(() => {
-    dispatch(archiveActions.getSnapshots({ url })).then(async () => {
+    setHasResults(null)
+    setLoading(true)
+    dispatch(archiveActions.getSnapshots({ url })).then(async (data) => {
       setLoading(false);
+      if (data.snapshots['0']) setHasResults(true)
+      else setHasResults(false)
     });
   }, [dispatch]);
   useEffect(() => {
@@ -75,14 +72,14 @@ export default function Archive({ url }) {
       }
       setAvailableYears(years.sort());
       setSelectedYear(years.sort().slice(-1)[0]);
-      console.log(curr)
+      // console.log(curr)
 
     }
   }, [allowedDates]);
 
   //Update available months when a year is selected
   useEffect(() => {
-    console.log('year hitt')
+    // console.log('year hitt')
     const months = [];
     for (let date of allowedDates) {
       const [year, month, day] = date.split("-");
@@ -97,7 +94,7 @@ export default function Archive({ url }) {
 
   //Update available days when a month is selected
   useEffect(() => {
-    console.log('month hitt')
+    // console.log('month hitt')
     setSelectedMonth(availableMonths.slice(-1)[0])
   }, [availableMonths]);
 
@@ -120,7 +117,6 @@ export default function Archive({ url }) {
   },[availableDays])
 
   useEffect(() => {
-    console.log('day hitt')
     if (selectedYear && selectedMonth && selectedDay) {
 
         const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
@@ -136,15 +132,15 @@ export default function Archive({ url }) {
         if (newAvailableSnapshots.length) {
 
           const snapshot = newAvailableSnapshots.slice(-1)[0]
-            console.log(snapshot.url)
-            setArchiveUrl(`${snapshot.url}`)
-            console.log(archiveUrl)
+            // console.log(snapshot.url)
+            setArchiveUrl(snapshot.url)
+            // console.log(archiveUrl)
         }
     }
   }, [selectedDay]);
 
   return (
-    <div className="w-full h-full">
+    <div className="flex flex-col w-full h-full">
       <div className="bg-slate-400 text-black flex flex-row p-1">
         <p className="px-1 font-bold">Snapshot:</p>
         {!loading ? (
@@ -160,7 +156,7 @@ export default function Archive({ url }) {
                   return <option value={year}>{year}</option>;
                 })
               ) : (
-                <option disabled>None</option>
+                <option disabled selcted>None</option>
               )}
             </select>
             <p className="px-1">Month: </p>
@@ -171,7 +167,7 @@ export default function Archive({ url }) {
             >
               {availableMonths.length ? availableMonths.map((month) => {
                 return <option value={month}>{monthCode[month]}</option>;
-              }):<option disabled>None</option>}
+              }):<option disabled selcted>None</option>}
             </select>
             <p className="px-1">Day: </p>
             <select
@@ -181,23 +177,28 @@ export default function Archive({ url }) {
             >
               {availableDays.length ? availableDays.map((day) => {
                 return <option value={day}>{day}</option>;
-              }):<option disabled>None</option>}
+              }):<option disabled selcted>None</option>}
             </select>
           </div>
         ) : (
           <p>Loading</p>
         )}
       </div>
-      {!loading && archiveUrl ? (
-        <iframe ref={iframeRef} src={archiveUrl} className="w-full h-full" />
+      {hasResults ? <iframe ref={iframeRef} src={archiveUrl} className="w-full h-full" /> : <></>}
+      {loading && hasResults === null ? (
+        <div className="h-full w-full flex flex-col items-center justify-content-center">
+        <img
+          src={require("../../assets/icons/loading.png")}
+          className="h-26 w-26 rounded-full animate-spin mb-4"
+        />
+        <p>Grabbing results from the Wayback Machine. This may take a while depending on the number of results.</p>
+      </div>
       ) : (
-        <div className="h-full w-full flex items-center justify-content-center">
-          <img
-            src={require("../../assets/icons/loading.png")}
-            className="h-26 w-26 rounded-full animate-spin mb-4"
-          />
-        </div>
+        <></>
       )}
+      {!loading && hasResults === false ? <div className="h-full w-full flex flex-col items-center justify-content-center">
+        <p>The Wayback Machine has not archived that URL</p>
+      </div> : <></>}
     </div>
   );
 }
