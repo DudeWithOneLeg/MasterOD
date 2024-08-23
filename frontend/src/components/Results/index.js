@@ -16,51 +16,10 @@ export default function Results({
   currentSelected,
   setCurrentSelected,
   loadingResults,
+  setIsIndex
 }) {
-  // const data = useSelector((state) => state.search.results);
-  // const data = useSelector((state) => state.results.results);
 
   const [width, setWidth] = useState("w-1/2");
-
-  // useEffect(() => {
-
-  //   //select element
-  //   const resultsContainer = window.document.querySelector("#inner-result");
-
-  //   if (data && resultsContainer && infiniteScroll && status === 'next') {
-  //     const scrollFunction = () => {
-  //       const scrollPosition = resultsContainer.scrollTop + resultsContainer.clientHeight;
-  //       const bottomPosition = resultsContainer.scrollHeight;
-
-  //       // console.log(scrollPosition.toFixed(0), bottomPosition.toFixed(0), scrollPosition.toFixed(0) >= bottomPosition.toFixed(0) - 1)
-  //       if (scrollPosition >= bottomPosition - 1) {
-  //         // console.log(start)
-  //         resultsContainer.removeEventListener("scroll", scrollFunction);
-  //         // console.log("hit");
-  //         setLoading(true);
-
-  //         return dispatch(resultActions.search({ ...params, start: Number(Object.keys(data).slice(-2, -1)[0]) }, status = 'next'))
-  //         .then(async () => {
-  //           resultsContainer.scrollTo(0, bottomPosition)
-  //           setStatus('next')
-  //             const lastIndex = Number(Object.keys(results).slice(-2, -1)[0]);
-  //             setStart(lastIndex);
-  //             setLoading(false);
-  //             // setStatus('next')
-  //           })
-  //       }
-  //     };
-  //     // console.log('listener mounted')
-  //     return resultsContainer.addEventListener("scroll", scrollFunction);
-  //   }
-  // }, [data]);
-
-  // useEffect(() => {
-  //   if (infiniteScroll) {
-
-  //     setResults(data);
-  //   }
-  // }, [data]);
 
   return data && Object.values(data).length ? (
     //KEEP CLASS NAME AS IS
@@ -110,6 +69,7 @@ export default function Results({
                             setCurrentSelected={setCurrentSelected}
                             visitedResults={visitedResults}
                             setVisitedResults={setVisitedResults}
+                            setIsIndex={setIsIndex}
                           />
                         );
                       }
@@ -127,6 +87,7 @@ export default function Results({
                           setCurrentSelected={setCurrentSelected}
                           visitedResults={visitedResults}
                           setVisitedResults={setVisitedResults}
+                          setIsIndex={setIsIndex}
                         />
                       );
                     }
@@ -147,6 +108,7 @@ export default function Results({
                         setCurrentSelected={setCurrentSelected}
                         visitedResults={visitedResults}
                         setVisitedResults={setVisitedResults}
+                        setIsIndex={setIsIndex}
                       />
                     );
                   })}

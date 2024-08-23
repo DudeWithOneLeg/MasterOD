@@ -34,7 +34,7 @@ router.post("/", async (req, res) => {
   params.q = params.q
     .split(";")
     .map((q) =>
-      q.includes(":") ? (!q.includes('site') ? `${q.split(":")[0]}:"${q.split(":")[1]}"` : `${q.split(":")[0]}:${q.split(":")[1]}`) : ""
+      q.includes(":") ? (!q.includes('site') && !q.includes('inurl') ? `${q.split(":")[0]}:"${q.split(":")[1]}"` : `${q.split(":")[0]}:${q.split(":")[1]}`) : ""
     )
     .join(" ");
   const newQuery = {
@@ -97,7 +97,7 @@ router.post("/", async (req, res) => {
           if (Object.values(obj).length == Object.values(response).length) {
             const currPage = data.serpapi_pagination.current
             // console.log(data.organic_results?.slice(-1)[0].position);
-            // console.log(data)
+            console.log(data)
             const totalPages = ((data.search_information.total_results / (request.engine === 'google' ? 100 : 50)) + 1).toFixed()
             console.log(currPage, totalPages)
             obj.info = {
