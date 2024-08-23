@@ -97,12 +97,12 @@ router.post("/", async (req, res) => {
           if (Object.values(obj).length == Object.values(response).length) {
             const currPage = data.serpapi_pagination.current
             // console.log(data.organic_results?.slice(-1)[0].position);
-            console.log(data)
+            // console.log(data)
             const totalPages = ((data.search_information.total_results / (request.engine === 'google' ? 100 : 50)) + 1).toFixed()
             console.log(currPage, totalPages)
             obj.info = {
               currentPage: currPage,
-              totalPages: totalPages === NaN ? totalPages : 'N/A',
+              totalPages: totalPages === NaN ? 'N/A' : totalPages,
               dmca: data.dmca_messages,
             };
             return res.json({ results: obj, recentQueries });
