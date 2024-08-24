@@ -23,13 +23,13 @@ export default function Browser({
     ) {
       setPreview(`https://view.officeapps.live.com/op/embed.aspx?src=${preview}`);
     }
-    if (isIndex) console.log('indexx')
+    // if (isIndex) console.log('indexx')
   }, [preview]);
 
   useEffect(() => {
     setComponent('browser')
     setCopied(false)
-  },[])
+  },[preview])
 
   const components = {
     'browser': (props) => <iframe className="h-full w-full" ref={domRef} src={props.url}/>,
