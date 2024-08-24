@@ -19,6 +19,10 @@ function App() {
   const [visitedResults, setVisitedResults] = useState([])
   const [currentSelected, setCurrentSelected] = useState(null);
   const [loadingResults, setLoadingResults] = useState(false);
+  const [isIndex, setIsIndex] = useState(false);
+  const [isRedditShared, setIsRedditShared] = useState(false);
+  const [isOnReddit, setIsOnReddit] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
@@ -43,10 +47,10 @@ function App() {
         {isLoaded && user ? (
           <Routes>
             <Route path="/queries" element={<QueryStats setQuery={setQuery} setString={setString}/>}/>
-            <Route path="/results" element={<ResultsPage currentSelected={currentSelected} setCurrentSelected={setCurrentSelected} visitedResults={visitedResults} setVisitedResults={setVisitedResults} loadingResults={loadingResults}/>}/>
-            <Route path="/results/:view" element={<ResultsPage currentSelected={currentSelected} setCurrentSelected={setCurrentSelected} visitedResults={visitedResults} setVisitedResults={setVisitedResults} loadingResults={loadingResults}/>}/>
-            <Route path="/search" element={<Search setSearch={setSearch} search={search} setQuery={setQuery} query={query} string={string} setString={setString} currentSelected={currentSelected} setCurrentSelected={setCurrentSelected} visitedResults={visitedResults} setVisitedResults={setVisitedResults} loadingResults={loadingResults} setLoadingResults={setLoadingResults}/>}/>
-            <Route path="/search/:view" element={<Search setSearch={setSearch} search={search} setQuery={setQuery} query={query} string={string} setString={setString} currentSelected={currentSelected} setCurrentSelected={setCurrentSelected} visitedResults={visitedResults} setVisitedResults={setVisitedResults} loadingResults={loadingResults} setLoadingResults={setLoadingResults}/>}/>
+            <Route path="/results" element={<ResultsPage currentSelected={currentSelected} setCurrentSelected={setCurrentSelected} visitedResults={visitedResults} setVisitedResults={setVisitedResults} loadingResults={loadingResults} isIndex={isIndex} setIsIndex={setIsIndex} isRedditShared={isRedditShared} setIsRedditShared={setIsRedditShared} isOnReddit={isOnReddit} setIsOnReddit={setIsOnReddit} loading={loading} setLoading={setLoading}/>}/>
+            <Route path="/results/:view" element={<ResultsPage currentSelected={currentSelected} setCurrentSelected={setCurrentSelected} visitedResults={visitedResults} setVisitedResults={setVisitedResults} loadingResults={loadingResults} isIndex={isIndex} setIsIndex={setIsIndex} isRedditShared={isRedditShared} setIsRedditShared={setIsRedditShared} isOnReddit={isOnReddit} setIsOnReddit={setIsOnReddit} loading={loading} setLoading={setLoading}/>}/>
+            <Route path="/search" element={<Search setSearch={setSearch} search={search} setQuery={setQuery} query={query} string={string} setString={setString} currentSelected={currentSelected} setCurrentSelected={setCurrentSelected} visitedResults={visitedResults} setVisitedResults={setVisitedResults} loadingResults={loadingResults} setLoadingResults={setLoadingResults} isIndex={isIndex} setIsIndex={setIsIndex} isRedditShared={isRedditShared} setIsRedditShared={setIsRedditShared} isOnReddit={isOnReddit} setIsOnReddit={setIsOnReddit} loading={loading} setLoading={setLoading}/>}/>
+            <Route path="/search/:view" element={<Search setSearch={setSearch} search={search} setQuery={setQuery} query={query} string={string} setString={setString} currentSelected={currentSelected} setCurrentSelected={setCurrentSelected} visitedResults={visitedResults} setVisitedResults={setVisitedResults} loadingResults={loadingResults} setLoadingResults={setLoadingResults} isIndex={isIndex} setIsIndex={setIsIndex} isRedditShared={isRedditShared} setIsRedditShared={setIsRedditShared} isOnReddit={isOnReddit} setIsOnReddit={setIsOnReddit} loading={loading} setLoading={setLoading}/>}/>
           </Routes>
         ) : (
           <div className="overflow-y-scroll">

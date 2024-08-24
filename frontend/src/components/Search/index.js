@@ -20,6 +20,14 @@ export default function Search({
   setCurrentSelected,
   loadingResults,
   setLoadingResults,
+  isIndex,
+  setIsIndex,
+  isRedditShared,
+  setIsRedditShared,
+  isOnReddit,
+  setIsOnReddit,
+  loading,
+  setLoading
 }) {
   const data = useSelector((state) => state.search.data);
   const results = useSelector((state) => state.results.results);
@@ -35,10 +43,6 @@ export default function Search({
   const [status, setStatus] = useState("");
   const [pageNum, setPageNum] = useState(1);
   const [totalPages, setTotalPages] = useState(null);
-  const [isIndex, setIsIndex] = useState(false);
-  const [isRedditShared, setIsRedditShared] = useState(false);
-  const [isOnReddit, setIsOnReddit] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   const docExtensions = ["pdf", "ppt", "doc", "docx"];
 

@@ -11,7 +11,10 @@ export default function ResultsPage({
   setVisitedResults,
   currentSelected,
   setCurrentSelected,
-  loadingResults}) {
+  loadingResults,
+  isIndex,
+  setIsIndex
+}) {
   const dispatch = useDispatch();
   const params = useParams();
   // const [searchParams, setSearchParams] = useSearchParams();
@@ -93,7 +96,13 @@ export default function ResultsPage({
               setResult={setResult}
               infiniteScroll={false}
               data={saved}
-              filterInput={filterInput} currentSelected={currentSelected} setCurrentSelected={setCurrentSelected} visitedResults={visitedResults} setVisitedResults={setVisitedResults} loadingResults={loadingResults}
+              filterInput={filterInput}
+              currentSelected={currentSelected}
+              setCurrentSelected={setCurrentSelected}
+              visitedResults={visitedResults}
+              setVisitedResults={setVisitedResults}
+              loadingResults={loadingResults}
+              setIsIndex={setIsIndex}
             />
           </>
         ) : (
@@ -109,7 +118,13 @@ export default function ResultsPage({
               setResult={setResult}
               infiniteScroll={false}
               data={visited}
-              filterInput={filterInput} currentSelected={currentSelected} setCurrentSelected={setCurrentSelected} visitedResults={visitedResults} setVisitedResults={setVisitedResults} loadingResults={loadingResults}
+              filterInput={filterInput}
+              currentSelected={currentSelected}
+              setCurrentSelected={setCurrentSelected}
+              visitedResults={visitedResults}
+              setVisitedResults={setVisitedResults} l
+              oadingResults={loadingResults}
+              setIsIndex={setIsIndex}
             />
           </>
         ) : (
@@ -120,10 +135,7 @@ export default function ResultsPage({
             preview={preview}
             data={data}
             setPreview={setPreview}
-            browseHistory={browseHistory}
-            setBrowseHistory={setBrowseHistory}
-            browseHistoryIndex={browseHistoryIndex}
-            setBrowseHistoryIndex={setBrowseHistoryIndex}
+            isIndex={isIndex}
           />
         ) : (
           <></>
