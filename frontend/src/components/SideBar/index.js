@@ -150,7 +150,7 @@ export default function SideBar({ setSearch, setQuery, setString }) {
             </div>
             <div className="flex flex-col justify-self-end">
               Developed by :
-              <a href='https://www.linkedin.com/in/romeo-galvan-9418b6225/' className="underline">Romeo (I need a job) Galvan</a>
+              <a href='https://www.linkedin.com/in/romeo-galvan-9418b6225/' className="underline" target="_blank">Romeo (I need a job) Galvan</a>
             </div>
           </div>
         ) : (
