@@ -27,8 +27,6 @@ export default function SearchBar({
   setCurrentSelected,
   setLoadingResults,
   setPageNum,
-  setPreview,
-  setShowResult
 }) {
   const [showOptions, setShowOptions] = useState(false);
   const navigate = useNavigate()

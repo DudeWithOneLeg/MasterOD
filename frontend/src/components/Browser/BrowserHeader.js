@@ -4,6 +4,10 @@ const copyIcon = require('../../assets/images/copy.png')
 export default function BrowserHeader({preview, component, setComponent}) {
     const [copied, setCopied] = useState(false)
 
+    useEffect(() => {
+        setCopied(false)
+    },[])
+
       const copyToClipboard = () => {
         navigator.clipboard.writeText(preview)
         setCopied(true)
@@ -31,7 +35,7 @@ export default function BrowserHeader({preview, component, setComponent}) {
         >
           Archive
         </div>
-        {preview.split(".").slice(-1)[0].toLowerCase() === "pdf" ? (
+        {/* {preview.split(".").slice(-1)[0].toLowerCase() === "pdf" ? (
           <div
             className={`bg-slate-${
               component === "analyze" ? "400" : "600 hover:bg-slate-400"
@@ -42,7 +46,7 @@ export default function BrowserHeader({preview, component, setComponent}) {
           </div>
         ) : (
           <></>
-        )}
+        )} */}
       </div>
       <div className="bg-slate-400 flex flex-row items-center justify-content-between w-full p-2 h-[5%] overflow-hidden">
         <div className="w-full flex flex-row justify-content-between h-8 bg-slate-100 p-1 rounded overflow-hidden">

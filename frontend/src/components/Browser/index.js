@@ -6,13 +6,20 @@ const copyIcon = require('../../assets/images/copy.png')
 
 export default function Browser({
   preview,
-  setPreview,
-  isIndex
+  setPreview
 }) {
   const domRef = useRef(null);
-  const [copied, setCopied] = useState(false);
   const [component, setComponent] = useState('')
+  const [components, setComponents] = useState({
+    'browser': (props) => <iframe className="h-full w-full" ref={domRef} src={props.url}/>,
+    'archive': Archive ,
+    'analyze': (props) => <div className="h-[95%] w-full">
+    <GptDocAnalyze url={props.url}/>
+    </div>
+  })
   const docExtensions = ["ppt", "doc", "docx"];
+  useEffect(() => {
+  },[])
 
   useEffect(() => {
     if (
@@ -28,26 +35,13 @@ export default function Browser({
 
   useEffect(() => {
     setComponent('browser')
-    setCopied(false)
   },[preview])
 
-  const components = {
-    'browser': (props) => <iframe className="h-full w-full" ref={domRef} src={props.url}/>,
-    'archive': Archive ,
-    'analyze': (props) => <div className="h-[95%] w-full">
-    <GptDocAnalyze url={props.url}/>
-    </div>
-  }
 
   const showComponent = (componentName, url) => {
     const ComponentToDisplay = components[componentName]
     return <ComponentToDisplay url={url}/>
   }
-
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(preview)
-    setCopied(true)
-  };
 
   return (
     <div
