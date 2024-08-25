@@ -190,8 +190,8 @@ export default function SearchBar({
               <div className="p-2">
                 <select
                   // id="normalize"
-                  className="pl-2"
-                  onClick={(e) =>
+                  className="pl-2 cursor-pointer"
+                  onChange={(e) =>
                     setLanguage(settings[engine].languages[e.target.value])
                   }
                 >
@@ -214,8 +214,8 @@ export default function SearchBar({
             <div className="p-2">
               <select
                 // id="normalize"
-                className="pl-2"
-                onClick={(e) =>
+                className="pl-2 cursor-pointer"
+                onChange={(e) =>
                   setCountry(settings[engine].countries[e.target.value])
                 }
               >

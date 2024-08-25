@@ -7,7 +7,7 @@ import * as queryActions from "../../store/query";
 export default function QueryPage({ setQuery, setString}) {
   const dispatch = useDispatch();
   const queries = useSelector((state) => state.queries.all);
-  const [viewAll, setViewAll] = useState(false);
+  const [viewAll, setViewAll] = useState(true);
   const [filter, setFilter] = useState("");
   const [limit, setLimit] = useState(25);
   const params = useParams()
