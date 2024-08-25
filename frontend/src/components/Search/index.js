@@ -328,7 +328,7 @@ export default function Search({
                 setLoadingResults={setLoadingResults}
                 setIsIndex={setIsIndex}
               />
-              {((showResult && data) || (showResult && preview)) && (
+              {((showResult && preview)) && (
                 <Browser
                   preview={preview}
                   setPreview={setPreview}
