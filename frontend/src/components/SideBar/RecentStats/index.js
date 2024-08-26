@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import RecentStat from "../RecentStat";
 
-export default function RecentStats({setSearch}) {
+export default function RecentStats({setSearch, setShowMenu}) {
   const user = useSelector((state) => state.session.user);
   const recentQueries = useSelector((state) => state.search.recentQueries);
   const recentSavedResults = useSelector(
@@ -70,17 +70,6 @@ export default function RecentStats({setSearch}) {
           })
         ) : (
           <p className="text-sm flex justify-content-center">Empty</p>
-          //   user.recentQueries && Object.values(user.recentQueries).length ?
-          //   Object.values(user.recentQueries).slice(0, 5).map((query) => {
-          //     return (
-          //       <div className="flex flex-row text-sm py-1 px-2">
-          //         <p className="pr-1 text-gray-400">
-          //           {timeFunc(query.createdAt)}
-          //         </p>
-          //         <p className="truncate">{query.query.split(";").join(" ")}</p>
-          //       </div>
-          //     );
-          //   }) : <div className="h-[139.9px]"></div>
         ),
       path: "/search/all",
     },
@@ -122,19 +111,6 @@ export default function RecentStats({setSearch}) {
             })
         ) : (
           <p className="text-sm flex justify-content-center">Empty</p>
-          //   user.savedResults && Object.values(user.savedResults).length ?
-          //   Object.values(user.savedResults)
-          //     .reverse()
-          //     .map((result) => {
-          //       return (
-          //         <div className="flex flex-row truncate text-sm py-1 px-2">
-          //           <p className="pr-1 text-gray-400">
-          //             {timeFunc(result.createdAt)}
-          //           </p>
-          //           <p className="truncate">{result.title}</p>
-          //         </div>
-          //       );
-          //     }) : <div className="h-[140px]"></div>
         ),
       path: "/results/saved",
     },
@@ -146,7 +122,7 @@ export default function RecentStats({setSearch}) {
 
   return Object.values(navBarStats).map((object) => {
     return (
-      <RecentStat object={object} setSearch={setSearch}/>
+      <RecentStat object={object} setSearch={setSearch} setShowMenu={setShowMenu}/>
     );
   });
 }

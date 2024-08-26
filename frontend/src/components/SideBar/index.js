@@ -1,6 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import {isMobile} from 'react-device-detect'
+import MobileSideBar from "./MobileSidebar";
 import * as sessionActions from "../../store/session";
 import * as searchActions from "../../store/search";
 import * as resultActions from "../../store/result";
@@ -108,8 +110,10 @@ export default function SideBar({ setSearch, setQuery, setString }) {
     navigate("/search")
   }
 
+  if (isMobile) return <MobileSideBar setSearch={setSearch}/>
+
   return (
-    <div className="h-full w-[300px] bg-slate-800 overflow-hidden flex flex-row text-slate-100 rounded border-2 border-slate-600">
+    <div className="h-full w-[300px] bg-slate-800 overflow-hidden flex flex-row text-slate-100 rounded border-2 border-slate-600 p-2">
       <div
         className={`flex flex-row transition-all duration-700 ease-in-out ${slide}`}
       >

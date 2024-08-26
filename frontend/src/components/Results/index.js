@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Result from "../Result";
+import { isMobile } from "react-device-detect";
 const loadingImg = require("../../assets/icons/loading.png");
 
 // import './index.css'
@@ -24,13 +25,13 @@ export default function Results({
   return data && Object.values(data).length ? (
     //KEEP CLASS NAME AS IS
     <div
-      className={`flex flex-col justify-center h-full overflow-hidden pb-1 ${
+      className={`flex flex-col h-full items-center ${isMobile && !showResult ? 'row-span-2' : ''} pb-1 ${
         showResult ? "w-full" : "w-100"
       }`}
       id="results"
     >
       <div
-        className={`rounded flex-col flex h-full py-2 px-2 w-full items-center overflow-y-scroll overflow-x-hidden`}
+        className={`rounded flex-col items-center flex h-full py-2 px-2 w-full overflow-y-scroll overflow-x-hidden`}
         id="inner-result"
       >
         {loadingResults ? (
@@ -41,7 +42,7 @@ export default function Results({
             />
           </div>
         ) : (
-          <div className={`${width}`}>
+          <div className={showResult || isMobile ? 'w-full' : 'w-1/2'}>
             {Object.values(data)[0] && Object.values(data)[0].queryId
               ? Object.keys(data)
                   .reverse()

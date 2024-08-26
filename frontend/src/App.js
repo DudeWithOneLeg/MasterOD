@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Routes, Route, useNavigate } from "react-router-dom";
+import {isMobile} from 'react-device-detect'
 import * as sessionActions from "./store/session";
 import Search from "./components/Search";
 import SideBar from "./components/SideBar";
@@ -40,8 +41,8 @@ function App() {
 
   return (
     <>
-      <div className="h-screen w-screen flex">
-        <div className="p-2 rounded h-full">
+      <div className={`h-screen w-screen flex flex-${isMobile ? 'col' : 'row'}`}>
+        <div className={`rounded z-30`}>
           <SideBar setSearch={setSearch} setQuery={setQuery} setString={setString}/>
         </div>
         {isLoaded && user ? (
