@@ -11,7 +11,7 @@ export default function Browser({
   const domRef = useRef(null);
   const [component, setComponent] = useState('')
   const [components, setComponents] = useState({
-    'browser': (props) => <iframe className="h-full w-full" src={'https://searchdeck.onrender.com:10000/proxy/'+props.url}/>,
+    'browser': (props) => <iframe className="h-full w-full" src={`https://searchdeck.onrender.com:${process.env.PORT}/proxy/`+props.url}/>,
     'archive': Archive ,
     'analyze': (props) => <div className="h-[95%] w-full">
     <GptDocAnalyze url={props.url}/>
