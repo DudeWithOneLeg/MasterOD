@@ -2,6 +2,7 @@ import { useRef, useEffect, useState } from "react";
 import GptDocAnalyze from "../GptDocAnalyze/GptDocAnalyze";
 import Archive from "../Archive/archive";
 import BrowserHeader from "./BrowserHeader";
+import { csrfFetch } from "../../store/csrf";
 const copyIcon = require('../../assets/images/copy.png')
 
 export default function Browser({
@@ -21,7 +22,7 @@ export default function Browser({
 
   useEffect(() => {
     // Fetch configuration from backend
-    fetch('/config')
+    csrfFetch('/config')
       .then((response) => response.json())
       .then((data) => setConfig(data))
       .catch((error) => console.error('Error fetching config:', error));
