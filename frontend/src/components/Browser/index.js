@@ -10,22 +10,13 @@ export default function Browser({
 }) {
   const domRef = useRef(null);
   const [component, setComponent] = useState('')
-  const [config, setConfig] = useState({});
   const [components, setComponents] = useState({
-    'browser': (props) => <iframe className="h-full w-full" src={`https://searchdeck.onrender.com:${props.port}/proxy/`+props.url}/>,
+    'browser': (props) => <iframe className="h-full w-full" src={props.url}/>,
     'archive': Archive ,
     'analyze': (props) => <div className="h-[95%] w-full">
     <GptDocAnalyze url={props.url}/>
     </div>
   })
-
-  useEffect(() => {
-    // Fetch configuration from backend
-    fetch('/config')
-      .then((response) => response.json())
-      .then((data) => setConfig(data))
-      .catch((error) => console.error('Error fetching config:', error));
-  }, []);
   const docExtensions = ["ppt", "doc", "docx"];
   useEffect(() => {
   },[])
@@ -47,9 +38,9 @@ export default function Browser({
   },[preview])
 
 
-  const showComponent = (componentName, url, port) => {
+  const showComponent = (componentName, url) => {
     const ComponentToDisplay = components[componentName]
-    return <ComponentToDisplay url={url} port={port}/>
+    return <ComponentToDisplay url={url}/>
   }
 
   return (
@@ -58,7 +49,7 @@ export default function Browser({
       // ref={parentRef}
     >
       <BrowserHeader preview={preview} component={component} setComponent={setComponent}/>
-      {component ? showComponent(component, preview, config.port) : <></>}
+      {component ? showComponent(component, preview) : <></>}
     </div>
   );
 }
