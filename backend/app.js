@@ -141,7 +141,9 @@ app.use(routes);
 
 // Function to determine the target dynamically
 
-
+app.get('/config', (req, res) => {
+  res.json({port: process.env.PORT});
+});
 app.use('/proxy', async (req, res, next) => {
   // Determine the target URL based on request path or other criteria
   console.log(req.url)
