@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { isMobile } from "react-device-detect";
 import QueryRow from "./QueryRow";
 import * as queryActions from "../../store/query";
 
@@ -74,10 +75,10 @@ export default function QueryPage({ setQuery, setString}) {
             </select>
         </div>
       </div>
-      <div className="flex flex-row px-3 py-2">
-        <p className="w-1/3 text-lg text-center">Query</p>
-        <p className="w-1/3 text-lg text-center">Date</p>
-        <p className="w-1/3 text-lg text-center">Engine</p>
+      <div className="flex flex-row grid grid-cols-9  justify-content-between py-2 w-full">
+        <p className="col-span-6 text-lg text-center">Query</p>
+        <p className="col-span-2 text-lg text-center">Date</p>
+        <p className={`col-span-1 text-lg text-center`}>Engine</p>
       </div>
       <div className=" h-full overflow-hidden rounded border-2 border-slate-600 bg-slate-800">
         <div className="flex flex-col divide divide-y h-full overflow-y-scroll">

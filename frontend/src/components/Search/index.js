@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as searchActions from "../../store/search";
 import * as resultActions from "../../store/result";
+import { isMobile } from "react-device-detect";
 import Results from "../Results";
 import Browser from "../Browser";
 import SearchBar from "./SearchBar";
@@ -186,7 +187,7 @@ export default function Search({
   return (
     //KEEP CLASS AS IS
     <div
-      className={`flex flex-col bg-slate-900 w-full px-2 pt-2`}
+      className={`flex flex-col bg-slate-900 w-full h-full px-2 pt-2`}
       id="search-bar"
     >
       <SearchBar
@@ -219,7 +220,7 @@ export default function Search({
           >
             <div
               className={`flex justify-content-center justify-self-start py-2 ${
-                showResult ? "w-1/2" : ""
+                isMobile ? 'w-full' : (showResult ? "w-1/2" : "")
               }`}
             >
               <div className="flex flex-row w-fit items-center">
@@ -299,8 +300,7 @@ export default function Search({
             )}
           </div>
           <div className="flex w-full h-full overflow-auto">
-            {/* change overflow to hidden for gpt */}
-            <div className="w-full h-full flex flex-row overflow-none">
+            <div className={`w-full h-full flex flex-${isMobile ? 'col grid grid-rows-2 gap-1' : 'row'} overflow-none`}>
               <Results
                 setPreview={setPreview}
                 preview={preview}
