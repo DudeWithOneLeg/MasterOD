@@ -92,7 +92,7 @@ export default function SearchBar({
 
   return (
     <div
-      className={`w-full divide-y divide-slate-500 bg-slate-700 border-2 border-slate-600 flex flex-col font-bold rounded transition-all duration-300 ease-in-out ${isMobile ? 'mt-12' : ''}`}
+      className={`w-full divide-y divide-slate-500 bg-slate-700 border-2 border-slate-600 flex flex-col font-bold rounded transition-all duration-300 ease-in-out`}
       id="search-bar-inner"
       data-collapse="collapse"
     >

@@ -42,12 +42,12 @@ function App() {
   return (
     <>
       <div className={`h-screen w-screen flex flex-${isMobile ? 'col' : 'row'}`}>
-
         <div className={`rounded z-30`}>
           <SideBar setSearch={setSearch} setQuery={setQuery} setString={setString}/>
         </div>
         {isLoaded && user ? (
           <Routes>
+            
             <Route path="/queries" element={<QueryStats setQuery={setQuery} setString={setString}/>}/>
             <Route path="/results" element={<ResultsPage currentSelected={currentSelected} setCurrentSelected={setCurrentSelected} visitedResults={visitedResults} setVisitedResults={setVisitedResults} loadingResults={loadingResults} isIndex={isIndex} setIsIndex={setIsIndex} isRedditShared={isRedditShared} setIsRedditShared={setIsRedditShared} isOnReddit={isOnReddit} setIsOnReddit={setIsOnReddit} loading={loading} setLoading={setLoading}/>}/>
             <Route path="/results/:view" element={<ResultsPage currentSelected={currentSelected} setCurrentSelected={setCurrentSelected} visitedResults={visitedResults} setVisitedResults={setVisitedResults} loadingResults={loadingResults} isIndex={isIndex} setIsIndex={setIsIndex} isRedditShared={isRedditShared} setIsRedditShared={setIsRedditShared} isOnReddit={isOnReddit} setIsOnReddit={setIsOnReddit} loading={loading} setLoading={setLoading}/>}/>
