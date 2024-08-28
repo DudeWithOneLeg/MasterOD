@@ -47,7 +47,7 @@ function App() {
         </div>
         {isLoaded && user ? (
           <Routes>
-            
+
             <Route path="/queries" element={<QueryStats setQuery={setQuery} setString={setString}/>}/>
             <Route path="/results" element={<ResultsPage currentSelected={currentSelected} setCurrentSelected={setCurrentSelected} visitedResults={visitedResults} setVisitedResults={setVisitedResults} loadingResults={loadingResults} isIndex={isIndex} setIsIndex={setIsIndex} isRedditShared={isRedditShared} setIsRedditShared={setIsRedditShared} isOnReddit={isOnReddit} setIsOnReddit={setIsOnReddit} loading={loading} setLoading={setLoading}/>}/>
             <Route path="/results/:view" element={<ResultsPage currentSelected={currentSelected} setCurrentSelected={setCurrentSelected} visitedResults={visitedResults} setVisitedResults={setVisitedResults} loadingResults={loadingResults} isIndex={isIndex} setIsIndex={setIsIndex} isRedditShared={isRedditShared} setIsRedditShared={setIsRedditShared} isOnReddit={isOnReddit} setIsOnReddit={setIsOnReddit} loading={loading} setLoading={setLoading}/>}/>
@@ -64,7 +64,7 @@ function App() {
         )}
 
 
-
+        {isMobile ? <div className="h-14"></div>:<></>}
       </div>
     </>
   );
