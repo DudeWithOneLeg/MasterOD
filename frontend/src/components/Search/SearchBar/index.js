@@ -102,7 +102,7 @@ export default function SearchBar({
         onSubmit={(e) => handleSubmit(e)}
       >
         <div className="flex items-center w-full h-fit justify-content-between p-2">
-          <div className={`flex flex-row h-fit items-center ${isMobile ? 'w-full' : 'w-full'}`}>
+          <div className={`flex flex-row h-fit items-center ${isMobile ? 'w-full' : 'w-3/4'}`}>
             <img
               src={require("../../../assets/images/arrow-forward-2.png")}
               className={`h-8 w-8 flex flex-row transition-all duration-300 ease-in-out z-20 ${
@@ -111,8 +111,8 @@ export default function SearchBar({
               onClick={() => setShowOptions(!showOptions)}
               alt="show options"
             />
-            <div className="flex flex-row jusitfy-content-center h-fit w-full overflow-wrap items-center">
-              <div className={`flex w-${isMobile ? 'full' : '1/2'} bg-slate-600 rounded justify-between items-center h-8 mr-1`}>
+            <div className="flex flex-row jusitfy-center h-fit w-full items-center">
+              <div className={`flex w-full bg-slate-600 rounded justify-between items-center h-8 mr-1`}>
                 <input
                   placeholder="Search"
                   className="p-1 bg-slate-600 rounded w-full outline-none"
@@ -122,7 +122,7 @@ export default function SearchBar({
                 />
                 <img src={clearText} className="h-8" onClick={() => setString('')}/>
               </div>
-              {query && !isMobile && query.length
+              {/* {query && !isMobile && query.length
                 ? query.map((param, index) => {
                     if (param.includes(":")) {
                       return (
@@ -135,23 +135,23 @@ export default function SearchBar({
                       );
                     }
                   })
-                : <></>}
+                : <></>} */}
               <div>
 
               </div>
             </div>
           </div>
-          <div className="flex flex-row">
+          <div className="flex flex-row w-fit">
             {((query && query.length) || string) && !isMobile ? (
-              <div className="flex flex-row align-items-center">
+              <div className="flex flex-row align-items-center justiify between px-2">
                 <img
-                  className="h-8 cursor-pointer"
+                  className="h-8 cursor-pointer px-2"
                   src={require("../../../assets/icons/save.png")}
                   onClick={() => saveQuery()}
                   alt="save query"
                 />
                 <p
-                  className={`${isMobile ? '' : 'px-2 mx-2'} text-white rounded h-8 flex align-items-center hover:text-slate-900 cursor-pointer`}
+                  className={`text-white rounded h-8 flex align-items-center hover:text-slate-900 cursor-pointer`}
                   onClick={() => setQuery([])}
                   >
                   Clear
@@ -206,7 +206,7 @@ export default function SearchBar({
                   alt="save query"
                 />
                 <p
-                  className={`${isMobile ? 'px-1' : 'px-2 mx-2'} text-white rounded h-8 flex align-items-center hover:text-slate-900 cursor-pointer`}
+                  className={`px-1 text-white rounded h-8 flex align-items-center hover:text-slate-900 cursor-pointer`}
                   onClick={() => setQuery([])}
                   >
                   Clear
@@ -215,7 +215,7 @@ export default function SearchBar({
             ) : (
               <></>
             )}
-              {query && isMobile && showOptions && query.length
+              {query && showOptions && query.length
                   ?
             <div className="flex flex-wrap p-1">
               {query.map((param, index) => {

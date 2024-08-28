@@ -14,11 +14,11 @@ export default function Browser({
   const [components, setComponents] = useState({
     'browser': (props) => <iframe className="h-full w-full" src={props.url}/>,
     'archive': Archive ,
-    'analyze': (props) => <div className="h-[90%] w-full">
+    'analyze': (props) => <div className={`h-[${isMobile ? '90%' : '95%'}] w-full overflow-none`}>
     <GptDocAnalyze url={props.url}/>
     </div>
   })
-  const docExtensions = ["ppt", "doc", "docx"];
+  const docExtensions = ["ppt", "doc", "docx", "pdf"];
   useEffect(() => {
   },[])
 
@@ -27,9 +27,9 @@ export default function Browser({
       preview &&
       docExtensions.includes(preview.split(".").slice(-1)[0]) &&
       // !preview.includes("https") &&
-      !preview.includes("https://view.officeapps.live.com/op/embed.aspx?src=")
+      !preview.includes("https://docs.google.com/gview?embedded=true&url=")
     ) {
-      setPreview(`https://view.officeapps.live.com/op/embed.aspx?src=${preview}`);
+      setPreview(`https://docs.google.com/gview?embedded=true&url=${preview}`);
     }
     // if (isIndex) console.log('indexx')
   }, [preview]);
