@@ -35,7 +35,7 @@ export default function QueryRow({ query, setString, setQuery }) {
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
         >
-        <div className="flex flex-row col-span-6">
+        <div className="flex flex-row col-span-6 justify-between">
             <img
             src={
                 query.saved

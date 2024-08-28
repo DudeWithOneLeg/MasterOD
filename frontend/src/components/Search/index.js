@@ -190,6 +190,7 @@ export default function Search({
       className={`flex flex-col bg-slate-900 w-full h-full px-2 pt-2`}
       id="search-bar"
     >
+      {isMobile ? <div className="h-14"></div> : <></>}
       <SearchBar
         query={query}
         setQuery={setQuery}
