@@ -2,6 +2,7 @@ import { useRef, useEffect, useState } from "react";
 import GptDocAnalyze from "../GptDocAnalyze/GptDocAnalyze";
 import Archive from "../Archive/archive";
 import BrowserHeader from "./BrowserHeader";
+import { isMobile } from "react-device-detect";
 const copyIcon = require('../../assets/images/copy.png')
 
 export default function Browser({
@@ -13,7 +14,7 @@ export default function Browser({
   const [components, setComponents] = useState({
     'browser': (props) => <iframe className="h-full w-full" src={props.url}/>,
     'archive': Archive ,
-    'analyze': (props) => <div className="h-[95%] w-full">
+    'analyze': (props) => <div className="h-[90%] w-full">
     <GptDocAnalyze url={props.url}/>
     </div>
   })
@@ -45,7 +46,7 @@ export default function Browser({
 
   return (
     <div
-      className="flex flex-col h-full w-full bg-slate-300 ml-2 p-1 rounded overflow-none"
+      className={`flex flex-col h-full w-full bg-slate-300 ${isMobile ? '' : 'ml-2'} p-1 rounded overflow-none`}
       // ref={parentRef}
     >
       <BrowserHeader preview={preview} component={component} setComponent={setComponent}/>

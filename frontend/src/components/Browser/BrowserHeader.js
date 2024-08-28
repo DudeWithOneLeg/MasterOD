@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { isMobile } from "react-device-detect";
 const copyIcon = require('../../assets/images/copy.png')
 
 export default function BrowserHeader({preview, component, setComponent}) {
@@ -17,7 +18,7 @@ export default function BrowserHeader({preview, component, setComponent}) {
         setCopied(false)
       },[preview])
   return (
-    <>
+    <div>
       <div className="fixed -mt-6 flex flex-row text-white pb-1">
         <div
           className={`bg-slate-${
@@ -42,27 +43,27 @@ export default function BrowserHeader({preview, component, setComponent}) {
             } rounded mx-1 px-1 cursor-pointer`}
             onClick={() => setComponent("analyze")}
           >
-            Analyze with ChatGPT
+            Analyze w/ GPT-4
           </div>
         ) : (
           <></>
         )}
       </div>
-      <div className="bg-slate-400 flex flex-row items-center justify-content-between w-full p-2 h-[5%] overflow-hidden">
-        <div className="w-full flex flex-row justify-content-between h-8 bg-slate-100 p-1 rounded overflow-hidden">
+      <div className={`bg-slate-400 flex flex-row items-center justify-content-between w-full p-${isMobile ? '1 text-sm' : '2'} h-fit overflow-hidden`}>
+        <div className="w-full flex flex-row justify-content-between h-fit bg-slate-100 p-1 rounded overflow-hidden">
           <input className="w-full rounded overflow-scroll no-scrollbar" value={preview} disabled/>
           {copied ? (
             <p>Copied!</p>
           ) : (
             <img
               alt="copy url"
-              className="cursor-pointer"
+              className="cursor-pointer h-6"
               src={copyIcon}
               onClick={copyToClipboard}
             />
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 }

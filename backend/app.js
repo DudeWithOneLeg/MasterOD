@@ -50,7 +50,7 @@ io.on("connection", (socket) => {
     try {
 
       const stream = await openai.chat.completions.create({
-        model: "gpt-4-turbo",
+        model: "gpt-4o-mini",
         messages: [{ role: "user", content: `${message}` }],
         stream: true,
         maxTokens: 2000
@@ -79,12 +79,12 @@ io.on("connection", (socket) => {
         const data = await res.arrayBuffer();
         const pdfBuffer = Buffer.from(data);
         const pdfData = await pdfParse(pdfBuffer);
-        const text = pdfData.text.split("\n\n").filter(word => word !== "" && word !== "\n").join("").split('').slice(0, 30000).join('')
-        // console.log(text)
+        const text = pdfData.text.split("\n\n").filter(word => word !== "" && word !== "\n").join("")
+        console.log(text.length)
         if (text) {
 
           const stream = await openai.chat.completions.create({
-            model: "gpt-4-turbo",
+            model: "gpt-4o-mini",
             messages: [{ role: "user", content: `analyze this "${text}"` }],
             stream: true,
           });
@@ -96,6 +96,7 @@ io.on("connection", (socket) => {
               // console.log(content);
             }
           }
+          console.log(stream)
           socket.emit("end", "Stream finished");
         }
 
