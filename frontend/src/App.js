@@ -64,7 +64,7 @@ function App() {
         )}
 
 
-        {isMobile ? <div className="h-16"></div>:<></>}
+        {isMobile ? <div className="h-20"></div>:<></>}
       </div>
     </>
   );
