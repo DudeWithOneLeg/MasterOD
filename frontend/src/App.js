@@ -41,7 +41,7 @@ function App() {
 
   return (
     <>
-      <div className={`h-screen w-screen flex flex-${isMobile ? 'col pb-14' : 'row'}`}>
+      <div className={`h-screen w-screen flex flex-${isMobile ? 'col' : 'row'}`}>
         <div className={`rounded z-30`}>
           <SideBar setSearch={setSearch} setQuery={setQuery} setString={setString}/>
         </div>
@@ -64,7 +64,7 @@ function App() {
         )}
 
 
-
+        {isMobile ? <div className="h-14"></div>:<></>}
       </div>
     </>
   );
