@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { isMobile } from "react-device-detect";
 import Results from "../Results";
 import Browser from "../Browser";
 import * as resultActions from "../../store/result";
@@ -63,7 +64,7 @@ export default function ResultsPage({
           onChange={(e) => setFilterInput(e.target.value.toLowerCase())}
         />
       </div>
-      <div className={`flex justify-content-center text-white ${preview ? 'w-1/2' : ''}`}>
+      <div className={`flex justify-content-center text-white ${preview && !isMobile ? 'w-1/2' : ''}`}>
         <div className="flex flex-row w-fit rounded bg-slate-500">
           <p
             onClick={() => setViewAll(true)}
@@ -85,7 +86,7 @@ export default function ResultsPage({
           </p>
         </div>
       </div>
-      <div className="flex w-full h-full overflow-y-hidden">
+      <div className={`flex w-full h-full overflow-y-hidden ${isMobile ? 'grid grid-rows-2 gap-1 flex-col' : ''}`}>
         {saved && !viewAll ? (
           <>
             <Results

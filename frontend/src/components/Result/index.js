@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import SaveResult from "../SaveResult";
+import { isMobile } from "react-device-detect";
 const newTab = require("../../assets/icons/open_in_new.png");
 
 export default function Result({
@@ -62,11 +63,11 @@ export default function Result({
       onClick={handleClick}
       className={`${
         currentSelected === result.id
-          ? "border-4 border-green-400"
+          ? "border-2 border-green-400"
           : visitedResults?.includes(result.id) && currentSelected !== result.id
           ? "border-2 border-white"
           : ""
-      } h-fit w-full cursor-pointer flex items-center rounded bg-gradient-to-r from-slate-800 via-slate-800 hover:bg-gradient-to-r hover:from-slate-700 hover:via-slate-800 py-2 mb-2 mr-1 transition-all duration-300 ease-in-out `}
+      } ${isMobile ? 'text-sm' : ''} h-fit w-full cursor-pointer flex items-center rounded bg-gradient-to-r from-slate-800 via-slate-800 hover:bg-gradient-to-r hover:from-slate-700 hover:via-slate-800 py-2 mb-2 mr-1 transition-all duration-300 ease-in-out `}
     >
       <div className="flex flex-col items-center justify-content-around min-w-10 h-full">
         {/* <div className="text-white">{result.id}</div> */}
@@ -86,9 +87,9 @@ export default function Result({
           >
             <div className="flex flex-row ">
               <div className="w-full">
-                <div className="flex flex-row justify-content-between w-full">
+                <div className="flex flex-row justify-between items-center w-full">
                   <div className="flex flex-row">
-                    <h3 className="font-bold text-slate-300 text-xl text-wrap underline w-fit">
+                    <h3 className={`font-bold text-slate-300 ${isMobile ? 'text-sm' : 'text-xl'} text-wrap underline w-fit`}>
                       {result.title && result.title}
                     </h3>
 
@@ -98,19 +99,19 @@ export default function Result({
                       ) && (
                         <img
                           src={require("../../assets/images/document.png")}
-                          className="w-8 h-8"
+                          className={`w-${isMobile ? '6' : '8'}`}
                           alt="document"
                         />
                       )}
                   </div>
                   <img
                     src={newTab}
-                    className="h-8"
+                    className={`h-${isMobile ? '6' : '8'}`}
                     onClick={handleNewTab}
                     alt="new tab"
                   />
                 </div>
-                <p className="text-sm truncate w-3/4">
+                <p className="truncate  text-slate-500 w-3/4">
                   {result.link.split("").slice(0, 50).join("")}...
                 </p>
               </div>

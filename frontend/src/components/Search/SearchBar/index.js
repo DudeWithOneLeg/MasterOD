@@ -8,6 +8,8 @@ import { googleSettings } from "./GoogleSettings/googleSettings";
 import * as searchActions from "../../../store/search";
 import * as resultActions from "../../../store/result";
 import { isMobile } from "react-device-detect";
+const clearText = require('../../../assets/images/clear.png')
+const searchIcon = require("../../../assets/images/search.png")
 
 export default function SearchBar({
   query,
@@ -99,8 +101,8 @@ export default function SearchBar({
         data-collapse-target="collapse"
         onSubmit={(e) => handleSubmit(e)}
       >
-        <div className="flex px- items-center w-full h-fit justify-content-between p-2">
-          <div className="flex flex-row h-fit items-center">
+        <div className="flex items-center w-full h-fit justify-content-between p-2">
+          <div className={`flex flex-row h-fit items-center ${isMobile ? 'w-full' : 'w-full'}`}>
             <img
               src={require("../../../assets/images/arrow-forward-2.png")}
               className={`h-8 w-8 flex flex-row transition-all duration-300 ease-in-out z-20 ${
@@ -109,16 +111,18 @@ export default function SearchBar({
               onClick={() => setShowOptions(!showOptions)}
               alt="show options"
             />
-            <p>Search</p>
-            <div className="flex flex-wrap jusitfy-content-center h-fit max-w-fit overflow-wrap">
-              <input
-                placeholder="Enter keyword"
-                className="p-1 m-1 bg-slate-600 rounded w-fit outline-none"
-                value={string}
-                onChange={(e) => setString(e.target.value)}
-                onClick={() => setShowOptions(true)}
-              />
-              {query && query.length
+            <div className="flex flex-row jusitfy-content-center h-fit w-full overflow-wrap items-center">
+              <div className={`flex w-${isMobile ? 'full' : '1/2'} bg-slate-600 rounded justify-between items-center h-8 mr-1`}>
+                <input
+                  placeholder="Search"
+                  className="p-1 bg-slate-600 rounded w-full outline-none"
+                  value={string}
+                  onChange={(e) => setString(e.target.value)}
+                  onClick={() => setShowOptions(true)}
+                />
+                <img src={clearText} className="h-8" onClick={() => setString('')}/>
+              </div>
+              {query && !isMobile && query.length
                 ? query.map((param, index) => {
                     if (param.includes(":")) {
                       return (
@@ -131,11 +135,14 @@ export default function SearchBar({
                       );
                     }
                   })
-                : ""}
+                : <></>}
+              <div>
+
+              </div>
             </div>
           </div>
           <div className="flex flex-row">
-            {(query && query.length) || string ? (
+            {((query && query.length) || string) && !isMobile ? (
               <div className="flex flex-row align-items-center">
                 <img
                   className="h-8 cursor-pointer"
@@ -144,18 +151,19 @@ export default function SearchBar({
                   alt="save query"
                 />
                 <p
-                  className="px-2 mx-2 rounded h-8 flex align-items-center hover:text-slate-900 cursor-pointer"
+                  className={`${isMobile ? '' : 'px-2 mx-2'} text-white rounded h-8 flex align-items-center hover:text-slate-900 cursor-pointer`}
                   onClick={() => setQuery([])}
-                >
+                  >
                   Clear
                 </p>
               </div>
             ) : (
               <></>
             )}
-            {isMobile ? <></> : <div className="flex align-items-center">
-              <label className="h-fit m-0">
-                Search Engine:
+            {isMobile ? <></> : <div className="flex flex-row justify-center items-center">
+              <p className="text-center">Engine:</p>
+              <label className="flex items-center h-8 m-0">
+
                 <select
                   onClick={(e) => setEngine(e.target.value)}
                   className="bg-slate-500 rounded ml-1 cursor-pointer"
@@ -178,21 +186,57 @@ export default function SearchBar({
           </div>
         </div>
         {(query && query.length) || string ? (
-          <div
-            className="flex justify-self-end px-3 py-1 mx-1 bg-slate-800 rounded-full hover:bg-slate-600 "
+          <button
+          className="flex justify-self-end px-3 py-1 mx-1 bg-slate-800 rounded hover:bg-slate-600 outline-none"
             type="submit"
-          >
-            <button className="focus:outline-none">Search</button>
-          </div>
+            >
+              <img src={searchIcon} className="h-6"/>
+            {/* <button className="focus:outline-none">Search</button> */}
+          </button>
         ) : (
           ""
         )}
       </form>
+      {(query && query.length) && isMobile && showOptions ? (
+              <div className="flex flex-row align-items-center justify-end p-1">
+                <img
+                  className="h-8 cursor-pointer px-1"
+                  src={require("../../../assets/icons/save.png")}
+                  onClick={() => saveQuery()}
+                  alt="save query"
+                />
+                <p
+                  className={`${isMobile ? 'px-1' : 'px-2 mx-2'} text-white rounded h-8 flex align-items-center hover:text-slate-900 cursor-pointer`}
+                  onClick={() => setQuery([])}
+                  >
+                  Clear
+                </p>
+              </div>
+            ) : (
+              <></>
+            )}
+              {query && isMobile && showOptions && query.length
+                  ?
+            <div className="flex flex-wrap p-1">
+              {query.map((param, index) => {
+                      if (param.includes(":")) {
+                        return (
+                          <QueryParam
+                            param={param}
+                            query={query}
+                            setQuery={setQuery}
+                            index={index}
+                          />
+                        );
+                      }
+                    })}
+            </div>
+                  : <></>}
       {showOptions && (
         <div
-          className={`flex flex-${
-            isMobile ? "col" : "row"
-          } bg-slate-600 border-2 rounded`}
+        className={`flex flex-${
+          isMobile ? "col" : "row"
+        } bg-slate-600 border-2 rounded`}
         >
           <div
             className={`divide-y divide-slate-500 w-${

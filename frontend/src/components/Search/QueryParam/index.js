@@ -31,7 +31,7 @@ export default function QueryParam({ param, query, setQuery, index }) {
 
   return (
     <div
-      className={`mx-1 flex justify-content-end items-center rounded my-1 p-1 h-fit ${
+      className={`p-1 flex justify-content-end items-center rounded mr-1 h-fit w-fit ${
         param.split(":")[0].includes("-") ? "bg-red-400" : "bg-slate-500"
       }`}
       o
@@ -40,25 +40,31 @@ export default function QueryParam({ param, query, setQuery, index }) {
       id="query-param"
       ref={queryParamRef}
     >
-      <div className="relative flex flex-row">
+      <div className="flex flex-row w-fit">
+        <div className="w-fit flex">
+
         <p>{param.split(":")[0]}: </p>
+        </div>
         <div>
           <input
-            className="text-black rounded ml-1 w-36 outline-none px-1"
+            className="flex text-black rounded ml-1 w-36 outline-none px-1"
             value={paramValue}
             onChange={(e) => setParamValue(e.target.value)}
           />
         </div>
       </div>
+      <div className="flex w-7">
+
       {showDeleteIcon ? (
         <img
           src={require("../../../assets/images/trash.png")}
           onClick={handleDelete}
-          className="flex h-6 rounded ml-1 hover:bg-red-600 align-self-start cursor-pointer"
+          className="flex h-6 w-8 rounded ml-1 hover:bg-red-600 align-self-start cursor-pointer"
         />
       ) : (
-        <div className="w-7"></div>
+        <></>
       )}
+      </div>
     </div>
   );
 }

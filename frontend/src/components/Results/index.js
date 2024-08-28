@@ -25,7 +25,7 @@ export default function Results({
   return data && Object.values(data).length ? (
     //KEEP CLASS NAME AS IS
     <div
-      className={`flex flex-col h-full items-center ${isMobile && !showResult ? 'row-span-2' : ''} pb-1 ${
+      className={`flex flex-col h-full items-center ${isMobile ? 'overflow-x-hidden' : ''} ${isMobile && !showResult ? 'row-span-2' : ''} pb-1 ${
         showResult ? "w-full" : "w-100"
       }`}
       id="results"
