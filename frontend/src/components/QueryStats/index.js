@@ -108,6 +108,7 @@ export default function QueryPage({ setQuery, setString}) {
           )}
         </div>
       </div>
+      
     </div>
   );
 }
