@@ -108,6 +108,7 @@ export default function QueryPage({ setQuery, setString}) {
           )}
         </div>
       </div>
+      {isMobile ? <div className="h-20"></div>:<></>}
     </div>
   );
 }
