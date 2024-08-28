@@ -42,9 +42,8 @@ function App() {
   return (
     <>
       <div className={`h-screen w-screen flex flex-${isMobile ? 'col' : 'row'}`}>
-        <div className={`rounded z-30`}>
           <SideBar setSearch={setSearch} setQuery={setQuery} setString={setString}/>
-        </div>
+        {/* {isMobile ? <div className="h-14"></div> : <></>} */}
         {isLoaded && user ? (
           <Routes>
 
@@ -53,7 +52,7 @@ function App() {
             <Route path="/results/:view" element={<ResultsPage currentSelected={currentSelected} setCurrentSelected={setCurrentSelected} visitedResults={visitedResults} setVisitedResults={setVisitedResults} loadingResults={loadingResults} isIndex={isIndex} setIsIndex={setIsIndex} isRedditShared={isRedditShared} setIsRedditShared={setIsRedditShared} isOnReddit={isOnReddit} setIsOnReddit={setIsOnReddit} loading={loading} setLoading={setLoading}/>}/>
             <Route path="/search" element={<Search setSearch={setSearch} search={search} setQuery={setQuery} query={query} string={string} setString={setString} currentSelected={currentSelected} setCurrentSelected={setCurrentSelected} visitedResults={visitedResults} setVisitedResults={setVisitedResults} loadingResults={loadingResults} setLoadingResults={setLoadingResults} isIndex={isIndex} setIsIndex={setIsIndex} isRedditShared={isRedditShared} setIsRedditShared={setIsRedditShared} isOnReddit={isOnReddit} setIsOnReddit={setIsOnReddit} loading={loading} setLoading={setLoading}/>}/>
             <Route path="/search/:view" element={<Search setSearch={setSearch} search={search} setQuery={setQuery} query={query} string={string} setString={setString} currentSelected={currentSelected} setCurrentSelected={setCurrentSelected} visitedResults={visitedResults} setVisitedResults={setVisitedResults} loadingResults={loadingResults} setLoadingResults={setLoadingResults} isIndex={isIndex} setIsIndex={setIsIndex} isRedditShared={isRedditShared} setIsRedditShared={setIsRedditShared} isOnReddit={isOnReddit} setIsOnReddit={setIsOnReddit} loading={loading} setLoading={setLoading}/>}/>
-            
+
           </Routes>
         ) : (
           <div className="overflow-y-scroll">

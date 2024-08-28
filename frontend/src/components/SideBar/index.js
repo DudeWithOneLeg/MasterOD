@@ -113,6 +113,8 @@ export default function SideBar({ setSearch, setQuery, setString }) {
   if (isMobile) return <MobileSideBar setSearch={setSearch}/>
 
   return (
+    <div>
+
     <div className="h-full w-[300px] bg-slate-800 overflow-hidden flex flex-row text-slate-100 rounded border-2 border-slate-600 p-2">
       <div
         className={`flex flex-row transition-all duration-700 ease-in-out ${slide}`}
@@ -255,6 +257,7 @@ export default function SideBar({ setSearch, setQuery, setString }) {
           <></>
         )}
       </div>
+    </div>
     </div>
   );
 }
