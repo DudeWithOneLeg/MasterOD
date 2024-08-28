@@ -148,12 +148,12 @@ Overall, the document serves as both a syllabus and a foundational reference for
   };
 
   return (
-    <div className="h-[100%]">
+    <div className=" flex h-full">
       <MainContainer
         style={{ position: "relative", height: "100%" }}
         className="flex flex-col"
       >
-        <ChatContainer ref={convoRef}>
+        <ChatContainer ref={convoRef} className="">
           <MessageList>
             {messages.map((message, index) => {
               if (message.role !== "system") {
