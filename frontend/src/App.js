@@ -41,9 +41,9 @@ function App() {
 
   return (
     <>
-      <div className={`h-screen w-screen flex flex-${isMobile ? 'col' : 'row'}`}>
+      <div className={`h-screen w-screen flex flex-${isMobile ? 'col pb-safeb' : 'row'}`}>
           <SideBar setSearch={setSearch} setQuery={setQuery} setString={setString}/>
-        {/* {isMobile ? <div className="h-14"></div> : <></>} */}
+        {isMobile ? <div className="h-14"></div> : <></>}
         {isLoaded && user ? (
           <Routes>
 

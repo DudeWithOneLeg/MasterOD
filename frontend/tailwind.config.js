@@ -2,7 +2,11 @@
 module.exports = {
   content: ["./src/**/*.{html,js}"],
   theme: {
-    extend: {},
+    extend: {
+      padding: {
+        'safeb': 'env(safe-area-inset-bottom)'
+      }
+    },
   },
   plugins: [],
 }
