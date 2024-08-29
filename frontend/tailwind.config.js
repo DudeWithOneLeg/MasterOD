@@ -4,7 +4,8 @@ module.exports = {
   theme: {
     extend: {
       padding: {
-        'safeb': 'env(safe-area-inset-bottom)'
+        'safeb': 'env(safe-area-inset-bottom)',
+        'safet': 'env(safe-area-inset-top)'
       }
     },
   },
