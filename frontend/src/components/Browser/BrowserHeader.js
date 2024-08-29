@@ -36,7 +36,7 @@ export default function BrowserHeader({preview, component, setComponent}) {
         >
           Archive
         </div>
-        {preview.split(".").slice(-1)[0].toLowerCase() === "pdf" ? (
+        {/* {preview.split(".").slice(-1)[0].toLowerCase() === "pdf" ? (
           <div
             className={`bg-slate-${
               component === "analyze" ? "400" : "600 hover:bg-slate-400"
@@ -47,7 +47,7 @@ export default function BrowserHeader({preview, component, setComponent}) {
           </div>
         ) : (
           <></>
-        )}
+        )} */}
       </div>
       <div className={`bg-slate-400 flex flex-row items-center justify-content-between w-full p-${isMobile ? '1 text-sm' : '2'} h-fit overflow-hidden`}>
         <div className="w-full flex flex-row justify-content-between h-fit bg-slate-100 p-1 rounded overflow-hidden">

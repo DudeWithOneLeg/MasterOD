@@ -41,9 +41,9 @@ function App() {
 
   return (
     <>
-      <div className={`h-screen w-screen flex flex-${isMobile ? 'col pb-safeb' : 'row'}`}>
+      <div className={`min-h-screen min-w-screen flex flex-${isMobile ? 'col pb-safeb pt-safet' : 'row'}`}>
           <SideBar setSearch={setSearch} setQuery={setQuery} setString={setString}/>
-        
+
 
         {isLoaded && user ? (
           <Routes>
