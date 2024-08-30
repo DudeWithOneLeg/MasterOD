@@ -92,12 +92,12 @@ export default function SearchBar({
 
   return (
     <div
-      className={`w-full h-${isMobile ? 'fit' : 'fit'} divide-y divide-slate-500 bg-slate-700 border-2 border-slate-600 flex flex-col font-bold rounded transition-all duration-300 ease-in-out items-center justify-center`}
+      className={`w-full divide-y divide-slate-500 bg-slate-700 border-2 border-slate-600 flex flex-col font-bold rounded transition-all duration-300 ease-in-out items-center justify-center`}
       id="search-bar-inner"
       data-collapse="collapse"
     >
       <form
-        className={`w-full flex text-slate-200 items-center h-[4vh]`}
+        className={`w-full flex text-slate-200 items-center h-fit`}
         data-collapse-target="collapse"
         onSubmit={(e) => handleSubmit(e)}
       >

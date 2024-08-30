@@ -7,7 +7,6 @@ import Results from "../Results";
 import Browser from "../Browser";
 import SearchBar from "./SearchBar";
 import QueryStats from "../QueryStats";
-
 export default function Search({
   search,
   setSearch,
@@ -28,11 +27,10 @@ export default function Search({
   isOnReddit,
   setIsOnReddit,
   loading,
-  setLoading,
+  setLoading
 }) {
   const data = useSelector((state) => state.search.data);
   const results = useSelector((state) => state.results.results);
-
   // const [geolocation, setGeolocation] = useState({ lat: 0, lng: 0 });
   const [preview, setPreview] = useState("");
   const [showResult, setShowResult] = useState(false);
@@ -44,11 +42,8 @@ export default function Search({
   const [status, setStatus] = useState("");
   const [pageNum, setPageNum] = useState(1);
   const [totalPages, setTotalPages] = useState(null);
-
   const docExtensions = ["pdf", "ppt", "doc", "docx"];
-
   const dispatch = useDispatch();
-
   //Only fetch data if link is not a file
   useEffect(() => {
     if (preview) {
@@ -56,14 +51,15 @@ export default function Search({
 
       dispatch(resultActions.getRecentVisitedResults());
     }
+
   }, [preview, dispatch]);
 
   useEffect(() => {
-    console.log("this fired");
-    setIsRedditShared(false);
-    setLoading(false);
-    setIsOnReddit(false);
-  }, [preview]);
+    console.log('this fired')
+    setIsRedditShared(false)
+    setLoading(false)
+    setIsOnReddit(false)
+  },[preview])
 
   //Grab index of the last result to start next load
   useEffect(() => {
@@ -72,7 +68,6 @@ export default function Search({
       setStart(lastResultIndex);
     }
   }, [results]);
-
   const handleNextPage = () => {
     setLoadingResults(true);
     dispatch(
@@ -88,7 +83,6 @@ export default function Search({
       if (data.results && data.results.info.totalPages) {
         setTotalPages(data.results.info.totalPages);
       }
-
       if (data.results) {
         setPageNum(pageNum + 1);
         setVisitedResults([]);
@@ -97,7 +91,6 @@ export default function Search({
       }
     });
   };
-
   const handlePreviousPage = () => {
     setLoadingResults(true);
     dispatch(
@@ -121,7 +114,6 @@ export default function Search({
       }
     });
   };
-
   const goToPage = (e) => {
     e.preventDefault();
     setLoadingResults(true);
@@ -138,13 +130,11 @@ export default function Search({
       if (data.results && data.results.info.totalPages) {
         setTotalPages(data.results.info.totalPages);
       }
-
       setVisitedResults([]);
       setCurrentSelected(null);
       setLoadingResults(false);
     });
   };
-
   const shareToReddit = async (setIsOnReddit) => {
     setLoading(true);
     const baseUrl = (
@@ -154,14 +144,12 @@ export default function Search({
     )
       .join("")
       .split("/")[0];
-
     try {
       const res = await fetch(
         `https://api.pullpush.io/reddit/search/submission/?subreddit=opendirectories&q=${baseUrl}`
       );
       const data = await res.json();
       let foundRedditPost = false;
-
       for (let redditPost of data.data) {
         if (redditPost.selftext.includes(baseUrl)) {
           foundRedditPost = true;
@@ -169,16 +157,11 @@ export default function Search({
           break;
         }
       }
-
       setLoading(false);
 
       if (!foundRedditPost) {
-        const fullurl =
-          (preview.includes("https://") ? "https://" : "http://") + baseUrl;
-        window.open(
-          `https://new.reddit.com/r/opendirectories/submit?text=[${fullurl}](${fullurl})%0A%0AFound using [SearchDeck](https://searchdeck.onRender.com)&title=BE SURE TO EDIT URL AND INCLUDE PATH TO INDEX BEFORE POSTING`,
-          "_blank"
-        );
+        const fullurl = (preview.includes('https://') ? 'https://' : 'http://') + baseUrl;
+        window.open(`https://new.reddit.com/r/opendirectories/submit?text=[${fullurl}](${fullurl})%0A%0AFound using [SearchDeck](https://searchdeck.onRender.com)&title=BE SURE TO EDIT URL AND INCLUDE PATH TO INDEX BEFORE POSTING`, '_blank');
         setIsRedditShared(true);
       }
     } catch (error) {
@@ -186,17 +169,13 @@ export default function Search({
       setLoading(false);
     }
   };
-
   return (
     //KEEP CLASS AS IS
     <div
-      className={`flex flex-col bg-slate-900 w-full h-${
-        isMobile ? "[95vh]" : "screen"
-      } items-end p-2 z-60`}
+      className={`flex flex-col bg-slate-900 w-screen h-[95vh] px-2 pt-2`}
       id="search-bar"
     >
-      {/* {isMobile ? <div className="h-14"></div> : <></>} */}
-
+      {/* {isMobile ? <div className="h-[5vh]"></div> : <></>} */}
       <SearchBar
         query={query}
         setQuery={setQuery}
@@ -218,18 +197,15 @@ export default function Search({
         setPageNum={setPageNum}
         setShowResult={setShowResult}
       />
-
       {results && search ? (
         <>
           <div
-            className={`rounded text-slate-200 h-fit w-screen flex flex-row justify-content-${
-              showResult ? "start" : "center"
-            }`}
+            className={`rounded text-slate-200 h-fit w-full flex flex-row justify-content-${showResult ? 'start' : 'center'}`}
             id="result-header"
           >
             <div
               className={`flex justify-content-center justify-self-start py-2 ${
-                isMobile ? "w-full" : showResult ? "w-1/2" : ""
+                isMobile ? 'w-full' : (showResult ? "w-1/2" : "")
               }`}
             >
               <div className="flex flex-row w-fit items-center">
@@ -278,12 +254,7 @@ export default function Search({
             {showResult && isIndex ? (
               <div className="w-1/2 flex justify-content-end items-center">
                 {!isRedditShared && !isOnReddit && !loading ? (
-                  <p
-                    onClick={async () => await shareToReddit(setIsOnReddit)}
-                    className="bg-orange-600 rounded px-1 border-2 border-white-400 hover:bg-orange-700 cursor-pointer"
-                  >
-                    Share to Reddit
-                  </p>
+                  <p onClick={async() => await shareToReddit(setIsOnReddit)} className="bg-orange-600 rounded px-1 border-2 border-white-400 hover:bg-orange-700 cursor-pointer">Share to Reddit</p>
                 ) : (
                   <></>
                 )}
@@ -299,16 +270,12 @@ export default function Search({
                   <></>
                 )}
                 {isRedditShared && !isOnReddit && !loading ? (
-                  <p className="bg-orange-600 rounded px-1 border-2 border-white-400 ">
-                    Shared to Reddit
-                  </p>
+                  <p className="bg-orange-600 rounded px-1 border-2 border-white-400 ">Shared to Reddit</p>
                 ) : (
                   <></>
                 )}
                 {!isRedditShared && isOnReddit && !loading ? (
-                  <p className="bg-orange-600 rounded px-1 border-2 border-white-400 ">
-                    Already on Reddit
-                  </p>
+                  <p className="bg-orange-600 rounded px-1 border-2 border-white-400 ">Already on Reddit</p>
                 ) : (
                   <></>
                 )}
@@ -318,11 +285,7 @@ export default function Search({
             )}
           </div>
           <div className="flex w-full h-full overflow-auto">
-            <div
-              className={`w-full h-full flex flex-${
-                isMobile ? "col grid grid-rows-2 gap-1" : "row"
-              } overflow-none`}
-            >
+            <div className={`w-full h-full flex flex-${isMobile ? 'col grid grid-rows-2 gap-1' : 'row'} overflow-none`}>
               <Results
                 setPreview={setPreview}
                 preview={preview}
@@ -350,20 +313,18 @@ export default function Search({
                 setLoadingResults={setLoadingResults}
                 setIsIndex={setIsIndex}
               />
-              {showResult && preview ? (
+              {((showResult && preview)) ? (
                 <Browser
                   preview={preview}
                   setPreview={setPreview}
                   isIndex={isIndex}
                 />
-              ) : (
-                <></>
-              )}
+              ) : <></>}
             </div>
           </div>
         </>
       ) : (
-          <div className=" flex h-full w-full overflow-hidden pt-2">
+        <div className="h-full w-full overflow-hidden pt-2">
           <QueryStats setQuery={setQuery} setString={setString} />
         </div>
       )}
