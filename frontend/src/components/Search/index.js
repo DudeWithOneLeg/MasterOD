@@ -187,7 +187,7 @@ export default function Search({
   return (
     //KEEP CLASS AS IS
     <div
-      className={`flex flex-col bg-slate-900 w-full md:h-[95vh] h-screen items-end p-2`}
+      className={`flex flex-col bg-slate-900 w-full md:h-[95vh] lg:h-screen items-end p-2`}
       id="search-bar"
     >
 
