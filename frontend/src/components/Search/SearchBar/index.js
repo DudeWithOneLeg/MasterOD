@@ -92,16 +92,16 @@ export default function SearchBar({
 
   return (
     <div
-      className={`w-full h-${isMobile ? '12' : 'fit'} divide-y divide-slate-500 bg-slate-700 border-2 border-slate-600 flex flex-col font-bold rounded transition-all duration-300 ease-in-out items-center justify-center`}
+      className={`w-full divide-y divide-slate-500 bg-slate-700 border-2 border-slate-600 flex flex-col font-bold rounded transition-all duration-300 ease-in-out items-center justify-center`}
       id="search-bar-inner"
       data-collapse="collapse"
     >
       <form
-        className={`w-full flex text-slate-200 items-center`}
+        className={`w-full flex text-slate-200 items-center h-fit`}
         data-collapse-target="collapse"
         onSubmit={(e) => handleSubmit(e)}
       >
-        <div className="flex items-center w-full h-fit justify-content-between p-2">
+        <div className={`flex items-center w-full h-${isMobile ? 'fit' : 'fit'} justify-content-between p-2`}>
           <div
             className={`flex flex-row h-fit items-center ${
               isMobile ? "w-full" : "w-3/4"
@@ -115,8 +115,8 @@ export default function SearchBar({
               onClick={() => setShowOptions(!showOptions)}
               alt="show options"
             />
-            <div className={`flex flex-row jusitfy-center h-8 w-full items-center`}>
-              <div className={`flex w-full bg-slate-600 rounded-full px-2 py-1 justify-between items-center h-full mr-1`}>
+            <div className={`flex flex-row jusitfy-center h-fit w-full items-center`}>
+              <div className={`flex w-full bg-slate-600 rounded-full px-2 py-1 justify-between items-center h-8 mr-1`}>
                 <input
                   placeholder="Search"
                   className={`p-1 bg-slate-600 rounded w-full outline-none h-full`}
@@ -127,7 +127,7 @@ export default function SearchBar({
                 />
                 <img
                   src={clearText}
-                  className="h-8"
+                  className="h-full"
                   onClick={() => setString("")}
                 />
               </div>
