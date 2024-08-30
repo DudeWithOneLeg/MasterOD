@@ -8,8 +8,8 @@ import { googleSettings } from "./GoogleSettings/googleSettings";
 import * as searchActions from "../../../store/search";
 import * as resultActions from "../../../store/result";
 import { isMobile } from "react-device-detect";
-const clearText = require('../../../assets/images/clear.png')
-const searchIcon = require("../../../assets/images/search.png")
+const clearText = require("../../../assets/images/clear.png");
+const searchIcon = require("../../../assets/images/search.png");
 
 export default function SearchBar({
   query,
@@ -92,7 +92,7 @@ export default function SearchBar({
 
   return (
     <div
-      className={`w-full divide-y divide-slate-500 bg-slate-700 border-2 border-slate-600 flex flex-col font-bold rounded transition-all duration-300 ease-in-out items-center justify-center`}
+      className={`w-full h-${isMobile ? '12' : 'fit'} divide-y divide-slate-500 bg-slate-700 border-2 border-slate-600 flex flex-col font-bold rounded transition-all duration-300 ease-in-out items-center justify-center`}
       id="search-bar-inner"
       data-collapse="collapse"
     >
@@ -101,11 +101,15 @@ export default function SearchBar({
         data-collapse-target="collapse"
         onSubmit={(e) => handleSubmit(e)}
       >
-        <div className="flex items-center w-full h-[4vh] fit justify-content-between p-2">
-          <div className={`flex flex-row h-fit items-center ${isMobile ? 'w-full' : 'w-3/4'}`}>
+        <div className="flex items-center w-full h-fit justify-content-between p-2">
+          <div
+            className={`flex flex-row h-fit items-center ${
+              isMobile ? "w-full" : "w-3/4"
+            }`}
+          >
             <img
               src={require("../../../assets/images/arrow-forward-2.png")}
-              className={`h-[2.5vh] w-8 flex flex-row transition-all duration-300 ease-in-out z-20 ${
+              className={`h-8 w-8 flex flex-row transition-all duration-300 ease-in-out z-20 ${
                 showOptions ? "rotate-90" : ""
               } cursor-pointer`}
               onClick={() => setShowOptions(!showOptions)}
@@ -116,11 +120,16 @@ export default function SearchBar({
                 <input
                   placeholder="Search"
                   className={`p-1 bg-slate-600 rounded w-full outline-none h-full`}
+
                   value={string}
                   onChange={(e) => setString(e.target.value)}
                   onClick={() => setShowOptions(true)}
                 />
-                <img src={clearText} className="h-full" onClick={() => setString('')}/>
+                <img
+                  src={clearText}
+                  className="h-8"
+                  onClick={() => setString("")}
+                />
               </div>
             </div>
           </div>
@@ -136,44 +145,47 @@ export default function SearchBar({
                 <p
                   className={`text-white rounded h-8 flex align-items-center hover:text-slate-900 cursor-pointer`}
                   onClick={() => setQuery([])}
-                  >
+                >
                   Clear
                 </p>
               </div>
             ) : (
               <></>
             )}
-            {isMobile ? <></> : <div className="flex flex-row justify-center items-center">
-              <p className="text-center">Engine:</p>
-              <label className="flex items-center h-8 m-0">
-
-                <select
-                  onClick={(e) => setEngine(e.target.value)}
-                  className="bg-slate-500 rounded ml-1 cursor-pointer"
-                >
-                  <option
-                    selected
-                    defaultValue="Google"
-                    onClick={() => setEngine("Google")}
+            {isMobile ? (
+              <></>
+            ) : (
+              <div className="flex flex-row justify-center items-center">
+                <p className="text-center">Engine:</p>
+                <label className="flex items-center h-8 m-0">
+                  <select
+                    onClick={(e) => setEngine(e.target.value)}
+                    className="bg-slate-500 rounded ml-1 cursor-pointer"
                   >
-                    Google
-                  </option>
-                  {/* <option value={"Baidu"}>Baidu</option> */}
-                  <option value={"Bing"} onClick={() => setEngine("Bing")}>
-                    Bing
-                  </option>
-                  {/* <option value={"Yandex"}>Yandex</option> */}
-                </select>
-              </label>
-            </div>}
+                    <option
+                      selected
+                      defaultValue="Google"
+                      onClick={() => setEngine("Google")}
+                    >
+                      Google
+                    </option>
+                    {/* <option value={"Baidu"}>Baidu</option> */}
+                    <option value={"Bing"} onClick={() => setEngine("Bing")}>
+                      Bing
+                    </option>
+                    {/* <option value={"Yandex"}>Yandex</option> */}
+                  </select>
+                </label>
+              </div>
+            )}
           </div>
         </div>
         {(query && query.length) || string ? (
           <button
-          className="flex justify-self-end px-3 py-1 mx-1 bg-slate-800 rounded hover:bg-slate-600 outline-none"
+            className="flex justify-self-end px-3 py-1 mx-1 bg-slate-800 rounded hover:bg-slate-600 outline-none"
             type="submit"
-            >
-              <img src={searchIcon} className="h-6"/>
+          >
+            <img src={searchIcon} className="h-6" />
             {/* <button className="focus:outline-none">Search</button> */}
           </button>
         ) : (
@@ -235,9 +247,11 @@ export default function SearchBar({
               />
             ))}
           </div>
-          <div className={`w-${
+          <div
+            className={`w-${
               isMobile ? "full" : "1/3"
-            } h-full divide-y divide-slate-500`}>
+            } h-full divide-y divide-slate-500`}
+          >
             {(engine === "Google" || engine === "Bing") && (
               <div className="p-2">
                 <select
@@ -285,28 +299,32 @@ export default function SearchBar({
                 ))}
               </select>
             </div>
-            {isMobile ? <div className="flex flex-row text-white p-2">
-              <label className="h-fit m-0">
-                Search Engine:
-                <select
-                  onClick={(e) => setEngine(e.target.value)}
-                  className="bg-slate-500 rounded ml-1 cursor-pointer"
-                >
-                  <option
-                    selected
-                    defaultValue="Google"
-                    onClick={() => setEngine("Google")}
+            {isMobile ? (
+              <div className="flex flex-row text-white p-2">
+                <label className="h-fit m-0">
+                  Search Engine:
+                  <select
+                    onClick={(e) => setEngine(e.target.value)}
+                    className="bg-slate-500 rounded ml-1 cursor-pointer"
                   >
-                    Google
-                  </option>
-                  {/* <option value={"Baidu"}>Baidu</option> */}
-                  <option value={"Bing"} onClick={() => setEngine("Bing")}>
-                    Bing
-                  </option>
-                  {/* <option value={"Yandex"}>Yandex</option> */}
-                </select>
-              </label>
-            </div> : <></>}
+                    <option
+                      selected
+                      defaultValue="Google"
+                      onClick={() => setEngine("Google")}
+                    >
+                      Google
+                    </option>
+                    {/* <option value={"Baidu"}>Baidu</option> */}
+                    <option value={"Bing"} onClick={() => setEngine("Bing")}>
+                      Bing
+                    </option>
+                    {/* <option value={"Yandex"}>Yandex</option> */}
+                  </select>
+                </label>
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       )}
