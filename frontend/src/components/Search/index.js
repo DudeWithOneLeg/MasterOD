@@ -44,6 +44,20 @@ export default function Search({
   const [status, setStatus] = useState("");
   const [pageNum, setPageNum] = useState(1);
   const [totalPages, setTotalPages] = useState(null);
+  const [width, setWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup event listener on component unmount
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   const docExtensions = ["pdf", "ppt", "doc", "docx"];
 
@@ -187,9 +201,10 @@ export default function Search({
   return (
     //KEEP CLASS AS IS
     <div
-      className={`flex flex-col bg-slate-900 w-full md:h-[95vh] lg:h-screen items-end p-2`}
+      className={`flex flex-col bg-slate-900 w-full sm:h-[95vh] md:h-[95vh] lg:[95vh] xl:h-screen items-end p-2`}
       id="search-bar"
     >
+
 
       <SearchBar
         query={query}
@@ -212,7 +227,10 @@ export default function Search({
         setPageNum={setPageNum}
         setShowResult={setShowResult}
       />
+<p className="text-white">
 
+{'debug: '+ width}
+</p>
       {results && search ? (
         <>
           <div
@@ -344,6 +362,7 @@ export default function Search({
           <QueryStats setQuery={setQuery} setString={setString} />
 
       )}
+
     </div>
   );
 }
