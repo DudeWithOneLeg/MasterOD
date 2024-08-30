@@ -324,7 +324,9 @@ export default function Search({
           </div>
         </>
       ) : (
+        <div className="h-full w-full overflow-hidden pt-2">
           <QueryStats setQuery={setQuery} setString={setString} />
+        </div>
       )}
     </div>
   );
