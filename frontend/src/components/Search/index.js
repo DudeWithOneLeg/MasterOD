@@ -172,10 +172,10 @@ export default function Search({
   return (
     //KEEP CLASS AS IS
     <div
-      className={`flex flex-col bg-slate-900 w-screen h-${isMobile ? '[95vh]' : 'screen'} px-2 pt-2`}
+      className={`flex flex-col bg-slate-900 w-screen h-screen px-2 pt-2`}
       id="search-bar"
     >
-      {/* {isMobile ? <div className="h-[5vh]"></div> : <></>} */}
+      {isMobile ? <div className="h-[5vh]"></div> : <></>}
       <SearchBar
         query={query}
         setQuery={setQuery}
@@ -324,7 +324,9 @@ export default function Search({
           </div>
         </>
       ) : (
+        <div className="h-full w-full overflow-hidden pt-2">
           <QueryStats setQuery={setQuery} setString={setString} />
+        </div>
       )}
     </div>
   );
