@@ -101,7 +101,7 @@ export default function SearchBar({
         data-collapse-target="collapse"
         onSubmit={(e) => handleSubmit(e)}
       >
-        <div className={`flex items-center w-full h-${isMobile ? 'fit' : 'fit'} justify-content-between p-2`}>
+        <div className={`flex items-center w-full h-fit justify-content-between p-2`}>
           <div
             className={`flex flex-row h-fit items-center ${
               isMobile ? "w-full" : "w-3/4"
