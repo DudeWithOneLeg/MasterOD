@@ -40,7 +40,7 @@ export default function QueryPage({ setQuery, setString}) {
   }
 
   return (
-    <div className="flex bg-slate-900 pt-2 h-full overflow-hidden">
+    <div className="flex bg-slate-900 pt-2 h-full w-full overflow-hidden">
 
       <div className="w-full h-full flex flex-col text-slate-200 bg-slate-700 rounded">
         <div className="px-2 flex flex-col">

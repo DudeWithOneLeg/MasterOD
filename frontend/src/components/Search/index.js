@@ -187,7 +187,7 @@ export default function Search({
   return (
     //KEEP CLASS AS IS
     <div
-      className={`flex flex-col bg-slate-900 w-full h-[95vh] items-end p-2`}
+      className={`flex flex-col bg-slate-900 w-full h-${isMobile ? '[95vh]' : 'screen'} items-end p-2`}
       id="search-bar"
     >
 
@@ -342,7 +342,7 @@ export default function Search({
       ) : (
 
           <QueryStats setQuery={setQuery} setString={setString} />
-        
+
       )}
     </div>
   );
