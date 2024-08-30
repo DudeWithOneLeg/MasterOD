@@ -55,12 +55,10 @@ function App() {
 
           </Routes>
         ) : (
-          <div className="">
             <Routes>
               <Route path="/" element={<WelcomePage />}/>
             </Routes>
 
-          </div>
         )}
 
 

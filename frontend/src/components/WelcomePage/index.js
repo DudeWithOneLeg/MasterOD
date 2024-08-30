@@ -15,7 +15,7 @@ export default function WelcomePage() {
     // },[])
 
     return (
-        <div className="text-white p-2 flex flex-col w-full align-items-center h-fit overflow-y-scroll">
+        <div className="text-white p-2 flex flex-col w-full align-items-center h-screen  no-scrollbar overflow-y-scroll">
 
             <div className="flex flex-col w-1/3 justify-self-center rounded">
             <div className="text-lg w-full flex justify-content-center items-center h-40">
