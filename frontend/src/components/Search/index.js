@@ -201,7 +201,7 @@ export default function Search({
   return (
     //KEEP CLASS AS IS
     <div
-      className={`flex flex-col bg-slate-900 w-full sm:h-[95vh] md:h-[95vh] lg:[95vh] xl:h-screen items-end p-2`}
+      className={`flex flex-col bg-slate-900 w-full ${width < 640 ? 'h-[95vh]' : 'sm:h-[95vh] md:h-[95vh] lg:[95vh] xl:h-screen'} items-end p-2`}
       id="search-bar"
     >
 
@@ -227,10 +227,7 @@ export default function Search({
         setPageNum={setPageNum}
         setShowResult={setShowResult}
       />
-<p className="text-white">
 
-{'debug: '+ width}
-</p>
       {results && search ? (
         <>
           <div
