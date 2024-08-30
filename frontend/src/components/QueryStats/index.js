@@ -40,7 +40,7 @@ export default function QueryPage({ setQuery, setString}) {
   }
 
   return (
-    <div className="w-full h-full flex flex-col text-slate-200 bg-slate-700 rounded">
+    <div className="w-full h-full flex flex-col text-slate-200 bg-slate-700 rounded overflow-hidden">
       <div className="px-2 flex flex-col">
         <form onSubmit={(e) => handleSubmit(e)} className={`flex self-center justify-self-center justify-content-between rounded ${isMobile ? '1/2' : 'w-1/3'} my-2 px-2 bg-white`}>
           <input
