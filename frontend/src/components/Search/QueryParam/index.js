@@ -31,7 +31,7 @@ export default function QueryParam({ param, query, setQuery, index }) {
 
   return (
     <div
-      className={`p-1 flex justify-content-end items-center rounded mr-1 h-fit w-fit ${
+      className={`p-1 flex justify-content-end items-center rounded mr-1 mt-1 h-fit w-fit ${
         param.split(":")[0].includes("-") ? "bg-red-400" : "bg-slate-500"
       }`}
       o
