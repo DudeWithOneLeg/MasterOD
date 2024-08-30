@@ -40,9 +40,9 @@ function App() {
   }, [user]);
 
   return (
-      <div className={`min-h-screen min-w-screen flex flex-${isMobile ? 'col pb-safeb pt-safet' : 'row'}`}>
+      <div className={`min-h-screen min-w-screen flex flex-${isMobile ? 'col' : 'row'}`}>
           <SideBar setSearch={setSearch} setQuery={setQuery} setString={setString}/>
-
+          {isMobile ? <div className="h-[5vh]"></div> : <></>}
 
         {isLoaded && user ? (
           <Routes>
@@ -55,7 +55,7 @@ function App() {
 
           </Routes>
         ) : (
-          <div className="overflow-y-scroll">
+          <div className="">
             <Routes>
               <Route path="/" element={<WelcomePage />}/>
             </Routes>
