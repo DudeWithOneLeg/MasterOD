@@ -17,7 +17,7 @@ export default function MobileSideBar({ setSearch }) {
   };
 
   return (
-    <div className="text-white w-screen bg-slate-800 absolute h-14 z-20">
+    <div className="text-white w-screen bg-slate-800 absolute h-[5vh] z-20">
       {user ? (
         <div className="flex flex-row justify-content-between items-center h-full">
           <div className="flex flex-row items-center">
