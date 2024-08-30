@@ -198,7 +198,7 @@ export default function SearchBar({
         )}
       </form>
       {(query && query.length) && isMobile && showOptions ? (
-              <div className="flex flex-row align-items-center justify-end p-1">
+              <div className="flex flex-row align-items-center justify-end p-1 w-full">
                 <img
                   className="h-8 cursor-pointer px-1"
                   src={require("../../../assets/icons/save.png")}
@@ -217,7 +217,7 @@ export default function SearchBar({
             )}
               {query && showOptions && query.length
                   ?
-            <div className="flex flex-wrap p-1">
+            <div className="flex flex-wrap p-1 w-full">
               {query.map((param, index) => {
                       if (param.includes(":")) {
                         return (
@@ -236,7 +236,7 @@ export default function SearchBar({
         <div
         className={`flex flex-${
           isMobile ? "col" : "row"
-        } bg-slate-600 border-2 rounded`}
+        } bg-slate-600 border-2 rounded w-full`}
         >
           <div
             className={`divide-y divide-slate-500 w-${
