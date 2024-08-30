@@ -97,11 +97,11 @@ export default function SearchBar({
       data-collapse="collapse"
     >
       <form
-        className={`w-full flex text-slate-200 items-center`}
+        className={`w-full flex text-slate-200 items-center h-fit`}
         data-collapse-target="collapse"
         onSubmit={(e) => handleSubmit(e)}
       >
-        <div className={`flex items-center w-full h-${isMobile ? '[4vh]' : 'fit'} justify-content-between p-2`}>
+        <div className={`flex items-center w-full h-${isMobile ? '12' : 'fit'} justify-content-between p-2`}>
           <div
             className={`flex flex-row h-fit items-center ${
               isMobile ? "w-full" : "w-3/4"
@@ -109,13 +109,13 @@ export default function SearchBar({
           >
             <img
               src={require("../../../assets/images/arrow-forward-2.png")}
-              className={`h-[2.5vh] w-8 flex flex-row transition-all duration-300 ease-in-out z-20 ${
+              className={`h-8 w-8 flex flex-row transition-all duration-300 ease-in-out z-20 ${
                 showOptions ? "rotate-90" : ""
               } cursor-pointer`}
               onClick={() => setShowOptions(!showOptions)}
               alt="show options"
             />
-            <div className={`flex flex-row jusitfy-center h-[2vh] w-full items-center`}>
+            <div className={`flex flex-row jusitfy-center h-8 w-full items-center`}>
               <div className={`flex w-full bg-slate-600 rounded-full px-2 py-1 justify-between items-center h-full mr-1`}>
                 <input
                   placeholder="Search"
