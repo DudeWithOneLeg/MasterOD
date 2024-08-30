@@ -75,43 +75,49 @@ export default function QueryPage({ setQuery, setString}) {
                 <option>50</option>
                 <option>100</option>
               </select>
-          </div>
-        </div>
-        <div className="flex flex-row grid grid-cols-9  justify-content-between py-2 px-1 w-full">
-          <p className={`col-span-6 text-${isMobile ? 'sm' : 'lg'} text-center`}>Query</p>
-          <p className={`col-span-2 text-${isMobile ? 'sm' : 'lg'} text-center`}>Date</p>
-          <p className={`col-span-1 text-${isMobile ? 'sm' : 'lg'} text-center`}>Engine</p>
-        </div>
-        <div className="h-full overflow-y-hidden rounded border-2 border-slate-600 bg-slate-800">
-          <div className="flex flex-col divide divide-y h-full overflow-y-scroll">
-            {queries && Object.values(queries).length ? (
-              viewAll ? (
-                Object.values(queries)
-                  .reverse()
-                  .map((query) => {
-                    return (
-                      <QueryRow query={query} setString={setString} setQuery={setQuery}/>
-                    );
-                })
-              ) : (
-                Object.values(queries)
-                .reverse()
-                  .map((query) => {
-                  if (query.saved) {
-                    return (
-                      <QueryRow query={query} setString={setString} setQuery={setQuery}/>
-                    );
-                  }
-                  return
-                })
-              )
-            ) : (
-              <></>
-            )}
-          </div>
-        </div>
 
+          </div>
+            <select className="mx-2 text-slate-600 cursor-pointer rounded" onChange={(e) => setLimit(Number(e.target.value))} value={limit}>
+              <option>25</option>
+              <option>50</option>
+              <option>100</option>
+            </select>
+        </div>
       </div>
+      <div className="flex flex-row grid grid-cols-9  justify-content-between py-2 px-1 w-full">
+        <p className={`col-span-6 text-${isMobile ? 'sm' : 'lg'} text-center`}>Query</p>
+        <p className={`col-span-2 text-${isMobile ? 'sm' : 'lg'} text-center`}>Date</p>
+        <p className={`col-span-1 text-${isMobile ? 'sm' : 'lg'} text-center`}>Engine</p>
+      </div>
+      <div className=" h-full overflow-hidden rounded border-2 border-slate-600 bg-slate-800">
+        <div className="flex flex-col divide divide-y h-full overflow-y-scroll">
+          {queries && Object.values(queries).length ? (
+            viewAll ? (
+              Object.values(queries)
+                .reverse()
+                .map((query) => {
+                  return (
+                    <QueryRow query={query} setString={setString} setQuery={setQuery}/>
+                  );
+              })
+            ) : (
+              Object.values(queries)
+              .reverse()
+                .map((query) => {
+                if (query.saved) {
+                  return (
+                    <QueryRow query={query} setString={setString} setQuery={setQuery}/>
+                  );
+                }
+                return
+              })
+            )
+          ) : (
+            <></>
+          )}
+        </div>
+      </div>
+
     </div>
   );
 }

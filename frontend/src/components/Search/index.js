@@ -7,7 +7,6 @@ import Results from "../Results";
 import Browser from "../Browser";
 import SearchBar from "./SearchBar";
 import QueryStats from "../QueryStats";
-
 export default function Search({
   search,
   setSearch,
@@ -32,7 +31,6 @@ export default function Search({
 }) {
   const data = useSelector((state) => state.search.data);
   const results = useSelector((state) => state.results.results);
-
   // const [geolocation, setGeolocation] = useState({ lat: 0, lng: 0 });
   const [preview, setPreview] = useState("");
   const [showResult, setShowResult] = useState(false);
@@ -44,11 +42,8 @@ export default function Search({
   const [status, setStatus] = useState("");
   const [pageNum, setPageNum] = useState(1);
   const [totalPages, setTotalPages] = useState(null);
-
   const docExtensions = ["pdf", "ppt", "doc", "docx"];
-
   const dispatch = useDispatch();
-
   //Only fetch data if link is not a file
   useEffect(() => {
     if (preview) {
@@ -73,7 +68,6 @@ export default function Search({
       setStart(lastResultIndex);
     }
   }, [results]);
-
   const handleNextPage = () => {
     setLoadingResults(true);
     dispatch(
@@ -89,7 +83,6 @@ export default function Search({
       if (data.results && data.results.info.totalPages) {
         setTotalPages(data.results.info.totalPages);
       }
-
       if (data.results) {
         setPageNum(pageNum + 1);
         setVisitedResults([]);
@@ -98,7 +91,6 @@ export default function Search({
       }
     });
   };
-
   const handlePreviousPage = () => {
     setLoadingResults(true);
     dispatch(
@@ -122,7 +114,6 @@ export default function Search({
       }
     });
   };
-
   const goToPage = (e) => {
     e.preventDefault();
     setLoadingResults(true);
@@ -139,13 +130,11 @@ export default function Search({
       if (data.results && data.results.info.totalPages) {
         setTotalPages(data.results.info.totalPages);
       }
-
       setVisitedResults([]);
       setCurrentSelected(null);
       setLoadingResults(false);
     });
   };
-
   const shareToReddit = async (setIsOnReddit) => {
     setLoading(true);
     const baseUrl = (
@@ -155,14 +144,12 @@ export default function Search({
     )
       .join("")
       .split("/")[0];
-
     try {
       const res = await fetch(
         `https://api.pullpush.io/reddit/search/submission/?subreddit=opendirectories&q=${baseUrl}`
       );
       const data = await res.json();
       let foundRedditPost = false;
-
       for (let redditPost of data.data) {
         if (redditPost.selftext.includes(baseUrl)) {
           foundRedditPost = true;
@@ -170,7 +157,6 @@ export default function Search({
           break;
         }
       }
-
       setLoading(false);
 
       if (!foundRedditPost) {
@@ -183,14 +169,14 @@ export default function Search({
       setLoading(false);
     }
   };
-
   return (
     //KEEP CLASS AS IS
     <div
       className={`flex flex-col bg-slate-900 w-full h-${isMobile ? '[95vh]' : 'screen'} items-end p-2`}
+
       id="search-bar"
     >
-
+      {isMobile ? <div className="h-[5vh]"></div> : <></>}
       <SearchBar
         query={query}
         setQuery={setQuery}
@@ -212,7 +198,6 @@ export default function Search({
         setPageNum={setPageNum}
         setShowResult={setShowResult}
       />
-
       {results && search ? (
         <>
           <div
@@ -340,7 +325,6 @@ export default function Search({
           </div>
         </>
       ) : (
-
           <QueryStats setQuery={setQuery} setString={setString} />
 
       )}
