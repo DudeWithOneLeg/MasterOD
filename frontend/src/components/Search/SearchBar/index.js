@@ -92,35 +92,35 @@ export default function SearchBar({
 
   return (
     <div
-      className={`w-full divide-y divide-slate-500 bg-slate-700 border-2 border-slate-600 flex flex-col font-bold rounded transition-all duration-300 ease-in-out`}
+      className={`w-full divide-y divide-slate-500 bg-slate-700 border-2 border-slate-600 flex flex-col font-bold rounded transition-all duration-300 ease-in-out items-center justify-center`}
       id="search-bar-inner"
       data-collapse="collapse"
     >
       <form
-        className={`w-full flex text-slate-200 items-center h-fit`}
+        className={`w-full flex text-slate-200 items-center`}
         data-collapse-target="collapse"
         onSubmit={(e) => handleSubmit(e)}
       >
-        <div className="flex items-center w-full h-fit justify-content-between p-2">
+        <div className="flex items-center w-full h-[4vh] fit justify-content-between p-2">
           <div className={`flex flex-row h-fit items-center ${isMobile ? 'w-full' : 'w-3/4'}`}>
             <img
               src={require("../../../assets/images/arrow-forward-2.png")}
-              className={`h-8 w-8 flex flex-row transition-all duration-300 ease-in-out z-20 ${
+              className={`h-[2.5vh] w-8 flex flex-row transition-all duration-300 ease-in-out z-20 ${
                 showOptions ? "rotate-90" : ""
               } cursor-pointer`}
               onClick={() => setShowOptions(!showOptions)}
               alt="show options"
             />
-            <div className="flex flex-row jusitfy-center h-fit w-full items-center">
-              <div className={`flex w-full bg-slate-600 rounded justify-between items-center h-8 mr-1`}>
+            <div className={`flex flex-row jusitfy-center h-[${isMobile ? '2vh' : '3vh'}] w-full items-center`}>
+              <div className={`flex w-full bg-slate-${isMobile ? '700' : '600'} rounded-full px-2 py-1 justify-between items-center h-full mr-1`}>
                 <input
                   placeholder="Search"
-                  className="p-1 bg-slate-600 rounded w-full outline-none"
+                  className={`p-1 bg-slate-${isMobile ? '700' : '600'} rounded w-full outline-none h-full`}
                   value={string}
                   onChange={(e) => setString(e.target.value)}
                   onClick={() => setShowOptions(true)}
                 />
-                <img src={clearText} className="h-8" onClick={() => setString('')}/>
+                <img src={clearText} className="h-full" onClick={() => setString('')}/>
               </div>
               {/* {query && !isMobile && query.length
                 ? query.map((param, index) => {
