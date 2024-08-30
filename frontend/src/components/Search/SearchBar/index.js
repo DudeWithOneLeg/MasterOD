@@ -112,7 +112,7 @@ export default function SearchBar({
               alt="show options"
             />
             <div className={`flex flex-row jusitfy-center h-[${isMobile ? '2vh' : '3vh'}] w-full items-center`}>
-              <div className={`flex w-full bg-slate-${isMobile ? '700' : '600'} rounded-full px-2 py-1 justify-between items-center h-full mr-1`}>
+              <div className={`flex w-full bg-slate-${isMobile ? '700' : '600'} rounded-full px-2 py-1 justify-between items-center h-8 mr-1`}>
                 <input
                   placeholder="Search"
                   className={`p-1 bg-slate-${isMobile ? '700' : '600'} rounded w-full outline-none h-full`}
@@ -236,7 +236,7 @@ export default function SearchBar({
         <div
         className={`flex flex-${
           isMobile ? "col" : "row"
-        } bg-slate-600 border-2 rounded`}
+        } bg-slate-600 border-2 rounded w-full`}
         >
           <div
             className={`divide-y divide-slate-500 w-${
