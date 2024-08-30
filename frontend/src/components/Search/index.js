@@ -28,7 +28,7 @@ export default function Search({
   isOnReddit,
   setIsOnReddit,
   loading,
-  setLoading
+  setLoading,
 }) {
   const data = useSelector((state) => state.search.data);
   const results = useSelector((state) => state.results.results);
@@ -56,15 +56,14 @@ export default function Search({
 
       dispatch(resultActions.getRecentVisitedResults());
     }
-
   }, [preview, dispatch]);
 
   useEffect(() => {
-    console.log('this fired')
-    setIsRedditShared(false)
-    setLoading(false)
-    setIsOnReddit(false)
-  },[preview])
+    console.log("this fired");
+    setIsRedditShared(false);
+    setLoading(false);
+    setIsOnReddit(false);
+  }, [preview]);
 
   //Grab index of the last result to start next load
   useEffect(() => {
@@ -174,8 +173,12 @@ export default function Search({
       setLoading(false);
 
       if (!foundRedditPost) {
-        const fullurl = (preview.includes('https://') ? 'https://' : 'http://') + baseUrl;
-        window.open(`https://new.reddit.com/r/opendirectories/submit?text=[${fullurl}](${fullurl})%0A%0AFound using [SearchDeck](https://searchdeck.onRender.com)&title=BE SURE TO EDIT URL AND INCLUDE PATH TO INDEX BEFORE POSTING`, '_blank');
+        const fullurl =
+          (preview.includes("https://") ? "https://" : "http://") + baseUrl;
+        window.open(
+          `https://new.reddit.com/r/opendirectories/submit?text=[${fullurl}](${fullurl})%0A%0AFound using [SearchDeck](https://searchdeck.onRender.com)&title=BE SURE TO EDIT URL AND INCLUDE PATH TO INDEX BEFORE POSTING`,
+          "_blank"
+        );
         setIsRedditShared(true);
       }
     } catch (error) {
@@ -187,9 +190,12 @@ export default function Search({
   return (
     //KEEP CLASS AS IS
     <div
-      className={`flex flex-col bg-slate-900 w-full h-${isMobile ? '[95vh]' : 'screen'} items-end p-2`}
+      className={`flex flex-col bg-slate-900 w-full h-${
+        isMobile ? "[95vh]" : "screen"
+      } items-end p-2`}
       id="search-bar"
     >
+      {/* {isMobile ? <div className="h-[5vh]"></div> : <></>} */}
 
       <SearchBar
         query={query}
@@ -216,12 +222,14 @@ export default function Search({
       {results && search ? (
         <>
           <div
-            className={`rounded text-slate-200 h-fit w-full flex flex-row justify-content-${showResult ? 'start' : 'center'}`}
+            className={`rounded text-slate-200 h-fit w-screen flex flex-row justify-content-${
+              showResult ? "start" : "center"
+            }`}
             id="result-header"
           >
             <div
               className={`flex justify-content-center justify-self-start py-2 ${
-                isMobile ? 'w-full' : (showResult ? "w-1/2" : "")
+                isMobile ? "w-full" : showResult ? "w-1/2" : ""
               }`}
             >
               <div className="flex flex-row w-fit items-center">
@@ -270,7 +278,12 @@ export default function Search({
             {showResult && isIndex ? (
               <div className="w-1/2 flex justify-content-end items-center">
                 {!isRedditShared && !isOnReddit && !loading ? (
-                  <p onClick={async() => await shareToReddit(setIsOnReddit)} className="bg-orange-600 rounded px-1 border-2 border-white-400 hover:bg-orange-700 cursor-pointer">Share to Reddit</p>
+                  <p
+                    onClick={async () => await shareToReddit(setIsOnReddit)}
+                    className="bg-orange-600 rounded px-1 border-2 border-white-400 hover:bg-orange-700 cursor-pointer"
+                  >
+                    Share to Reddit
+                  </p>
                 ) : (
                   <></>
                 )}
@@ -286,12 +299,16 @@ export default function Search({
                   <></>
                 )}
                 {isRedditShared && !isOnReddit && !loading ? (
-                  <p className="bg-orange-600 rounded px-1 border-2 border-white-400 ">Shared to Reddit</p>
+                  <p className="bg-orange-600 rounded px-1 border-2 border-white-400 ">
+                    Shared to Reddit
+                  </p>
                 ) : (
                   <></>
                 )}
                 {!isRedditShared && isOnReddit && !loading ? (
-                  <p className="bg-orange-600 rounded px-1 border-2 border-white-400 ">Already on Reddit</p>
+                  <p className="bg-orange-600 rounded px-1 border-2 border-white-400 ">
+                    Already on Reddit
+                  </p>
                 ) : (
                   <></>
                 )}
@@ -301,7 +318,11 @@ export default function Search({
             )}
           </div>
           <div className="flex w-full h-full overflow-auto">
-            <div className={`w-full h-full flex flex-${isMobile ? 'col grid grid-rows-2 gap-1' : 'row'} overflow-none`}>
+            <div
+              className={`w-full h-full flex flex-${
+                isMobile ? "col grid grid-rows-2 gap-1" : "row"
+              } overflow-none`}
+            >
               <Results
                 setPreview={setPreview}
                 preview={preview}
@@ -329,20 +350,20 @@ export default function Search({
                 setLoadingResults={setLoadingResults}
                 setIsIndex={setIsIndex}
               />
-              {((showResult && preview)) ? (
+              {showResult && preview ? (
                 <Browser
                   preview={preview}
                   setPreview={setPreview}
                   isIndex={isIndex}
                 />
-              ) : <></>}
+              ) : (
+                <></>
+              )}
             </div>
           </div>
         </>
       ) : (
-
           <QueryStats setQuery={setQuery} setString={setString} />
-
       )}
     </div>
   );
