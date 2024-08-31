@@ -23,7 +23,7 @@ export default function BrowserHeader({preview, component, setComponent}) {
         <div
           className={`bg-slate-${
             component === "browser" ? "400" : "600 hover:bg-slate-400"
-          } rounded mx-1 px-1 cursor-pointer`}
+          } rounded-t mx-1 px-1 cursor-pointer rounded-b-none`}
           onClick={() => setComponent("browser")}
         >
           Browser
@@ -31,7 +31,7 @@ export default function BrowserHeader({preview, component, setComponent}) {
         <div
           className={`bg-slate-${
             component === "archive" ? "400" : "600 hover:bg-slate-400"
-          } rounded mx-1 px-1 cursor-pointer`}
+          } rounded-t mx-1 px-1 cursor-pointer rounded-b-none`}
           onClick={() => setComponent("archive")}
         >
           Archive
@@ -40,7 +40,7 @@ export default function BrowserHeader({preview, component, setComponent}) {
           <div
             className={`bg-slate-${
               component === "analyze" ? "400" : "600 hover:bg-slate-400"
-            } rounded mx-1 px-1 cursor-pointer`}
+            } rounded-t mx-1 px-1 cursor-pointer rounded-b-none`}
             onClick={() => setComponent("analyze")}
           >
             Analyze w/ GPT-4
