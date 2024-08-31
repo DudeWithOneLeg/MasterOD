@@ -23,6 +23,7 @@ export default function QueryParam({ param, query, setQuery, index }) {
   useEffect(() => {
     if (param) {
       const newParam = param.split(":")[0] + ":" + paramValue;
+      console.log(query)
     const arr = query;
     arr[index] = newParam;
     setQuery(arr);

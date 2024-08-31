@@ -37,11 +37,11 @@ export default function MobileSideBar({ setSearch }) {
           />
         </div>
       ) : (
-        <div className="flex flex-row h-full items-center w-full">
-          <p className="p-1 rounded border border-1 border-white mx-1">Login</p>
+        <div className="flex flex-row h-full items-center justify-between w-full">
           <p className="p-1 rounded border border-1 border-white mx-1">
             Create an account
           </p>
+          <p className="p-1 rounded border border-1 border-white mx-1">Login</p>
         </div>
       )}
       {showMenu ? (
