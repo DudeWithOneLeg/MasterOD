@@ -4,13 +4,19 @@ const copyIcon = require('../../assets/images/copy.png')
 
 export default function BrowserHeader({preview, component, setComponent}) {
     const [copied, setCopied] = useState(false)
-
+  
     useEffect(() => {
         setCopied(false)
     },[])
 
       const copyToClipboard = () => {
-        navigator.clipboard.writeText(preview)
+        if (preview.includes('https://docs.google.com/gview?embedded=true&url=')) {
+          navigator.clipboard.writeText(preview.split('https://docs.google.com/gview?embedded=true&url=')[1])
+
+        }
+        else {
+          navigator.clipboard.writeText(preview)
+        }
         setCopied(true)
       };
       useEffect(() => {
