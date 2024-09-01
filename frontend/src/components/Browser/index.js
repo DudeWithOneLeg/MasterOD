@@ -9,8 +9,8 @@ export default function Browser({
   preview,
   setPreview
 }) {
-  const domRef = useRef(null);
   const [component, setComponent] = useState('')
+  const [displayUrl, setdisplayUrl] = useState('')
   const [components, setComponents] = useState({
     'browser': (props) => <iframe className="h-full w-full" src={props.url}/>,
     'archive': Archive ,
@@ -20,6 +20,7 @@ export default function Browser({
   })
   const docExtensions = ["ppt", "doc", "docx", "pdf"];
   useEffect(() => {
+    setdisplayUrl(preview)
   },[])
 
   useEffect(() => {
@@ -30,6 +31,7 @@ export default function Browser({
       !preview.includes("https://docs.google.com/viewerng") && !preview.includes('https://docs.google.com/gview?embedded=true&url=')
     ) {
       setPreview(`https://docs.google.com/gview?embedded=true&url=${preview}`);
+      setdisplayUrl(preview)
     }
     // if (isIndex) console.log('indexx')
   }, [preview]);
@@ -49,7 +51,7 @@ export default function Browser({
       className={`flex flex-col h-full w-full bg-slate-300 ${isMobile ? '' : 'ml-2'} p-1 rounded overflow-none`}
       // ref={parentRef}
     >
-      <BrowserHeader preview={preview} component={component} setComponent={setComponent}/>
+      <BrowserHeader preview={displayUrl} component={component} setComponent={setComponent}/>
       {component ? showComponent(component, preview) : <></>}
     </div>
   );

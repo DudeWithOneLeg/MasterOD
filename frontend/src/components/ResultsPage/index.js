@@ -55,7 +55,7 @@ export default function ResultsPage({
   }, [params]);
 
   return (
-    <div className="flex flex-col h-full w-full p-2">
+    <div className={`flex flex-col  w-full p-2 ${isMobile ? 'h-[95vh]' : 'h-screen'}`}>
       <div className={`flex items-center justify-content-center my-2 ${preview ? 'w-1/2' : ''}`}>
         <input
           className="w-1/2 rounded-full h-8 px-3 text-black"
