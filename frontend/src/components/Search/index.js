@@ -190,7 +190,7 @@ export default function Search({
 
       if (!foundRedditPost) {
         const fullurl = (preview.includes('https://') ? 'https://' : 'http://') + baseUrl;
-        window.open(`https://new.reddit.com/r/opendirectories/submit?text=[${fullurl}](${fullurl})%0A%0AFound using [SearchDeck](https://searchdeck.onRender.com)&title=BE SURE TO EDIT URL AND INCLUDE PATH TO INDEX BEFORE POSTING`, '_blank');
+        window.open(`https://new.reddit.com/r/opendirectories/submit?text=[${fullurl}](${fullurl})%0A%0AFound using [SearchDeck](http://search-deck.com)&title=BE SURE TO EDIT URL AND INCLUDE PATH TO INDEX BEFORE POSTING`, '_blank');
         setIsRedditShared(true);
       }
     } catch (error) {
