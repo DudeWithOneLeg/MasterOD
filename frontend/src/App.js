@@ -28,6 +28,9 @@ function App() {
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
   }, [dispatch]);
+  useEffect(() => {
+    console.log('Query updated:', query);
+  }, [query]);
 
   useEffect(() => {
     // dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
