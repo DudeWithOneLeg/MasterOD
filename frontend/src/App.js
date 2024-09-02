@@ -8,6 +8,8 @@ import SideBar from "./components/SideBar";
 import QueryStats from "./components/QueryStats";
 import ResultsPage from "./components/ResultsPage";
 import WelcomePage from "./components/WelcomePage";
+import LoginFormPage from "./components/LoginFormPage";
+import SignupFormPage from "./components/SignupFormPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -35,15 +37,15 @@ function App() {
   useEffect(() => {
     // dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
     const path = window.location.pathname
-    if (user && path == '/') {
-      console.log(path)
+    if (user && (path == '/' || path == '/login' || path == '/signup')) {
+      // console.log(path)
       navigate('/search')
 
     }
   }, [user]);
 
   return (
-      <div className={`min-h-screen min-w-screen flex flex-${isMobile ? 'col' : 'row'}`}>
+      <div className={`h-screen w-screen flex flex-${isMobile ? 'col' : 'row'}`}>
           <SideBar setSearch={setSearch} setQuery={setQuery} setString={setString}/>
           {isMobile ? <div className="h-[5vh]"></div> : <></>}
 
@@ -55,15 +57,15 @@ function App() {
             <Route path="/results/:view" element={<ResultsPage currentSelected={currentSelected} setCurrentSelected={setCurrentSelected} visitedResults={visitedResults} setVisitedResults={setVisitedResults} loadingResults={loadingResults} isIndex={isIndex} setIsIndex={setIsIndex} isRedditShared={isRedditShared} setIsRedditShared={setIsRedditShared} isOnReddit={isOnReddit} setIsOnReddit={setIsOnReddit} loading={loading} setLoading={setLoading}/>}/>
             <Route path="/search" element={<Search setSearch={setSearch} search={search} setQuery={setQuery} query={query} string={string} setString={setString} currentSelected={currentSelected} setCurrentSelected={setCurrentSelected} visitedResults={visitedResults} setVisitedResults={setVisitedResults} loadingResults={loadingResults} setLoadingResults={setLoadingResults} isIndex={isIndex} setIsIndex={setIsIndex} isRedditShared={isRedditShared} setIsRedditShared={setIsRedditShared} isOnReddit={isOnReddit} setIsOnReddit={setIsOnReddit} loading={loading} setLoading={setLoading}/>}/>
             <Route path="/search/:view" element={<Search setSearch={setSearch} search={search} setQuery={setQuery} query={query} string={string} setString={setString} currentSelected={currentSelected} setCurrentSelected={setCurrentSelected} visitedResults={visitedResults} setVisitedResults={setVisitedResults} loadingResults={loadingResults} setLoadingResults={setLoadingResults} isIndex={isIndex} setIsIndex={setIsIndex} isRedditShared={isRedditShared} setIsRedditShared={setIsRedditShared} isOnReddit={isOnReddit} setIsOnReddit={setIsOnReddit} loading={loading} setLoading={setLoading}/>}/>
-
           </Routes>
         ) : (
-          <div className="">
             <Routes>
               <Route path="/" element={<WelcomePage />}/>
+              <Route path='/login' element={<div className="w-full h-full flex items-center justify-center"> <LoginFormPage /></div>}/>
+              <Route path='/signup' element={<div className="w-full h-full flex items-center justify-center text-white"> <SignupFormPage /></div>}/>
+
             </Routes>
 
-          </div>
         )}
 
 

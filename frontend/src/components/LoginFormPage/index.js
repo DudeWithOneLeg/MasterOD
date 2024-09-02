@@ -2,7 +2,7 @@
     import React, { useState } from "react";
     import * as sessionActions from "../../store/session";
     import { useDispatch, useSelector } from "react-redux";
-    import { redirect } from "react-router-dom";
+    import { useNavigate, redirect } from "react-router-dom";
     //import "./LoginForm.css";
 
     function LoginFormPage({setLogin, setSignup}) {
@@ -11,6 +11,7 @@
       const [credential, setCredential] = useState("");
       const [password, setPassword] = useState("");
       const [errors, setErrors] = useState({});
+      const navigate = useNavigate()
 
       // if (sessionUser) return redirect("/");
 
@@ -21,12 +22,13 @@
           async (res) => {
             const data = await res.json();
             if (data && data.errors) setErrors(data.errors);
+            navigate('/search')
           }
         );
       };
 
       return (
-        <div className="w-full flex flex-col items-center justify-content-center p-6 px-5 border-t-2">
+        <div className="w-full h-full flex flex-col items-center justify-content-center p-6 px-5 border-t-2">
           {/* <h1>Log In</h1> */}
           <form onSubmit={handleSubmit} className="flex flex-col w-full">
               <input
