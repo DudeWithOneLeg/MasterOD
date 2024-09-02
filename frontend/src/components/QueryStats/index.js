@@ -5,7 +5,11 @@ import { isMobile } from "react-device-detect";
 import QueryRow from "./QueryRow";
 import * as queryActions from "../../store/query";
 
-export default function QueryPage({ setQuery, setString}) {
+export default function QueryPage({
+  setQuery,
+  setString,
+  showOptions,
+  setShowOptions}) {
   const dispatch = useDispatch();
   const queries = useSelector((state) => state.queries.all);
   const [viewAll, setViewAll] = useState(true);
@@ -90,7 +94,12 @@ export default function QueryPage({ setQuery, setString}) {
                   .reverse()
                   .map((query) => {
                     return (
-                      <QueryRow query={query} setString={setString} setQuery={setQuery}/>
+                      <QueryRow
+                      query={query}
+                      setString={setString}
+                      setQuery={setQuery}
+                      showOptions={showOptions}
+                      setShowOptions={setShowOptions}/>
                     );
                 })
               ) : (
@@ -99,7 +108,13 @@ export default function QueryPage({ setQuery, setString}) {
                   .map((query) => {
                   if (query.saved) {
                     return (
-                      <QueryRow query={query} setString={setString} setQuery={setQuery}/>
+                      <QueryRow
+                      query={query}
+                      setString={setString}
+                      setQuery={setQuery}
+                      showOptions={showOptions}
+                      setShowOptions={setShowOptions}
+                      />
                     );
                   }
                   return

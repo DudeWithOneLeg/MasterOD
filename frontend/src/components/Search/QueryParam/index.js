@@ -1,9 +1,11 @@
 import { useState, useRef, useEffect } from "react";
 
 export default function QueryParam({ param, query, setQuery, index }) {
+  const [currParam, setCurrParam] = useState(param);
   const [paramValue, setParamValue] = useState(
-    param.split(":")[1]?.split('"').join("") ||  ''
+    currParam.split(":")[1]?.split('"').join("") || ""
   );
+  const [qparam, setParam] = useState(currParam.split(":")[0]);
   const [showDeleteIcon, setShowDeleteIcon] = useState(false);
   const queryParamRef = useRef(null);
 
@@ -13,22 +15,21 @@ export default function QueryParam({ param, query, setQuery, index }) {
   // };
 
   const handleDelete = () => {
-    const newParams = query.filter((param, idx) => {
-      return (idx !== index);
-    });
-    setQuery(newParams);
+    setQuery((prevQuery) => prevQuery.filter((_, idx) => idx !== index));
     return;
   };
 
   useEffect(() => {
-    if (param) {
-      const newParam = param.split(":")[0] + ":" + paramValue;
-      console.log(query)
-    const arr = query;
-    arr[index] = newParam;
-    setQuery(arr);
+    if (currParam) {
+      const newParam = `${qparam}:${paramValue}`;
+      setQuery((prevQuery) => {
+        const newQuery = [...prevQuery];
+        newQuery[index] = newParam;
+        return newQuery;
+      });
+      // console.log('herroo', query)
     }
-  }, [paramValue]);
+  }, [paramValue, qparam, index, setQuery]);
 
   return (
     <div
@@ -43,8 +44,7 @@ export default function QueryParam({ param, query, setQuery, index }) {
     >
       <div className="flex flex-row w-fit">
         <div className="w-fit flex">
-
-        <p>{param.split(":")[0]}: </p>
+          <p>{index + qparam}: </p>
         </div>
         <div>
           <input
@@ -55,16 +55,15 @@ export default function QueryParam({ param, query, setQuery, index }) {
         </div>
       </div>
       <div className="flex w-7">
-
-      {showDeleteIcon ? (
-        <img
-          src={require("../../../assets/images/trash.png")}
-          onClick={handleDelete}
-          className="flex h-6 w-8 rounded ml-1 hover:bg-red-600 align-self-start cursor-pointer"
-        />
-      ) : (
-        <></>
-      )}
+        {showDeleteIcon ? (
+          <img
+            src={require("../../../assets/images/trash.png")}
+            onClick={handleDelete}
+            className="flex h-6 w-8 rounded ml-1 hover:bg-red-600 align-self-start cursor-pointer"
+          />
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

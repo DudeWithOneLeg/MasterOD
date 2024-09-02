@@ -14,9 +14,7 @@ export default function Browser({
   const [components, setComponents] = useState({
     'browser': (props) => <iframe className="h-full w-full" src={props.url}/>,
     'archive': Archive ,
-    'analyze': (props) => <div className={`h-[${isMobile ? '90%' : 'full'}] w-full overflow-none`}>
-    <GptDocAnalyze url={props.url}/>
-    </div>
+    'analyze': (props) => <GptDocAnalyze url={props.url}/>
   })
   const docExtensions = ["ppt", "doc", "docx", "pdf"];
   useEffect(() => {

@@ -87,13 +87,13 @@ export default function GptDocAnalyze({ url }) {
   };
 
   return (
-    <div className="flex h-full w-full">
+    <div className="h-full">
       <MainContainer
-        className="flex flex-col w-full h-full"
+        // className="flex flex-col w-full h-full"
         style={{height: '100%', position:'relative'}}
       >
-        <ChatContainer ref={convoRef} className="flex h-full" style={{height: '100%'}}>
-          <MessageList className="flex h-full flex-col p-0 m-0" style={{height: '100%'}}>
+        <ChatContainer ref={convoRef}  style={{height: '100%'}}>
+          <MessageList  style={{height: '100%'}}>
             {messages.map((message, index) => {
               if (message.role !== "system") {
                 return (

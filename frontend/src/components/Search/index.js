@@ -44,6 +44,7 @@ export default function Search({
   const [status, setStatus] = useState("");
   const [pageNum, setPageNum] = useState(1);
   const [totalPages, setTotalPages] = useState(null);
+  const [showOptions, setShowOptions] = useState(false);
   const [width, setWidth] = useState(window.innerWidth);
 
   useEffect(() => {
@@ -226,6 +227,8 @@ export default function Search({
         setLoadingResults={setLoadingResults}
         setPageNum={setPageNum}
         setShowResult={setShowResult}
+        showOptions={showOptions}
+        setShowOptions={setShowOptions}
       />
 
       {results && search ? (
@@ -356,7 +359,11 @@ export default function Search({
         </>
       ) : (
 
-          <QueryStats setQuery={setQuery} setString={setString} />
+          <QueryStats
+          setQuery={setQuery}
+          setString={setString}
+          showOptions={showOptions}
+          setShowOptions={setShowOptions} />
 
       )}
 

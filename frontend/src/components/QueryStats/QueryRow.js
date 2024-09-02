@@ -4,7 +4,13 @@ import { isMobile } from "react-device-detect";
 import * as queryActions from "../../store/query";
 import * as searchActions from "../../store/search";
 
-export default function QueryRow({ query, setString, setQuery }) {
+export default function QueryRow({
+  query,
+  setString,
+  setQuery,
+  showOptions,
+  setShowOptions
+ }) {
   const dispatch = useDispatch();
   const [hover, setHover] = useState(false);
   const createdAt = new Date(query.createdAt);
@@ -46,7 +52,7 @@ export default function QueryRow({ query, setString, setQuery }) {
     }
 
     setQuery(result);
-    console.log(result);
+    setShowOptions(true)
   };
   return (
     <div
@@ -65,7 +71,7 @@ export default function QueryRow({ query, setString, setQuery }) {
           className="h-8 cursor-pointer"
           onClick={() => updateQuery(query.id)}
         />
-        <p className="flex items-center justify-center">
+        <p className="flex items-center justify-center text-wrap w-full">
           {query.string ? query.query + " " + query.string : query.query}
         </p>
         <div>
@@ -77,7 +83,7 @@ export default function QueryRow({ query, setString, setQuery }) {
               alt="add to search"
             />
           ) : (
-            <div className="w-8"></div>
+            <div className="w-8 h-8"></div>
           )}
         </div>
       </div>

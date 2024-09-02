@@ -53,7 +53,7 @@ io.on("connection", (socket) => {
         model: "gpt-4o-mini",
         messages: [{ role: "user", content: `${message}` }],
         stream: true,
-        maxTokens: 2000
+        // maxTokens: 2000
       });
 
       for await (const chunk of stream) {
@@ -93,7 +93,7 @@ io.on("connection", (socket) => {
             const content = chunk.choices[0]?.delta?.content || "";
             if (content) {
               socket.emit("response", content);
-              // console.log(content);
+              console.log(content);
             }
           }
           console.log(stream)
