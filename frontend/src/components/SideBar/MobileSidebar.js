@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, redirect } from "react-router-dom";
 import RecentStats from "./RecentStats";
 import * as sessionActions from "../../store/session";
 
@@ -38,10 +38,10 @@ export default function MobileSideBar({ setSearch }) {
         </div>
       ) : (
         <div className="flex flex-row h-full items-center justify-between w-full">
-          <p className="p-1 rounded border border-1 border-white mx-1">
+          <p className="p-1 rounded border border-1 border-white mx-1" onClick={() => navigate('/signup')}>
             Create an account
           </p>
-          <p className="p-1 rounded border border-1 border-white mx-1">Login</p>
+          <p className="p-1 rounded border border-1 border-white mx-1" onClick={() => {return navigate('/login')}}>Login</p>
         </div>
       )}
       {showMenu ? (
