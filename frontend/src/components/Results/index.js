@@ -27,7 +27,7 @@ export default function Results({
     <div
       className={`flex flex-col h-full items-center ${isMobile ? 'overflow-x-hidden' : ''} ${isMobile && !showResult ? 'row-span-2' : ''} pb-1 ${
         showResult ? "w-full" : "w-100"
-      }`}
+      } bg-zinc-950`}
       id="results"
     >
       <div
@@ -118,6 +118,13 @@ export default function Results({
       </div>
     </div>
   ) : (
+    loadingResults ? 
+      <div className="flex justify-content-center items-center w-full h-full">
+        <img
+          src={require('../../assets/icons/loading.png')}
+          className="h-26 w-26 rounded-full animate-spin mb-4"
+        />
+      </div>:
     <div className="flex justify-content-center align-items-center text-white w-full">
       No results
     </div>

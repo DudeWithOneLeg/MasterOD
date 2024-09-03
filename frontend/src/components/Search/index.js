@@ -202,10 +202,10 @@ export default function Search({
   return (
     //KEEP CLASS AS IS
     <div
-      className={`flex flex-col bg-slate-900 w-full ${width < 640 ? 'h-[95vh]' : 'sm:h-[95vh] md:h-[95vh] lg:[95vh] xl:h-screen'} items-end p-2`}
+      className={`flex flex-col bg-zinc-900 w-full ${width < 640 ? 'h-[95vh]' : 'sm:h-[95vh] md:h-[95vh] lg:[95vh] xl:h-screen'} items-end`}
       id="search-bar"
     >
-
+      <div className="p-2 w-full">
 
       <SearchBar
         query={query}
@@ -230,6 +230,7 @@ export default function Search({
         showOptions={showOptions}
         setShowOptions={setShowOptions}
       />
+      </div>
 
       {results && search ? (
         <>
@@ -358,7 +359,13 @@ export default function Search({
           </div>
         </>
       ) : (
-
+        loadingResults ? 
+          <div className="flex justify-content-center items-center w-full h-full">
+            <img
+              src={require('../../assets/icons/loading.png')}
+              className="h-26 w-26 rounded-full animate-spin mb-4"
+            />
+          </div> :
           <QueryStats
           setQuery={setQuery}
           setString={setString}

@@ -115,7 +115,7 @@ export default function SideBar({ setSearch, setQuery, setString }) {
   return (
     <div>
 
-    <div className="h-screen w-[300px] bg-slate-800 flex flex-row text-slate-100 rounded border-2 border-slate-600 p-2">
+    <div className="h-screen w-[300px] bg-zinc-900 flex flex-row text-slate-100 border-r-2 border-zinc-800 p-2">
       <div
         className={`flex flex-row transition-all duration-700 ease-in-out ${slide}`}
       >

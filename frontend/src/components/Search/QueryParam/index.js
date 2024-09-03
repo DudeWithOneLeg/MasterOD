@@ -44,7 +44,7 @@ export default function QueryParam({ param, query, setQuery, index }) {
     >
       <div className="flex flex-row w-fit">
         <div className="w-fit flex">
-          <p>{index + qparam}: </p>
+          <p>{qparam}: </p>
         </div>
         <div>
           <input
