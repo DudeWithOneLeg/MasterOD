@@ -125,15 +125,11 @@ export default function SearchBar({
               }] w-full items-center`}
             >
               <div
-                className={`flex w-full bg-slate-${
-                  isMobile ? "700" : "600"
-                } rounded-full px-2 py-1 justify-between items-center h-8 mr-1`}
+                className={`flex w-full bg-zinc-800 rounded-full px-2 py-1 justify-between items-center h-8 mr-1`}
               >
                 <input
                   placeholder="Search"
-                  className={`p-1 bg-slate-${
-                    isMobile ? "700" : "600"
-                  } rounded w-full outline-none h-full`}
+                  className={`p-1 bg-zinc-800 rounded w-full outline-none h-full`}
                   value={string}
                   onChange={(e) => setString(e.target.value)}
                   onClick={() => setShowOptions(true)}
