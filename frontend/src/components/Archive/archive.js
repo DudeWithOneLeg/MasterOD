@@ -39,7 +39,7 @@ export default function Archive({ url }) {
     setHasResults(null)
     setLoading(true)
     const filteredDocument = url.includes('https://docs.google.com/gview?embedded=true&url=') ? url.split('https://docs.google.com/gview?embedded=true&url=')[0] : url
-    dispatch(archiveActions.getSnapshots({ filteredDocument })).then(async (data) => {
+    dispatch(archiveActions.getSnapshots({ url: filteredDocument })).then(async (data) => {
       setLoading(false);
       if (data.snapshots['0']) setHasResults(true)
       else setHasResults(false)
