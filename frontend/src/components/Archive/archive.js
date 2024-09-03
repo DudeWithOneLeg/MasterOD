@@ -38,7 +38,8 @@ export default function Archive({ url }) {
   useEffect(() => {
     setHasResults(null)
     setLoading(true)
-    dispatch(archiveActions.getSnapshots({ url })).then(async (data) => {
+    const filteredDocument = url.includes('https://docs.google.com/gview?embedded=true&url=') ? url.split('https://docs.google.com/gview?embedded=true&url=')[0] : url
+    dispatch(archiveActions.getSnapshots({ filteredDocument })).then(async (data) => {
       setLoading(false);
       if (data.snapshots['0']) setHasResults(true)
       else setHasResults(false)
