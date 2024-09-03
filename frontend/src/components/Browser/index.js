@@ -13,7 +13,7 @@ export default function Browser({
   const [displayUrl, setdisplayUrl] = useState('')
   const [components, setComponents] = useState({
     'browser': (props) => <iframe className="h-full w-full" src={props.url}/>,
-    'archive': Archive ,
+    'archive': <Archive url={preview} />,
     'analyze': (props) => <GptDocAnalyze url={props.url}/>
   })
   const docExtensions = ["ppt", "doc", "docx", "pdf"];
