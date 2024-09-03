@@ -96,7 +96,7 @@ export default function SearchBar({
 
   return (
     <div
-      className={`w-full divide-y divide-slate-500 bg-slate-700 border-2 border-slate-600 flex flex-col font-bold rounded transition-all duration-300 ease-in-out items-center justify-center`}
+      className={`w-full divide-y divide-slate-500 bg-zinc-900 flex flex-col font-bold rounded transition-all duration-300 ease-in-out items-center justify-center`}
       id="search-bar-inner"
       data-collapse="collapse"
     >
@@ -210,7 +210,7 @@ export default function SearchBar({
         </div>
         {(query && query.length) || string ? (
           <button
-            className="flex justify-self-end px-3 py-1 mx-1 bg-slate-800 rounded hover:bg-slate-600 outline-none"
+            className="flex justify-self-end px-3 py-1 mx-1 border rounded hover:bg-zinc-600 focus:outline-none"
             type="submit"
           >
             <img src={searchIcon} className="h-6" />
@@ -260,7 +260,7 @@ export default function SearchBar({
         <div
           className={`flex flex-${
             isMobile ? "col" : "row"
-          } bg-slate-600 border-2 rounded w-full`}
+          } bg-zinc-800 border-1 rounded w-full`}
         >
           <div
             className={`divide-y divide-slate-500 w-${

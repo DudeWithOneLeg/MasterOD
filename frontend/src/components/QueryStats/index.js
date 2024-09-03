@@ -44,9 +44,9 @@ export default function QueryPage({
   }
 
   return (
-    <div className="flex bg-slate-900 pt-2 h-full overflow-hidden w-full">
+    <div className="flex bg-zinc-900 h-full overflow-hidden w-full">
 
-      <div className="w-full h-full flex flex-col text-slate-200 bg-slate-700 rounded">
+      <div className="w-full h-full flex flex-col text-slate-200 bg-zinc-800 rounded">
         <div className="px-2 flex flex-col">
           <form onSubmit={(e) => handleSubmit(e)} className={`flex self-center justify-self-center justify-content-between rounded ${isMobile ? '1/2' : 'w-1/3'} my-2 px-2 bg-white`}>
             <input
@@ -86,7 +86,7 @@ export default function QueryPage({
           <p className={`col-span-2 text-${isMobile ? 'sm' : 'lg'} text-center`}>Date</p>
           <p className={`col-span-1 text-${isMobile ? 'sm' : 'lg'} text-center`}>Engine</p>
         </div>
-        <div className="h-full overflow-y-hidden rounded border-2 border-slate-600 bg-slate-800">
+        <div className="h-full overflow-y-hidden rounded border-1 border-zinc-600 bg-zinc-900">
           <div className="flex flex-col divide divide-y h-full overflow-y-scroll">
             {queries && Object.values(queries).length ? (
               viewAll ? (
