@@ -140,20 +140,6 @@ export default function SearchBar({
                   onClick={() => setString("")}
                 />
               </div>
-              {/* {query && !isMobile && query.length
-                ? query.map((param, index) => {
-                    if (param.includes(":")) {
-                      return (
-                        <QueryParam
-                          param={param}
-                          query={query}
-                          setQuery={setQuery}
-                          index={index}
-                        />
-                      );
-                    }
-                  })
-                : <></>} */}
               <div></div>
             </div>
           </div>
