@@ -51,13 +51,13 @@ function App() {
                 isMobile ? "col" : "col"
             } bg-zinc-900`}
         >
-            {isMobile ? <></> : <div className="h-[5%]"></div>}
+            {isMobile ? <div className="h-[5%]"><SideBar setSearch={setSearch} setQuery={setQuery} setString={setString} hide={hide} setHide={setHide}/></div> : <div className="h-[5%]"></div>}
             {isMobile && !user ? <Navigation setHide={setHide} /> : <></>}
             <div className={`h-full w-full flex flex-${
                 isMobile ? "col" : "row"
             } bg-zinc-900`}>
 
-            {user ? <SideBar setSearch={setSearch} setQuery={setQuery} setString={setString} hide={hide} setHide={setHide}/> : <></>}
+            {user && !isMobile ? <SideBar setSearch={setSearch} setQuery={setQuery} setString={setString} hide={hide} setHide={setHide}/> : <></>}
 
             {isLoaded && user ? (
                 <Routes>
