@@ -58,7 +58,6 @@ export default function SearchBar({
       setLoadingResults(true);
       setStatus("initial");
       setShowOptions(false);
-      console.log(query);
       dispatch(
         resultActions.search(
           {
@@ -96,7 +95,7 @@ export default function SearchBar({
 
   return (
     <div
-      className={`w-full divide-y divide-slate-500 bg-zinc-900 flex flex-col font-bold rounded transition-all duration-300 ease-in-out items-center justify-center`}
+      className={`w-full bg-zinc-900 flex flex-col font-bold rounded transition-all duration-300 ease-in-out items-center justify-center`}
       id="search-bar-inner"
       data-collapse="collapse"
     >
@@ -241,10 +240,10 @@ export default function SearchBar({
         <div
           className={`flex flex-${
             isMobile ? "col" : "row"
-          } bg-zinc-800 border-1 rounded w-full`}
+          } bg-zinc-800 rounded w-full`}
         >
           <div
-            className={`divide-y divide-slate-500 w-${
+            className={`w-${
               isMobile ? "full" : "1/3"
             }`}
           >

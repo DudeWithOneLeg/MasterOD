@@ -106,8 +106,11 @@ export const getRecentVisitedResults = () => async (dispatch) => {
   }
 };
 
-export const getallResults = () => async (dispatch) => {
-  const res = await csrfFetch("/api/results");
+export const getallResults = (options) => async (dispatch) => {
+  const res = await csrfFetch("/api/results", {
+    method: 'POST',
+    body: JSON.stringify(options)
+  });
   if (res.ok && res.status === 200) {
     const results = await res.json();
     dispatch(setAllResults(results));
