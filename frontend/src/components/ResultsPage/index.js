@@ -72,16 +72,16 @@ export default function ResultsPage({
         >
             <div
                 className={`flex items-center justify-content-center my-2 ${
-                    preview ? "w-1/2" : ""
+                    preview && !isMobile ? "w-1/2" : ""
                 }`}
             >
                 <form
                     className={`flex justify-center items-center text-white ${
-                        preview && !isMobile ? "w-1/2 flex-row" : "w-full flex-col"
+                        preview && !isMobile ? "w-1/2 flex-row" : (!preview && !isMobile ? "w-1/3 flex-row" : "w-2/3 flex-col")
                     }`}
                     onSubmit={(e) => handleSubmit(e)}
                 >
-                    <div className="flex justify-center items-center w-2/3 rounded h-8 text-black bg-white">
+                    <div className=" flex w-full rounded h-8 text-black bg-white">
 
                       <input
                           className="w-full h-full rounded focus:outline-none px-2"
