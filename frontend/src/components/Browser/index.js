@@ -17,9 +17,6 @@ export default function Browser({
     'analyze': (props) => <GptDocAnalyze url={props.url}/>
   })
   const docExtensions = ["ppt", "doc", "docx", "pdf"];
-  useEffect(() => {
-    setdisplayUrl(preview)
-  },[])
 
   useEffect(() => {
     if (
@@ -36,6 +33,7 @@ export default function Browser({
 
   useEffect(() => {
     setComponent('browser')
+    setdisplayUrl(preview)
   },[preview])
 
 

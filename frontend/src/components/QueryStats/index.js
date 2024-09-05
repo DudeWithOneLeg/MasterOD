@@ -87,7 +87,7 @@ export default function QueryPage({
           <p className={`col-span-1 text-${isMobile ? 'sm' : 'lg'} text-center`}>Engine</p>
         </div>
         <div className="h-full overflow-y-hidden rounded border-1 border-zinc-600 bg-zinc-900">
-          <div className="flex flex-col divide divide-y h-full overflow-y-scroll">
+          <div className="flex flex-col divide divide-y h-full overflow-y-scroll ">
             {queries && Object.values(queries).length ? (
               viewAll ? (
                 Object.values(queries)

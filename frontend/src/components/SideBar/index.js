@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {isMobile} from 'react-device-detect'
 import MobileSideBar from "./MobileSidebar";
-import * as sessionActions from "../../store/session";
 import * as searchActions from "../../store/search";
 import * as resultActions from "../../store/result";
 import SignupFormPage from "../SignupFormPage";
@@ -11,24 +10,17 @@ import LoginFormPage from "../LoginFormPage";
 import RecentStats from "./RecentStats";
 // import SearchBar from "../SearchBar";
 
-export default function SideBar({ setSearch, setQuery, setString }) {
+export default function SideBar({ setSearch, setQuery, setString, hide, setHide }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.session.user);
 
-  const [hide, setHide] = useState(true);
+
   const [login, setLogin] = useState(false);
   const [signup, setSignup] = useState(false);
   const [slide, setSlide] = useState("");
   const [signupSlideDown, setSignupSlideDown] = useState("");
   const [loginSlide, setLoginSlide] = useState("w-[300px]");
-
-  const handleLogOut = (e) => {
-    e.preventDefault();
-    dispatch(sessionActions.logout());
-    setHide(true);
-    navigate('/')
-  };
 
   useEffect(() => {
     if (login && signup) {
@@ -115,7 +107,7 @@ export default function SideBar({ setSearch, setQuery, setString }) {
   return (
     <div>
 
-    <div className="h-screen w-[300px] bg-zinc-900 flex flex-row text-slate-100 border-r-2 border-zinc-800 p-2">
+    <div className="h-full w-[300px] bg-zinc-900 flex flex-row text-slate-100 border-r-2 border-zinc-800 p-2">
       <div
         className={`flex flex-row transition-all duration-700 ease-in-out ${slide}`}
       >
@@ -124,20 +116,7 @@ export default function SideBar({ setSearch, setQuery, setString }) {
             <div className="flex flex-col">
 
               <div className="w-full flex flex-row items-center justify-between h-fit">
-                <div className="flex flex-row items-center">
-                  <img
-                    src={require("../../assets/icons/profile.jpg")}
-                    className="rounded-full h-14"
-                    alt="profile"
-                  ></img>
-                  <p className="pl-4">{user ? user.username : ""}</p>
-                </div>
-                <img
-                  src={require("../../assets/icons/logout.png")}
-                  onClick={(e) => handleLogOut(e)}
-                  className="h-8 cursor-pointer"
-                  alt="logout"
-                />
+
               </div>
               <div className={`p-4 text-lg`}>
                 <div
@@ -154,9 +133,21 @@ export default function SideBar({ setSearch, setQuery, setString }) {
                 <RecentStats setSearch={setSearch} />
               </div>
             </div>
+            <div className="flex flex-col border border-green-800 p-2 rounded ">
+              <div>
+                <p>Developer Notes:</p>
+              </div>
+              <ul>
+                <li> - Fixed Archive</li>
+                <li> - Fixed Bing selection</li>
+                <li> - Fixed login bug</li>
+                <li> - Theres a bug when deleting a paramater</li>
+              </ul>
+            </div>
             <div className="flex flex-col justify-self-end">
               Developed by :
               <a href='https://www.linkedin.com/in/romeo-galvan-9418b6225/' className="underline" target="_blank">Romeo (I need a job) Galvan</a>
+              <p>© 2024 Romeo Galvan</p>
             </div>
           </div>
         ) : (

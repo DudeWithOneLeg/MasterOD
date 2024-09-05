@@ -140,20 +140,6 @@ export default function SearchBar({
                   onClick={() => setString("")}
                 />
               </div>
-              {/* {query && !isMobile && query.length
-                ? query.map((param, index) => {
-                    if (param.includes(":")) {
-                      return (
-                        <QueryParam
-                          param={param}
-                          query={query}
-                          setQuery={setQuery}
-                          index={index}
-                        />
-                      );
-                    }
-                  })
-                : <></>} */}
               <div></div>
             </div>
           </div>
@@ -183,18 +169,17 @@ export default function SearchBar({
                 <p className="text-center">Engine:</p>
                 <label className="flex items-center h-8 m-0">
                   <select
-                    onClick={(e) => setEngine(e.target.value)}
+                    onChange={(e) => setEngine(e.target.value)}
                     className="bg-slate-500 rounded ml-1 cursor-pointer"
                   >
                     <option
                       selected
-                      defaultValue="Google"
-                      onClick={() => setEngine("Google")}
+                      defaultValue
                     >
                       Google
                     </option>
                     {/* <option value={"Baidu"}>Baidu</option> */}
-                    <option value={"Bing"} onClick={() => setEngine("Bing")}>
+                    <option value={"Bing"}>
                       Bing
                     </option>
                     {/* <option value={"Yandex"}>Yandex</option> */}

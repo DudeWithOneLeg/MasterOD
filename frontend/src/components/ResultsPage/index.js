@@ -55,7 +55,7 @@ export default function ResultsPage({
   }, [params]);
 
   return (
-    <div className={`flex flex-col  w-full p-2 ${isMobile ? 'h-[95vh]' : 'h-screen'}`}>
+    <div className={`flex flex-col  w-full ${isMobile ? 'h-[95vh]' : 'h-full'}`}>
       <div className={`flex items-center justify-content-center my-2 ${preview ? 'w-1/2' : ''}`}>
         <input
           className="w-1/2 rounded-full h-8 px-3 text-black"
@@ -86,7 +86,7 @@ export default function ResultsPage({
           </p>
         </div>
       </div>
-      <div className={`flex w-full h-full overflow-y-hidden ${isMobile ? 'grid grid-rows-2 gap-1 flex-col' : ''}`}>
+      <div className={`flex w-full h-full pt-2 overflow-y-hidden ${isMobile ? 'grid grid-rows-2 gap-1 flex-col' : ''}`}>
         {saved && !viewAll ? (
           <>
             <Results
