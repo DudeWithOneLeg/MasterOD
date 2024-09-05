@@ -8,7 +8,7 @@ export default function WelcomePage() {
         return (<MobileWelcomePage />);
     } else
         return (
-            <div className="text-white p-2 flex flex-col w-full align-items-center h-screen overflow-y-scroll">
+            <div className="text-white p-2 flex flex-col w-full align-items-center h-full overflow-y-scroll no-scrollbar">
                 <div
                     className={`flex flex-col justify-self-center rounded w-1/3`}
                 >
