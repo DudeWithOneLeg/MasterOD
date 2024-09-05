@@ -67,7 +67,7 @@ export default function ResultsPage({
     return (
         <div
             className={`flex flex-col  w-full ${
-                isMobile ? "h-[95vh]" : "h-full"
+                isMobile ? "h-full" : "h-full"
             }`}
         >
             <div
@@ -76,12 +76,12 @@ export default function ResultsPage({
                 }`}
             >
                 <form
-                    className={`flex justify-center items-center text-white flex-row ${
-                        preview && !isMobile ? "w-1/2" : "w-1/3"
+                    className={`flex justify-center items-center text-white ${
+                        preview && !isMobile ? "w-1/2 flex-row" : "w-full flex-col"
                     }`}
                     onSubmit={(e) => handleSubmit(e)}
                 >
-                    <div className=" flex w-full rounded h-8 text-black bg-white">
+                    <div className="flex justify-center items-center w-2/3 rounded h-8 text-black bg-white">
 
                       <input
                           className="w-full h-full rounded focus:outline-none px-2"
