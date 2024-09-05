@@ -3,6 +3,7 @@
     import * as sessionActions from "../../store/session";
     import { useDispatch, useSelector } from "react-redux";
     import { useNavigate, redirect } from "react-router-dom";
+import { isMobile } from "react-device-detect";
     //import "./LoginForm.css";
 
     function LoginFormPage({setLogin, setSignup}) {
@@ -21,23 +22,25 @@
         return dispatch(sessionActions.login({ credential, password })).catch(
           async (res) => {
             const data = await res.json();
-            if (data && data.errors) setErrors(data.errors);
-            navigate('/search')
+            if (data && data.errors) {
+              setErrors(data.errors);
+            }
+            else navigate('/search')
           }
         );
       };
 
       return (
-        <div className="w-full h-full flex flex-col items-center justify-content-center p-6 px-5 border-t-2">
+        <div className={`w-${isMobile ? 'full': '1/2'} h-full flex flex-col items-center justify-content-center p-6 px-5`}>
           {/* <h1>Log In</h1> */}
-          <form onSubmit={handleSubmit} className="flex flex-col w-full">
+          <form onSubmit={handleSubmit} className={`flex flex-col w-${isMobile ? 'full' : '1/3'}`}>
               <input
                 type="text"
                 value={credential}
                 onChange={(e) => setCredential(e.target.value)}
                 required
                 placeholder='Username or Email'
-                className="rounded my-1.5 p-1 text-black"
+                className="rounded my-2 p-1 text-black"
               />
               <input
                 type="password"

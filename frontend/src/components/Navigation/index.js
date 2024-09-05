@@ -67,10 +67,10 @@ function Navigation({ isLoaded, setHide }) {
                 </div>
             ) : (
                 <div className="flex flex-row items-center">
-                    <div className="flex items-center justify-center p-2">
+                    <div className="flex items-center justify-center p-2 cursor-pointer" onClick={() => navigate('/login')}>
                         <p>Login</p>
                     </div>
-                    <div className="flex items-center justify-center border rounded-full p-1">
+                    <div className="flex items-center justify-center border rounded-full p-1 cursor-pointer hover:bg-zinc-500" onClick={() => navigate('/signup')}>
                         <p>Create an Account</p>
                     </div>
                 </div>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { redirect } from "react-router-dom";
 import * as sessionActions from "../../store/session";
+import { isMobile } from "react-device-detect";
 //import "./SignupForm.css";
 
 function SignupFormPage() {
@@ -71,8 +72,8 @@ function SignupFormPage() {
 
 
   return (
-    <div className="flex flex-col h-fit w-full items-center border-t-2 pt-2">
-      <form onSubmit={handleSubmit} className="flex flex-col items-center w-fit h-fit">
+    <div className={`w-${isMobile ? 'full': '1/2'} h-full flex flex-col items-center justify-content-center p-6 px-5`}>
+      <form onSubmit={handleSubmit} className={`flex flex-col items-center w-${isMobile ? 'full' : '1/3'}`}>
         {/* <div className="py-2">
           <h1>Email</h1>
           <input
@@ -85,7 +86,7 @@ function SignupFormPage() {
           />
           {errors.email && <p>{errors.email}</p>}
         </div> */}
-        <div className="py-2 flex flex-col items-center w-fit">
+        <div className="py-2 flex flex-col items-center">
           <h1 className="align-self-start">Username</h1>
           <input
             type="text"
@@ -93,7 +94,7 @@ function SignupFormPage() {
             placeholder="Username"
             onChange={(e) => setUsername(e.target.value)}
             required
-            className="my-1 rounded text-black"
+            className="my-1 p-1 rounded text-black w-full"
           />
         </div>
           {errors.username && <p className="text-red-300 text-wrap">{errors.username}</p>}
@@ -118,14 +119,14 @@ function SignupFormPage() {
               />
             {errors.lastName && <p>{errors.lastName}</p>} */}
         <div className="py-2 flex flex-col items-center w-fit">
-          <h1>Password</h1>
+          <h1 className="align-self-start">Password</h1>
           <input
             type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="my-1 rounded text-black"
+            className="my-1 p-1 rounded text-black w-full"
           />
           {errors.password && <p className="text-red-300 py-1.5">{errors.password}</p>}
         </div>
@@ -137,7 +138,7 @@ function SignupFormPage() {
               placeholder="Confirm Password"
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
-              className="my-1 rounded text-black"
+              className="my-1 p-1 rounded text-black w-full"
             />
           </label>
           {errors.confirmPassword && <p className="text-red-300">{errors.confirmPassword}</p>}

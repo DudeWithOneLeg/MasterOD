@@ -140,6 +140,7 @@ export default function SideBar({ setSearch, setQuery, setString, hide, setHide 
               <ul>
                 <li> - Fixed Archive</li>
                 <li> - Fixed Bing selection</li>
+                <li> - Fixed login bug</li>
                 <li> - Theres a bug when deleting a paramater</li>
               </ul>
             </div>

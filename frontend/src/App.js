@@ -57,7 +57,7 @@ function App() {
                 isMobile ? "col" : "row"
             } bg-zinc-900`}>
 
-            <SideBar setSearch={setSearch} setQuery={setQuery} setString={setString} hide={hide} setHide={setHide}/>
+            {user ? <SideBar setSearch={setSearch} setQuery={setQuery} setString={setString} hide={hide} setHide={setHide}/> : <></>}
 
             {isLoaded && user ? (
                 <Routes>
