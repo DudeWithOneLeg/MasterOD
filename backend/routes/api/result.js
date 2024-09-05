@@ -1,18 +1,31 @@
 const express = require("express");
 const router = express.Router();
 const { Result } = require("../../db/models");
+const { Op } = require('@sequelize/core')
 
-router.get("/", async (req, res) => {
+router.post("/", async (req, res) => {
   if (req.user) {
     const { id: userId } = req.user;
-
-    const results = await Result.findAll({
+    const {filter, limit} = req.body
+    const options = {
       where: {
         userId,
       },
       order: [["createdAt", "DESC"]],
-    });
-
+      limit
+    }
+    if (filter) {
+      options.where = {
+        userId: req.user.id,
+        [Op.or] : [
+          {title: {[Op.like]: `%${filter}%`}},
+          {snippet: {[Op.like]: `%${filter}%`}},
+          {link: {[Op.like]: `%${filter}%`}}
+        ]
+      }
+    }
+    console.log(options)
+    const results = await Result.findAll(options);
     res.statusCode = 200;
     return res.json({ results }).status(200);
   }
