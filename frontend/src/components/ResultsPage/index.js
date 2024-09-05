@@ -67,17 +67,17 @@ export default function ResultsPage({
     return (
         <div
             className={`flex flex-col  w-full ${
-                isMobile ? "h-[95vh]" : "h-full"
+                isMobile ? "h-full" : "h-full"
             }`}
         >
             <div
                 className={`flex items-center justify-content-center my-2 ${
-                    preview ? "w-1/2" : ""
+                    preview && !isMobile ? "w-1/2" : ""
                 }`}
             >
                 <form
-                    className={`flex justify-center items-center text-white flex-row ${
-                        preview && !isMobile ? "w-1/2" : "w-1/3"
+                    className={`flex justify-center items-center text-white ${
+                        preview && !isMobile ? "w-1/2 flex-row" : (!preview && !isMobile ? "w-1/3 flex-row" : "w-2/3 flex-col")
                     }`}
                     onSubmit={(e) => handleSubmit(e)}
                 >
