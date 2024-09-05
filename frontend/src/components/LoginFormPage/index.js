@@ -33,7 +33,7 @@ import { isMobile } from "react-device-detect";
       return (
         <div className={`w-${isMobile ? 'full': '1/2'} h-full flex flex-col items-center justify-content-center p-6 px-5`}>
           {/* <h1>Log In</h1> */}
-          <form onSubmit={handleSubmit} className={`flex flex-col w-${isMobile ? 'full' : '1/3'}`}>
+          <form onSubmit={handleSubmit} className={`flex flex-col w-${isMobile ? '1/2' : '1/3'}`}>
               <input
                 type="text"
                 value={credential}
