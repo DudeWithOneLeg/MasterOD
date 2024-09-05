@@ -51,9 +51,9 @@ function App() {
                 isMobile ? "col" : "col"
             } bg-zinc-900`}
         >
-            {isMobile ? <div className="h-[5%]"><SideBar setSearch={setSearch} setQuery={setQuery} setString={setString} hide={hide} setHide={setHide}/></div> : <div className="h-[5%]"></div>}
             {(isMobile && !user) || (!isMobile) ? <Navigation setHide={setHide} /> : <></>}
-            <div className={`h-full w-full flex flex-${
+            {isMobile ? <div className="h-[5%]"><SideBar setSearch={setSearch} setQuery={setQuery} setString={setString} hide={hide} setHide={setHide}/></div> : <div className="h-[5%]"></div>}
+            <div className={`h-[95%] w-full flex flex-${
                 isMobile ? "col" : "row"
             } bg-zinc-900`}>
 
