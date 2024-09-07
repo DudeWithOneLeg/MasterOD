@@ -11,6 +11,7 @@ import WelcomePage from "./components/WelcomePage";
 import LoginFormPage from "./components/LoginFormPage";
 import SignupFormPage from "./components/SignupFormPage";
 import Navigation from "./components/Navigation";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 function App() {
     const dispatch = useDispatch();
@@ -46,150 +47,151 @@ function App() {
     }, [user]);
 
     return (
-        <div
-            className={`h-full w-full flex flex-${
-                isMobile ? "col" : "col"
-            } bg-zinc-900`}
-        >
-            {(isMobile && !user) || (!isMobile) ? <Navigation setHide={setHide} /> : <></>}
-            {isMobile ? <div className="h-[5%]"><SideBar setSearch={setSearch} setQuery={setQuery} setString={setString} hide={hide} setHide={setHide}/></div> : <div className="h-[5%]"></div>}
-            <div className={`h-[95%] w-full flex flex-${
-                isMobile ? "col" : "row"
-            } bg-zinc-900`}>
+        <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
 
-            {user && !isMobile ? <SideBar setSearch={setSearch} setQuery={setQuery} setString={setString} hide={hide} setHide={setHide}/> : <></>}
+            <div
+                className={`h-full w-full flex flex-${
+                    isMobile ? "col" : "col"
+                } bg-zinc-900`}
+            >
+                {(isMobile && !user) || (!isMobile) ? <Navigation setHide={setHide} /> : <></>}
+                {isMobile ? <div className="h-[5%]"><SideBar setSearch={setSearch} setQuery={setQuery} setString={setString} hide={hide} setHide={setHide}/></div> : <div className="h-[5%]"></div>}
+                <div className={`h-[95%] w-full flex flex-${
+                    isMobile ? "col" : "row"
+                } bg-zinc-900`}>
 
-            {isLoaded && user ? (
-                <Routes>
-                    <Route
-                        path="/queries"
-                        element={
-                            <QueryStats
-                                setQuery={setQuery}
-                                setString={setString}
-                            />
-                        }
-                    />
-                    <Route
-                        path="/results"
-                        element={
-                            <ResultsPage
-                                currentSelected={currentSelected}
-                                setCurrentSelected={setCurrentSelected}
-                                visitedResults={visitedResults}
-                                setVisitedResults={setVisitedResults}
-                                loadingResults={loadingResults}
-                                isIndex={isIndex}
-                                setIsIndex={setIsIndex}
-                                isRedditShared={isRedditShared}
-                                setIsRedditShared={setIsRedditShared}
-                                isOnReddit={isOnReddit}
-                                setIsOnReddit={setIsOnReddit}
-                                loading={loading}
-                                setLoading={setLoading}
-                            />
-                        }
-                    />
-                    <Route
-                        path="/results/:view"
-                        element={
-                            <ResultsPage
-                                currentSelected={currentSelected}
-                                setCurrentSelected={setCurrentSelected}
-                                visitedResults={visitedResults}
-                                setVisitedResults={setVisitedResults}
-                                loadingResults={loadingResults}
-                                isIndex={isIndex}
-                                setIsIndex={setIsIndex}
-                                isRedditShared={isRedditShared}
-                                setIsRedditShared={setIsRedditShared}
-                                isOnReddit={isOnReddit}
-                                setIsOnReddit={setIsOnReddit}
-                                loading={loading}
-                                setLoading={setLoading}
-                            />
-                        }
-                    />
-                    <Route
-                        path="/search"
-                        element={
-                            <Search
-                                setSearch={setSearch}
-                                search={search}
-                                setQuery={setQuery}
-                                query={query}
-                                string={string}
-                                setString={setString}
-                                currentSelected={currentSelected}
-                                setCurrentSelected={setCurrentSelected}
-                                visitedResults={visitedResults}
-                                setVisitedResults={setVisitedResults}
-                                loadingResults={loadingResults}
-                                setLoadingResults={setLoadingResults}
-                                isIndex={isIndex}
-                                setIsIndex={setIsIndex}
-                                isRedditShared={isRedditShared}
-                                setIsRedditShared={setIsRedditShared}
-                                isOnReddit={isOnReddit}
-                                setIsOnReddit={setIsOnReddit}
-                                loading={loading}
-                                setLoading={setLoading}
-                            />
-                        }
-                    />
-                    <Route
-                        path="/search/:view"
-                        element={
-                            <Search
-                                setSearch={setSearch}
-                                search={search}
-                                setQuery={setQuery}
-                                query={query}
-                                string={string}
-                                setString={setString}
-                                currentSelected={currentSelected}
-                                setCurrentSelected={setCurrentSelected}
-                                visitedResults={visitedResults}
-                                setVisitedResults={setVisitedResults}
-                                loadingResults={loadingResults}
-                                setLoadingResults={setLoadingResults}
-                                isIndex={isIndex}
-                                setIsIndex={setIsIndex}
-                                isRedditShared={isRedditShared}
-                                setIsRedditShared={setIsRedditShared}
-                                isOnReddit={isOnReddit}
-                                setIsOnReddit={setIsOnReddit}
-                                loading={loading}
-                                setLoading={setLoading}
-                            />
-                        }
-                    />
-                </Routes>
-            ) : (
-                <Routes>
-                    <Route path="/" element={<WelcomePage />} />
-                    <Route
-                        path="/login"
-                        element={
-                            <div className="w-full h-full flex items-center justify-center">
-                                {" "}
-                                <LoginFormPage />
-                            </div>
-                        }
-                    />
-                    <Route
-                        path="/signup"
-                        element={
-                            <div className="w-full h-full flex items-center justify-center text-white">
-                                {" "}
-                                <SignupFormPage />
-                            </div>
-                        }
-                    />
-                </Routes>
-            )}
+                {user && !isMobile ? <SideBar setSearch={setSearch} setQuery={setQuery} setString={setString} hide={hide} setHide={setHide}/> : <></>}
+
+                {isLoaded && user ? (
+                    <Routes>
+                        <Route
+                            path="/queries"
+                            element={
+                                <QueryStats
+                                    setQuery={setQuery}
+                                    setString={setString}
+                                />
+                            }
+                        />
+                        <Route
+                            path="/results"
+                            element={
+                                <ResultsPage
+                                    currentSelected={currentSelected}
+                                    setCurrentSelected={setCurrentSelected}
+                                    visitedResults={visitedResults}
+                                    setVisitedResults={setVisitedResults}
+                                    loadingResults={loadingResults}
+                                    isIndex={isIndex}
+                                    setIsIndex={setIsIndex}
+                                    isRedditShared={isRedditShared}
+                                    setIsRedditShared={setIsRedditShared}
+                                    isOnReddit={isOnReddit}
+                                    setIsOnReddit={setIsOnReddit}
+                                    loading={loading}
+                                    setLoading={setLoading}
+                                />
+                            }
+                        />
+                        <Route
+                            path="/results/:view"
+                            element={
+                                <ResultsPage
+                                    currentSelected={currentSelected}
+                                    setCurrentSelected={setCurrentSelected}
+                                    visitedResults={visitedResults}
+                                    setVisitedResults={setVisitedResults}
+                                    loadingResults={loadingResults}
+                                    isIndex={isIndex}
+                                    setIsIndex={setIsIndex}
+                                    isRedditShared={isRedditShared}
+                                    setIsRedditShared={setIsRedditShared}
+                                    isOnReddit={isOnReddit}
+                                    setIsOnReddit={setIsOnReddit}
+                                    loading={loading}
+                                    setLoading={setLoading}
+                                />
+                            }
+                        />
+                        <Route
+                            path="/search"
+                            element={
+                                <Search
+                                    setSearch={setSearch}
+                                    search={search}
+                                    setQuery={setQuery}
+                                    query={query}
+                                    string={string}
+                                    setString={setString}
+                                    currentSelected={currentSelected}
+                                    setCurrentSelected={setCurrentSelected}
+                                    visitedResults={visitedResults}
+                                    setVisitedResults={setVisitedResults}
+                                    loadingResults={loadingResults}
+                                    setLoadingResults={setLoadingResults}
+                                    isIndex={isIndex}
+                                    setIsIndex={setIsIndex}
+                                    isRedditShared={isRedditShared}
+                                    setIsRedditShared={setIsRedditShared}
+                                    isOnReddit={isOnReddit}
+                                    setIsOnReddit={setIsOnReddit}
+                                    loading={loading}
+                                    setLoading={setLoading}
+                                />
+                            }
+                        />
+                        <Route
+                            path="/search/:view"
+                            element={
+                                <Search
+                                    setSearch={setSearch}
+                                    search={search}
+                                    setQuery={setQuery}
+                                    query={query}
+                                    string={string}
+                                    setString={setString}
+                                    currentSelected={currentSelected}
+                                    setCurrentSelected={setCurrentSelected}
+                                    visitedResults={visitedResults}
+                                    setVisitedResults={setVisitedResults}
+                                    loadingResults={loadingResults}
+                                    setLoadingResults={setLoadingResults}
+                                    isIndex={isIndex}
+                                    setIsIndex={setIsIndex}
+                                    isRedditShared={isRedditShared}
+                                    setIsRedditShared={setIsRedditShared}
+                                    isOnReddit={isOnReddit}
+                                    setIsOnReddit={setIsOnReddit}
+                                    loading={loading}
+                                    setLoading={setLoading}
+                                />
+                            }
+                        />
+                    </Routes>
+                ) : (
+                    <Routes>
+                        <Route path="/" element={<WelcomePage />} />
+                        <Route
+                            path="/login"
+                            element={
+                                <div className="w-full h-full flex items-center justify-center">
+                                    <LoginFormPage />
+                                </div>
+                            }
+                        />
+                        <Route
+                            path="/signup"
+                            element={
+                                <div className="w-full h-full flex items-center justify-center text-white">
+                                    <SignupFormPage />
+                                </div>
+                            }
+                        />
+                    </Routes>
+                )}
+                </div>
             </div>
-        </div>
+        </GoogleOAuthProvider>
     );
 }
 

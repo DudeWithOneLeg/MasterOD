@@ -17,7 +17,7 @@ export default function MobileSideBar({ setSearch }) {
   };
 
   return (
-    <div className="text-white w-screen bg-slate-800 fixed h-[5vh] z-30">
+    <div className="text-white w-screen bg-zinc-800 fixed h-[5vh] z-30">
       {user ? (
         <div className="flex flex-row justify-content-between items-center">
           <div className="flex flex-row items-center">
@@ -45,9 +45,9 @@ export default function MobileSideBar({ setSearch }) {
         </div>
       )}
       {showMenu ? (
-        <div className="fixed flex bg-slate-800 w-full h-screen p-2 z-30">
+        <div className="fixed flex bg-zinc-900 w-full h-screen p-2 z-30">
           {user ? (
-            <div className="flex flex-col w-full -r-2">
+            <div className="flex flex-col w-full -r-2 divide-y ">
               <div className="w-full flex flex-row items-center justify-between h-fit"></div>
               <RecentStats setSearch={setSearch} setShowMenu={setShowMenu} />
             </div>

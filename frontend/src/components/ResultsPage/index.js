@@ -172,8 +172,7 @@ export default function ResultsPage({
                             setCurrentSelected={setCurrentSelected}
                             visitedResults={visitedResults}
                             setVisitedResults={setVisitedResults}
-                            l
-                            oadingResults={loadingResults}
+                            loadingResults={loadingResults}
                             setIsIndex={setIsIndex}
                         />
                     </>
