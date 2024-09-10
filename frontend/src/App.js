@@ -12,6 +12,7 @@ import LoginFormPage from "./components/LoginFormPage";
 import SignupFormPage from "./components/SignupFormPage";
 import Navigation from "./components/Navigation";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import ThreeDScene from "./components/3Dscene";
 
 function App() {
     const dispatch = useDispatch();
@@ -58,7 +59,7 @@ function App() {
                 {isMobile ? <div className="h-[5%]"><SideBar setSearch={setSearch} setQuery={setQuery} setString={setString} hide={hide} setHide={setHide}/></div> : <div className="h-[5%]"></div>}
                 <div className={`h-[95%] w-full flex flex-${
                     isMobile ? "col" : "row"
-                } bg-zinc-900`}>
+                } bg-black`}>
 
                 {user && !isMobile ? <SideBar setSearch={setSearch} setQuery={setQuery} setString={setString} hide={hide} setHide={setHide}/> : <></>}
 
@@ -170,7 +171,7 @@ function App() {
                     </Routes>
                 ) : (
                     <Routes>
-                        <Route path="/" element={<WelcomePage />} />
+                        <Route path="/" element={<ThreeDScene />} />
                         <Route
                             path="/login"
                             element={

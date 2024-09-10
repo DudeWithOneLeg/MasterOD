@@ -65,6 +65,7 @@
     "fresh": "^0.5.2",
     "fs.realpath": "^1.0.0",
     "get-caller-file": "^2.0.5",
+    "google-auth-library": "^9.14.1",
     "google-search-results-nodejs": "^2.1.0",
     "graceful-fs": "^4.2.11",
     "has": "^1.0.4",

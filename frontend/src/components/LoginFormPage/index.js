@@ -3,9 +3,9 @@ import * as sessionActions from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, redirect } from "react-router-dom";
 import { isMobile } from "react-device-detect";
-import { useGoogleLogin } from '@react-oauth/google';
-import { hasGrantedAnyScopeGoogle } from '@react-oauth/google';
-import googleLogo from '../../assets/images/google-logo.png'
+import { useGoogleLogin } from "@react-oauth/google";
+import { hasGrantedAnyScopeGoogle } from "@react-oauth/google";
+import googleLogo from "../../assets/images/google-logo.png";
 
 function LoginFormPage({ setLogin, setSignup }) {
     const dispatch = useDispatch();
@@ -17,16 +17,24 @@ function LoginFormPage({ setLogin, setSignup }) {
 
     // if (sessionUser) return redirect("/");
     const login = useGoogleLogin({
-      onSuccess: codeResponse => {
-        const hasAccess = hasGrantedAnyScopeGoogle(
-          codeResponse,
-          'openid',
-          'email',
-          'profile'
-        );
-        console.log(hasAccess)
-      },
-      flow: 'auth-code',
+        onSuccess: (tokenResponse) => {
+            const hasAccess = hasGrantedAnyScopeGoogle(
+                tokenResponse,
+                "openid",
+                "email",
+                "profile"
+            );
+            if (hasAccess) {
+                dispatch(sessionActions.login({ token: tokenResponse })).catch(
+                    async (res) => {
+                        const data = await res.json();
+                        if (data && data.errors) {
+                            setErrors(data.errors);
+                        } else navigate("/search");
+                    }
+                );
+            }
+        },
     });
 
     const handleSubmit = (e) => {
@@ -78,10 +86,13 @@ function LoginFormPage({ setLogin, setSignup }) {
                 >
                     Log In
                 </button>
-            <div onClick={() => login()} className="text-slate-200 rounded hover:bg-slate-700 py-1 my-2 border flex flex-row items-center justify-center">
-              <img src={googleLogo} className="h-5 px-1"/>
-              <p>Sign in with Google</p>
-            </div>
+                <div
+                    onClick={() => login()}
+                    className="text-slate-200 rounded hover:bg-slate-700 py-1 my-2 border flex flex-row items-center justify-center cursor-pointer"
+                >
+                    <img src={googleLogo} className="h-5 px-1" />
+                    <p>Sign in with Google</p>
+                </div>
             </form>
         </div>
     );
