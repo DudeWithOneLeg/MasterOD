@@ -39,11 +39,8 @@ module.exports = (sequelize, DataTypes) => {
         }
       },
       isOauth: {
-        type: DataTypes.STRING.BINARY,
-        allowNull: false,
-        validate: {
-          len: [60, 60]
-        }
+        type: DataTypes.BOOLEAN,
+        allowNull: false
       }
     }, {
       sequelize,

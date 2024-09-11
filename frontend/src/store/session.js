@@ -1,5 +1,4 @@
 import { csrfFetch } from "./csrf";
-import { flatten } from "./csrf";
 
 const SET_USER = "session/setUser";
 const REMOVE_USER = "session/removeUser";
@@ -56,7 +55,7 @@ export const restoreUser = () => async (dispatch) => {
 };
 
 export const signup = (user) => async (dispatch) => {
-  const { username, email, password, token } = user;
+  const { username, email, password, token, finishSignup } = user;
 
   if (token) {
     const response = await csrfFetch("/api/users/google", {
@@ -66,7 +65,22 @@ export const signup = (user) => async (dispatch) => {
       }),
     });
     const data = await response.json();
-    dispatch(setUser(data.user));
+
+    if (data && data.success) {
+      dispatch(setUser({tempUser: true}));
+
+    }
+    return response;
+  }
+  else if (finishSignup) {
+    const response = await csrfFetch("/api/users/google", {
+      method: "PATCH",
+      body: JSON.stringify({
+        username
+      }),
+    });
+    const data = await response.json();
+      dispatch(setUser(data.user));
     return response;
   }
   else {

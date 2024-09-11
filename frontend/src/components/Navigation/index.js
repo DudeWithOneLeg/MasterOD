@@ -37,7 +37,7 @@ function Navigation({ isLoaded, setHide }) {
 
     return (
         <div className="h-[5%] w-screen fixed flex p-2 border-b flex flex-row items-center justify-between text-white">
-            <div className="flex flex-row items-center">
+            <div className="flex flex-row items-center cursor-pointer">
                 <img src={logo} className="flex h-10" />
                 <h1 className="text-2xl p-2">SearchDeck</h1>
             </div>
@@ -70,7 +70,7 @@ function Navigation({ isLoaded, setHide }) {
                     <div className="flex items-center justify-center p-2 cursor-pointer" onClick={() => navigate('/login')}>
                         <p>Login</p>
                     </div>
-                    <div className="flex items-center justify-center border rounded-full p-1 cursor-pointer hover:bg-zinc-500" onClick={() => navigate('/signup')}>
+                    <div className="flex items-center justify-center border rounded-full p-1 px-2 cursor-pointer hover:bg-zinc-700" onClick={() => navigate('/signup')}>
                         <p>Create an Account</p>
                     </div>
                 </div>

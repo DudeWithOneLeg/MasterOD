@@ -133,7 +133,7 @@ function SignupFormPage() {
                 onSubmit={handleSubmit}
                 className={`flex flex-col items-center w-${isMobile ? 'full' : '1/2'}`}
             >
-                <div className="pt-2 flex flex-col items-center w-full">
+                <div className="py-2 flex flex-col items-center w-full">
                     <h1 className="align-self-start">Email</h1>
                     <input
                         type="text"
@@ -144,7 +144,7 @@ function SignupFormPage() {
                     />
                     {errors.email ? <p className="text-red-300 h-5">{errors.email}</p> : <p className="h-6"></p>}
                 </div>
-                <div className="pt-2 flex flex-col items-center w-full">
+                <div className="py-2 flex flex-col items-center w-full">
                     <h1 className="align-self-start">Username *</h1>
                     <input
                         type="text"
@@ -160,7 +160,7 @@ function SignupFormPage() {
                         </p> : <p className="h-6"></p>
                     }
                 </div>
-                <div className="pt-2 flex flex-col items-center w-full">
+                <div className="py-2 flex flex-col items-center w-full">
                     <h1 className="align-self-start">Password *</h1>
                     <input
                         type="password"
@@ -174,7 +174,7 @@ function SignupFormPage() {
                         <p className="text-red-300 h-6">{errors.password}</p> : <p className="h-6"></p>
                     }
                 </div>
-                <div className="pt-2 flex flex-col items-center w-full">
+                <div className="py-2 flex flex-col items-center w-full">
                     <h1 className="align-self-start">Confirm Password *</h1>
                     <input
                         type="password"
