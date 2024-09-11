@@ -9,7 +9,7 @@ export default function FinishSignup() {
     const [username, setUsername] = useState("");
     const [errors, setErrors] = useState({});
     const navigate = useNavigate()
-    const sessionUser = useSelector((state) => state.session.user);
+    const user = useSelector((state) => state.session.user);
 
     useEffect(() => {
         if (username.length && username.length < 6) {
@@ -30,15 +30,6 @@ export default function FinishSignup() {
         }
     }, [username]);
 
-    useEffect(() => {
-        if (!sessionUser || !sessionUser.tempUser) {
-            navigate("/signup");
-
-            console.log(sessionUser)
-        } else {
-        }
-    },[])
-
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!username) return;
@@ -50,6 +41,8 @@ export default function FinishSignup() {
             }
         })
     };
+
+    if (!user || !user.tempUser) navigate('/')
 
     return (
         <form

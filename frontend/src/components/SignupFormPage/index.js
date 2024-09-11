@@ -190,7 +190,7 @@ function SignupFormPage() {
                 </div>
                 <div className={`flex flex-col items-center w-${isMobile ? '3/4' : '1/2'}`}>
 
-                    <button type="submit" className="my-1 rounded-full border p-1 px-2 w-full hover:bg-slate-700">
+                    <button type="submit" className="my-1 rounded border p-2 px-2 w-full hover:bg-slate-700">
                         Sign Up
                     </button>
                     <div

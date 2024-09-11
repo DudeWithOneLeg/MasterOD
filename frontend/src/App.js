@@ -31,6 +31,7 @@ function App() {
     const [isOnReddit, setIsOnReddit] = useState(false);
     const [loading, setLoading] = useState(false);
     const [hide, setHide] = useState(true);
+    const path = window.location.pathname;
 
     useEffect(() => {
         dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
@@ -41,16 +42,15 @@ function App() {
 
     useEffect(() => {
         // dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
-        const path = window.location.pathname;
-        if (
+        if (isLoaded &&
             user &&
-            !user.tempUser &&
-            (path === "/" || path === "/login" || path === "/signup")
+            !user.tempUser
         ) {
-            // console.log(path)
             navigate("/search");
-        } else if (user && user.tempUser) {
+        } else if (isLoaded && user && user.tempUser) {
             navigate("/finish-signup");
+        } else if (isLoaded && !user && path !== '/login' && path !== '/signup') {
+            navigate("/");
         }
     }, [user]);
 
@@ -258,7 +258,7 @@ function App() {
                         </Routes>
                     ) : (
                         <Routes>
-                            <Route path="/" element={<ThreeDScene />} />
+                            <Route path="/" element={<WelcomePage />} />
                             <Route
                                 path="/login"
                                 element={
