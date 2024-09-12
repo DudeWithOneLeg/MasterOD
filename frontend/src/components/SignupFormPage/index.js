@@ -5,6 +5,7 @@ import * as sessionActions from "../../store/session";
 import { isMobile } from "react-device-detect";
 import { useGoogleLogin } from "@react-oauth/google";
 import { hasGrantedAnyScopeGoogle } from "@react-oauth/google";
+import { useNavigate } from "react-router-dom";
 import googleLogo from "../../assets/images/google-logo.png";
 //import "./SignupForm.css";
 
@@ -16,6 +17,12 @@ function SignupFormPage() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [email, setEmail] = useState("");
     const [errors, setErrors] = useState({});
+    const navigate = useNavigate()
+
+    useEffect(() => {
+
+        if (sessionUser) navigate('/search')
+    },[sessionUser])
 
     const login = useGoogleLogin({
         onSuccess: (tokenResponse) => {

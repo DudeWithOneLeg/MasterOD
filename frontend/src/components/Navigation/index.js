@@ -41,7 +41,7 @@ function Navigation() {
     }
 
     return (
-        <div className="h-[5%] w-screen fixed flex p-2 border-b flex flex-row items-center justify-between text-white">
+        <div className="h-[5%] w-screen fixed flex p-2 border-b border-zinc-500 flex flex-row items-center justify-between text-white">
             <div
                 className="flex flex-row items-center cursor-pointer"
                 onClick={handleNavigate}

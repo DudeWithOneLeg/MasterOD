@@ -41,13 +41,20 @@ function LoginFormPage() {
         setErrors({});
         return dispatch(sessionActions.login({ credential, password })).then(
             async (data) => {
+                console.log(data)
                 if (data && data.errors) {
                     setErrors(data.errors);
                 } else {
                     navigate("/search");
                 }
             }
-        );
+        ).catch(async (res) => {
+            const data = await res.json();
+            if (data && data.errors) {
+              setErrors(data.errors);
+            }
+            else navigate('/search')
+          })
     };
 
     return (
