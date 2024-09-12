@@ -75,7 +75,6 @@ export default function Search({
   }, [preview, dispatch]);
 
   useEffect(() => {
-    console.log('this fired')
     setIsRedditShared(false)
     setLoading(false)
     setIsOnReddit(false)

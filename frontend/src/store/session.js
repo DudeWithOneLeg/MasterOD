@@ -1,5 +1,4 @@
 import { csrfFetch } from "./csrf";
-import { flatten } from "./csrf";
 
 const SET_USER = "session/setUser";
 const REMOVE_USER = "session/removeUser";
@@ -18,17 +17,34 @@ const removeUser = () => {
 };
 
 export const login = (user) => async (dispatch) => {
-  const { credential, password } = user;
-  const response = await csrfFetch("/api/session", {
-    method: "POST",
-    body: JSON.stringify({
-      credential,
-      password,
-    }),
-  });
-  const data = await response.json();
-  dispatch(setUser(data.user));
-  return response;
+  const { credential, password, token } = user;
+
+  if (token) {
+    const response = await csrfFetch("/api/session/google", {
+      method: "POST",
+      body: JSON.stringify({
+        token
+      }),
+    });
+    const data = await response.json();
+    dispatch(setUser(data.user));
+    console.log(data)
+    return response;
+  }
+  else {
+    const response = await csrfFetch("/api/session", {
+      method: "POST",
+      body: JSON.stringify({
+        credential,
+        password,
+      }),
+    });
+    const data = await response.json();
+    dispatch(setUser(data.user));
+    return response;
+
+  }
+
 };
 
 export const restoreUser = () => async (dispatch) => {
@@ -40,20 +56,48 @@ export const restoreUser = () => async (dispatch) => {
 };
 
 export const signup = (user) => async (dispatch) => {
-  const { username, password } = user;
-  const response = await csrfFetch("/api/users", {
-    method: "POST",
-    body: JSON.stringify({
-      username,
-      // firstName,
-      // lastName,
-      // email,
-      password,
-    }),
-  });
-  const data = await response.json();
-  dispatch(setUser(data.user));
-  return response;
+  const { username, email, password, token, finishSignup } = user;
+
+  if (token) {
+    const response = await csrfFetch("/api/users/google", {
+      method: "POST",
+      body: JSON.stringify({
+        token
+      }),
+    });
+    const data = await response.json();
+
+    if (data && data.success) {
+      dispatch(setUser({tempUser: true}));
+
+    }
+    return response;
+  }
+  else if (finishSignup) {
+    const response = await csrfFetch("/api/users/google", {
+      method: "PATCH",
+      body: JSON.stringify({
+        username
+      }),
+    });
+    const data = await response.json();
+      dispatch(setUser(data.user));
+    return response;
+  }
+  else {
+
+    const response = await csrfFetch("/api/users", {
+      method: "POST",
+      body: JSON.stringify({
+        username,
+        email,
+        password,
+      }),
+    });
+    const data = await response.json();
+    dispatch(setUser(data.user));
+    return response;
+  }
 };
 
 export const logout = () => async (dispatch) => {

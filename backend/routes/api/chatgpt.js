@@ -1,51 +1,33 @@
 const express = require("express");
 const router = express.Router();
-const OpenAI = require("openai");
 const pdfParse = require("pdf-parser");
 const cors = require("cors");
+const OpenAI = require("openai");
 const apiKey = process.env.OPENAI_API_KEY;
 const openai = new OpenAI({
   apiKey,
 });
 
-router.get("/test", async (req, res) => {
-//   const { url } = req.params;
-//   console.log(url)
-// //   const response = await fetch(url)
-//     .then(async (res) => {
-//     //   if (res.status == 200) {
-//     //     return res.arrayBuffer(); // Get the reader for the response body
-//     //   }
-//     })
-//     .then( (data) => {
-//       const pdfBuffer = Buffer.from(data)
+const prompt = 'You are a master google "dork" researcher.  I will give you a prompt and you will respond with the most detailed targeted "dork" to get the most relevant results for '
 
-//     //   pdfParse(pdfBuffer).then( async (datat) => {
-//     //     return datat.text
-//     //     // console.log(data.text.split("\n\n"));
-//     //     // console.log(data.info);
-//     //     // console.log((pdf.length / 1024 / 1024).toFixed(2) + " MB");
-//     //   });
-//     });
-//     try {
-//         const stream = await openai.chat.completions.create({
-//           model: "gpt-4",
-//           messages: [{ role: "user", content: `analyze this "${response}"` }],
-//           stream: true,
-//         });
+router.post("/", async (req, res) => {
+  const {query} = req.body
+  try {
 
-//         for await (const chunk of stream) {
-//           const content = chunk.choices[0]?.delta?.content || "";
-//           if (content) {
-//             rsock(`data: ${content}\n\n`);
-//           }
-//         }
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [{ role: "user", content: `${prompt} "${query}", only respond with the dork string` }],
+      stream: false
+    });
 
-//         res.end();
-//       } catch (error) {
-//         console.error("Error streaming GPT response:", error);
-//         res.status(500).send("Error streaming GPT response");
-//       }
+      const content = completion.choices[0].message;
+      if (content) {
+        console.log(content);
+      }
+  } catch (error) {
+    console.log(error)
+  }
+  res.json()
 });
 
 module.exports = router;

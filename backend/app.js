@@ -85,7 +85,7 @@ io.on("connection", (socket) => {
 
           const stream = await openai.chat.completions.create({
             model: "gpt-4o-mini",
-            messages: [{ role: "user", content: `analyze this "${text}"` }],
+            messages: [{ role: "user", content: `analyze this "${text.split('').slice(0, 200000).join('')}"` }],
             stream: true,
           });
 

@@ -4,18 +4,6 @@ import { flatten } from "./csrf";
 const SET_DATA = "search/setData";
 const SET_RECENT_QUERIES = "queries/recent";
 const SET_SAVED_QUERY = "query/save";
-const SET_QUERY = 'query/new'
-
-const setNewQuery = query => {
-  return {
-    type: SET_QUERY,
-    payload: query
-  }
-}
-
-export const newQuery = (query) => async (dispatch) => {
-  dispatch(setNewQuery(query))
-}
 
 const setRecentSavedQueries = (queries) => {
   return {
@@ -92,8 +80,6 @@ const initialState = {
 const searchReducer = (state = initialState, action) => {
   let newState;
   switch (action.type) {
-    case SET_QUERY:
-      newState = Object.assign({}, state);
 
     case SET_DATA:
       newState = Object.assign({}, state);

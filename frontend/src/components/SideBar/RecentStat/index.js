@@ -1,15 +1,18 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { isMobile } from "react-device-detect";
+import MobileRecentStat from "./MobileRecentStat";
 const arrowforward = require("../../../assets/images/arrow-forward-2.png");
 
 export default function RecentStat({ object, setSearch, setShowMenu }) {
     const navigate = useNavigate();
     const [hover, setHover] = useState(false);
     const path = window.location.pathname
-    console.log(path)
 
-    return (
+    if (isMobile) {
+        return <MobileRecentStat object={object} setSearch={setSearch} setShowMenu={setShowMenu}/>
+    }
+    else return (
         <div className={``}>
             <div
                 className={`p-2 flex flex-row items-center cursor-pointer justify-content-between rounded ${path === object.path ? 'bg-zinc-500':'hover:bg-zinc-700'}`}

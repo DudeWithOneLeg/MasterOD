@@ -14,7 +14,7 @@ export default function Browser({
   const [components, setComponents] = useState({
     'browser': (props) => <iframe className="h-full w-full" src={props.url}/>,
     'archive': (props) => <Archive url={props.url} />,
-    'analyze': (props) => <GptDocAnalyze url={props.url}/>
+    'analyze': (props) => <GptDocAnalyze url={props.url.includes('https://docs.google.com/gview?embedded=true&url=') ? props.url.split('https://docs.google.com/gview?embedded=true&url=')[1] : props.url}/>
   })
   const docExtensions = ["ppt", "doc", "docx", "pdf"];
 
@@ -44,7 +44,7 @@ export default function Browser({
 
   return (
     <div
-      className={`flex flex-col h-full w-full bg-slate-300 ${isMobile ? '' : 'ml-2'} p-1 rounded overflow-none`}
+      className={`flex flex-col h-full w-full bg-slate-300 ${isMobile ? '' : 'ml-2'} p-1 rounded overflow-hidden`}
       // ref={parentRef}
     >
       <BrowserHeader preview={displayUrl} component={component} setComponent={setComponent}/>
