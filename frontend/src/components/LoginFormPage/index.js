@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as sessionActions from "../../store/session";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, redirect } from "react-router-dom";
 import { isMobile } from "react-device-detect";
 import { useGoogleLogin } from "@react-oauth/google";
@@ -12,7 +12,16 @@ function LoginFormPage() {
     const [credential, setCredential] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState({});
+    const sessionUser = useSelector(state => state.session.user)
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (sessionUser) navigate('/search')
+    },[])
+
+    useEffect(() => {
+        if (sessionUser) navigate('/search')
+    },[sessionUser])
 
     const login = useGoogleLogin({
         onSuccess: (tokenResponse) => {

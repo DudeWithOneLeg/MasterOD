@@ -20,7 +20,10 @@ function SignupFormPage() {
     const navigate = useNavigate()
 
     useEffect(() => {
+        if (sessionUser) navigate('/search')
+    },[])
 
+    useEffect(() => {
         if (sessionUser) navigate('/search')
     },[sessionUser])
 
@@ -105,8 +108,6 @@ function SignupFormPage() {
             setErrors(newErrors);
         }
     }, [confirmPassword]);
-
-    if (sessionUser && !sessionUser.tempUser) return redirect("/");
 
     const handleSubmit = (e) => {
         e.preventDefault();
