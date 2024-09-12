@@ -91,7 +91,7 @@ router.post("/", validateSignup, async (req, res) => {
     const user = await User.create({
         username,
         hashedPassword,
-        email: email || null,
+        email: email.toLowerCase() || null,
         isOauth: false,
     });
 
