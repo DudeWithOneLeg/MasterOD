@@ -17,42 +17,72 @@ function RotatingModel(props) {
 export default function ThreeDScene() {
     const htmlRef = useRef(null);
     const containerRef = useRef(null);
-    const [width, setWidth] = useState(null);
     const [scale, setScale] = useState(1);
     const maxWidthpxDesk = 1078
     const maxWidthpxMob = 575
+    const [width, setWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
     useEffect(() => {
 
 
         if (containerRef.current) {
-            console.log(containerRef.current.offsetWidth)
+            const containerWidth = containerRef.current.offsetWidth
             let newScale = 0
             if (isMobile) {
-                newScale = containerRef.current.offsetWidth >= maxWidthpxMob ? 1 : (((containerRef.current.offsetWidth / maxWidthpxMob) * 1) + .1)
+                if (containerWidth >= maxWidthpxMob) {
+                    if (containerWidth > 700) {
+                        if (containerWidth > 800) {
+                            newScale = ((containerWidth / maxWidthpxMob) * 1) - .5
+                        }
+                        else {
+
+                            newScale = ((containerWidth / maxWidthpxMob) * 1) - .3
+                        }
+                    }
+                    else {
+                        newScale = ((containerWidth / maxWidthpxMob) * 1) - .2
+                    }
+                }
+                else {
+                    newScale = ((containerWidth / maxWidthpxMob) * 1) - .03
+                }
             }
             else {
-                newScale = containerRef.current.offsetWidth >= maxWidthpxDesk ? 1 : (((containerRef.current.offsetWidth / maxWidthpxDesk) * 1) + .1)
+                newScale = containerWidth >= maxWidthpxDesk ? 1 : (((containerWidth / maxWidthpxDesk) * 1) + .1)
 
             }
             setScale(newScale)
         }
     }, [containerRef.current]);
+
+    console.log(isMobile)
     return (
         <div className={`h-full w-full flex flex-${isMobile ? 'col' : 'row'} text-white relative`}>
-            <div className={`w-${isMobile ? 'full' : '1/2'} h-full flex items-center justify-center`}>
-                <div className="flex flex-col w-1/2">
-                    <h1 className={`poppins-regular-italic text-${isMobile ? '3xl' : '6xl'} pb-4`}>
+            <div className={`w-${isMobile ? 'full' : '1/2'} h-${isMobile ? '1/3' : 'full'} flex items-center justify-center ${isMobile ? 'p-5' : ''}`}>
+                <div className={`flex flex-col w-${isMobile ? '2/3' : '1/2'}`}>
+                    <h1 className={`poppins-regular-italic ${width < 640 ? 'text-3xl' : 'sm:text-3xl md:text-3xl lg:text-3xl xl:text-6xl'} pb-4`}>
                         {" "}
                         Research Evolved
                     </h1>
-                    <p className={`text-wrap poppins-regular text-${isMobile ? 'xl' : '3xl'} text-zinc-350`}>
+                    <p className={`text-wrap poppins-regular ${width < 640 ? 'text-xl' : 'sm:text-xl md:text-xl lg:text-xl xl:text-3xl'} text-zinc-350`}>
                         Explore beyond the surface with powerful search tools
                         and a platform built for deeper discoveries.
                     </p>
                 </div>
             </div>
-            <div ref={containerRef} className={`w-${isMobile ? 'full' : '1/2'} h-full relative`}>
+            <div ref={containerRef} className={`w-${isMobile ? 'full' : '1/2'} h-${isMobile ? 'full' : 'full'} relative`}>
                 <Canvas style={{ width: "100%", height: "100%" }}>
                     <Suspense>
                         <PerspectiveCamera
