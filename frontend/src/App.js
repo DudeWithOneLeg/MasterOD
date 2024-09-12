@@ -41,6 +41,10 @@ function App() {
     }, [query]);
 
     useEffect(() => {
+        if (user) navigate('/search')
+    },[])
+
+    useEffect(() => {
         // dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
         if (isLoaded &&
             user &&
