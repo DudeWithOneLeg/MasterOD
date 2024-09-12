@@ -1,6 +1,6 @@
 import { Suspense, useRef, useState, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
-import { PerspectiveCamera, OrbitControls, Html } from "@react-three/drei";
+import { PerspectiveCamera, OrbitControls } from "@react-three/drei";
 import Model from "./Blackhole";
 import { isMobile } from "react-device-detect";
 
@@ -15,7 +15,6 @@ function RotatingModel(props) {
 }
 
 export default function ThreeDScene() {
-    const htmlRef = useRef(null);
     const containerRef = useRef(null);
     const [scale, setScale] = useState(1);
     const maxWidthpxDesk = 1078
@@ -67,11 +66,10 @@ export default function ThreeDScene() {
         }
     }, [containerRef.current]);
 
-    console.log(isMobile)
     return (
         <div className={`h-full w-full flex flex-${isMobile ? 'col' : 'row'} text-white relative`}>
-            <div className={`w-${isMobile ? 'full' : '1/2'} h-${isMobile ? '1/3' : 'full'} flex items-center justify-center ${isMobile ? 'p-5' : ''}`}>
-                <div className={`flex flex-col w-${isMobile ? '2/3' : '1/2'}`}>
+            <div className={`w-${isMobile ? 'full' : '1/2'} !h-${isMobile ? '2/5' : 'full'} flex items-center justify-center ${isMobile ? 'p-5' : ''}`} >
+                <div className={`flex flex-col w-${isMobile ? '2/3' : '1/2'} h-full justify-center`}>
                     <h1 className={`poppins-regular-italic ${width < 640 ? 'text-3xl' : 'sm:text-3xl md:text-3xl lg:text-3xl xl:text-6xl'} pb-4`}>
                         {" "}
                         Research Evolved
@@ -82,7 +80,7 @@ export default function ThreeDScene() {
                     </p>
                 </div>
             </div>
-            <div ref={containerRef} className={`w-${isMobile ? 'full' : '1/2'} h-${isMobile ? 'full' : 'full'} relative`}>
+            <div ref={containerRef} className={`w-${isMobile ? 'full' : '1/2'} h-full relative`}>
                 <Canvas style={{ width: "100%", height: "100%" }}>
                     <Suspense>
                         <PerspectiveCamera
@@ -119,6 +117,7 @@ export default function ThreeDScene() {
                         <a
                             target="_blank"
                             href="https://sketchfab.com/3d-models/earth-63d902b12fd14868b4dc2f19dc21d7c2"
+                         rel="noreferrer"
                         >
                             Kongle
                         </a>

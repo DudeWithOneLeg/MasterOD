@@ -1,9 +1,8 @@
-import { useRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import GptDocAnalyze from "../GptDocAnalyze/GptDocAnalyze";
 import Archive from "../Archive/archive";
 import BrowserHeader from "./BrowserHeader";
 import { isMobile } from "react-device-detect";
-const copyIcon = require('../../assets/images/copy.png')
 
 export default function Browser({
   preview,
@@ -12,7 +11,7 @@ export default function Browser({
   const [component, setComponent] = useState('')
   const [displayUrl, setdisplayUrl] = useState('')
   const [components, setComponents] = useState({
-    'browser': (props) => <iframe className="h-full w-full" src={props.url}/>,
+    'browser': (props) => <iframe className="h-full w-full" src={props.url} title='browser'/>,
     'archive': (props) => <Archive url={props.url} />,
     'analyze': (props) => <GptDocAnalyze url={props.url.includes('https://docs.google.com/gview?embedded=true&url=') ? props.url.split('https://docs.google.com/gview?embedded=true&url=')[1] : props.url}/>
   })
