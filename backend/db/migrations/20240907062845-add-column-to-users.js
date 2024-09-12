@@ -13,7 +13,8 @@ module.exports = {
         });
         await queryInterface.addColumn("Users", "isOauth", {
             type: Sequelize.BOOLEAN,
-            allowNull: false
+            allowNull: false,
+            defaultValue: false
         });
     },
 
