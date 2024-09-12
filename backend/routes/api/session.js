@@ -113,8 +113,10 @@ router.post("/", validateLogin, async (req, res, next) => {
 
   const user = await User.findOne({
     where: {
-        username: credential,
-        // email: credential,
+        [Op.or] : [
+          {email: credential.toLowerCase()},
+          {username: credential}
+      ]
     },
   });
 
