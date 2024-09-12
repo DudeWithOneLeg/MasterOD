@@ -7,7 +7,6 @@ import Search from "./components/Search";
 import SideBar from "./components/SideBar";
 import QueryStats from "./components/QueryStats";
 import ResultsPage from "./components/ResultsPage";
-import WelcomePage from "./components/WelcomePage";
 import LoginFormPage from "./components/LoginFormPage";
 import SignupFormPage from "./components/SignupFormPage";
 import Navigation from "./components/Navigation";

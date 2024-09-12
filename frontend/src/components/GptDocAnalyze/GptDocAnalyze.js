@@ -89,7 +89,7 @@ Overall, this announcement underlines a concerted effort by AWS and Slalom to de
       console.log("room 1 joined by client");
 
       if (!responseRef.current) {
-        socketRef.current.emit("url", { url });
+        // socketRef.current.emit("url", { url });
       }
     });
 
