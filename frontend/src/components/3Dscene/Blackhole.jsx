@@ -10,6 +10,7 @@ Title: Black Hole
 import React, { useRef } from 'react';
 import { useGLTF } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
+import { isMobile } from 'react-device-detect';
 
 export default function Model(props) {
   const group = useRef();
@@ -18,8 +19,7 @@ export default function Model(props) {
   // Rotate the model on each frame
   useFrame(() => {
     if (group.current) {
-      // group.current.rotation.x += 0.01; // Rotate around X-axis
-      group.current.rotation.y += 0.0002; // Rotate around Y-axis
+      group.current.rotation.y += isMobile ? 0.0006 : 0.0002;
     }
   });
 
