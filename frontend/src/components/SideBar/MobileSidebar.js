@@ -38,10 +38,10 @@ export default function MobileSideBar({ setSearch }) {
         </div>
       ) : (
         <div className="flex flex-row h-full items-center justify-between w-full">
-          <p className="p-1 rounded border border-1 border-white mx-1" onClick={() => navigate('/signup')}>
+          <p className="p-1 rounded border !border-zinc-500 mx-1" onClick={() => navigate('/signup')}>
             Create an account
           </p>
-          <p className="p-1 rounded border border-1 border-white mx-1" onClick={() => {return navigate('/login')}}>Login</p>
+          <p className="p-1 rounded border !border-zinc-500 mx-1" onClick={() => {return navigate('/login')}}>Login</p>
         </div>
       )}
       {showMenu ? (
