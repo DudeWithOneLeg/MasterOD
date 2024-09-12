@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate, redirect } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import RecentStats from "./RecentStats";
+import logo from "../../assets/images/searchdeck-favicon.png";
 import * as sessionActions from "../../store/session";
+const menuIcon = require("../../assets/images/menu-icon.png")
+const profileIcon = require("../../assets/icons/profile.jpg")
 
 export default function MobileSideBar({ setSearch }) {
   const [showMenu, setShowMenu] = useState(false);
@@ -16,13 +19,49 @@ export default function MobileSideBar({ setSearch }) {
     navigate("/");
   };
 
+  const handleNavigate = () => {
+    if (user && user.id) {
+        navigate("/search")
+    }
+    else {navigate('/')}
+}
+
   return (
     <div className="text-white w-screen bg-zinc-900 fixed h-[5vh] z-30 border-b border-zinc-500">
       {user ? (
-        <div className="flex flex-row justify-content-between items-center">
-          <div className="flex flex-row items-center">
+        <div className="grid grid-flow-col grid-cols-3 justify-items-stretch items-center w-full">
+          <div className="flex flex-row items-center justify-self-start">
             <img
-              src={require("../../assets/icons/profile.jpg")}
+              src={menuIcon}
+              onClick={() => setShowMenu(!showMenu)}
+              className="h-14 p-2 rounded-full"
+              alt="profile"
+            />
+          </div>
+          <div
+                className="flex flex-row items-center cursor-pointer justify-self-center w-fit"
+                onClick={handleNavigate}
+            >
+                <img src={logo} className="flex h-10" alt='search deck logo'/>
+                <h1 className="text-2xl p-2">SearchDeck</h1>
+            </div>
+        </div>
+      ) : (
+        <div className="flex flex-row h-full items-center justify-between w-full">
+          <p className="p-1 rounded border !border-zinc-500 mx-1" onClick={() => navigate('/signup')}>
+            Create an account
+          </p>
+          <p className="p-1 rounded border !border-zinc-500 mx-1" onClick={() => {return navigate('/login')}}>Login</p>
+        </div>
+      )}
+      {showMenu ? (
+        <div className="fixed flex bg-zinc-900 w-full h-fit pb-2 px-2 z-30">
+          {user ? (
+            <div className="flex flex-col w-full -r-2 divide-y ">
+              <div className="w-full flex flex-row items-center justify-between h-fit">
+              <div className="flex flex-row items-center">
+            <img
+              src={profileIcon}
               onClick={() => setShowMenu(!showMenu)}
               className="h-14 p-2 rounded-full"
               alt="profile"
@@ -35,20 +74,7 @@ export default function MobileSideBar({ setSearch }) {
             className="h-8 cursor-pointer"
             alt="logout"
           />
-        </div>
-      ) : (
-        <div className="flex flex-row h-full items-center justify-between w-full">
-          <p className="p-1 rounded border !border-zinc-500 mx-1" onClick={() => navigate('/signup')}>
-            Create an account
-          </p>
-          <p className="p-1 rounded border !border-zinc-500 mx-1" onClick={() => {return navigate('/login')}}>Login</p>
-        </div>
-      )}
-      {showMenu ? (
-        <div className="fixed flex bg-zinc-900 w-full h-screen p-2 z-30">
-          {user ? (
-            <div className="flex flex-col w-full -r-2 divide-y ">
-              <div className="w-full flex flex-row items-center justify-between h-fit"></div>
+              </div>
               <RecentStats setSearch={setSearch} setShowMenu={setShowMenu} />
             </div>
           ) : (

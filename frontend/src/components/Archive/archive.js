@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import * as archiveActions from "../../store/archive";
-import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_green.css";
 
 export default function Archive({ url }) {
@@ -38,7 +37,7 @@ export default function Archive({ url }) {
   useEffect(() => {
     setHasResults(null)
     setLoading(true)
-    const filteredDocument = url.includes('https://docs.google.com/gview?embedded=true&url=') ? url.split('https://docs.google.com/gview?embedded=true&url=')[0] : url
+    const filteredDocument = url.includes('https://docs.google.com/gview?embedded=true&url=') ? url.split('https://docs.google.com/gview?embedded=true&url=')[1] : url
     dispatch(archiveActions.getSnapshots({ url: filteredDocument })).then(async (data) => {
       setLoading(false);
       if (data.snapshots['0']) setHasResults(true)
@@ -60,12 +59,10 @@ export default function Archive({ url }) {
 
   useEffect(() => {
     if (allowedDates.length) {
-        // console.log(allowedDates)
-        const curr = []
       const years = [];
       for (let date of allowedDates) {
-        const [year, month, day] = date.split("-");
-        // console.log(year)
+        const [year] = date.split("-");
+        console.log(year, 'yyeeaaarrr')
         if (!years.includes(year)) {
           // console.log(year)
           years.push(year);
@@ -83,7 +80,7 @@ export default function Archive({ url }) {
     // console.log('year hitt')
     const months = [];
     for (let date of allowedDates) {
-      const [year, month, day] = date.split("-");
+      const [year, month] = date.split("-");
       if (year === selectedYear && !months.includes(month)) {
         months.push(month);
       }
@@ -191,6 +188,7 @@ export default function Archive({ url }) {
         <img
           src={require("../../assets/icons/loading.png")}
           className="h-26 w-26 rounded-full animate-spin mb-4"
+          alt='loading'
         />
         <p>Grabbing results from the Wayback Machine. This may take a while depending on the number of results.</p>
       </div>

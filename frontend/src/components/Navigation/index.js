@@ -1,7 +1,6 @@
 import { React, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import ProfileButton from "./ProfileButton";
 import logo from "../../assets/images/searchdeck-favicon.png";
 import profileImg from "../../assets/icons/profile.jpg";
 import * as sessionActions from "../../store/session";
@@ -12,21 +11,6 @@ function Navigation() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    let sessionLinks;
-    if (sessionUser) {
-        sessionLinks = (
-            <li>
-                <ProfileButton user={sessionUser} />
-            </li>
-        );
-    } else {
-        sessionLinks = (
-            <li>
-                <NavLink to="/login">Log In</NavLink>
-                <NavLink to="/signup">Sign Up</NavLink>
-            </li>
-        );
-    }
     const handleLogOut = (e) => {
         e.preventDefault();
         dispatch(sessionActions.logout());
@@ -35,10 +19,11 @@ function Navigation() {
 
     const handleNavigate = () => {
         if (sessionUser && sessionUser.id) {
-            navigate("/search")
+            navigate("/search");
+        } else {
+            navigate("/");
         }
-        else {navigate('/')}
-    }
+    };
 
     return (
         <div className="h-[5%] w-screen fixed flex p-2 border-b border-zinc-500 flex flex-row items-center justify-between text-white">
@@ -46,7 +31,7 @@ function Navigation() {
                 className="flex flex-row items-center cursor-pointer"
                 onClick={handleNavigate}
             >
-                <img src={logo} className="flex h-10" />
+                <img src={logo} className="flex h-10" alt='search deck logo'/>
                 <h1 className="text-2xl p-2">SearchDeck</h1>
             </div>
             {sessionUser ? (
