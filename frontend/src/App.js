@@ -42,7 +42,7 @@ function App() {
 
     useEffect(() => {
         if (user) navigate('/search')
-    },[])
+    },[isLoaded])
 
     useEffect(() => {
         // dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
@@ -56,7 +56,7 @@ function App() {
         } else if (isLoaded && !user && path !== '/login' && path !== '/signup') {
             navigate("/");
         }
-    }, [user]);
+    }, [user, isLoaded]);
 
     return (
         <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
