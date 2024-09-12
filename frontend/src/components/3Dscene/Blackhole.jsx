@@ -14,7 +14,7 @@ import { useFrame } from '@react-three/fiber';
 export default function Model(props) {
   const group = useRef();
   const { scene } = useGLTF('../../../models/models/earth.gltf');
-
+  const scale = props.scale
   // Rotate the model on each frame
   useFrame(() => {
     if (group.current) {
@@ -25,7 +25,7 @@ export default function Model(props) {
 
   return (
     <group ref={group} {...props}>
-      <primitive object={scene}/>
+      <primitive object={scene} scale={[scale, scale, scale]}/>
     </group>
   );
 }

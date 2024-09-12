@@ -1,14 +1,15 @@
 import { Suspense, useRef, useState, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import { PerspectiveCamera, OrbitControls, Html } from "@react-three/drei";
-import Model from "./Blackhole"; // Assuming this is your imported model
+import Model from "./Blackhole";
+import { isMobile } from "react-device-detect";
 
 // A component to apply rotation using useFrame
 function RotatingModel(props) {
     // Rendering your model with ref for rotation
     return (
-        <group {...props} rotation={[0, 0, -0.2604]}>
-            <Model />
+        <group rotation={[0, 0, -0.2604]}>
+            <Model {...props}/>
         </group>
     );
 }
@@ -16,37 +17,42 @@ function RotatingModel(props) {
 export default function ThreeDScene() {
     const htmlRef = useRef(null);
     const containerRef = useRef(null);
-    const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
+    const [width, setWidth] = useState(null);
+    const [scale, setScale] = useState(1);
+    const maxWidthpxDesk = 1078
+    const maxWidthpxMob = 575
+
     useEffect(() => {
-        const updateSize = () => {
-            if (containerRef.current) {
-                setContainerSize({
-                    width: containerRef.current.offsetWidth,
-                    height: containerRef.current.offsetHeight,
-                });
+
+
+        if (containerRef.current) {
+            console.log(containerRef.current.offsetWidth)
+            let newScale = 0
+            if (isMobile) {
+                newScale = containerRef.current.offsetWidth >= maxWidthpxMob ? 1 : (((containerRef.current.offsetWidth / maxWidthpxMob) * 1) + .1)
             }
-        };
+            else {
+                newScale = containerRef.current.offsetWidth >= maxWidthpxDesk ? 1 : (((containerRef.current.offsetWidth / maxWidthpxDesk) * 1) + .1)
 
-        window.addEventListener("resize", updateSize);
-        updateSize();
-
-        return () => window.removeEventListener("resize", updateSize);
-    }, []);
+            }
+            setScale(newScale)
+        }
+    }, [containerRef.current]);
     return (
-        <div className="h-full w-full flex flex-row text-white relative">
-            <div className="w-1/2 h-full flex items-center justify-center">
+        <div className={`h-full w-full flex flex-${isMobile ? 'col' : 'row'} text-white relative`}>
+            <div className={`w-${isMobile ? 'full' : '1/2'} h-full flex items-center justify-center`}>
                 <div className="flex flex-col w-1/2">
-                    <h1 className="poppins-regular-italic text-6xl pb-4">
+                    <h1 className={`poppins-regular-italic text-${isMobile ? '3xl' : '6xl'} pb-4`}>
                         {" "}
                         Research Evolved
                     </h1>
-                    <p className="text-wrap poppins-regular text-3xl text-zinc-350">
+                    <p className={`text-wrap poppins-regular text-${isMobile ? 'xl' : '3xl'} text-zinc-350`}>
                         Explore beyond the surface with powerful search tools
                         and a platform built for deeper discoveries.
                     </p>
                 </div>
             </div>
-            <div ref={containerRef} className="w-1/2 h-full relative">
+            <div ref={containerRef} className={`w-${isMobile ? 'full' : '1/2'} h-full relative`}>
                 <Canvas style={{ width: "100%", height: "100%" }}>
                     <Suspense>
                         <PerspectiveCamera
@@ -65,21 +71,28 @@ export default function ThreeDScene() {
                                 light={directionalLightRef}
                                 />} */}
 
-                            {/* Use the RotatingModel component inside the Canvas */}
                             {/* <OrbitControls /> */}
-                            <RotatingModel />
+                            <RotatingModel scale={scale}/>
                         </PerspectiveCamera>
                     </Suspense>
                 </Canvas>
                 <div
-                        className="p-4 text-zinc-500"
+                    className="p-4 text-zinc-500"
                     style={{
                         position: "absolute",
                         bottom: "0%",
-                        right: "0%"
+                        right: "0%",
                     }}
                 >
-                    <p>Model Credit: <a target='_blank'href='https://sketchfab.com/3d-models/earth-63d902b12fd14868b4dc2f19dc21d7c2'>Kongle</a></p>
+                    <p>
+                        Model Credit:{" "}
+                        <a
+                            target="_blank"
+                            href="https://sketchfab.com/3d-models/earth-63d902b12fd14868b4dc2f19dc21d7c2"
+                        >
+                            Kongle
+                        </a>
+                    </p>
                 </div>
             </div>
         </div>

@@ -193,13 +193,13 @@ function SignupFormPage() {
                     <button type="submit" className="my-1 rounded border p-2 px-2 w-full hover:bg-slate-700">
                         Sign Up
                     </button>
-                    <div
+                    {/* <div
                         onClick={() => login()}
                         className="text-slate-200 w-full rounded hover:bg-slate-700 p-2 my-2 border flex flex-row items-center justify-center cursor-pointer"
                     >
                         <img src={googleLogo} className="h-5 px-1 " />
                         <p>Sign up with Google</p>
-                    </div>
+                    </div> */}
                 </div>
             </form>
         </div>

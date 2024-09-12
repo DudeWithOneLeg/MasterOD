@@ -40,19 +40,19 @@ function App() {
         console.log("Query updated:", query);
     }, [query]);
 
-    useEffect(() => {
-        // dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
-        if (isLoaded &&
-            user &&
-            !user.tempUser
-        ) {
-            navigate("/search");
-        } else if (isLoaded && user && user.tempUser) {
-            navigate("/finish-signup");
-        } else if (isLoaded && !user && path !== '/login' && path !== '/signup') {
-            navigate("/");
-        }
-    }, [user]);
+    // useEffect(() => {
+    //     // dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
+    //     if (isLoaded &&
+    //         user &&
+    //         !user.tempUser && (path === '/' || path === '/login' || path === '/signup')
+    //     ) {
+    //         navigate("/search");
+    //     } else if (isLoaded && user && user.tempUser) {
+    //         navigate("/finish-signup");
+    //     } else if (isLoaded && !user && path !== '/login' && path !== '/signup') {
+    //         navigate("/");
+    //     }
+    // }, [user]);
 
     return (
         <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
@@ -258,7 +258,7 @@ function App() {
                         </Routes>
                     ) : (
                         <Routes>
-                            <Route path="/" element={<WelcomePage />} />
+                            <Route path="/" element={<ThreeDScene />} />
                             <Route
                                 path="/login"
                                 element={

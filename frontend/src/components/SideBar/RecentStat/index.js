@@ -8,7 +8,6 @@ export default function RecentStat({ object, setSearch, setShowMenu }) {
     const navigate = useNavigate();
     const [hover, setHover] = useState(false);
     const path = window.location.pathname
-    console.log(path)
 
     if (isMobile) {
         return <MobileRecentStat object={object} setSearch={setSearch} setShowMenu={setShowMenu}/>
