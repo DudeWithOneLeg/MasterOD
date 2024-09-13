@@ -45,7 +45,6 @@ export default function Browser() {
             );
             setdisplayUrl(preview);
         }
-        // if (isIndex) console.log('indexx')
     }, [preview]);
 
     useEffect(() => {
