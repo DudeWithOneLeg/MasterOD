@@ -13,6 +13,9 @@ module.exports = {
     await queryInterface.changeColumn('Queries', 'string', {
       type: Sequelize.STRING(3500) // or true, depending on what you want
     });
+    await queryInterface.changeColumn('Results', 'snippet', {
+      type: Sequelize.STRING(3500) // or true, depending on what you want
+    });
     /**
      * Add altering commands here.
      *
@@ -27,6 +30,9 @@ module.exports = {
       type: Sequelize.STRING // revert to the original state
     });
     await queryInterface.changeColumn(options, 'string', {
+      type: Sequelize.STRING // revert to the original state
+    });
+    await queryInterface.changeColumn({...options, tableName: "Results"}, 'snippet', {
       type: Sequelize.STRING // revert to the original state
     });
     /**
