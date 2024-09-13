@@ -188,6 +188,11 @@ router.post("/", async (req, res) => {
         delete request.start;
         request.first = first;
         request.count = 50;
+        if (params.location) {
+            const location = params.location
+            request.q = request.q + `location:${location}`
+            delete request.location
+        }
     }
     console.log(request);
     try {

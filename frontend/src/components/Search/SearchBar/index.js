@@ -46,15 +46,17 @@ export default function SearchBar({status, setStatus}) {
     const settings = { Google: googleSettings, Bing: bingSettings };
 
     const saveQuery = () => {
+        const options = {
+            q: query.join(";"),
+            hl: language,
+            engine: engine.toLocaleLowerCase(),
+            start: 0,
+            string: string,
+        }
+        if (engine === 'Bing') {options.location = country}
+        else {options.cr = country}
         dispatch(
-            searchActions.saveQuery({
-                q: query.join(";"),
-                cr: country,
-                hl: language,
-                engine: engine.toLocaleLowerCase(),
-                start: 0,
-                string: string,
-            })
+            searchActions.saveQuery(options)
         );
     };
 
@@ -69,7 +71,6 @@ export default function SearchBar({status, setStatus}) {
             if (!gptSearch) {
                 options = {
                     q: query.join(";"),
-                    cr: country,
                     hl: language,
                     engine: engine.toLocaleLowerCase(),
                     start: 0,
@@ -82,6 +83,8 @@ export default function SearchBar({status, setStatus}) {
                     gpt: true,
                 };
             }
+            if (engine === 'Bing') {options.location = country}
+            else {options.cr = country}
             dispatch(resultActions.search(options, (status = "initial"))).then(
                 async (data) => {
                     navigate("/search");
