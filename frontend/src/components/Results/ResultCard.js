@@ -5,13 +5,12 @@ import SaveResult from "../SaveResult";
 import { isMobile } from "react-device-detect";
 const newTab = require("../../assets/icons/open_in_new.png");
 
-export default function Result({
+export default function ResultCard({
   data,
   rowKey,
   setShowResult,
   setPreview,
-  setResult,
-  setWidth
+  setResult
 }) {
   const {
     currentSelected,
@@ -42,7 +41,6 @@ export default function Result({
     setShowResult(true);
     setResult(newResult);
     setPreview(data[rowKey].link);
-    setWidth("w-full");
     setCurrentSelected(result.id);
     setVisitedResults([...visitedResults, result.id]);
     if (result.title.toLowerCase().includes('index of /')) setIsIndex(true)

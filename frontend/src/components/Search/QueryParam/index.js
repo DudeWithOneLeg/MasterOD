@@ -1,6 +1,8 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
+import { SearchContext } from "../../../context/SearchContext";
 
-export default function QueryParam({ param, query, setQuery, index }) {
+export default function QueryParam({ param, index }) {
+  const {setQuery} = useContext(SearchContext)
   const [currParam, setCurrParam] = useState(param);
   const [paramValue, setParamValue] = useState(
     currParam.split(":")[1]?.split('"').join("") || ""

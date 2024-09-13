@@ -5,8 +5,8 @@ import { isMobile } from "react-device-detect";
 import * as queryActions from "../../store/query";
 import * as searchActions from "../../store/search";
 
-export default function QueryRow({ query, setShowOptions }) {
-    const { setString, setQuery } = useContext(SearchContext);
+export default function QueryRow({ query }) {
+    const { setString, setQuery, setShowOptions } = useContext(SearchContext);
     const dispatch = useDispatch();
     const [hover, setHover] = useState(false);
 

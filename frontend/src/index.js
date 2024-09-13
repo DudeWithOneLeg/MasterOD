@@ -1,41 +1,43 @@
+import React from "react";
+import ReactDOM from "react-dom";
+import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import "./index.css";
+import App from "./App";
+import configureStore from "./store";
+import { restoreCSRF, csrfFetch } from "./store/csrf";
+import ModalProvider from "./context/Modal.js";
+import { SearchProvider } from "./context/SearchContext.js";
+import { ResultsProvider } from "./context/ResultsContext.js";
 
-  import React from 'react';
-  import ReactDOM from 'react-dom';
-  import { BrowserRouter } from 'react-router-dom';
-  import { Provider } from 'react-redux';
-  import './index.css';
-  import App from './App';
-  import configureStore from './store';
-  import { restoreCSRF, csrfFetch } from './store/csrf';
-  import ModalProvider from './context/Modal.js'
-  import { SearchProvider } from './context/SearchContext.js';
+const store = configureStore();
 
-  const store = configureStore();
-
-  if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== "production") {
     restoreCSRF();
 
     window.csrfFetch = csrfFetch;
     window.store = store;
-  }
+}
 
-  function Root() {
+function Root() {
     return (
-      <SearchProvider>
-        <ModalProvider>
-          <Provider store={store}>
-            <BrowserRouter>
-              <App />
-            </BrowserRouter>
-          </Provider>
-        </ModalProvider>
-      </SearchProvider>
+        <Provider store={store}>
+            <ResultsProvider>
+                <SearchProvider>
+                    <ModalProvider>
+                        <BrowserRouter>
+                            <App />
+                        </BrowserRouter>
+                    </ModalProvider>
+                </SearchProvider>
+            </ResultsProvider>
+        </Provider>
     );
-  }
+}
 
-  ReactDOM.render(
+ReactDOM.render(
     <React.StrictMode>
-      <Root/>
+        <Root />
     </React.StrictMode>,
-    document.getElementById('root')
-  );
+    document.getElementById("root")
+);

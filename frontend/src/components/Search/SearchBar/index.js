@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useState, useContext } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Parameter from "../Parameter";
@@ -9,20 +9,14 @@ import * as searchActions from "../../../store/search";
 import * as resultActions from "../../../store/result";
 import { isMobile } from "react-device-detect";
 import { SearchContext } from "../../../context/SearchContext";
+import { ResultsContext } from "../../../context/ResultsContext";
 import MobileSearchBar from "./MobileSearchBar";
 const clearText = require("../../../assets/images/clear.png");
 const searchIcon = require("../../../assets/images/search.png");
 
 const isProduction = process.env.NODE_ENV === "production";
 
-export default function SearchBar({
-    setPageNum,
-    showOptions,
-    setShowOptions,
-    setStatus,
-    status,
-    setTotalPages
-}) {
+export default function SearchBar({status, setStatus}) {
     const {
         query,
         setQuery,
@@ -38,8 +32,13 @@ export default function SearchBar({
         setVisitedResults,
         setCurrentSelected,
         setLoadingResults,
-
+        showOptions,
+        setShowOptions,
     } = useContext(SearchContext)
+    const {
+        setPageNum,
+        setTotalPages
+    } = useContext(ResultsContext)
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [gptSearch, setGptSearch] = useState(false);
@@ -114,10 +113,6 @@ export default function SearchBar({
             <MobileSearchBar
                 setStatus={setStatus}
                 status={status}
-                setTotalPages={setTotalPages}
-                setPageNum={setPageNum}
-                showOptions={showOptions}
-                setShowOptions={setShowOptions}
             />
         );
     else
@@ -241,8 +236,6 @@ export default function SearchBar({
                                     return (
                                         <QueryParam
                                             param={param}
-                                            query={query}
-                                            setQuery={setQuery}
                                             index={index}
                                         />
                                     );
@@ -258,8 +251,6 @@ export default function SearchBar({
                             {Object.keys(settings[engine].operators).map(
                                 (param) => (
                                     <Parameter
-                                        query={query}
-                                        setQuery={setQuery}
                                         text={param}
                                         param={
                                             settings[engine].operators[param]

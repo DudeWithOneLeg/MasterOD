@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { SearchContext } from "../../../context/SearchContext";
 
-export default function Parameter({ query, setQuery, param, text }) {
+export default function Parameter({ param, text }) {
+  const {query, setQuery} = useContext(SearchContext)
   const [input, setInput] = useState("");
   const [showInput, setShowInput] = useState(true);
 
