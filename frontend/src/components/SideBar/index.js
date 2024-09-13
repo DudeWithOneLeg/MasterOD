@@ -1,20 +1,21 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useContext} from "react";
 import { useNavigate } from "react-router-dom";
 import { isMobile } from "react-device-detect";
 import MobileSideBar from "./MobileSidebar";
 import * as searchActions from "../../store/search";
 import * as resultActions from "../../store/result";
 import RecentStats from "./RecentStats";
+import { SearchContext } from "../../context/SearchContext";
 // import SearchBar from "../SearchBar";
 
-export default function SideBar({
-    setSearch,
-    setQuery,
-    setString,
-    hide,
-    setHide,
-}) {
+export default function SideBar() {
+    const {
+        setSearch,
+        setQuery,
+        setString
+    } = useContext(SearchContext)
+    
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const user = useSelector((state) => state.session.user);

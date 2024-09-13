@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useSelector } from "react-redux";
+import { SearchContext } from "../../context/SearchContext";
 import SaveResult from "../SaveResult";
 import { isMobile } from "react-device-detect";
 const newTab = require("../../assets/icons/open_in_new.png");
@@ -10,13 +11,15 @@ export default function Result({
   setShowResult,
   setPreview,
   setResult,
-  setWidth,
-  currentSelected,
-  setCurrentSelected,
-  visitedResults,
-  setVisitedResults,
-  setIsIndex
+  setWidth
 }) {
+  const {
+    currentSelected,
+    setCurrentSelected,
+    visitedResults,
+    setVisitedResults,
+    setIsIndex} = useContext(SearchContext)
+
   const [showInfo, setShowInfo] = useState(false);
   const [saved, setSaved] = useState(false);
   const [lastSearchId, setLastSearchId] = useState(0);
@@ -60,7 +63,6 @@ export default function Result({
       data-collapse-target="collapse"
       data-collapse="collapse"
       id="result"
-      onClick={handleClick}
       className={`${
         currentSelected === result.id
           ? "border-2 border-green-400"
@@ -79,7 +81,8 @@ export default function Result({
         )}
         {/* <div className="flex font-bold h-fit w-fit bg-slate-300 rounded"></div> */}
       </div>
-      <div className="flex flex-col items-start h-full w-full">
+      <div className="flex flex-col items-start h-full w-full"
+        onClick={handleClick}>
         {result ? (
           <div
             key={result.id}

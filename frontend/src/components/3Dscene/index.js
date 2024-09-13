@@ -1,6 +1,6 @@
 import { Suspense, useRef, useState, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
-import { PerspectiveCamera, OrbitControls, Html } from "@react-three/drei";
+import { PerspectiveCamera, OrbitControls } from "@react-three/drei";
 import Model from "./Blackhole";
 import { isMobile } from "react-device-detect";
 
@@ -9,80 +9,100 @@ function RotatingModel(props) {
     // Rendering your model with ref for rotation
     return (
         <group rotation={[0, 0, -0.2604]}>
-            <Model {...props}/>
+            <Model {...props} />
         </group>
     );
 }
 
 export default function ThreeDScene() {
-    const htmlRef = useRef(null);
     const containerRef = useRef(null);
     const [scale, setScale] = useState(1);
-    const maxWidthpxDesk = 1078
-    const maxWidthpxMob = 575
+    const maxWidthpxDesk = 1078;
+    const maxWidthpxMob = 575;
     const [width, setWidth] = useState(window.innerWidth);
 
-  useEffect(() => {
-    const handleResize = () => {
-      setWidth(window.innerWidth);
-    };
+    useEffect(() => {
+        const handleResize = () => {
+            setWidth(window.innerWidth);
+        };
 
-    window.addEventListener('resize', handleResize);
+        window.addEventListener("resize", handleResize);
 
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, []);
 
     useEffect(() => {
-
-
         if (containerRef.current) {
-            const containerWidth = containerRef.current.offsetWidth
-            let newScale = 0
+            const containerWidth = containerRef.current.offsetWidth;
+            let newScale = 0;
             if (isMobile) {
                 if (containerWidth >= maxWidthpxMob) {
                     if (containerWidth > 700) {
                         if (containerWidth > 800) {
-                            newScale = ((containerWidth / maxWidthpxMob) * 1) - .5
+                            newScale =
+                                (containerWidth / maxWidthpxMob) * 1 - 0.5;
+                        } else {
+                            newScale =
+                                (containerWidth / maxWidthpxMob) * 1 - 0.3;
                         }
-                        else {
-
-                            newScale = ((containerWidth / maxWidthpxMob) * 1) - .3
-                        }
+                    } else {
+                        newScale = (containerWidth / maxWidthpxMob) * 1 - 0.2;
                     }
-                    else {
-                        newScale = ((containerWidth / maxWidthpxMob) * 1) - .2
-                    }
+                } else {
+                    newScale = (containerWidth / maxWidthpxMob) * 1 - 0.03;
                 }
-                else {
-                    newScale = ((containerWidth / maxWidthpxMob) * 1) - .03
-                }
+            } else {
+                newScale =
+                    containerWidth >= maxWidthpxDesk
+                        ? 1
+                        : (containerWidth / maxWidthpxDesk) * 1 + 0.1;
             }
-            else {
-                newScale = containerWidth >= maxWidthpxDesk ? 1 : (((containerWidth / maxWidthpxDesk) * 1) + .1)
-
-            }
-            setScale(newScale)
+            setScale(newScale);
         }
     }, [containerRef.current]);
 
-    console.log(isMobile)
     return (
-        <div className={`h-full w-full flex flex-${isMobile ? 'col' : 'row'} text-white relative`}>
-            <div className={`w-${isMobile ? 'full' : '1/2'} h-${isMobile ? '1/3' : 'full'} flex items-center justify-center ${isMobile ? 'p-5' : ''}`}>
-                <div className={`flex flex-col w-${isMobile ? '2/3' : '1/2'}`}>
-                    <h1 className={`poppins-regular-italic ${width < 640 ? 'text-3xl' : 'sm:text-3xl md:text-3xl lg:text-3xl xl:text-6xl'} pb-4`}>
+        <div
+            className={`h-full w-full flex flex-${
+                isMobile ? "col" : "row"
+            } text-white relative`}
+        >
+            <div
+                className={`w-${isMobile ? "full" : "1/2"} h-${
+                    isMobile ? "1/3" : "full"
+                } flex items-center justify-center ${isMobile ? "p-5" : ""}`}
+            >
+                <div className={`flex flex-col w-${isMobile ? "2/3" : "1/2"}`}>
+                    <h1
+                        className={`poppins-regular-italic ${
+                            width < 640
+                                ? "text-3xl"
+                                : "sm:text-3xl md:text-3xl lg:text-3xl xl:text-6xl"
+                        } pb-4`}
+                    >
                         {" "}
                         Research Evolved
                     </h1>
-                    <p className={`text-wrap poppins-regular ${width < 640 ? 'text-xl' : 'sm:text-xl md:text-xl lg:text-xl xl:text-3xl'} text-zinc-350`}>
+                    <p
+                        className={`text-wrap poppins-regular ${
+                            width < 640
+                                ? "text-xl"
+                                : "sm:text-xl md:text-xl lg:text-xl xl:text-3xl"
+                        } text-zinc-350`}
+                    >
                         Explore beyond the surface with powerful search tools
                         and a platform built for deeper discoveries.
                     </p>
                 </div>
             </div>
-            <div ref={containerRef} className={`w-${isMobile ? 'full' : '1/2'} h-${isMobile ? 'full' : 'full'} relative`}>
+            <div
+                ref={containerRef}
+                className={`w-${isMobile ? "full" : "1/2"} h-${
+                    isMobile ? "full" : "full"
+                } relative`}
+            >
                 <Canvas style={{ width: "100%", height: "100%" }}>
                     <Suspense>
                         <PerspectiveCamera
@@ -102,7 +122,7 @@ export default function ThreeDScene() {
                                 />} */}
 
                             {/* <OrbitControls /> */}
-                            <RotatingModel scale={scale}/>
+                            <RotatingModel scale={scale} />
                         </PerspectiveCamera>
                     </Suspense>
                 </Canvas>

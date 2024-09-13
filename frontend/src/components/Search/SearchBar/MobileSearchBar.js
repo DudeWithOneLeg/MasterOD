@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useContext } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { SearchContext } from "../../../context/SearchContext";
 import Parameter from "../Parameter";
 import QueryParam from "../QueryParam";
 import { bingSettings } from "./BingSettings/bingSettings";
@@ -11,27 +12,30 @@ const clearText = require("../../../assets/images/clear.png");
 const searchIcon = require("../../../assets/images/search.png");
 
 export default function SearchBar({
-    query,
-    setQuery,
-    country,
-    setCountry,
-    language,
-    setLanguage,
-    engine,
-    setEngine,
-    string,
-    setString,
-    setStatus,
-    status,
-    setSearch,
-    setTotalPages,
-    setVisitedResults,
-    setCurrentSelected,
-    setLoadingResults,
     setPageNum,
     showOptions,
     setShowOptions,
+    setStatus,
+    status,
+    setTotalPages
 }) {
+    const {
+        query,
+        setQuery,
+        country,
+        setCountry,
+        language,
+        setLanguage,
+        engine,
+        setEngine,
+        string,
+        setString,
+        setSearch,
+        setVisitedResults,
+        setCurrentSelected,
+        setLoadingResults,
+
+    } = useContext(SearchContext)
     const navigate = useNavigate();
     const dispatch = useDispatch();
 

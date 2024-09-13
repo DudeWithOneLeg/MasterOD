@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Parameter from "../Parameter";
@@ -8,6 +8,7 @@ import { googleSettings } from "./GoogleSettings/googleSettings";
 import * as searchActions from "../../../store/search";
 import * as resultActions from "../../../store/result";
 import { isMobile } from "react-device-detect";
+import { SearchContext } from "../../../context/SearchContext";
 import MobileSearchBar from "./MobileSearchBar";
 const clearText = require("../../../assets/images/clear.png");
 const searchIcon = require("../../../assets/images/search.png");
@@ -15,27 +16,30 @@ const searchIcon = require("../../../assets/images/search.png");
 const isProduction = process.env.NODE_ENV === "production";
 
 export default function SearchBar({
-    query,
-    setQuery,
-    country,
-    setCountry,
-    language,
-    setLanguage,
-    engine,
-    setEngine,
-    string,
-    setString,
-    setStatus,
-    status,
-    setSearch,
-    setTotalPages,
-    setVisitedResults,
-    setCurrentSelected,
-    setLoadingResults,
     setPageNum,
     showOptions,
     setShowOptions,
+    setStatus,
+    status,
+    setTotalPages
 }) {
+    const {
+        query,
+        setQuery,
+        country,
+        setCountry,
+        language,
+        setLanguage,
+        engine,
+        setEngine,
+        string,
+        setString,
+        setSearch,
+        setVisitedResults,
+        setCurrentSelected,
+        setLoadingResults,
+
+    } = useContext(SearchContext)
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [gptSearch, setGptSearch] = useState(false);
@@ -104,30 +108,13 @@ export default function SearchBar({
             setPageNum(1);
         }
     };
-    useEffect(() => {
-        console.log("Query in SearchBar updated:", query);
-    }, [query]);
 
     if (isMobile)
         return (
             <MobileSearchBar
-                query={query}
-                setQuery={setQuery}
-                country={country}
-                setCountry={setCountry}
-                language={language}
-                setLanguage={setLanguage}
-                engine={engine}
-                setEngine={setEngine}
-                string={string}
-                setString={setString}
                 setStatus={setStatus}
                 status={status}
-                setSearch={setSearch}
                 setTotalPages={setTotalPages}
-                setVisitedResults={setVisitedResults}
-                setCurrentSelected={setCurrentSelected}
-                setLoadingResults={setLoadingResults}
                 setPageNum={setPageNum}
                 showOptions={showOptions}
                 setShowOptions={setShowOptions}
