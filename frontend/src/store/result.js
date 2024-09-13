@@ -51,7 +51,6 @@ const setSavedResults = (newResults, id) => {
 };
 
 export const search = (params, status = 'initial') => async (dispatch) => {
-  // const { credential, password } = user;
 
   const response = await csrfFetch("/api/dork", {
     method: "POST",
@@ -61,7 +60,6 @@ export const search = (params, status = 'initial') => async (dispatch) => {
   if (response.ok && response.status === 200) {
     const data = await response.json()
     await dispatch(setSearch(data, status));
-    // console.log(data)
     return data;
   }
 };

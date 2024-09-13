@@ -4,14 +4,10 @@ import { SearchContext } from "../../context/SearchContext";
 import { ResultsContext } from "../../context/ResultsContext";
 import { isMobile } from "react-device-detect";
 
-export default function Results({data}) {
+export default function Results({ data }) {
     const { loadingResults } = useContext(SearchContext);
-    const {
-        setPreview,
-        showResult,
-        setShowResult,
-        setResult
-    } = useContext(ResultsContext)
+    const { showResult } =
+        useContext(ResultsContext);
 
     return data && Object.values(data).length ? (
         //KEEP CLASS NAME AS IS
@@ -48,10 +44,6 @@ export default function Results({data}) {
                                           <ResultCard
                                               rowKey={rowKey}
                                               data={data}
-                                              showResult={showResult}
-                                              setShowResult={setShowResult}
-                                              setPreview={setPreview}
-                                              setResult={setResult}
                                           />
                                       );
                                   })
@@ -62,10 +54,6 @@ export default function Results({data}) {
                                           <ResultCard
                                               rowKey={rowKey}
                                               data={data}
-                                              showResult={showResult}
-                                              setShowResult={setShowResult}
-                                              setPreview={setPreview}
-                                              setResult={setResult}
                                           />
                                       );
                                   })}
