@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Parameter from "../Parameter";
@@ -42,8 +42,14 @@ export default function SearchBar({status, setStatus}) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [gptSearch, setGptSearch] = useState(false);
+    const[currCharCount, setCurrCharCount] = useState(0)
 
     const settings = { Google: googleSettings, Bing: bingSettings };
+
+    const maxCharCount = 3400
+    useEffect(() => {
+        setCurrCharCount((query.join(';') + string).length)
+    },[query, string])
 
     const saveQuery = () => {
         const options = {
@@ -62,7 +68,7 @@ export default function SearchBar({status, setStatus}) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
+        if (currCharCount >= maxCharCount) return
         if (query || string) {
             setLoadingResults(true);
             setStatus("initial");
@@ -177,18 +183,20 @@ export default function SearchBar({status, setStatus}) {
                                         onClick={() => setString("")}
                                     />
                                 </div>
-                                <div></div>
+                                <div>
+                                    <p className={`!text-${currCharCount >= maxCharCount ? 'red-400':''}  `}>{currCharCount}/{maxCharCount}</p>
+                                </div>
                             </div>
                         </div>
                         <div className="flex flex-row w-fit">
                             {(query && query.length) || string ? (
                                 <div className="flex flex-row align-items-center justiify between px-2">
-                                    <img
+                                    {currCharCount >= maxCharCount ? <></>:<img
                                         className="h-8 cursor-pointer px-2"
                                         src={require("../../../assets/icons/save.png")}
                                         onClick={() => saveQuery()}
                                         alt="save query"
-                                    />
+                                    />}
                                     <p
                                         className={`text-white rounded h-8 flex align-items-center hover:text-slate-900 cursor-pointer`}
                                         onClick={() => setQuery([])}
@@ -219,17 +227,14 @@ export default function SearchBar({status, setStatus}) {
                             </div>
                         </div>
                     </div>
-                    {(query && query.length) || string ? (
+                    {(((query && query.length) || string ) && currCharCount < maxCharCount)? (
                         <button
                             className="flex justify-self-end px-3 py-1 mx-1 border rounded hover:bg-zinc-600 focus:outline-none"
                             type="submit"
                         >
                             <img src={searchIcon} className="h-6" />
-                            {/* <button className="focus:outline-none">Search</button> */}
                         </button>
-                    ) : (
-                        ""
-                    )}
+                    ) : <></>}
                 </form>
                 {query && showOptions && query.length ? (
                     <div className="flex flex-wrap p-1 w-full">

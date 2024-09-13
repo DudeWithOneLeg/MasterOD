@@ -99,7 +99,7 @@ function SignupFormPage() {
         }
     }, [confirmPassword]);
 
-    if (sessionUser && !sessionUser.tempUser) return redirect("/");
+    if (sessionUser && !sessionUser.tempUser) return redirect("/search");
 
     const handleSubmit = (e) => {
         e.preventDefault();
