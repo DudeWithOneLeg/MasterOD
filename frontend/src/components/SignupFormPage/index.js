@@ -148,9 +148,9 @@ function SignupFormPage() {
                         placeholder="Email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className={`my-1 p-1 rounded text-black w-full border-4 border-${errors.email ? 'red-200 bg-red-100' : ''} focus:outline-none`}
+                        className={`my-1 p-1 rounded text-black w-full border-4 ${errors.email ? 'border-red-400 bg-red-100' : ''} focus:outline-none`}
                     />
-                    {errors.email ? <p className="text-red-300 h-5">{errors.email}</p> : <p className="h-6"></p>}
+                    {errors.email ? <p className="text-red-300 h-6">{errors.email}</p> : <p className="h-6"></p>}
                 </div>
                 <div className="pt-2 flex flex-col items-center w-full">
                     <h1 className="align-self-start">Username *</h1>
@@ -160,7 +160,7 @@ function SignupFormPage() {
                         placeholder="Username"
                         onChange={(e) => setUsername(e.target.value)}
                         required
-                        className={`my-1 p-1 rounded text-black w-full border-4 border-${errors.username ? 'red-400 bg-red-100' : ''} focus:outline-none`}
+                        className={`my-1 p-1 rounded text-black w-full border-4 ${errors.username ? 'border-red-400 bg-red-100' : ''} focus:outline-none`}
                     />
                     {errors.username ?
                         <p className="text-red-300 text-wrap h-6">
@@ -176,7 +176,7 @@ function SignupFormPage() {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
-                        className={`my-1 p-1 rounded text-black w-full border-4 border-${errors.password ? 'red-400 bg-red-100' : ''} focus:outline-none`}
+                        className={`my-1 p-1 rounded text-black w-full border-4 ${errors.password ? 'border-red-400 bg-red-100' : ''} focus:outline-none`}
                     />
                     {errors.password ?
                         <p className="text-red-300 h-6">{errors.password}</p> : <p className="h-6"></p>
@@ -190,7 +190,7 @@ function SignupFormPage() {
                         placeholder="Confirm Password"
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         required
-                        className={`my-1 p-1 rounded text-black w-full border-4 border-${errors.confirmPassword ? 'red-400 bg-red-100' : ''} focus:outline-none`}
+                        className={`my-1 p-1 rounded text-black w-full border-4 ${errors.confirmPassword ? 'border-red-400 bg-red-100' : ''} focus:outline-none`}
                     />
                     {errors.confirmPassword ?
                         <p className="text-red-300 h-6">{errors.confirmPassword}</p> : <p className="h-6"></p>

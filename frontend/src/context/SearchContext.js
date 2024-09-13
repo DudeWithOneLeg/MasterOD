@@ -15,6 +15,7 @@ export const SearchProvider = ({ children }) => {
     const [language, setLanguage] = useState("");
     const [country, setCountry] = useState("");
     const [engine, setEngine] = useState("Google");
+    const [showOptions, setShowOptions] = useState(false);
     return (
         <SearchContext.Provider
             value={{
@@ -43,7 +44,9 @@ export const SearchProvider = ({ children }) => {
                 country,
                 setCountry,
                 engine,
-                setEngine
+                setEngine,
+                showOptions,
+                setShowOptions
             }}
         >
             {children}

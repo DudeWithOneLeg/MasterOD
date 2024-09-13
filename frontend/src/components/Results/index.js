@@ -1,17 +1,13 @@
-import { useState, useContext } from "react";
-import Result from "../Result";
+import { useContext } from "react";
+import ResultCard from "./ResultCard";
 import { SearchContext } from "../../context/SearchContext";
+import { ResultsContext } from "../../context/ResultsContext";
 import { isMobile } from "react-device-detect";
 
-export default function Results({
-    setPreview,
-    showResult,
-    setShowResult,
-    setResult,
-    data
-}) {
+export default function Results({ data }) {
     const { loadingResults } = useContext(SearchContext);
-    const [width, setWidth] = useState("w-1/2");
+    const { showResult } =
+        useContext(ResultsContext);
 
     return data && Object.values(data).length ? (
         //KEEP CLASS NAME AS IS
@@ -45,14 +41,9 @@ export default function Results({
                                   .filter((key) => !data[key].currentPage)
                                   .map((rowKey) => {
                                       return (
-                                          <Result
+                                          <ResultCard
                                               rowKey={rowKey}
                                               data={data}
-                                              showResult={showResult}
-                                              setShowResult={setShowResult}
-                                              setPreview={setPreview}
-                                              setResult={setResult}
-                                              setWidth={setWidth}
                                           />
                                       );
                                   })
@@ -60,14 +51,9 @@ export default function Results({
                                   .filter((key) => !data[key].currentPage)
                                   .map((rowKey) => {
                                       return (
-                                          <Result
+                                          <ResultCard
                                               rowKey={rowKey}
                                               data={data}
-                                              showResult={showResult}
-                                              setShowResult={setShowResult}
-                                              setPreview={setPreview}
-                                              setResult={setResult}
-                                              setWidth={setWidth}
                                           />
                                       );
                                   })}

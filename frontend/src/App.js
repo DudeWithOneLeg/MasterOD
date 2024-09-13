@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { isMobile } from "react-device-detect";
 import * as sessionActions from "./store/session";
 import Search from "./components/Search";
 import SideBar from "./components/SideBar";
-import QueryStats from "./components/QueryStats";
 import ResultsPage from "./components/ResultsPage";
 import LoginFormPage from "./components/LoginFormPage";
 import SignupFormPage from "./components/SignupFormPage";
@@ -13,13 +12,8 @@ import Navigation from "./components/Navigation";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import ThreeDScene from "./components/3Dscene";
 import FinishSignup from "./components/FinishSignup";
-import { SearchContext } from "./context/SearchContext";
 
 function App() {
-    const {
-        setQuery,
-        setString,
-    } = useContext(SearchContext)
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [isLoaded, setIsLoaded] = useState(false);
@@ -82,15 +76,6 @@ function App() {
                         <Routes>
                             {!user.tempUser ? (
                                 <>
-                                    <Route
-                                        path="/queries"
-                                        element={
-                                            <QueryStats
-                                                setQuery={setQuery}
-                                                setString={setString}
-                                            />
-                                        }
-                                    />
                                     <Route
                                         path="/results"
                                         element={

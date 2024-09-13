@@ -2,6 +2,7 @@ import { useEffect, useContext } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { SearchContext } from "../../../context/SearchContext";
+import { ResultsContext } from "../../../context/ResultsContext";
 import Parameter from "../Parameter";
 import QueryParam from "../QueryParam";
 import { bingSettings } from "./BingSettings/bingSettings";
@@ -11,14 +12,7 @@ import * as resultActions from "../../../store/result";
 const clearText = require("../../../assets/images/clear.png");
 const searchIcon = require("../../../assets/images/search.png");
 
-export default function SearchBar({
-    setPageNum,
-    showOptions,
-    setShowOptions,
-    setStatus,
-    status,
-    setTotalPages
-}) {
+export default function SearchBar({ setStatus, status }) {
     const {
         query,
         setQuery,
@@ -34,8 +28,9 @@ export default function SearchBar({
         setVisitedResults,
         setCurrentSelected,
         setLoadingResults,
-
-    } = useContext(SearchContext)
+    } = useContext(SearchContext);
+    const { setPageNum, showOptions, setShowOptions, setTotalPages } =
+        useContext(ResultsContext);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -179,8 +174,6 @@ export default function SearchBar({
                             return (
                                 <QueryParam
                                     param={param}
-                                    query={query}
-                                    setQuery={setQuery}
                                     index={index}
                                 />
                             );
@@ -194,8 +187,6 @@ export default function SearchBar({
                         {Object.keys(settings[engine].operators).map(
                             (param) => (
                                 <Parameter
-                                    query={query}
-                                    setQuery={setQuery}
                                     text={param}
                                     param={settings[engine].operators[param]}
                                 />
@@ -298,7 +289,6 @@ export default function SearchBar({
                                 </select>
                             </label>
                         </div>
-                        )
                     </div>
                 </div>
             )}

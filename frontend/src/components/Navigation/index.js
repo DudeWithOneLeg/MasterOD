@@ -1,7 +1,6 @@
 import { React, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import ProfileButton from "./ProfileButton";
 import logo from "../../assets/images/searchdeck-favicon.png";
 import profileImg from "../../assets/icons/profile.jpg";
 import * as sessionActions from "../../store/session";
@@ -12,21 +11,6 @@ function Navigation() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    let sessionLinks;
-    if (sessionUser) {
-        sessionLinks = (
-            <li>
-                <ProfileButton user={sessionUser} />
-            </li>
-        );
-    } else {
-        sessionLinks = (
-            <li>
-                <NavLink to="/login">Log In</NavLink>
-                <NavLink to="/signup">Sign Up</NavLink>
-            </li>
-        );
-    }
     const handleLogOut = (e) => {
         e.preventDefault();
         dispatch(sessionActions.logout());
@@ -55,11 +39,17 @@ function Navigation() {
                         className="flex flex-col items-end  cursor-pointer"
                         onClick={() => setShowMenu(!showMenu)}
                     >
-                        <img
-                            src={profileImg}
-                            className="rounded-full h-10"
-                            alt="profile"
-                        />
+                        <div className="flex flex-row items-center">
+                            <div className="flex flex-row items-center justify-center border-2 border-green-400 bg-green-200 rounded p-1 px-2 text-green-600">
+                                <p>Free</p>
+                            </div>
+                            <span className="w-2"/>
+                            <img
+                                src={profileImg}
+                                className="rounded-full h-10"
+                                alt="profile"
+                            />
+                        </div>
                         {showMenu ? (
                             <div className="flex flex-col fixed h-fit bg-zinc-950 rounded w-32 mt-12 p-2 border">
                                 <div

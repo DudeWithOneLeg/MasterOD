@@ -8,14 +8,13 @@ import Browser from "../Browser";
 import SearchBar from "./SearchBar";
 import QueryStats from "../QueryStats";
 import { SearchContext } from "../../context/SearchContext";
+import { ResultsContext } from "../../context/ResultsContext";
 
 export default function Search() {
     const {
         search,
         query,
-        setQuery,
         string,
-        setString,
         setVisitedResults,
         setCurrentSelected,
         loadingResults,
@@ -31,19 +30,19 @@ export default function Search() {
         country,
         engine,
     } = useContext(SearchContext);
-    const data = useSelector((state) => state.search.data);
+    const {
+        preview,
+        showResult,
+        pageNum,
+        setPageNum,
+        totalPages,
+        setTotalPages,
+        setStart,
+        result,
+    } = useContext(ResultsContext);
     const results = useSelector((state) => state.results.results);
 
-    // const [geolocation, setGeolocation] = useState({ lat: 0, lng: 0 });
-    const [preview, setPreview] = useState("");
-    const [showResult, setShowResult] = useState(false);
-
-    const [start, setStart] = useState(0);
-    const [result, setResult] = useState({});
     const [status, setStatus] = useState("");
-    const [pageNum, setPageNum] = useState(1);
-    const [totalPages, setTotalPages] = useState(null);
-    const [showOptions, setShowOptions] = useState(false);
     const [width, setWidth] = useState(window.innerWidth);
 
     useEffect(() => {
@@ -213,14 +212,7 @@ export default function Search() {
             id="search-bar"
         >
             <div className="p-2 w-full">
-                <SearchBar
-                    status={status}
-                    setStatus={setStatus}
-                    setTotalPages={setTotalPages}
-                    setPageNum={setPageNum}
-                    showOptions={showOptions}
-                    setShowOptions={setShowOptions}
-                />
+                <SearchBar status={status} setStatus={setStatus}/>
             </div>
 
             {results && search ? (
@@ -332,22 +324,8 @@ export default function Search() {
                                 isMobile ? "col grid grid-rows-2 gap-1" : "row"
                             } overflow-none`}
                         >
-                            <Results
-                                setPreview={setPreview}
-                                showResult={showResult}
-                                setShowResult={setShowResult}
-                                setResult={setResult}
-                                data={results}
-                            />
-                            {showResult && preview ? (
-                                <Browser
-                                    preview={preview}
-                                    setPreview={setPreview}
-                                    isIndex={isIndex}
-                                />
-                            ) : (
-                                <></>
-                            )}
+                            <Results data={results} />
+                            {showResult && preview ? <Browser /> : <></>}
                         </div>
                     </div>
                 </>
@@ -359,10 +337,7 @@ export default function Search() {
                     />
                 </div>
             ) : (
-                <QueryStats
-                    showOptions={showOptions}
-                    setShowOptions={setShowOptions}
-                />
+                <QueryStats />
             )}
         </div>
     );

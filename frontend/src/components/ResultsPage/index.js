@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState, useContext } from "react";
+import { ResultsContext } from "../../context/ResultsContext";
 import { useParams } from "react-router-dom";
 import { isMobile } from "react-device-detect";
-import { SearchContext } from "../../context/SearchContext";
 import Results from "../Results";
 import Browser from "../Browser";
 import * as resultActions from "../../store/result";
@@ -11,15 +11,14 @@ import * as searchActions from "../../store/search";
 export default function ResultsPage() {
     const dispatch = useDispatch();
     const params = useParams();
-
-    const { isIndex } = useContext(SearchContext);
+    const {preview, showResult, result} = useContext(ResultsContext)
 
     const saved = useSelector((state) => state.results.saved);
     const visited = useSelector((state) => state.results.visited);
     const data = useSelector((state) => state.search.data);
-    const [preview, setPreview] = useState("");
-    const [showResult, setShowResult] = useState(false);
-    const [result, setResult] = useState({});
+    // const [preview, setPreview] = useState("");
+    // const [showResult, setShowResult] = useState(false);
+    // const [result, setResult] = useState({});
     const [browseHistory, setBrowseHistory] = useState([]);
     const [filterInput, setFilterInput] = useState("");
     const [viewAll, setViewAll] = useState(true);
@@ -144,11 +143,6 @@ export default function ResultsPage() {
                 {saved && !viewAll ? (
                     <>
                         <Results
-                            setPreview={setPreview}
-                            preview={preview}
-                            showResult={showResult}
-                            setShowResult={setShowResult}
-                            setResult={setResult}
                             data={saved}
                         />
                     </>
@@ -158,11 +152,6 @@ export default function ResultsPage() {
                 {visited && viewAll ? (
                     <>
                         <Results
-                            setPreview={setPreview}
-                            preview={preview}
-                            showResult={showResult}
-                            setShowResult={setShowResult}
-                            setResult={setResult}
                             data={visited}
                         />
                     </>
@@ -171,10 +160,6 @@ export default function ResultsPage() {
                 )}
                 {(showResult && data) || (showResult && preview) ? (
                     <Browser
-                        preview={preview}
-                        data={data}
-                        setPreview={setPreview}
-                        isIndex={isIndex}
                     />
                 ) : (
                     <></>

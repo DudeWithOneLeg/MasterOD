@@ -5,7 +5,7 @@ import { isMobile } from "react-device-detect";
 import QueryRow from "./QueryRow";
 import * as queryActions from "../../store/query";
 
-export default function QueryPage({ setShowOptions }) {
+export default function QueryPage() {
 
   const dispatch = useDispatch();
   const queries = useSelector((state) => state.queries.all);
@@ -90,8 +90,8 @@ export default function QueryPage({ setShowOptions }) {
                   .map((query) => {
                     return (
                       <QueryRow
-                      query={query}
-                      setShowOptions={setShowOptions}/>
+                        query={query}
+                      />
                     );
                 })
 
