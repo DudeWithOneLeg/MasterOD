@@ -14,6 +14,7 @@ export default function MobileSideBar({ setSearch }) {
     const handleLogOut = (e) => {
         e.preventDefault();
         dispatch(sessionActions.logout());
+        setShowMenu(false)
         navigate("/");
     };
 

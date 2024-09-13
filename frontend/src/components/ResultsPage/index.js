@@ -16,9 +16,6 @@ export default function ResultsPage() {
     const saved = useSelector((state) => state.results.saved);
     const visited = useSelector((state) => state.results.visited);
     const data = useSelector((state) => state.search.data);
-    // const [preview, setPreview] = useState("");
-    // const [showResult, setShowResult] = useState(false);
-    // const [result, setResult] = useState({});
     const [browseHistory, setBrowseHistory] = useState([]);
     const [filterInput, setFilterInput] = useState("");
     const [viewAll, setViewAll] = useState(true);
