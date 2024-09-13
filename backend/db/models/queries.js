@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
   Queries.init(
     {
       query: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(3500),
       },
       userId: {
         type: DataTypes.INTEGER,
@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.BOOLEAN,
       },
       string: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(3500),
       },
     },
     {

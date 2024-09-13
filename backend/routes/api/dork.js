@@ -9,7 +9,6 @@ const apiKey = process.env.OPENAI_API_KEY;
 const openai = new OpenAI({
     apiKey,
 });
-const { getArchive } = require("./utils");
 const { Queries, Result } = require("../../db/models");
 const prompt = `
 You are a master google "dork" researcher.
@@ -40,13 +39,9 @@ router.post("/iframe/", async (req, res) => {
 
         return res.json({ data: "" });
     }
-    // console.log(req.body)
 });
 
 router.post("/", async (req, res) => {
-    //   const { query, lat, lng } = req.body;
-    // const quote = ["intitle", "inurl", "-intitle", "-inurl", "intext", "-intext"];
-
     const params = req.body;
     const { user } = req;
 
@@ -80,21 +75,12 @@ router.post("/", async (req, res) => {
         limit: 5,
     });
 
-    // console.log(params, "47");
-
     const obj = {};
     const callback = async (data) => {
         const response = data.organic_results;
-        // console.log(response);
-        // console.log(data.search_information.total_results);
-        // console.log(data.search_parameters);
-        // console.log(data.serpapi_pagination);
-
-        // console.log(data);
         if (data.organic_results) {
             const results = async (rest) => {
                 const index = {};
-                // console.log(rest, 'hello')
                 Object.values(rest).forEach(async (resp) => {
                     const link = resp.link;
                     if (!index[link]) {
@@ -103,13 +89,7 @@ router.post("/", async (req, res) => {
                             title: resp.title,
                             link: resp.link,
                             snippet: resp.snippet,
-                            // archive: archive,
                         };
-                        // await getArchive(link).then(async (archive) => {
-                        //   // console.log(archive, 'hello')
-                        //   index[link] = archive;
-                        //   // console.log(archive);
-                        // });
                     } else {
                         obj[resp.position] = {
                             id: resp.position,
@@ -189,9 +169,9 @@ router.post("/", async (req, res) => {
         request.first = first;
         request.count = 50;
         if (params.location) {
-            const location = params.location
-            request.q = request.q + `location:${location}`
-            delete request.location
+            const location = params.location;
+            request.q = request.q + `location:${location}`;
+            delete request.location;
         }
     }
     console.log(request);

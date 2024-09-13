@@ -19,7 +19,6 @@ function App() {
     const [isLoaded, setIsLoaded] = useState(false);
     const user = useSelector((state) => state.session.user);
     const path = window.location.pathname;
-
     useEffect(() => {
         dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
     }, [dispatch]);
