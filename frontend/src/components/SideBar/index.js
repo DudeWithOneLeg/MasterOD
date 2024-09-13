@@ -1,24 +1,27 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useContext} from "react";
+import { useEffect, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { isMobile } from "react-device-detect";
 import MobileSideBar from "./MobileSidebar";
 import * as searchActions from "../../store/search";
 import * as resultActions from "../../store/result";
+import * as sessionActions from "../../store/session";
 import RecentStats from "./RecentStats";
 import { SearchContext } from "../../context/SearchContext";
 // import SearchBar from "../SearchBar";
 
 export default function SideBar() {
-    const {
-        setSearch,
-        setQuery,
-        setString
-    } = useContext(SearchContext)
+    const { setSearch, setQuery, setString } = useContext(SearchContext);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const user = useSelector((state) => state.session.user);
+    const [feedbackMsg, setFeedbackMsg] = useState("");
+
+    const handleSendFeedback = (e) => {
+        e.preventDefault();
+        sessionActions.sendFeedback(feedbackMsg);
+    };
 
     useEffect(() => {
         if (user) {
@@ -75,6 +78,22 @@ export default function SideBar() {
                                     </li>
                                 </ul>
                             </div>
+                            <form onSubmit={(e) => handleSendFeedback(e)}>
+                                <textarea
+                                    onChange={(e) =>
+                                        setFeedbackMsg(e.target.value)
+                                    }
+                                    placeholder={`Have questions or feedback?\nAny features you would like to see?\nHave you experienced bugs that were not fixed?`}
+                                    value={feedbackMsg}
+                                    className="w-full h-40 bg-zinc-600 rounded p-1"
+                                />
+                                <button
+                                    type="submit"
+                                    className="focus:outline-none border border-zinc-500 rounded p-1 hover:bg-zinc-600"
+                                >
+                                    Send Feedback
+                                </button>
+                            </form>
                             <div className="flex flex-col justify-self-end">
                                 Developed by :
                                 <a

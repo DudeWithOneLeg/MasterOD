@@ -2,7 +2,17 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const session = require('express-session');
 const { jwtConfig } = require('../../config');
+// const sgMail = require('@sendgrid/mail')
+// sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+const formData = require('form-data');
+const Mailgun = require('mailgun.js');
 
+// Initialize Mailgun with your credentials
+const mailgun = new Mailgun(formData);
+const mg = mailgun.client({
+  username: 'api',
+  key: process.env.MAILGUN_API_KEY // Replace with your Mailgun API key
+});
 const { secret } = jwtConfig;
 
 const { setTokenCookie, requireAuth } = require("../../utils/auth");
@@ -154,5 +164,34 @@ router.patch("/google", async (req, res) => {
     }
 
 });
+
+router.post('/feedback', async (req, res) => {
+    const {text} = req.body
+    console.log(text)
+    const {user} = req
+//     const msg = {
+//         to: 'galvancromeo@gmail.com', // Change to your recipient
+//         from: 'galvancromeo@gmail.com', // Change to your verified sender
+//         subject: 'Sending with SendGrid is Fun',
+//         text: `${text}\n\n UserID: ${user.id}\nUsername: ${user.username}`,
+//       }
+//       sgMail
+//   .send(msg)
+//   .then(() => {
+//     console.log('Email sent')
+//   })
+//   .catch((error) => {
+//     console.error(error)
+//   })
+mg.messages.create('sandboxd0cc1f63512e4e10ad574b7287636401.mailgun.org', {
+    from: 'support@searchdeck.com',  // Sender's email
+    to: ['galvancromeo@gmail.com'],  // Recipient's email
+    subject: 'Feedback',
+    text: `Message: ${text}\n\nUserID: ${user.id}\nUsername: ${user.username}`
+  })
+  .then((msg) => console.log(msg))  // Logs the response from Mailgun
+  .catch((err) => console.error(err));  // Logs any error
+  return res.json().status(200)
+})
 
 module.exports = router;
