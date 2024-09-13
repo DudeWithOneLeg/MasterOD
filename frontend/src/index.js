@@ -8,6 +8,7 @@
   import configureStore from './store';
   import { restoreCSRF, csrfFetch } from './store/csrf';
   import ModalProvider from './context/Modal.js'
+  import { SearchProvider } from './context/SearchContext.js';
 
   const store = configureStore();
 
@@ -20,13 +21,15 @@
 
   function Root() {
     return (
-      <ModalProvider>
-        <Provider store={store}>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
-        </Provider>
-      </ModalProvider>
+      <SearchProvider>
+        <ModalProvider>
+          <Provider store={store}>
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
+          </Provider>
+        </ModalProvider>
+      </SearchProvider>
     );
   }
 

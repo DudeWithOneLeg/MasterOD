@@ -1,22 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { isMobile } from "react-device-detect";
 import QueryRow from "./QueryRow";
 import * as queryActions from "../../store/query";
 
-export default function QueryPage({
-  setQuery,
-  setString,
-  showOptions,
-  setShowOptions}) {
+export default function QueryPage({ setShowOptions }) {
+
   const dispatch = useDispatch();
   const queries = useSelector((state) => state.queries.all);
   const [viewAll, setViewAll] = useState(true);
   const [filter, setFilter] = useState("");
   const [limit, setLimit] = useState(25);
   const params = useParams()
-
 
   useEffect(() => {
     dispatch(queryActions.getQueries({limit, filter, saved: !viewAll}));
@@ -89,37 +85,16 @@ export default function QueryPage({
         <div className="h-full overflow-y-hidden rounded border-1 border-zinc-600 bg-zinc-900">
           <div className="flex flex-col divide divide-y h-full overflow-y-scroll ">
             {queries && Object.values(queries).length ? (
-              viewAll ? (
                 Object.values(queries)
                   .reverse()
                   .map((query) => {
                     return (
                       <QueryRow
                       query={query}
-                      setString={setString}
-                      setQuery={setQuery}
-                      showOptions={showOptions}
                       setShowOptions={setShowOptions}/>
                     );
                 })
-              ) : (
-                Object.values(queries)
-                .reverse()
-                  .map((query) => {
-                  if (query.saved) {
-                    return (
-                      <QueryRow
-                      query={query}
-                      setString={setString}
-                      setQuery={setQuery}
-                      showOptions={showOptions}
-                      setShowOptions={setShowOptions}
-                      />
-                    );
-                  }
-                  return
-                })
-              )
+
             ) : (
               <></>
             )}

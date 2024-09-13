@@ -16,12 +16,12 @@ export default function Parameter({ query, setQuery, param, text }) {
   };
   return (
     <form
-      className="flex flex-row items-center py-2 w-full"
+      className="flex flex-row items-center p-2 w-full text-white"
       id="parameter"
       onSubmit={(e) => handleSubmit(e)}
     >
-      <div className="flex flex-row px-2 w-full">
-        <div className="bg-slate-300 rounded-left flex-shrink-0 px-1">
+      <div className="flex flex-row w-full rounded border !border-zinc-500">
+        <div className="rounded-left flex-shrink-0 px-1 text-white">
           {input.split(text)[1] ? (
             <p className="w-fit">{text + input.split(text)[1]}</p>
           ) : (
@@ -31,7 +31,7 @@ export default function Parameter({ query, setQuery, param, text }) {
         {showInput && (
           <input
             id="parameter-input"
-            className={`pl-1 pr-0 outline-none w-full ${
+            className={`pl-1 pr-0 outline-none w-full bg-zinc-600 ${
               !input.split(param)[1] ? "rounded-right" : ""
             }`}
             onChange={(e) => setInput(param + e.target.value || "")}

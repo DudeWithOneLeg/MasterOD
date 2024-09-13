@@ -1,23 +1,19 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { isMobile } from "react-device-detect";
+import { SearchContext } from "../../context/SearchContext";
 import Results from "../Results";
 import Browser from "../Browser";
 import * as resultActions from "../../store/result";
 import * as searchActions from "../../store/search";
 
-export default function ResultsPage({
-    visitedResults,
-    setVisitedResults,
-    currentSelected,
-    setCurrentSelected,
-    loadingResults,
-    isIndex,
-    setIsIndex,
-}) {
+export default function ResultsPage() {
     const dispatch = useDispatch();
     const params = useParams();
+
+    const { isIndex } = useContext(SearchContext);
+
     const saved = useSelector((state) => state.results.saved);
     const visited = useSelector((state) => state.results.visited);
     const data = useSelector((state) => state.search.data);
@@ -34,7 +30,7 @@ export default function ResultsPage({
     useEffect(() => {
         const options = { limit };
         if (filterInput) options.filter = filterInput;
-        dispatch(resultActions.getallResults( options ));
+        dispatch(resultActions.getallResults(options));
     }, [dispatch]);
 
     useEffect(() => {
@@ -58,15 +54,15 @@ export default function ResultsPage({
     }, [params]);
 
     const handleSubmit = (e) => {
-      e.preventDefault()
-      const options = { limit };
-      if (filterInput) options.filter = filterInput;
-      dispatch(resultActions.getallResults( options ));
-    }
+        e.preventDefault();
+        const options = { limit };
+        if (filterInput) options.filter = filterInput;
+        dispatch(resultActions.getallResults(options));
+    };
 
     return (
         <div
-            className={`flex flex-col  w-full ${
+            className={`flex flex-col  w-full bg-zinc-900 ${
                 isMobile ? "h-full" : "h-full"
             }`}
         >
@@ -77,21 +73,29 @@ export default function ResultsPage({
             >
                 <form
                     className={`flex justify-center items-center text-white ${
-                        preview && !isMobile ? "w-1/2 flex-row" : (!preview && !isMobile ? "w-1/3 flex-row" : "w-2/3 flex-col")
+                        preview && !isMobile
+                            ? "w-1/2 flex-row"
+                            : !preview && !isMobile
+                            ? "w-1/3 flex-row"
+                            : "w-2/3 flex-col"
                     }`}
                     onSubmit={(e) => handleSubmit(e)}
                 >
                     <div className=" flex w-full rounded h-8 text-black bg-white">
-
-                      <input
-                          className="w-full h-full rounded focus:outline-none px-2"
-                          placeholder="Filter results"
-                          value={filterInput}
-                          onChange={(e) =>
-                              setFilterInput(e.target.value.toLowerCase())
-                          }
-                      />
-                      <button type='submit' className="focus:outline-none px-2">Search</button>
+                        <input
+                            className="w-full h-full rounded focus:outline-none px-2"
+                            placeholder="Filter results"
+                            value={filterInput}
+                            onChange={(e) =>
+                                setFilterInput(e.target.value.toLowerCase())
+                            }
+                        />
+                        <button
+                            type="submit"
+                            className="focus:outline-none px-2"
+                        >
+                            Search
+                        </button>
                     </div>
                     <div className="flex flex-row px-2 items-center">
                         <div className="flex flex-row w-fit rounded bg-slate-500">
@@ -145,14 +149,7 @@ export default function ResultsPage({
                             showResult={showResult}
                             setShowResult={setShowResult}
                             setResult={setResult}
-                            infiniteScroll={false}
                             data={saved}
-                            currentSelected={currentSelected}
-                            setCurrentSelected={setCurrentSelected}
-                            visitedResults={visitedResults}
-                            setVisitedResults={setVisitedResults}
-                            loadingResults={loadingResults}
-                            setIsIndex={setIsIndex}
                         />
                     </>
                 ) : (
@@ -166,14 +163,7 @@ export default function ResultsPage({
                             showResult={showResult}
                             setShowResult={setShowResult}
                             setResult={setResult}
-                            infiniteScroll={false}
                             data={visited}
-                            currentSelected={currentSelected}
-                            setCurrentSelected={setCurrentSelected}
-                            visitedResults={visitedResults}
-                            setVisitedResults={setVisitedResults}
-                            loadingResults={loadingResults}
-                            setIsIndex={setIsIndex}
                         />
                     </>
                 ) : (
