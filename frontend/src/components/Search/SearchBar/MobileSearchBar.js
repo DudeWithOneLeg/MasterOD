@@ -28,8 +28,10 @@ export default function SearchBar({ setStatus, status }) {
         setVisitedResults,
         setCurrentSelected,
         setLoadingResults,
+         showOptions, 
+        setShowOptions
     } = useContext(SearchContext);
-    const { setPageNum, showOptions, setShowOptions, setTotalPages } =
+    const { setPageNum, setTotalPages } =
         useContext(ResultsContext);
     const navigate = useNavigate();
     const dispatch = useDispatch();
