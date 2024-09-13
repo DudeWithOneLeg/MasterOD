@@ -15,7 +15,7 @@ export default function SideBar() {
         setQuery,
         setString
     } = useContext(SearchContext)
-    
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const user = useSelector((state) => state.session.user);
@@ -64,12 +64,11 @@ export default function SideBar() {
                             </div>
                             <div className="flex flex-col border border-green-800 p-2 rounded ">
                                 <div>
-                                    <p>Developer Notes:</p>
+                                    <p>Developer Notes - Sept 13:</p>
                                 </div>
                                 <ul>
-                                    <li> - Fixed Archive</li>
-                                    <li> - Fixed Bing selection</li>
-                                    <li> - Fixed login bug</li>
+                                    <li> - Fixed Bing location</li>
+                                    <li> - Added Mobile broswer support</li>
                                     <li>
                                         {" "}
                                         - Theres a bug when deleting a paramater

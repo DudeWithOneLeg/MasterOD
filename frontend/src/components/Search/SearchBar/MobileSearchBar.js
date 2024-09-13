@@ -28,7 +28,7 @@ export default function SearchBar({ setStatus, status }) {
         setVisitedResults,
         setCurrentSelected,
         setLoadingResults,
-         showOptions, 
+         showOptions,
         setShowOptions
     } = useContext(SearchContext);
     const { setPageNum, setTotalPages } =
@@ -39,15 +39,17 @@ export default function SearchBar({ setStatus, status }) {
     const settings = { Google: googleSettings, Bing: bingSettings };
 
     const saveQuery = () => {
+        const options = {
+            q: query.join(";"),
+            hl: language,
+            engine: engine.toLocaleLowerCase(),
+            start: 0,
+            string: string,
+        }
+        if (engine === 'Bing') {options.location = country}
+        else {options.cr = country}
         dispatch(
-            searchActions.saveQuery({
-                q: query.join(";"),
-                cr: country,
-                hl: language,
-                engine: engine.toLocaleLowerCase(),
-                start: 0,
-                string: string,
-            })
+            searchActions.saveQuery(options)
         );
     };
 
@@ -58,16 +60,19 @@ export default function SearchBar({ setStatus, status }) {
             setLoadingResults(true);
             setStatus("initial");
             setShowOptions(false);
+            let options = {}
+            options = {
+                q: query.join(";"),
+                hl: language,
+                engine: engine.toLocaleLowerCase(),
+                start: 0,
+                string: string,
+            };
+            if (engine === 'Bing') {options.location = country}
+            else {options.cr = country}
             dispatch(
                 resultActions.search(
-                    {
-                        q: query.join(";"),
-                        cr: country,
-                        hl: language,
-                        engine: engine.toLocaleLowerCase(),
-                        start: 0,
-                        string: string,
-                    },
+                    options,
                     (status = "initial")
                 )
             ).then(async (data) => {

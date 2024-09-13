@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import RecentStats from "./RecentStats";
 import * as sessionActions from "../../store/session";
 import menuIcon from "../../assets/images/menu-icon.png";
+import logo from "../../assets/images/searchdeck-favicon.png";
 
 export default function MobileSideBar({ setSearch }) {
     const [showMenu, setShowMenu] = useState(false);
@@ -14,31 +15,52 @@ export default function MobileSideBar({ setSearch }) {
     const handleLogOut = (e) => {
         e.preventDefault();
         dispatch(sessionActions.logout());
-        setShowMenu(false)
+        setShowMenu(false);
         navigate("/");
     };
+
+    const handleNavigate = () => {
+        if (user && user.id) {
+            navigate("/search")
+        }
+        else {navigate('/')}
+    }
 
     return (
         <div className="text-white w-screen bg-zinc-900 fixed h-[5vh] z-30 border-b border-zinc-500">
             {user ? (
-                <div className="flex flex-row justify-content-between items-center">
+                <div className="grid grid-cols-3 justify-content-between items-center">
                     <img
                         src={menuIcon}
                         onClick={() => setShowMenu(!showMenu)}
                         className="h-14 p-2 rounded-full"
                         alt="profile"
                     />
+                    <div
+                        className="flex flex-row items-center cursor-pointer justify-self-center"
+                        onClick={handleNavigate}
+                    >
+                        <img src={logo} className="flex h-10" />
+                        <h1 className="text-2xl p-2">SearchDeck</h1>
+                    </div>
                 </div>
             ) : (
-                <div className="flex flex-row h-full items-center justify-between w-full">
+                <div className="grid grid-cols-3 h-full items-center justify-between w-full">
                     <p
-                        className="p-1 rounded border !border-zinc-500 mx-1"
+                        className="p-1 rounded border !border-zinc-500 mx-1 justify-self-start"
                         onClick={() => navigate("/signup")}
                     >
                         Create an account
                     </p>
+                    <div
+                        className="flex flex-row items-center cursor-pointer"
+                        onClick={handleNavigate}
+                    >
+                        <img src={logo} className="flex h-10" />
+                        <h1 className="text-2xl p-2">SearchDeck</h1>
+                    </div>
                     <p
-                        className="p-1 rounded border !border-zinc-500 mx-1"
+                        className="p-1 rounded border !border-zinc-500 mx-1 justify-self-end"
                         onClick={() => {
                             return navigate("/login");
                         }}
