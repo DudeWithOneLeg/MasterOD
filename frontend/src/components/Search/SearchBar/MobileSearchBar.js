@@ -279,7 +279,7 @@ export default function SearchBar({ setStatus, status }) {
                                     className="bg-slate-500 rounded ml-1 cursor-pointer"
                                 >
                                     <option
-                                        selected
+                                        selected = "Google" === engine
                                         defaultValue="Google"
                                     >
                                         Google
@@ -287,6 +287,7 @@ export default function SearchBar({ setStatus, status }) {
                                     {/* <option value={"Baidu"}>Baidu</option> */}
                                     <option
                                         value={"Bing"}
+                                        selected = "Bing" === engine
                                     >
                                         Bing
                                     </option>
