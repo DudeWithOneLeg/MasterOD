@@ -23,6 +23,9 @@ Examples:
 "}
 
  the new prompt is `;
+ const query = {
+    groups: [{},{}]
+ }
 
 router.post("/iframe/", async (req, res) => {
     const { link, title, snippet, archive, queryId } = req.body;

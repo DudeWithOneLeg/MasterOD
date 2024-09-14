@@ -54,7 +54,7 @@ export default function QueryRow({ query }) {
     };
     return (
         <div
-            className="flex flex-row grid grid-cols-9 divide divide-x justify-between w-full p-1 hover:bg-zinc-500"
+            className="flex flex-row grid grid-cols-9 divide divide-x justify-between w-full p-1 hover:bg-zinc-700"
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
         >

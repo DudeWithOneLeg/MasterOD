@@ -22,9 +22,12 @@ export default function SideBar() {
 
     const handleSendFeedback = (e) => {
         e.preventDefault();
-        sessionActions.sendFeedback({text: feedbackMsg, email: feedbackEmail});
-        setSentFeedback(true)
-        setFeedbackMsg('')
+        sessionActions.sendFeedback({
+            text: feedbackMsg,
+            email: feedbackEmail,
+        });
+        setSentFeedback(true);
+        setFeedbackMsg("");
     };
 
     useEffect(() => {
@@ -50,7 +53,7 @@ export default function SideBar() {
                 <div className={`flex flex-row`}>
                     {user ? (
                         <div
-                            className={`p-4 w-[300px] flex flex-col justify-between h-full`}
+                            className={`p-2 w-full flex flex-col justify-between h-full`}
                         >
                             <div className="flex flex-col">
                                 <div className="w-full flex flex-row items-center justify-between h-fit"></div>
@@ -82,23 +85,43 @@ export default function SideBar() {
                                     </li>
                                 </ul>
                             </div>
-                            {!sentFeedback ? <form onSubmit={(e) => handleSendFeedback(e)} className="h-fit">
-                                <input placeholder='Email (optional)' onChange={(e) => setFeedbackEmail(e.target.value)} value={feedbackEmail} className="bg-zinc-600 mb-2 rounded p-1"/>
-                                <textarea
-                                    onChange={(e) =>
-                                        setFeedbackMsg(e.target.value)
-                                    }
-                                    placeholder={`Have questions or feedback?\nAny features you would like to see?\nHave you experienced bugs that were not fixed?`}
-                                    value={feedbackMsg}
-                                    className="w-full h-40 bg-zinc-600 rounded p-1"
-                                />
-                                <button
-                                    type="submit"
-                                    className="focus:outline-none border border-zinc-500 rounded p-1 hover:bg-zinc-600"
+                            {!sentFeedback ? (
+                                <form
+                                    onSubmit={(e) => handleSendFeedback(e)}
+                                    className="h-fit !text-zinc-200"
                                 >
-                                    Send Feedback
-                                </button>
-                            </form> : <p>Thank you for your feedback.</p>}
+                                    <p className="text-lg">Feedback:</p>
+                                    <div className="h-2" />
+                                    <input
+                                        placeholder="Email (optional)"
+                                        onChange={(e) =>
+                                            setFeedbackEmail(e.target.value)
+                                        }
+                                        value={feedbackEmail}
+                                        className="bg-zinc-800 mb-2 rounded p-1"
+                                    />
+                                    <div className="flex flex-col justify-end">
+                                        <textarea
+                                            onChange={(e) =>
+                                                setFeedbackMsg(e.target.value)
+                                            }
+                                            placeholder={`Have questions or feedback?\nAny features you would like to see?\nHave you experienced bugs that were not fixed?`}
+                                            value={feedbackMsg}
+                                            className="w-full h-40 bg-zinc-800 rounded p-1 !border-1 !border-zinc-500"
+                                        />
+                                        <div className="h-2" />
+
+                                        <button
+                                            type="submit"
+                                            className="focus:outline-none border border-zinc-500 rounded p-1 hover:bg-zinc-600 w-fit align-self-end"
+                                        >
+                                            Send Feedback
+                                        </button>
+                                    </div>
+                                </form>
+                            ) : (
+                                <p>Thank you for your feedback.</p>
+                            )}
                             <div className="flex flex-col justify-self-end">
                                 Developed by :
                                 <a
