@@ -51,10 +51,10 @@ export const login = (user) => async (dispatch) => {
 
 };
 
-export const sendFeedback = async (text) => {
+export const sendFeedback = async (message) => {
   await csrfFetch('/api/users/feedback', {
     method: "POST",
-    body: JSON.stringify({text})
+    body: JSON.stringify(message)
   }).catch(err => console.log(err))
 }
 

@@ -166,25 +166,11 @@ router.patch("/google", async (req, res) => {
 });
 
 router.post('/feedback', async (req, res) => {
-    const {text} = req.body
+    const {text, email} = req.body
     console.log(text)
     const {user} = req
-//     const msg = {
-//         to: 'galvancromeo@gmail.com', // Change to your recipient
-//         from: 'galvancromeo@gmail.com', // Change to your verified sender
-//         subject: 'Sending with SendGrid is Fun',
-//         text: `${text}\n\n UserID: ${user.id}\nUsername: ${user.username}`,
-//       }
-//       sgMail
-//   .send(msg)
-//   .then(() => {
-//     console.log('Email sent')
-//   })
-//   .catch((error) => {
-//     console.error(error)
-//   })
-mg.messages.create('sandboxd0cc1f63512e4e10ad574b7287636401.mailgun.org', {
-    from: 'support@searchdeck.com',  // Sender's email
+    mg.messages.create('sandboxd0cc1f63512e4e10ad574b7287636401.mailgun.org', {
+    from: email || 'support@searchdeck.com',  // Sender's email
     to: ['galvancromeo@gmail.com'],  // Recipient's email
     subject: 'Feedback',
     text: `Message: ${text}\n\nUserID: ${user.id}\nUsername: ${user.username}`

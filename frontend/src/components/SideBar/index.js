@@ -17,10 +17,14 @@ export default function SideBar() {
     const navigate = useNavigate();
     const user = useSelector((state) => state.session.user);
     const [feedbackMsg, setFeedbackMsg] = useState("");
+    const [feedbackEmail, setFeedbackEmail] = useState("");
+    const [sentFeedback, setSentFeedback] = useState(false);
 
     const handleSendFeedback = (e) => {
         e.preventDefault();
-        sessionActions.sendFeedback(feedbackMsg);
+        sessionActions.sendFeedback({text: feedbackMsg, email: feedbackEmail});
+        setSentFeedback(true)
+        setFeedbackMsg('')
     };
 
     useEffect(() => {
@@ -71,14 +75,15 @@ export default function SideBar() {
                                 </div>
                                 <ul>
                                     <li> - Fixed Bing location</li>
-                                    <li> - Added Mobile broswer support</li>
+                                    <li> - Added Mobile browser support</li>
                                     <li>
                                         {" "}
                                         - Theres a bug when deleting a paramater
                                     </li>
                                 </ul>
                             </div>
-                            <form onSubmit={(e) => handleSendFeedback(e)}>
+                            {!sentFeedback ? <form onSubmit={(e) => handleSendFeedback(e)} className="h-fit">
+                                <input placeholder='Email (optional)' onChange={(e) => setFeedbackEmail(e.target.value)} value={feedbackEmail} className="bg-zinc-600 mb-2 rounded p-1"/>
                                 <textarea
                                     onChange={(e) =>
                                         setFeedbackMsg(e.target.value)
@@ -93,7 +98,7 @@ export default function SideBar() {
                                 >
                                     Send Feedback
                                 </button>
-                            </form>
+                            </form> : <p>Thank you for your feedback.</p>}
                             <div className="flex flex-col justify-self-end">
                                 Developed by :
                                 <a
