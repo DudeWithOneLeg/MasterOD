@@ -216,11 +216,11 @@ export default function SearchBar({status, setStatus}) {
                                         }
                                         className="rounded ml-1 cursor-pointer border border-zinc-500 bg-zinc-900"
                                     >
-                                        <option selected defaultValue>
+                                        <option selected={"Google" === engine} defaultValue>
                                             Google
                                         </option>
                                         {/* <option value={"Baidu"}>Baidu</option> */}
-                                        <option value={"Bing"}>Bing</option>
+                                        <option value={"Bing"} selected={"Bing" === engine}>Bing</option>
                                         {/* <option value={"Yandex"}>Yandex</option> */}
                                     </select>
                                 </label>
