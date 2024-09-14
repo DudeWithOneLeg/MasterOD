@@ -51,6 +51,13 @@ export const login = (user) => async (dispatch) => {
 
 };
 
+export const sendFeedback = async (message) => {
+  await csrfFetch('/api/users/feedback', {
+    method: "POST",
+    body: JSON.stringify(message)
+  }).catch(err => console.log(err))
+}
+
 export const restoreUser = () => async (dispatch) => {
   const response = await csrfFetch("/api/session");
   const data = await response.json();
