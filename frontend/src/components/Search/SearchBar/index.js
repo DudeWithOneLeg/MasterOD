@@ -207,14 +207,14 @@ export default function SearchBar({status, setStatus}) {
                             ) : (
                                 <></>
                             )}
-                            <div className="flex flex-row justify-center items-center">
+                            <div className="flex flex-row justify-center items-center text-lg">
                                 <p className="text-center">Engine:</p>
                                 <label className="flex items-center h-8 m-0">
                                     <select
                                         onChange={(e) =>
                                             setEngine(e.target.value)
                                         }
-                                        className="bg-slate-500 rounded ml-1 cursor-pointer"
+                                        className="rounded ml-1 cursor-pointer border border-zinc-500 bg-zinc-900"
                                     >
                                         <option selected defaultValue>
                                             Google

@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import * as searchActions from "../../store/search";
 import * as resultActions from "../../store/result";
 import { isMobile } from "react-device-detect";
@@ -9,10 +10,12 @@ import SearchBar from "./SearchBar";
 import QueryStats from "../QueryStats";
 import { SearchContext } from "../../context/SearchContext";
 import { ResultsContext } from "../../context/ResultsContext";
+import arrowBack from '../../assets/images/arrow-back.png'
 
 export default function Search() {
     const {
         search,
+        setSearch,
         query,
         string,
         setVisitedResults,
@@ -40,6 +43,7 @@ export default function Search() {
         setStart,
         result,
     } = useContext(ResultsContext);
+    const navigate = useNavigate()
     const results = useSelector((state) => state.results.results);
 
     const [status, setStatus] = useState("");
@@ -225,54 +229,75 @@ export default function Search() {
                     >
                         <div
                             className={`flex justify-content-center justify-self-start py-2 ${
-                                isMobile ? "w-full" : showResult ? "w-1/2" : ""
+                                isMobile ? "w-full" : showResult ? "w-1/2" : "w-full"
                             }`}
                         >
-                            <div className="flex flex-row w-fit items-center">
-                                {pageNum > 1 ? (
-                                    <img
-                                        src={require("../../assets/icons/triangle-backward.png")}
-                                        className="h-6 cursor-pointer"
-                                        alt="previous page"
-                                        onClick={handlePreviousPage}
-                                    />
-                                ) : (
-                                    <div className="w-6"></div>
-                                )}
-                                <form onSubmit={(e) => goToPage(e)}>
-                                    <input
-                                        value={pageNum}
-                                        className="w-10 rounded text-center text-slate-600"
-                                        onChange={(e) =>
-                                            setPageNum(e.target.value)
-                                        }
-                                        type="number"
-                                    />
-                                </form>
-                                {pageNum < totalPages ||
-                                totalPages === "N/A" ? (
-                                    <img
-                                        src={require("../../assets/icons/triangle-forward.png")}
-                                        className="h-6 cursor-pointer"
-                                        alt="next page"
-                                        onClick={handleNextPage}
-                                    />
-                                ) : (
-                                    <div className="w-6"></div>
-                                )}
-                                / <p>{totalPages}</p>
-                            </div>
-                            {results && results.info && results.info.dmca ? (
-                                <div className="flex flex-row rounded bg-yellow-700 px-2 ml-2 items-center">
-                                    <img
-                                        src={require("../../assets/icons/caution.png")}
-                                        className="h-4"
-                                    />
-                                    <p>DMCA: Limited results</p>
+                            <div className="grid grid-cols-3 w-full items-center">
+                                <div className="flex flex-row items-center justify-self-start poppins-regular text-lg cursor-pointer" onClick={() => {navigate('/search/all'); setSearch(false)}}>
+                                    <img src={arrowBack} className="h-8"/>
+                                    <p>History</p>
                                 </div>
-                            ) : (
-                                <></>
-                            )}
+                                <div className="grid grid-cols-3 justify-center w-full">
+                                    <div></div>
+                                    <div className="flex flex-row justify-self-center justify-center">
+
+                                        {pageNum > 1 ? (
+                                            <img
+                                                src={require("../../assets/icons/triangle-backward.png")}
+                                                className="h-6 cursor-pointer"
+                                                alt="previous page"
+                                                onClick={handlePreviousPage}
+                                            />
+                                        ) : (
+                                            <div className="w-6"></div>
+                                        )}
+                                        <form onSubmit={(e) => goToPage(e)}>
+                                            <input
+                                                value={pageNum}
+                                                className="w-10 rounded text-center text-slate-600"
+                                                onChange={(e) =>
+                                                    setPageNum(e.target.value)
+                                                }
+                                                type="number"
+                                            />
+                                        </form>
+                                        {pageNum < totalPages ||
+                                        totalPages === "N/A" ? (
+                                            <img
+                                                src={require("../../assets/icons/triangle-forward.png")}
+                                                className="h-6 cursor-pointer"
+                                                alt="next page"
+                                                onClick={handleNextPage}
+                                            />
+                                        ) : (
+                                            <div className="w-6"></div>
+                                        )}
+                                        / <p>{totalPages}</p>
+                                    </div>
+                                    {results && results.info && results.info.dmca && !showResult ? (
+                                        <div className="flex flex-row rounded bg-yellow-700 px-2 ml-2 items-center justify-self-end w-full">
+                                            <img
+                                                src={require("../../assets/icons/caution.png")}
+                                                className="h-4"
+                                            />
+                                            <p>DMCA: Limited results</p>
+                                        </div>
+                                    ) : (
+                                        <></>
+                                    )}
+                                </div>
+                                {results && results.info && results.info.dmca && showResult ? (
+                                        <div className="flex flex-row rounded bg-yellow-700 px-2 ml-2 items-center justify-self-end">
+                                            <img
+                                                src={require("../../assets/icons/caution.png")}
+                                                className="h-4"
+                                            />
+                                            <p>DMCA: Limited results</p>
+                                        </div>
+                                    ) : (
+                                        <></>
+                                    )}
+                            </div>
                         </div>
                         {showResult && isIndex ? (
                             <div className="w-1/2 flex justify-content-end items-center">

@@ -29,14 +29,13 @@ export default function QueryParam({ param, index }) {
         newQuery[index] = newParam;
         return newQuery;
       });
-      // console.log('herroo', query)
     }
   }, [paramValue, qparam, index, setQuery]);
 
   return (
     <div
-      className={`p-1 flex justify-content-end items-center rounded mr-1 mt-1 h-fit w-fit ${
-        param.split(":")[0].includes("-") ? "bg-red-400" : "bg-slate-500"
+      className={`p-1 flex justify-content-end items-center rounded mr-1 mt-1 h-fit w-fit border !border-zinc-500 ${
+        param.split(":")[0].includes("-") ? "bg-red-400" : ""
       }`}
       o
       onMouseEnter={() => setShowDeleteIcon(true)}
@@ -45,7 +44,7 @@ export default function QueryParam({ param, index }) {
       ref={queryParamRef}
     >
       <div className="flex flex-row w-fit">
-        <div className="w-fit flex">
+        <div className="w-fit flex text-white px-1">
           <p>{qparam}: </p>
         </div>
         <div>
