@@ -275,20 +275,18 @@ export default function SearchBar({ setStatus, status }) {
                             <label className="h-fit m-0">
                                 Search Engine:
                                 <select
-                                    onClick={(e) => setEngine(e.target.value)}
+                                    onChange={(e) => setEngine(e.target.value)}
                                     className="bg-slate-500 rounded ml-1 cursor-pointer"
                                 >
                                     <option
                                         selected
                                         defaultValue="Google"
-                                        onClick={() => setEngine("Google")}
                                     >
                                         Google
                                     </option>
                                     {/* <option value={"Baidu"}>Baidu</option> */}
                                     <option
                                         value={"Bing"}
-                                        onClick={() => setEngine("Bing")}
                                     >
                                         Bing
                                     </option>
