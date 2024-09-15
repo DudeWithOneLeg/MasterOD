@@ -176,6 +176,11 @@ router.post("/", async (req, res) => {
             request.q = request.q + ` location:${location}`;
             delete request.location;
         }
+        if (params.hl) {
+            const language = params.hl;
+            request.q = request.q + ` language:${language}`;
+            delete request.hl;
+        }
     }
     console.log(request);
     try {
