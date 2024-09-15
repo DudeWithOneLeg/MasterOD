@@ -18,7 +18,7 @@ export const SearchProvider = ({ children }) => {
     const [showOptions, setShowOptions] = useState(false);
 
     useEffect(() => {
-        setLocation("")
+        setCountry("")
         setQuery([])
         setLanguage("")
     },[engine])
