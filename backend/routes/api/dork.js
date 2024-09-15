@@ -107,7 +107,7 @@ router.post("/", async (req, res) => {
                         Object.values(obj).length ==
                         Object.values(response).length
                     ) {
-                        const currPage = data.serpapi_pagination.current;
+                        const currPage = data.serpapi_pagination && data.serpapi_pagination.current ? data.serpapi_pagination.current : 0;
                         // console.log(data.organic_results?.slice(-1)[0].position);
                         // console.log(data);
                         const totalPages = (
