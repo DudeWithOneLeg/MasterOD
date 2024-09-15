@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 export const SearchContext = createContext();
 
 export const SearchProvider = ({ children }) => {
@@ -16,6 +16,12 @@ export const SearchProvider = ({ children }) => {
     const [country, setCountry] = useState("");
     const [engine, setEngine] = useState("Google");
     const [showOptions, setShowOptions] = useState(false);
+
+    useEffect(() => {
+        setLocation("")
+        setQuery([])
+        setLanguage("")
+    },[engine])
     return (
         <SearchContext.Provider
             value={{
