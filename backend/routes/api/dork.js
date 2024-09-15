@@ -173,7 +173,7 @@ router.post("/", async (req, res) => {
         request.count = 50;
         if (params.location) {
             const location = params.location;
-            request.q = request.q + `location:${location}`;
+            request.q = request.q + ` location:${location}`;
             delete request.location;
         }
     }
