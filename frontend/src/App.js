@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import { isMobile } from "react-device-detect";
 import * as sessionActions from "./store/session";
 import Search from "./components/Search";
@@ -12,6 +12,7 @@ import Navigation from "./components/Navigation";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import ThreeDScene from "./components/3Dscene";
 import FinishSignup from "./components/FinishSignup";
+import GuidePage from "./components/GuidePage";
 
 function App() {
     const dispatch = useDispatch();
@@ -23,23 +24,22 @@ function App() {
         dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
     }, [dispatch]);
 
-    useEffect(() => {
-        if (user) navigate('/search')
-    },[isLoaded])
+    // useEffect(() => {
+    //     if (user) navigate('/search')
+    // },[isLoaded])
 
-    useEffect(() => {
-        // dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
-        if (isLoaded &&
-            user &&
-            !user.tempUser && (path === '/' || path === '/login' || path === '/signup')
-        ) {
-            navigate("/search");
-        } else if (isLoaded && user && user.tempUser) {
-            navigate("/finish-signup");
-        } else if (isLoaded && !user && path !== '/login' && path !== '/signup') {
-            navigate("/");
-        }
-    }, [user, isLoaded]);
+    // useEffect(() => {
+    //     if (isLoaded &&
+    //         user &&
+    //         !user.tempUser && (path === '/' || path === '/login' || path === '/signup')
+    //     ) {
+    //         navigate("/search");
+    //     } else if (isLoaded && user && user.tempUser) {
+    //         navigate("/finish-signup");
+    //     } else if (isLoaded && !user && path !== '/login' && path !== '/signup') {
+    //         navigate("/");
+    //     }
+    // }, [user, isLoaded]);
 
     return (
         <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
@@ -70,10 +70,9 @@ function App() {
                     ) : (
                         <></>
                     )}
-
+                    <Routes>
+                        <Route path='/guide' element={<GuidePage/>}/>
                     {isLoaded && user ? (
-                        <Routes>
-                            {!user.tempUser ? (
                                 <>
                                     <Route
                                         path="/results"
@@ -99,11 +98,7 @@ function App() {
                                             <Search />
                                         }
                                     />
-                                </>
-                            ) : (
-                                <></>
-                            )}
-                            {user.tempUser ? (
+
                                 <Route
                                     path="/finish-signup"
                                     element={
@@ -111,13 +106,11 @@ function App() {
                                             <FinishSignup />
                                         </div>
                                     }
-                                />
-                            ) : (
-                                <></>
-                            )}
-                        </Routes>
+                                    />
+                                    </>
+
                     ) : (
-                        <Routes>
+                        <>
                             <Route path="/" element={<ThreeDScene />} />
                             <Route
                                 path="/login"
@@ -135,8 +128,10 @@ function App() {
                                     </div>
                                 }
                             />
-                        </Routes>
+                        </>
                     )}
+                        <Route path='*' element={<Navigate to={user ? '/search':'/'}/>}/>
+                    </Routes>
                 </div>
             </div>
         </GoogleOAuthProvider>

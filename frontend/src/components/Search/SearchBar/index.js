@@ -16,7 +16,7 @@ const searchIcon = require("../../../assets/images/search.png");
 
 const isProduction = process.env.NODE_ENV === "production";
 
-export default function SearchBar({status, setStatus}) {
+export default function SearchBar({ status, setStatus }) {
     const {
         query,
         setQuery,
@@ -34,22 +34,19 @@ export default function SearchBar({status, setStatus}) {
         setLoadingResults,
         showOptions,
         setShowOptions,
-    } = useContext(SearchContext)
-    const {
-        setPageNum,
-        setTotalPages
-    } = useContext(ResultsContext)
+    } = useContext(SearchContext);
+    const { setPageNum, setTotalPages } = useContext(ResultsContext);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [gptSearch, setGptSearch] = useState(false);
-    const[currCharCount, setCurrCharCount] = useState(0)
+    const [currCharCount, setCurrCharCount] = useState(0);
 
     const settings = { Google: googleSettings, Bing: bingSettings };
 
-    const maxCharCount = 3400
+    const maxCharCount = 3400;
     useEffect(() => {
-        setCurrCharCount((query.join(';') + string).length)
-    },[query, string])
+        setCurrCharCount((query.join(";") + string).length);
+    }, [query, string]);
 
     const saveQuery = () => {
         const options = {
@@ -58,17 +55,18 @@ export default function SearchBar({status, setStatus}) {
             engine: engine.toLocaleLowerCase(),
             start: 0,
             string: string,
+        };
+        if (engine === "Bing") {
+            options.location = country;
+        } else {
+            options.cr = country;
         }
-        if (engine === 'Bing') {options.location = country}
-        else {options.cr = country}
-        dispatch(
-            searchActions.saveQuery(options)
-        );
+        dispatch(searchActions.saveQuery(options));
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (currCharCount >= maxCharCount) return
+        if (currCharCount >= maxCharCount) return;
         if (query || string) {
             setLoadingResults(true);
             setStatus("initial");
@@ -89,8 +87,11 @@ export default function SearchBar({status, setStatus}) {
                     gpt: true,
                 };
             }
-            if (engine === 'Bing') {options.location = country}
-            else {options.cr = country}
+            if (engine === "Bing") {
+                options.location = country;
+            } else {
+                options.cr = country;
+            }
             dispatch(resultActions.search(options, (status = "initial"))).then(
                 async (data) => {
                     navigate("/search");
@@ -116,14 +117,11 @@ export default function SearchBar({status, setStatus}) {
             setPageNum(1);
         }
     };
+    const queryLen = () => (query && query.length) || string
+    const hasReachCharLimit = () => currCharCount >= maxCharCount
 
     if (isMobile)
-        return (
-            <MobileSearchBar
-                setStatus={setStatus}
-                status={status}
-            />
-        );
+        return <MobileSearchBar setStatus={setStatus} status={status} />;
     else
         return (
             <div
@@ -177,26 +175,54 @@ export default function SearchBar({status, setStatus}) {
                                         }
                                         onClick={() => setShowOptions(true)}
                                     />
-                                    <img
-                                        src={clearText}
-                                        className="h-full"
-                                        onClick={() => setString("")}
-                                    />
+                                    {string ? (
+                                        <img
+                                            src={clearText}
+                                            className="h-full"
+                                            onClick={() => setString("")}
+                                        />
+                                    ) : (
+                                        <></>
+                                    )}
+                                    <div>
+                                        <p
+                                            className={`!text-${
+                                                currCharCount >= maxCharCount
+                                                    ? "red-400"
+                                                    : ""
+                                            }  `}
+                                        >
+                                            {currCharCount}/{maxCharCount}
+                                        </p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <p className={`!text-${currCharCount >= maxCharCount ? 'red-400':''}  `}>{currCharCount}/{maxCharCount}</p>
-                                </div>
+                                {queryLen() && !hasReachCharLimit() ? (
+                                    <button
+                                        className="flex justify-self-end px-3 py-1 mx-1 border rounded hover:bg-zinc-600 focus:outline-none"
+                                        type="submit"
+                                    >
+                                        <img src={searchIcon} className="h-6" />
+                                    </button>
+                                ) : (
+                                    <div className="px-3 mx-1">
+                                        <div className="w-6"/>
+                                    </div>
+                                )}
                             </div>
                         </div>
                         <div className="flex flex-row w-fit">
-                            {(query && query.length) || string ? (
+                            {queryLen() ? (
                                 <div className="flex flex-row align-items-center justiify between px-2">
-                                    {currCharCount >= maxCharCount ? <></>:<img
-                                        className="h-8 cursor-pointer px-2"
-                                        src={require("../../../assets/icons/save.png")}
-                                        onClick={() => saveQuery()}
-                                        alt="save query"
-                                    />}
+                                    {hasReachCharLimit() ? (
+                                        <></>
+                                    ) : (
+                                        <img
+                                            className="h-8 cursor-pointer px-2"
+                                            src={require("../../../assets/icons/save.png")}
+                                            onClick={() => saveQuery()}
+                                            alt="save query"
+                                        />
+                                    )}
                                     <p
                                         className={`text-white rounded h-8 flex align-items-center hover:text-slate-900 cursor-pointer`}
                                         onClick={() => setQuery([])}
@@ -216,25 +242,25 @@ export default function SearchBar({status, setStatus}) {
                                         }
                                         className="rounded ml-1 cursor-pointer border border-zinc-500 bg-zinc-900"
                                     >
-                                        <option selected={"Google" === engine} defaultValue>
+                                        <option
+                                            selected={"Google" === engine}
+                                            defaultValue
+                                        >
                                             Google
                                         </option>
                                         {/* <option value={"Baidu"}>Baidu</option> */}
-                                        <option value={"Bing"} selected={"Bing" === engine}>Bing</option>
+                                        <option
+                                            value={"Bing"}
+                                            selected={"Bing" === engine}
+                                        >
+                                            Bing
+                                        </option>
                                         {/* <option value={"Yandex"}>Yandex</option> */}
                                     </select>
                                 </label>
                             </div>
                         </div>
                     </div>
-                    {(((query && query.length) || string ) && currCharCount < maxCharCount)? (
-                        <button
-                            className="flex justify-self-end px-3 py-1 mx-1 border rounded hover:bg-zinc-600 focus:outline-none"
-                            type="submit"
-                        >
-                            <img src={searchIcon} className="h-6" />
-                        </button>
-                    ) : <></>}
                 </form>
                 {query && showOptions && query.length ? (
                     <div className="flex flex-wrap p-1 w-full">

@@ -92,7 +92,8 @@ export default function QueryRow({ query }) {
                     isMobile ? "col" : "row"
                 } items-center justify-center`}
             >
-                <p>{`${date} ${time}`}</p>
+                <p>{date}</p>
+                <p>{time}</p>
             </div>
             <div
                 className={`col-span-${

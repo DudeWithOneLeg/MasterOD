@@ -28,11 +28,10 @@ export default function SearchBar({ setStatus, status }) {
         setVisitedResults,
         setCurrentSelected,
         setLoadingResults,
-         showOptions,
-        setShowOptions
+        showOptions,
+        setShowOptions,
     } = useContext(SearchContext);
-    const { setPageNum, setTotalPages } =
-        useContext(ResultsContext);
+    const { setPageNum, setTotalPages } = useContext(ResultsContext);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -45,12 +44,13 @@ export default function SearchBar({ setStatus, status }) {
             engine: engine.toLocaleLowerCase(),
             start: 0,
             string: string,
+        };
+        if (engine === "Bing") {
+            options.location = country;
+        } else {
+            options.cr = country;
         }
-        if (engine === 'Bing') {options.location = country}
-        else {options.cr = country}
-        dispatch(
-            searchActions.saveQuery(options)
-        );
+        dispatch(searchActions.saveQuery(options));
     };
 
     const handleSubmit = (e) => {
@@ -60,7 +60,7 @@ export default function SearchBar({ setStatus, status }) {
             setLoadingResults(true);
             setStatus("initial");
             setShowOptions(false);
-            let options = {}
+            let options = {};
             options = {
                 q: query.join(";"),
                 hl: language,
@@ -68,25 +68,25 @@ export default function SearchBar({ setStatus, status }) {
                 start: 0,
                 string: string,
             };
-            if (engine === 'Bing') {options.location = country}
-            else {options.cr = country}
-            dispatch(
-                resultActions.search(
-                    options,
-                    (status = "initial")
-                )
-            ).then(async (data) => {
-                navigate("/search");
-                dispatch(searchActions.getRecentQueries());
-                if (
-                    data.results &&
-                    data.results.info &&
-                    data.results.info.totalPages
-                ) {
-                    setTotalPages(data.results.info.totalPages);
+            if (engine === "Bing") {
+                options.location = country;
+            } else {
+                options.cr = country;
+            }
+            dispatch(resultActions.search(options, (status = "initial"))).then(
+                async (data) => {
+                    navigate("/search");
+                    dispatch(searchActions.getRecentQueries());
+                    if (
+                        data.results &&
+                        data.results.info &&
+                        data.results.info.totalPages
+                    ) {
+                        setTotalPages(data.results.info.totalPages);
+                    }
+                    setLoadingResults(false);
                 }
-                setLoadingResults(false);
-            });
+            );
             // console.log(status)
             setSearch(true);
             setStatus("next");
@@ -174,89 +174,101 @@ export default function SearchBar({ setStatus, status }) {
             ) : (
                 <></>
             )}
-            <div className="flex flex-wrap p-1 w-full">
-                {query &&
-                    query.map((param, index) => {
-                        if (param.includes(":")) {
-                            return (
-                                <QueryParam
-                                    param={param}
-                                    index={index}
-                                />
-                            );
-                        }
-                    })}
-            </div>
 
             {showOptions && (
-                <div className={`flex flex-col bg-zinc-800 rounded w-full`}>
-                    <div className={`w-full`}>
-                        {Object.keys(settings[engine].operators).map(
-                            (param) => (
-                                <Parameter
-                                    text={param}
-                                    param={settings[engine].operators[param]}
-                                />
-                            )
-                        )}
-                    </div>
-                    <div className={`w-full h-full divide-y divide-slate-500`}>
-                        {(engine === "Google" || engine === "Bing") && (
+                <div className="flex flex-col w-full">
+                    {query ? (
+                        <div className="flex flex-wrap p-1 w-full">
+                            {query.map((param, index) => {
+                                if (param.includes(":")) {
+                                    return (
+                                        <QueryParam
+                                            param={param}
+                                            index={index}
+                                        />
+                                    );
+                                }
+                            })}
+                        </div>
+                    ) : (
+                        <></>
+                    )}
+                    <div className={`flex flex-col bg-zinc-800 rounded w-full`}>
+                        <div className={`w-full`}>
+                            {Object.keys(settings[engine].operators).map(
+                                (param) => (
+                                    <Parameter
+                                        text={param}
+                                        param={
+                                            settings[engine].operators[param]
+                                        }
+                                    />
+                                )
+                            )}
+                        </div>
+                        <div
+                            className={`w-full h-full divide-y divide-slate-500`}
+                        >
+                            {(engine === "Google" || engine === "Bing") && (
+                                <div className="p-2">
+                                    <select
+                                        // id="normalize"
+                                        className="pl-2 cursor-pointer"
+                                        onChange={(e) =>
+                                            setLanguage(
+                                                settings[engine].languages[
+                                                    e.target.value
+                                                ]
+                                            )
+                                        }
+                                    >
+                                        <option
+                                            selected={language === ""}
+                                            disabled
+                                        >
+                                            Language
+                                        </option>
+
+                                        {Object.keys(
+                                            settings[engine].languages
+                                        ).map((name) => (
+                                            <option
+                                                selected={
+                                                    settings[engine].languages[
+                                                        name
+                                                    ] === language
+                                                }
+                                                value={name}
+                                            >
+                                                {name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                            )}
                             <div className="p-2">
                                 <select
                                     // id="normalize"
                                     className="pl-2 cursor-pointer"
                                     onChange={(e) =>
-                                        setLanguage(
-                                            settings[engine].languages[
+                                        setCountry(
+                                            settings[engine].countries[
                                                 e.target.value
                                             ]
                                         )
                                     }
                                 >
-                                    <option selected={language === ""} disabled>
-                                        Language
+                                    <option
+                                        selected={country === ""}
+                                        disabled
+                                        className=""
+                                    >
+                                        Country
                                     </option>
 
                                     {Object.keys(
-                                        settings[engine].languages
+                                        settings[engine].countries
                                     ).map((name) => (
-                                        <option
-                                            selected={
-                                                settings[engine].languages[
-                                                    name
-                                                ] === language
-                                            }
-                                            value={name}
-                                        >
-                                            {name}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-                        )}
-                        <div className="p-2">
-                            <select
-                                // id="normalize"
-                                className="pl-2 cursor-pointer"
-                                onChange={(e) =>
-                                    setCountry(
-                                        settings[engine].countries[
-                                            e.target.value
-                                        ]
-                                    )
-                                }
-                            >
-                                <option
-                                    selected={country === ""}
-                                    disabled
-                                    className=""
-                                >
-                                    Country
-                                </option>
-
-                                {Object.keys(settings[engine].countries).map(
-                                    (name) => (
                                         <option
                                             value={name}
                                             selected={
@@ -267,33 +279,35 @@ export default function SearchBar({ setStatus, status }) {
                                         >
                                             {name}
                                         </option>
-                                    )
-                                )}
-                            </select>
-                        </div>
-                        <div className="flex flex-row text-white p-2">
-                            <label className="h-fit m-0">
-                                Search Engine:
-                                <select
-                                    onChange={(e) => setEngine(e.target.value)}
-                                    className="bg-slate-500 rounded ml-1 cursor-pointer"
-                                >
-                                    <option
-                                        selected={"Google" === engine}
-                                        defaultValue="Google"
-                                    >
-                                        Google
-                                    </option>
-                                    {/* <option value={"Baidu"}>Baidu</option> */}
-                                    <option
-                                        value={"Bing"}
-                                        selected={"Bing" === engine}
-                                    >
-                                        Bing
-                                    </option>
-                                    {/* <option value={"Yandex"}>Yandex</option> */}
+                                    ))}
                                 </select>
-                            </label>
+                            </div>
+                            <div className="flex flex-row text-white p-2">
+                                <label className="h-fit m-0">
+                                    Search Engine:
+                                    <select
+                                        onChange={(e) =>
+                                            setEngine(e.target.value)
+                                        }
+                                        className="bg-slate-500 rounded ml-1 cursor-pointer"
+                                    >
+                                        <option
+                                            selected={"Google" === engine}
+                                            defaultValue="Google"
+                                        >
+                                            Google
+                                        </option>
+                                        {/* <option value={"Baidu"}>Baidu</option> */}
+                                        <option
+                                            value={"Bing"}
+                                            selected={"Bing" === engine}
+                                        >
+                                            Bing
+                                        </option>
+                                        {/* <option value={"Yandex"}>Yandex</option> */}
+                                    </select>
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>
