@@ -8,7 +8,6 @@ const operators = {
   "In body:": { "text": "inbody:", "example": "artificial intelligence" },
   "In title:": { "text": "intitle:", "example": "research paper" },
   "IP address:": { "text": "ip:", "example": "192.168.1.1" },
-  "Language:": { "text": "language:", "example": "en" },
   "Prefer:": { "text": "prefer:", "example": "latest results" },
   "Site:": { "text": "site:", "example": "example.com" },
   "URL:": { "text": "url:", "example": "example.com/about" }
