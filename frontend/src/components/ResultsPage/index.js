@@ -63,17 +63,17 @@ export default function ResultsPage() {
             }`}
         >
             <div
-                className={`flex items-center justify-content-center my-2 ${
+                className={`flex items-center justify-content-center pt-2 border-b border-zinc-500 bg-zinc-800 ${
                     preview && !isMobile ? "w-1/2" : ""
                 }`}
             >
                 <form
                     className={`flex justify-center items-center text-white ${
                         preview && !isMobile
-                            ? "w-1/2 flex-row"
-                            : !preview && !isMobile
-                            ? "w-1/3 flex-row"
-                            : "w-2/3 flex-col"
+                            ? "w-1/2 flex-col"
+                            : (!preview && !isMobile
+                            ? "w-1/3 flex-col"
+                            : "w-2/3 flex-col")
                     }`}
                     onSubmit={(e) => handleSubmit(e)}
                 >
@@ -93,7 +93,7 @@ export default function ResultsPage() {
                             Search
                         </button>
                     </div>
-                    <div className="flex flex-row px-2 items-center">
+                    <div className="flex flex-row p-2 items-center">
                         <div className="flex flex-row w-fit rounded bg-slate-500">
                             <p
                                 onClick={() => setViewAll(true)}
@@ -133,7 +133,7 @@ export default function ResultsPage() {
                 </form>
             </div>
             <div
-                className={`flex w-full h-full pt-2 overflow-y-hidden ${
+                className={`flex w-full h-full overflow-y-hidden ${
                     isMobile ? "grid grid-rows-2 gap-1 flex-col" : ""
                 }`}
             >

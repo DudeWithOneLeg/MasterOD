@@ -16,12 +16,14 @@ export const SearchProvider = ({ children }) => {
     const [country, setCountry] = useState("");
     const [engine, setEngine] = useState("Google");
     const [showOptions, setShowOptions] = useState(false);
-
+    const [currCharCount, setCurrCharCount] = useState(0);
+    const maxCharCount = 3400;
     useEffect(() => {
-        setCountry("")
-        setQuery([])
-        setLanguage("")
-    },[engine])
+        setCurrCharCount((query.join(";") + string).length);
+    }, [query, string]);
+
+    const queryLen = () => (query && query.length) || string
+    const hasReachCharLimit = () => currCharCount >= maxCharCount
     return (
         <SearchContext.Provider
             value={{
@@ -52,7 +54,11 @@ export const SearchProvider = ({ children }) => {
                 engine,
                 setEngine,
                 showOptions,
-                setShowOptions
+                setShowOptions,
+                queryLen,
+                hasReachCharLimit,
+                currCharCount,
+                maxCharCount
             }}
         >
             {children}

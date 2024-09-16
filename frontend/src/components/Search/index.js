@@ -10,7 +10,7 @@ import SearchBar from "./SearchBar";
 import QueryStats from "../QueryStats";
 import { SearchContext } from "../../context/SearchContext";
 import { ResultsContext } from "../../context/ResultsContext";
-import arrowBack from '../../assets/images/arrow-back.png'
+import arrowBack from "../../assets/images/arrow-back.png";
 
 export default function Search() {
     const {
@@ -43,7 +43,7 @@ export default function Search() {
         setStart,
         result,
     } = useContext(ResultsContext);
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const results = useSelector((state) => state.results.results);
 
     const [status, setStatus] = useState("");
@@ -216,7 +216,7 @@ export default function Search() {
             id="search-bar"
         >
             <div className="p-2 w-full">
-                <SearchBar status={status} setStatus={setStatus}/>
+                <SearchBar status={status} setStatus={setStatus} />
             </div>
 
             {results && search ? (
@@ -228,19 +228,28 @@ export default function Search() {
                         id="result-header"
                     >
                         <div
-                            className={`flex justify-content-center justify-self-start py-2 ${
-                                isMobile ? "w-full" : showResult ? "w-1/2" : "w-full"
+                            className={`flex justify-content-center justify-self-start p-1 bg-zinc-800 border-b border-zinc-500 ${
+                                isMobile
+                                    ? "w-full"
+                                    : showResult
+                                    ? "w-1/2"
+                                    : "w-full"
                             }`}
                         >
-                            <div className="grid grid-cols-3 w-full items-center">
-                                <div className="flex flex-row items-center justify-self-start poppins-regular text-lg cursor-pointer" onClick={() => {navigate('/search/all'); setSearch(false)}}>
-                                    <img src={arrowBack} className="h-8"/>
+                            <div className="grid grid-cols-3 w-full items-center px-2">
+                                <div
+                                    className="flex flex-row items-center justify-self-start poppins-regular text-lg cursor-pointer"
+                                    onClick={() => {
+                                        navigate("/search/all");
+                                        setSearch(false);
+                                    }}
+                                >
+                                    <img src={arrowBack} className="h-7" />
                                     <p>History</p>
                                 </div>
                                 <div className="grid grid-cols-3 justify-center w-full">
                                     <div></div>
                                     <div className="flex flex-row justify-self-center justify-center">
-
                                         {pageNum > 1 ? (
                                             <img
                                                 src={require("../../assets/icons/triangle-backward.png")}
@@ -274,7 +283,11 @@ export default function Search() {
                                         )}
                                         / <p>{totalPages}</p>
                                     </div>
-                                    {results && results.info && results.info.dmca && !showResult ? (
+                                    {results &&
+                                    results.info &&
+                                    results.info.dmca &&
+                                    !showResult &&
+                                    !isMobile ? (
                                         <div className="flex flex-row rounded bg-yellow-700 px-2 ml-2 items-center justify-self-end w-full">
                                             <img
                                                 src={require("../../assets/icons/caution.png")}
@@ -286,17 +299,20 @@ export default function Search() {
                                         <></>
                                     )}
                                 </div>
-                                {results && results.info && results.info.dmca && showResult ? (
-                                        <div className="flex flex-row rounded bg-yellow-700 px-2 ml-2 items-center justify-self-end">
-                                            <img
-                                                src={require("../../assets/icons/caution.png")}
-                                                className="h-4"
-                                            />
-                                            <p>DMCA: Limited results</p>
-                                        </div>
-                                    ) : (
-                                        <></>
-                                    )}
+                                {results &&
+                                results.info &&
+                                results.info.dmca &&
+                                (showResult || isMobile) ? (
+                                    <div className="flex flex-row rounded bg-yellow-700 px-2 ml-2 items-center justify-self-end">
+                                        <img
+                                            src={require("../../assets/icons/caution.png")}
+                                            className="h-4"
+                                        />
+                                        <p>DMCA: Limited results</p>
+                                    </div>
+                                ) : (
+                                    <></>
+                                )}
                             </div>
                         </div>
                         {showResult && isIndex ? (

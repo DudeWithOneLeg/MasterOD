@@ -30,15 +30,15 @@ export default function BrowserHeader({preview, component, setComponent}) {
       <div className="fixed -mt-6 flex flex-row text-white pb-1">
         <div
           className={`bg-slate-${
-            component === "browser" ? "400" : "600 hover:bg-slate-400"
+            component === "browser" ? "400" : "700 hover:bg-zinc-600"
           } rounded-t mx-1 px-1 cursor-pointer rounded-b-none`}
           onClick={() => setComponent("browser")}
         >
           Browser
         </div>
         <div
-          className={`bg-slate-${
-            component === "archive" ? "400" : "600 hover:bg-slate-400"
+          className={`bg-zinc-${
+            component === "archive" ? "400" : "700 hover:bg-zinc-600"
           } rounded-t mx-1 px-1 cursor-pointer rounded-b-none`}
           onClick={() => setComponent("archive")}
         >

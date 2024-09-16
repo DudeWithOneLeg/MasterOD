@@ -72,9 +72,9 @@ export default function ThreeDScene() {
             <div
                 className={`w-${isMobile ? "full" : "1/2"} h-${
                     isMobile ? "1/3" : "full"
-                } flex items-center justify-center ${isMobile ? "p-5" : ""}`}
+                } flex items-center justify-center border ${isMobile ? "p-5" : ""}`}
             >
-                <div className={`flex flex-col w-${isMobile ? "2/3" : "1/2"}`}>
+                <div className={`flex flex-col p-5 rounded-xl shadow-lg shadow-blue-700 w-${isMobile ? "2/3" : "1/2"}`}>
                     <h1
                         className={`poppins-regular-italic ${
                             width < 640

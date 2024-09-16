@@ -3,14 +3,14 @@ import bingLanguages from './bing-languages.json'
 
 const operators = {
   "Contains:": "contains:",
-  "Ext:": "ext:",
+  // "Ext:": "ext:",
   "Filetype:": "filetype:",
   "In anchor:": "inanchor:",
   "In body:": "inbody:",
   "In title:": "intitle:",
   "IP address:": "ip:",
   "Language:": "language:",
-  "Loc:": "loc:",
+  // "Loc:": "loc:",
   "Prefer:": "prefer:",
   "Site:": "site:",
   // "Feed:": "feed:",

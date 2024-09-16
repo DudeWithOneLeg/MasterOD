@@ -8,30 +8,55 @@ import * as sessionActions from "../../store/session";
 function Navigation() {
     const sessionUser = useSelector((state) => state.session.user);
     const [showMenu, setShowMenu] = useState(false);
+    const [underline, setUnderline] = useState("");
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const handleLogOut = (e) => {
         e.preventDefault();
-        dispatch(sessionActions.logout());
-        navigate("/");
+        setShowMenu(false);
+        dispatch(sessionActions.logout()).then(async () => {
+
+            navigate("/");
+        })
     };
 
     const handleNavigate = () => {
         if (sessionUser && sessionUser.id) {
-            navigate("/search")
+            navigate("/search");
+        } else {
+            navigate("/");
         }
-        else {navigate('/')}
-    }
+    };
 
     return (
         <div className="h-[5%] w-screen fixed flex p-2 border-b border-zinc-500 flex flex-row items-center justify-between text-white">
-            <div
-                className="flex flex-row items-center cursor-pointer"
-                onClick={handleNavigate}
-            >
-                <img src={logo} className="flex h-10" />
-                <h1 className="text-2xl p-2">SearchDeck</h1>
+            <div className="flex flex-row items-center">
+                <div
+                    className="flex flex-row items-center cursor-pointer items-center"
+                    onClick={handleNavigate}
+                >
+                    <img src={logo} className="flex h-10" />
+                    <h1 className="text-2xl p-2">SearchDeck</h1>
+                </div>
+                <div className="w-4" />
+                {/* <div className="flex flex-row text-zinc-400 text-xl items-center h-fit">
+                    <p
+                        className="cursor-pointer"
+                        onClick={() => {
+                            setUnderline("guide");
+                            navigate('/guide')
+                        }}
+                    >
+                        Guide
+                    </p>
+                    <p
+                        className="cursor-pointer pl-2"
+                        onClick={() => setUnderline("option")}
+                    >
+                        Option
+                    </p>
+                </div> */}
             </div>
             {sessionUser ? (
                 <div className="flex justify-items-center">
@@ -43,7 +68,7 @@ function Navigation() {
                             <div className="flex flex-row items-center justify-center border-2 border-green-400 bg-green-200 rounded p-1 px-2 text-green-600">
                                 <p>Free</p>
                             </div>
-                            <span className="w-2"/>
+                            <span className="w-2" />
                             <img
                                 src={profileImg}
                                 className="rounded-full h-10"
@@ -58,11 +83,6 @@ function Navigation() {
                                 >
                                     <p>Logout</p>
                                 </div>
-                                {/* <img
-                        src={require("../../assets/icons/logout.png")}
-                        className="h-8 cursor-pointer"
-                        alt="logout"
-                        /> */}
                             </div>
                         ) : (
                             <></>

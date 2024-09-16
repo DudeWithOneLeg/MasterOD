@@ -129,7 +129,7 @@ export default function SideBar() {
                                     className="underline"
                                     target="_blank"
                                 >
-                                    Romeo (I need a job) Galvan
+                                    Romeo Galvan
                                 </a>
                                 <p>© 2024 Romeo Galvan</p>
                             </div>

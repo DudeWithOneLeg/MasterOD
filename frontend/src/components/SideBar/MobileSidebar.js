@@ -14,9 +14,11 @@ export default function MobileSideBar({ setSearch }) {
 
     const handleLogOut = (e) => {
         e.preventDefault();
-        dispatch(sessionActions.logout());
         setShowMenu(false);
-        navigate("/");
+        dispatch(sessionActions.logout()).then(async () => {
+
+            navigate("/");
+        })
     };
 
     const handleNavigate = () => {
@@ -24,6 +26,7 @@ export default function MobileSideBar({ setSearch }) {
             navigate("/search")
         }
         else {navigate('/')}
+        setShowMenu(false)
     }
 
     return (
@@ -37,7 +40,7 @@ export default function MobileSideBar({ setSearch }) {
                         alt="profile"
                     />
                     <div
-                        className="flex flex-row items-center cursor-pointer justify-self-center"
+                        className="flex flex-row items-center justify-center cursor-pointer justify-self-center"
                         onClick={handleNavigate}
                     >
                         <img src={logo} className="flex h-10" />
@@ -53,7 +56,7 @@ export default function MobileSideBar({ setSearch }) {
                         Create an account
                     </p>
                     <div
-                        className="flex flex-row items-center cursor-pointer"
+                        className="flex flex-row items-center justify-center cursor-pointer"
                         onClick={handleNavigate}
                     >
                         <img src={logo} className="flex h-10" />
