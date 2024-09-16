@@ -124,10 +124,11 @@ export default function ResultCard({ data, rowKey }) {
                                     />
                                 </div>
                                 <p className="truncate  text-slate-500 w-3/4">
-                                    {result.link
+                                    {result.link ? 
+                                        result.link
                                         .split("")
                                         .slice(0, 50)
-                                        .join("")}
+                                        .join("") : ""}
                                     ...
                                 </p>
                             </div>
