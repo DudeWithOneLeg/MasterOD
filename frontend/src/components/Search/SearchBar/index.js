@@ -34,19 +34,19 @@ export default function SearchBar({ status, setStatus }) {
         setLoadingResults,
         showOptions,
         setShowOptions,
+        queryLen,
+        hasReachCharLimit,
+        currCharCount,
+        maxCharCount
     } = useContext(SearchContext);
     const { setPageNum, setTotalPages } = useContext(ResultsContext);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [gptSearch, setGptSearch] = useState(false);
-    const [currCharCount, setCurrCharCount] = useState(0);
 
     const settings = { Google: googleSettings, Bing: bingSettings };
 
-    const maxCharCount = 3400;
-    useEffect(() => {
-        setCurrCharCount((query.join(";") + string).length);
-    }, [query, string]);
+
 
     const saveQuery = () => {
         const options = {
@@ -109,7 +109,6 @@ export default function SearchBar({ status, setStatus }) {
                     setLoadingResults(false);
                 }
             );
-            // console.log(status)
             setSearch(true);
             setStatus("next");
             setVisitedResults([]);
@@ -117,8 +116,7 @@ export default function SearchBar({ status, setStatus }) {
             setPageNum(1);
         }
     };
-    const queryLen = () => (query && query.length) || string
-    const hasReachCharLimit = () => currCharCount >= maxCharCount
+
 
     if (isMobile)
         return <MobileSearchBar setStatus={setStatus} status={status} />;

@@ -30,6 +30,10 @@ export default function SearchBar({ setStatus, status }) {
         setLoadingResults,
         showOptions,
         setShowOptions,
+        queryLen,
+        hasReachCharLimit,
+        currCharCount,
+        maxCharCount
     } = useContext(SearchContext);
     const { setPageNum, setTotalPages } = useContext(ResultsContext);
     const navigate = useNavigate();
@@ -144,7 +148,7 @@ export default function SearchBar({ setStatus, status }) {
                     </div>
                     <div className="flex flex-row w-fit"></div>
                 </div>
-                {(query && query.length) || string ? (
+                {queryLen() && !hasReachCharLimit() ? (
                     <button
                         className="flex justify-self-end px-3 py-1 mx-1 border rounded hover:bg-zinc-600 focus:outline-none"
                         type="submit"
@@ -156,7 +160,7 @@ export default function SearchBar({ setStatus, status }) {
                     ""
                 )}
             </form>
-            {query && query.length && showOptions ? (
+            {queryLen() && showOptions ? (
                 <div className="flex flex-row align-items-center justify-end p-1 w-full">
                     <img
                         className="h-8 cursor-pointer px-1"

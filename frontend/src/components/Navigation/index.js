@@ -14,8 +14,11 @@ function Navigation() {
 
     const handleLogOut = (e) => {
         e.preventDefault();
-        dispatch(sessionActions.logout());
-        navigate("/");
+        setShowMenu(false);
+        dispatch(sessionActions.logout()).then(async () => {
+
+            navigate("/");
+        })
     };
 
     const handleNavigate = () => {
@@ -37,7 +40,7 @@ function Navigation() {
                     <h1 className="text-2xl p-2">SearchDeck</h1>
                 </div>
                 <div className="w-4" />
-                <div className="flex flex-row text-zinc-400 text-xl items-center h-fit">
+                {/* <div className="flex flex-row text-zinc-400 text-xl items-center h-fit">
                     <p
                         className="cursor-pointer"
                         onClick={() => {
@@ -53,7 +56,7 @@ function Navigation() {
                     >
                         Option
                     </p>
-                </div>
+                </div> */}
             </div>
             {sessionUser ? (
                 <div className="flex justify-items-center">
