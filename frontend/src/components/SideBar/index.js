@@ -50,12 +50,12 @@ export default function SideBar() {
     return (
         <div>
             <div className="h-full w-[300px] bg-zinc-900 flex flex-row text-slate-100 border-r border-zinc-500 p-2">
-                <div className={`flex flex-row`}>
+                <div className={`flex flex-row w-full`}>
                     {user ? (
                         <div
                             className={`p-2 w-full flex flex-col justify-between h-full`}
                         >
-                            <div className="flex flex-col">
+                            <div className="flex flex-col w-full">
                                 <div className="w-full flex flex-row items-center justify-between h-fit"></div>
                                 <div className={`p-4 text-lg`}>
                                     <div
@@ -72,7 +72,7 @@ export default function SideBar() {
                                     <RecentStats setSearch={setSearch} />
                                 </div>
                             </div>
-                            <div className="flex flex-col border border-green-800 p-2 rounded ">
+                            {/* <div className="flex flex-col border border-green-800 p-2 rounded ">
                                 <div>
                                     <p>Developer Notes - Sept 13:</p>
                                 </div>
@@ -84,7 +84,7 @@ export default function SideBar() {
                                         - Theres a bug when deleting a paramater
                                     </li>
                                 </ul>
-                            </div>
+                            </div> */}
                             {!sentFeedback ? (
                                 <form
                                     onSubmit={(e) => handleSendFeedback(e)}
@@ -123,15 +123,7 @@ export default function SideBar() {
                                 <p>Thank you for your feedback.</p>
                             )}
                             <div className="flex flex-col justify-self-end">
-                                Developed by :
-                                <a
-                                    href="https://www.linkedin.com/in/romeo-galvan-9418b6225/"
-                                    className="underline"
-                                    target="_blank"
-                                >
-                                    Romeo Galvan
-                                </a>
-                                <p>© 2024 Romeo Galvan</p>
+                                <p>© 2024 SearchDeck</p>
                             </div>
                         </div>
                     ) : (

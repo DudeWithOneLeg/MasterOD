@@ -15,7 +15,7 @@ export default function RecentStat({ object, setSearch, setShowMenu }) {
     else return (
         <div className={``}>
             <div
-                className={`p-2 flex flex-row items-center cursor-pointer justify-content-between rounded ${path === object.path ? 'bg-zinc-500':'hover:bg-zinc-700'}`}
+                className={`p-2 flex flex-row items-center cursor-pointer justify-content-between rounded shadow-md mt-3 ${path === object.path ? 'bg-zinc-500 shadow-white':'hover:bg-zinc-700 shadow-zinc-600 hover:shadow-zinc-400'}`}
                 onClick={() => {
                     navigate(object.path);
                     setSearch(false);
@@ -23,14 +23,14 @@ export default function RecentStat({ object, setSearch, setShowMenu }) {
                         setShowMenu(false);
                     }
                 }}
+                onMouseEnter={() => setHover(true)}
+                onMouseLeave={() => setHover(false)}
             >
                 <h1
-                    onMouseEnter={() => setHover(true)}
-                    onMouseLeave={() => setHover(false)}
                 >
                     {object.stat}
                 </h1>
-                <div className="h-8 flex items-end">
+                <div className="h-8 flex items-center">
                     {hover ? (
                         <img src={arrowforward} className="h-6 rounded-full" />
                     ) : (
