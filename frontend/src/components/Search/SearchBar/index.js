@@ -37,7 +37,7 @@ export default function SearchBar({ status, setStatus }) {
         queryLen,
         hasReachCharLimit,
         currCharCount,
-        maxCharCount
+        maxCharCount,
     } = useContext(SearchContext);
     const { setPageNum, setTotalPages } = useContext(ResultsContext);
     const navigate = useNavigate();
@@ -45,8 +45,6 @@ export default function SearchBar({ status, setStatus }) {
     const [gptSearch, setGptSearch] = useState(false);
 
     const settings = { Google: googleSettings, Bing: bingSettings };
-
-
 
     const saveQuery = () => {
         const options = {
@@ -117,7 +115,6 @@ export default function SearchBar({ status, setStatus }) {
         }
     };
 
-
     if (isMobile)
         return <MobileSearchBar setStatus={setStatus} status={status} />;
     else
@@ -132,11 +129,11 @@ export default function SearchBar({ status, setStatus }) {
                     data-collapse-target="collapse"
                     onSubmit={(e) => handleSubmit(e)}
                 >
-                    <div className="flex items-center w-full h-[4vh] fit justify-content-between p-2">
+                    <div className="flex items-center w-full h-fit justify-center p-2">
                         <div
                             className={`flex flex-row h-fit items-center w-3/4`}
                         >
-                            {!isProduction && (
+                            {/* {!isProduction && (
                                 <div
                                     className={`w-12 h-5 ${
                                         gptSearch
@@ -149,7 +146,7 @@ export default function SearchBar({ status, setStatus }) {
                                         className={`h-5 w-5 rounded-full bg-zinc-200`}
                                     ></div>
                                 </div>
-                            )}
+                            )} */}
                             <img
                                 src={require("../../../assets/images/arrow-forward-2.png")}
                                 className={`h-[2.5vh] w-8 flex flex-row transition-all duration-300 ease-in-out z-20 ${
@@ -159,11 +156,36 @@ export default function SearchBar({ status, setStatus }) {
                                 alt="show options"
                             />
                             <div
-                                className={`flex flex-row jusitfy-center h-[3vh] w-full items-center`}
+                                className={`flex flex-row jusitfy-center h-fit w-full items-center`}
                             >
                                 <div
-                                    className={`flex w-full bg-zinc-800 rounded-full px-2 py-1 justify-between items-center h-8 mr-1`}
+                                    className={`flex w-full bg-zinc-800 rounded-full px-2 py-1 justify-between items-center h-fit mr-1`}
                                 >
+                                <div className="flex flex-row justify-center items-center text-lg h-fit">
+                                    <label className="flex items-center h-fit m-0">
+                                        <select
+                                            onChange={(e) =>
+                                                setEngine(e.target.value)
+                                            }
+                                            className="rounded ml-1 cursor-pointer bg-zinc-800 text-2xl focus:outline-none"
+                                        >
+                                            <option
+                                                selected={"Google" === engine}
+                                                defaultValue
+                                            >
+                                                Google
+                                            </option>
+                                            {/* <option value={"Baidu"}>Baidu</option> */}
+                                            <option
+                                                value={"Bing"}
+                                                selected={"Bing" === engine}
+                                            >
+                                                Bing
+                                            </option>
+                                            {/* <option value={"Yandex"}>Yandex</option> */}
+                                        </select>
+                                    </label>
+                                </div>
                                     <input
                                         placeholder="Search"
                                         className={`p-1 bg-zinc-800 rounded w-full outline-none h-full`}
@@ -176,34 +198,34 @@ export default function SearchBar({ status, setStatus }) {
                                     {string ? (
                                         <img
                                             src={clearText}
-                                            className="h-full"
+                                            className="h-10"
                                             onClick={() => setString("")}
                                         />
                                     ) : (
                                         <></>
                                     )}
-                                    <div className={`text-${
-                                                currCharCount >= maxCharCount
-                                                    ? "red-400"
-                                                    : "zinc-400"
-                                            }  `}>
-                                        <p
-
-                                        >
+                                    <div
+                                        className={`text-${
+                                            currCharCount >= maxCharCount
+                                                ? "red-400"
+                                                : "zinc-400"
+                                        }  `}
+                                    >
+                                        <p>
                                             {currCharCount}/{maxCharCount}
                                         </p>
                                     </div>
                                 </div>
                                 {queryLen() && !hasReachCharLimit() ? (
                                     <button
-                                        className="flex justify-self-end px-3 py-1 mx-1 rounded hover:bg-zinc-600 focus:outline-none shadow shadow-zinc-400 border-zinc-500"
+                                        className="flex justify-self-end px-3 py-1 mx-1 rounded hover:bg-zinc-600 focus:outline-none"
                                         type="submit"
                                     >
-                                        <img src={searchIcon} className="h-6" />
+                                        <img src={searchIcon} className="h-10" />
                                     </button>
                                 ) : (
                                     <div className="px-3 mx-1">
-                                        <div className="w-6"/>
+                                        <div className="w-6" />
                                     </div>
                                 )}
                             </div>
@@ -231,32 +253,6 @@ export default function SearchBar({ status, setStatus }) {
                             ) : (
                                 <></>
                             )}
-                            <div className="flex flex-row justify-center items-center text-lg">
-                                <p className="text-center">Engine:</p>
-                                <label className="flex items-center h-8 m-0">
-                                    <select
-                                        onChange={(e) =>
-                                            setEngine(e.target.value)
-                                        }
-                                        className="rounded ml-1 cursor-pointer border border-zinc-500 bg-zinc-900"
-                                    >
-                                        <option
-                                            selected={"Google" === engine}
-                                            defaultValue
-                                        >
-                                            Google
-                                        </option>
-                                        {/* <option value={"Baidu"}>Baidu</option> */}
-                                        <option
-                                            value={"Bing"}
-                                            selected={"Bing" === engine}
-                                        >
-                                            Bing
-                                        </option>
-                                        {/* <option value={"Yandex"}>Yandex</option> */}
-                                    </select>
-                                </label>
-                            </div>
                         </div>
                     </div>
                 </form>

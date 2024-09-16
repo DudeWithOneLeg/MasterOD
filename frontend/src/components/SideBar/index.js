@@ -49,7 +49,7 @@ export default function SideBar() {
 
     return (
         <div>
-            <div className="h-full w-[300px] bg-zinc-900 flex flex-row text-slate-100 border-r border-zinc-500 p-2">
+            <div className="h-full w-[300px] bg-zinc-900 flex flex-row text-slate-100 p-2">
                 <div className={`flex flex-row w-full`}>
                     {user ? (
                         <div

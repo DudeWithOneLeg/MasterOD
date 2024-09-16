@@ -34,8 +34,8 @@ export default function QueryParam({ param, index }) {
 
   return (
     <div
-      className={`p-1 flex justify-content-end items-center rounded mr-1 mt-1 h-fit w-fit border !border-zinc-500 ${
-        param.split(":")[0].includes("-") ? "bg-red-400" : ""
+      className={`p-1 flex justify-content-end items-center rounded mr-1 mt-1 h-fit w-fit ${
+        param.split(":")[0].includes("-") ? "bg-red-400" : "bg-zinc-800"
       }`}
       o
       onMouseEnter={() => setShowDeleteIcon(true)}
@@ -44,12 +44,12 @@ export default function QueryParam({ param, index }) {
       ref={queryParamRef}
     >
       <div className="flex flex-row w-fit">
-        <div className="w-fit flex text-white px-1">
+        <div className="w-fit flex text-white text-xl px-1 border-b">
           <p>{qparam}: </p>
         </div>
         <div>
           <input
-            className="flex text-black rounded ml-1 w-36 outline-none px-1"
+            className="flex text-white rounded ml-1 w-32 outline-none px-1 bg-zinc-800 h-full"
             value={paramValue}
             onChange={(e) => setParamValue(e.target.value)}
           />

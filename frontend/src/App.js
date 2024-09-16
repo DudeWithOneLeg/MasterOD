@@ -44,7 +44,7 @@ function App() {
     return (
         <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
             <div
-                className={`h-full w-full flex flex-${
+                className={`h-full w-full poppins-regular flex flex-${
                     isMobile ? "col" : "col"
                 } bg-zinc-900`}
             >

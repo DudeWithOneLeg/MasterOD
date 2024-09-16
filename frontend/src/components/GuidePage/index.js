@@ -4,8 +4,9 @@ import guideInfo from "./guide-info.json";
 const Card = ({operator, description}) => {
     return (
         <div className="p-2">
-            <h1 className="text-2xl">{operator}</h1>
-            <p className="text-zinc-200">Description: {description}</p>
+            <h1 className="text-2xl py-1">{operator}</h1>
+            <p className="text-xl py-1">Description: </p>
+            <p className="text-zinc-200 py-1">{description}</p>
         </div>
     );
 };
@@ -42,7 +43,7 @@ export default function GuidePage() {
                         })}
                     </div>
                 </div>
-                <div className="text-white overflow-y-scroll w-full h-full p-4">
+                <div className="text-white overflow-y-scroll w-full h-full p-4 no-scrollbar">
                     {Object.values(guideInfo[engine]).map((info) => {
                         return (<Card operator={info.operator} description={info.description}/>)
                     })}
