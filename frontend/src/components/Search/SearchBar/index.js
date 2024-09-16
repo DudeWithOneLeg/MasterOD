@@ -182,13 +182,13 @@ export default function SearchBar({ status, setStatus }) {
                                     ) : (
                                         <></>
                                     )}
-                                    <div>
-                                        <p
-                                            className={`!text-${
+                                    <div className={`text-${
                                                 currCharCount >= maxCharCount
                                                     ? "red-400"
-                                                    : ""
-                                            }  `}
+                                                    : "zinc-400"
+                                            }  `}>
+                                        <p
+
                                         >
                                             {currCharCount}/{maxCharCount}
                                         </p>
@@ -196,7 +196,7 @@ export default function SearchBar({ status, setStatus }) {
                                 </div>
                                 {queryLen() && !hasReachCharLimit() ? (
                                     <button
-                                        className="flex justify-self-end px-3 py-1 mx-1 border rounded hover:bg-zinc-600 focus:outline-none"
+                                        className="flex justify-self-end px-3 py-1 mx-1 rounded hover:bg-zinc-600 focus:outline-none shadow shadow-zinc-400 border-zinc-500"
                                         type="submit"
                                     >
                                         <img src={searchIcon} className="h-6" />

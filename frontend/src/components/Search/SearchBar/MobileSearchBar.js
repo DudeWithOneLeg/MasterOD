@@ -99,9 +99,6 @@ export default function SearchBar({ setStatus, status }) {
             setPageNum(1);
         }
     };
-    useEffect(() => {
-        console.log("Query in SearchBar updated:", query);
-    }, [query]);
 
     return (
         <div
@@ -150,17 +147,23 @@ export default function SearchBar({ setStatus, status }) {
                 </div>
                 {queryLen() && !hasReachCharLimit() ? (
                     <button
-                        className="flex justify-self-end px-3 py-1 mx-1 border rounded hover:bg-zinc-600 focus:outline-none"
+                        className="flex justify-self-end px-3 py-1 mx-1 rounded hover:bg-zinc-600 focus:outline-none shadow shadow-zinc-400"
                         type="submit"
                     >
                         <img src={searchIcon} className="h-6" />
                         {/* <button className="focus:outline-none">Search</button> */}
                     </button>
                 ) : (
-                    ""
+                    hasReachCharLimit ? <div className={`text-red`}>
+                <p
+
+                >
+                    {currCharCount}/{maxCharCount}
+                </p>
+            </div> : <></>
                 )}
             </form>
-            {queryLen() && showOptions ? (
+            {query && query.length && showOptions ? (
                 <div className="flex flex-row align-items-center justify-end p-1 w-full">
                     <img
                         className="h-8 cursor-pointer px-1"

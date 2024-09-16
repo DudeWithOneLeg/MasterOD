@@ -2,20 +2,16 @@ import bingCountries from "./bing-countries.json";
 import bingLanguages from './bing-languages.json'
 
 const operators = {
-  "Contains:": "contains:",
-  // "Ext:": "ext:",
-  "Filetype:": "filetype:",
-  "In anchor:": "inanchor:",
-  "In body:": "inbody:",
-  "In title:": "intitle:",
-  "IP address:": "ip:",
-  "Language:": "language:",
-  // "Loc:": "loc:",
-  "Prefer:": "prefer:",
-  "Site:": "site:",
-  // "Feed:": "feed:",
-  // "Hasfeed:": "hasfeed:",
-  "URL:": "url:",
+  "Contains:": { "text": "contains:", "example": "pdf" },
+  "Filetype:": { "text": "filetype:", "example": "pdf" },
+  "In anchor:": { "text": "inanchor:", "example": "buy now" },
+  "In body:": { "text": "inbody:", "example": "artificial intelligence" },
+  "In title:": { "text": "intitle:", "example": "research paper" },
+  "IP address:": { "text": "ip:", "example": "192.168.1.1" },
+  "Language:": { "text": "language:", "example": "en" },
+  "Prefer:": { "text": "prefer:", "example": "latest results" },
+  "Site:": { "text": "site:", "example": "example.com" },
+  "URL:": { "text": "url:", "example": "example.com/about" }
 };
 
 export const bingSettings = {countries: bingCountries, languages: bingLanguages, operators}

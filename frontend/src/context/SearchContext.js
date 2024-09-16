@@ -21,6 +21,9 @@ export const SearchProvider = ({ children }) => {
     useEffect(() => {
         setCurrCharCount((query.join(";") + string).length);
     }, [query, string]);
+    useEffect(() => {
+        setQuery([]);
+    }, [engine]);
 
     const queryLen = () => (query && query.length) || string
     const hasReachCharLimit = () => currCharCount >= maxCharCount
