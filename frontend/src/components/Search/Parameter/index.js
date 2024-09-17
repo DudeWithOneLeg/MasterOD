@@ -21,8 +21,8 @@ export default function Parameter({ param, text }) {
             id="parameter"
             onSubmit={(e) => handleSubmit(e)}
         >
-            <div className="flex flex-row w-full items-end rounded border !border-zinc-500 h-full">
-                <div className="rounded-left flex-shrink-0 px-1 text-white h-fit !text-zinc-100">
+            <div className="flex flex-row w-full items-end rounded h-full">
+                <div className="rounded-left flex-shrink-0 px-1 text-white h-fit !text-zinc-100 text-lg">
                     {input.split(text)[1] ? (
                         <p className="w-fit">{text + input.split(text)[1]}</p>
                     ) : (
@@ -31,8 +31,8 @@ export default function Parameter({ param, text }) {
                 </div>
                 {showInput && (
                     <input
-                        id="parameter-input"
-                        className={`pl-1 pr-0 outline-none w-full !bg-zinc-800 h-fit ${
+                        id=""
+                        className={`pl-1 pr-0 outline-none w-full !bg-zinc-900 h-fit text-white parameter-input ${
                             !input.split(param.text)[1] ? "rounded-right" : ""
                         }`}
                         onChange={(e) => setInput(param.text + e.target.value || "")}

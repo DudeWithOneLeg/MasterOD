@@ -43,8 +43,14 @@ export default function SearchBar({ status, setStatus }) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [gptSearch, setGptSearch] = useState(false);
+    const [padding, setPadding] = useState('5')
 
     const settings = { Google: googleSettings, Bing: bingSettings };
+
+    useEffect(() => {
+        if (showOptions) setPadding('5')
+            else setPadding('0')
+    },[showOptions])
 
     const saveQuery = () => {
         const options = {
@@ -103,6 +109,7 @@ export default function SearchBar({ status, setStatus }) {
                         data.results.info.totalPages
                     ) {
                         setTotalPages(data.results.info.totalPages);
+                        setPadding('0')
                     }
                     setLoadingResults(false);
                 }
@@ -120,20 +127,20 @@ export default function SearchBar({ status, setStatus }) {
     else
         return (
             <div
-                className={`w-full bg-zinc-900 flex flex-col font-bold rounded transition-all duration-300 ease-in-out items-center justify-center`}
+                className={`w-full bg-zinc-900 flex flex-col font-bold rounded transition-all duration-300 ease-in-out items-center justify-center py-${padding}`}
                 id="search-bar-inner"
                 data-collapse="collapse"
             >
                 <form
-                    className={`w-full flex text-slate-200 items-center`}
+                    className={`w-full flex text-slate-200 items-center justify-center`}
                     data-collapse-target="collapse"
                     onSubmit={(e) => handleSubmit(e)}
                 >
-                    <div className="flex items-center w-full h-fit justify-center p-2">
+                    <div className="flex items-center w-3/5 h-fit justify-center p-2">
                         <div
-                            className={`flex flex-row h-fit items-center w-3/4`}
+                            className={`flex flex-row h-fit items-center w-full`}
                         >
-                            {/* {!isProduction && (
+                            {!isProduction && (
                                 <div
                                     className={`w-12 h-5 ${
                                         gptSearch
@@ -146,7 +153,7 @@ export default function SearchBar({ status, setStatus }) {
                                         className={`h-5 w-5 rounded-full bg-zinc-200`}
                                     ></div>
                                 </div>
-                            )} */}
+                            )}
                             <img
                                 src={require("../../../assets/images/arrow-forward-2.png")}
                                 className={`h-[2.5vh] w-8 flex flex-row transition-all duration-300 ease-in-out z-20 ${
@@ -161,13 +168,13 @@ export default function SearchBar({ status, setStatus }) {
                                 <div
                                     className={`flex w-full bg-zinc-800 rounded-full px-2 py-1 justify-between items-center h-fit mr-1`}
                                 >
-                                <div className="flex flex-row justify-center items-center text-lg h-fit">
+                                <div className="flex flex-row justify-center items-center h-fit">
                                     <label className="flex items-center h-fit m-0">
                                         <select
                                             onChange={(e) =>
                                                 setEngine(e.target.value)
                                             }
-                                            className="rounded ml-1 cursor-pointer bg-zinc-800 text-2xl focus:outline-none"
+                                            className="rounded ml-1 cursor-pointer bg-zinc-800 text-2xl focus:outline-none text-white"
                                         >
                                             <option
                                                 selected={"Google" === engine}
@@ -257,7 +264,7 @@ export default function SearchBar({ status, setStatus }) {
                     </div>
                 </form>
                 {query && showOptions && query.length ? (
-                    <div className="flex flex-wrap p-1 w-full">
+                    <div className="flex flex-wrap p-1 w-3/4">
                         {query &&
                             query.map((param, index) => {
                                 if (param.includes(":")) {
@@ -274,8 +281,8 @@ export default function SearchBar({ status, setStatus }) {
                     <></>
                 )}
                 {showOptions && (
-                    <div className={`flex flex-row bg-zinc-800 rounded w-full`}>
-                        <div className={`w-1/3`}>
+                    <div className={`flex flex-row rounded w-3/5`}>
+                        <div className={`w-full grid grid-cols-3`}>
                             {Object.keys(settings[engine].operators).map(
                                 (param) => (
                                     <Parameter
@@ -288,13 +295,13 @@ export default function SearchBar({ status, setStatus }) {
                             )}
                         </div>
                         <div
-                            className={`w-1/3 h-full divide-y divide-slate-500`}
+                            className={`w-1/3 h-full text-white`}
                         >
                             {(engine === "Google" || engine === "Bing") && (
                                 <div className="p-2">
                                     <select
                                         // id="normalize"
-                                        className="pl-2 cursor-pointer"
+                                        className="pl-2 cursor-pointer bg-zinc-900 w-1/2"
                                         onChange={(e) =>
                                             setLanguage(
                                                 settings[engine].languages[
@@ -331,7 +338,7 @@ export default function SearchBar({ status, setStatus }) {
                             <div className="p-2">
                                 <select
                                     // id="normalize"
-                                    className="pl-2 cursor-pointer"
+                                    className="pl-2 cursor-pointer bg-zinc-900 w-1/2"
                                     onChange={(e) =>
                                         setCountry(
                                             settings[engine].countries[
