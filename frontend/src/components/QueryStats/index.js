@@ -67,15 +67,15 @@ export default function QueryPage() {
 
     return (
         <div className="flex bg-zinc-900 h-full overflow-hidden w-full">
-            <div className="w-full h-full flex flex-col text-slate-200 bg-zinc-900 rounded py-5">
-              <h1 className="text-2xl !text-white">History</h1>
-                <div className="px-2 flex flex-row justify-content-start items-center">
+            <div className="w-full h-full flex flex-col text-slate-200 bg-zinc-900 rounded py-5 px-4 justify-center items-center">
+                <div className="px-2 flex flex-row justify-between items-center w-4/5 bg-slate-600">
+                    <h1 className="text-4xl !text-white">History</h1>
                     <div className="w-full flex justify-center items-center">
                         <SelectLimit setViewAll={setViewAll} setLimit={setLimit} limit={limit} viewAll={viewAll}/>
 
                         <form
                             onSubmit={(e) => handleSubmit(e)}
-                            className={`flex self-center justify-self-center justify-between rounded w-1/2 my-2 px-2 bg-white`}
+                            className={`flex justify-self-center justify-between rounded w-1/2 my-2 px-2 bg-white`}
                         >
                             <input
                                 className="w-1/2 h-[3vh] text-black outline-none"
@@ -109,11 +109,11 @@ export default function QueryPage() {
                                   .map((date) => {
                                       return (
                                           <div className="flex flex-col text-white py-2 h-fit w-4/5">
-                                              <h1 className="text-2xl w-3/5 border-b-2 ">
+                                              <h1 className="text-2xl w-full border-b-4 border-amber-900">
                                                   {date}
                                               </h1>
 
-                                              <div className="flex flex-row h-fit flex-wrap">
+                                              <div className="flex flex-row h-fit flex-wrap pl-2 pt-2">
                                                   {Object.values(
                                                       sortedQueries[date]
                                                   ).map((query) => {

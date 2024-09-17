@@ -129,7 +129,6 @@ export default function SearchBar({ status, setStatus }) {
             <div
                 className={`w-full bg-zinc-900 flex flex-col font-bold rounded transition-all duration-300 ease-in-out items-center justify-center py-${padding}`}
                 id="search-bar-inner"
-                data-collapse="collapse"
             >
                 <form
                     className={`w-full flex text-slate-200 items-center justify-center`}
@@ -166,7 +165,7 @@ export default function SearchBar({ status, setStatus }) {
                                 className={`flex flex-row jusitfy-center h-fit w-full items-center`}
                             >
                                 <div
-                                    className={`flex w-full bg-zinc-800 rounded-full px-2 py-1 justify-between items-center h-fit mr-1`}
+                                    className={`flex w-full bg-slate-700 rounded-full px-2 py-1 justify-between items-center h-fit mr-1`}
                                 >
                                 <div className="flex flex-row justify-center items-center h-fit">
                                     <label className="flex items-center h-fit m-0">
@@ -174,7 +173,7 @@ export default function SearchBar({ status, setStatus }) {
                                             onChange={(e) =>
                                                 setEngine(e.target.value)
                                             }
-                                            className="rounded ml-1 cursor-pointer bg-zinc-800 text-2xl focus:outline-none text-white"
+                                            className="rounded ml-1 cursor-pointer bg-slate-700 text-2xl focus:outline-none text-white"
                                         >
                                             <option
                                                 selected={"Google" === engine}
@@ -195,7 +194,7 @@ export default function SearchBar({ status, setStatus }) {
                                 </div>
                                     <input
                                         placeholder="Search"
-                                        className={`p-1 bg-zinc-800 rounded w-full outline-none h-full`}
+                                        className={`p-1 bg-slate-700 rounded w-full outline-none h-full`}
                                         value={string}
                                         onChange={(e) =>
                                             setString(e.target.value)
@@ -264,7 +263,7 @@ export default function SearchBar({ status, setStatus }) {
                     </div>
                 </form>
                 {query && showOptions && query.length ? (
-                    <div className="flex flex-wrap p-1 w-3/4">
+                    <div className="flex flex-wrap p-1 w-3/5">
                         {query &&
                             query.map((param, index) => {
                                 if (param.includes(":")) {
@@ -281,7 +280,7 @@ export default function SearchBar({ status, setStatus }) {
                     <></>
                 )}
                 {showOptions && (
-                    <div className={`flex flex-row rounded w-3/5`}>
+                    <div className={`flex flex-row w-3/5 border-l border-b`}>
                         <div className={`w-full grid grid-cols-3`}>
                             {Object.keys(settings[engine].operators).map(
                                 (param) => (

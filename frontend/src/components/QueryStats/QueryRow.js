@@ -51,7 +51,7 @@ export default function QueryRow({ query }) {
     };
     return (
         <div
-            className="flex flex-col w-fit min-w-60 max-w-full p-2 hover:bg-zinc-800 h-fit rounded m-1 cursor-pointer"
+            className="flex flex-col w-fit min-w-60 max-w-full p-2 bg-zinc-800 h-fit rounded m-1 cursor-pointer"
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
         >
@@ -69,7 +69,7 @@ export default function QueryRow({ query }) {
                         className="h-8 w-8 cursor-pointer"
                         onClick={() => updateQuery(query.id)}
                     />
-                    <div className="flex items-center justify-center text-zinc-400 pl-1">
+                    <div className="flex items-center justify-center text-zinc-400 pl-1 border-l border-zinc-500">
                         <p className="min-w-fit h-fit">{time}</p>
                     </div>
                 </div>

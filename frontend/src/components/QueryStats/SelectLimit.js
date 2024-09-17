@@ -1,7 +1,7 @@
 export const SelectLimit = ({setLimit, setViewAll, limit, viewAll}) => {
     return (
-        <div className="flex w-full h-fit justify-content-start items-end">
-            <div className="flex flex-row w-fit rounded text-xl text-zinc-500">
+        <div className="flex h-fit justify-content-start items-end">
+            <div className="flex flex-row w-fit rounded text-xl text-zinc-200">
                 <p
                     onClick={() => setViewAll(true)}
                     className={`px-1 cursor-pointer rounded ${

@@ -215,7 +215,7 @@ export default function Search() {
             } items-end`}
             id="search-bar"
         >
-            <div className="p-2 w-full">
+            <div className="p-2 overflow-hidden w-full transition-all duration-3000 ease-in-out">
                 <SearchBar status={status} setStatus={setStatus} />
             </div>
 
