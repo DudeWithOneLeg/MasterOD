@@ -49,7 +49,7 @@ export default function SideBar() {
 
     return (
         <div>
-            <div className="h-full w-[300px] bg-zinc-900 flex flex-row text-slate-100 border-r border-zinc-500 p-2">
+            <div className="h-full w-[300px] bg-zinc-900 flex flex-row text-slate-100 p-2">
                 <div className={`flex flex-row w-full`}>
                     {user ? (
                         <div
@@ -90,7 +90,7 @@ export default function SideBar() {
                                     onSubmit={(e) => handleSendFeedback(e)}
                                     className="h-fit !text-zinc-200"
                                 >
-                                    <p className="text-lg">Feedback:</p>
+                                    <p className="text-2xl">Feedback:</p>
                                     <div className="h-2" />
                                     <input
                                         placeholder="Email (optional)"
@@ -113,7 +113,7 @@ export default function SideBar() {
 
                                         <button
                                             type="submit"
-                                            className="focus:outline-none border border-zinc-500 rounded p-1 hover:bg-zinc-600 w-fit align-self-end"
+                                            className="focus:outline-none rounded p-1 hover:bg-zinc-600 w-fit align-self-end"
                                         >
                                             Send Feedback
                                         </button>

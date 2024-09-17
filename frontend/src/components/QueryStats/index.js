@@ -42,29 +42,29 @@ export default function QueryPage() {
   return (
     <div className="flex bg-zinc-900 h-full overflow-hidden w-full">
 
-      <div className="w-full h-full flex flex-col text-slate-200 bg-zinc-800 rounded">
-        <div className="px-2 flex flex-col">
-          <form onSubmit={(e) => handleSubmit(e)} className={`flex self-center justify-self-center justify-content-between rounded ${isMobile ? '1/2' : 'w-1/3'} my-2 px-2 bg-white`}>
+      <div className="w-full h-full flex flex-col text-slate-200 bg-zinc-900 rounded">
+        <div className="px-2 flex flex-col justify-content-start">
+          <form onSubmit={(e) => handleSubmit(e)} className={`flex self-center justify-self-center justify-content-between rounded w-1/2 my-2 px-2 bg-white`}>
             <input
-              className="w-full h-[3vh] text-black outline-none"
+              className="w-1/2 h-[3vh] text-black outline-none"
               placeholder="Filter searches"
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
             />
             <button type='submit' className="text-black focus:outline-none">Search</button>
           </form>
-          <div className="flex w-full justify-content-center">
-            <div className="flex flex-row w-fit rounded bg-slate-500">
+          <div className="flex w-fit h-fit justify-content-start">
+            <div className="flex flex-row w-fit rounded text-xl">
               <p
                 onClick={() => setViewAll(true)}
-                className={`px-1 cursor-pointer rounded ${viewAll ? "border-b-4" : "hover:bg-slate-600 hover:border-b-4 hover:border-gray-400"}`}
+                className={`px-1 cursor-pointer rounded ${viewAll ? "border-b-4" : "hover:border-b-4 hover:border-gray-400"}`}
               >
                 All
               </p>
               <p
                 onClick={() => setViewAll(false)}
                 className={`px-1 cursor-pointer rounded ${
-                  viewAll ? "hover:bg-slate-600 hover:border-b-4" : "border-b-4"
+                  viewAll ? "hover:border-b-4" : "border-b-4"
                 }`}
               >
                 Saved
@@ -78,9 +78,9 @@ export default function QueryPage() {
           </div>
         </div>
         <div className="flex flex-row grid grid-cols-9  justify-content-between py-2 px-1 w-full">
-          <p className={`col-span-6 text-${isMobile ? 'sm' : 'lg'} text-center`}>Query</p>
-          <p className={`col-span-2 text-${isMobile ? 'sm' : 'lg'} text-center`}>Date</p>
-          <p className={`col-span-1 text-${isMobile ? 'sm' : 'lg'} text-center`}>Engine</p>
+          <p className={`col-span-6 poppins-regular text-${isMobile ? 'sm' : 'xl'} text-center`}>Query</p>
+          <p className={`col-span-2 poppins-regular text-${isMobile ? 'sm' : 'xl'} text-center`}>Date</p>
+          <p className={`col-span-1 poppins-regular text-${isMobile ? 'sm' : 'xl'} text-center`}>Engine</p>
         </div>
         <div className="h-full overflow-y-hidden rounded border-1 border-zinc-600 bg-zinc-900">
           <div className="flex flex-col divide divide-y divide-zinc-500 h-full overflow-y-scroll no-scrollbar">
