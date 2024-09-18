@@ -37,7 +37,7 @@ export default function BrowserHeader({preview, component, setComponent}) {
           Browser
         </div>
         <div
-          className={`bg-zinc-${
+          className={`bg-slate-${
             component === "archive" ? "400" : "700 hover:bg-zinc-600"
           } rounded-t mx-1 px-1 cursor-pointer rounded-b-none`}
           onClick={() => setComponent("archive")}

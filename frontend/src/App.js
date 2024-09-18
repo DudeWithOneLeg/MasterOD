@@ -48,11 +48,7 @@ function App() {
                     isMobile ? "col" : "col"
                 } bg-zinc-900`}
             >
-                {(isMobile && !user) || !isMobile ? (
-                    <Navigation />
-                ) : (
-                    <></>
-                )}
+                {(isMobile && !user) || !isMobile ? <Navigation /> : <></>}
                 {isMobile ? (
                     <div className="h-[5%]">
                         <SideBar />
@@ -65,39 +61,24 @@ function App() {
                         isMobile ? "col" : "row"
                     } bg-black`}
                 >
-                    {user && !user.tempUser && !isMobile ? (
-                        <SideBar />
-                    ) : (
-                        <></>
-                    )}
+                    {user && !user.tempUser && !isMobile ? <SideBar /> : <></>}
                     <Routes>
-                        <Route path='/guide' element={<GuidePage/>}/>
-                    {isLoaded && user ? (
-                                <>
-                                    <Route
-                                        path="/results"
-                                        element={
-                                            <ResultsPage/>
-                                        }
-                                    />
-                                    <Route
-                                        path="/results/:view"
-                                        element={
-                                            <ResultsPage />
-                                        }
-                                    />
-                                    <Route
-                                        path="/search"
-                                        element={
-                                            <Search />
-                                        }
-                                    />
-                                    <Route
-                                        path="/search/:view"
-                                        element={
-                                            <Search />
-                                        }
-                                    />
+                        <Route path="/guide" element={<GuidePage />} />
+                        {isLoaded ? (user ? (
+                            <>
+                                <Route
+                                    path="/results"
+                                    element={<ResultsPage />}
+                                />
+                                <Route
+                                    path="/results/:view"
+                                    element={<ResultsPage />}
+                                />
+                                <Route path="/search" element={<Search />} />
+                                <Route
+                                    path="/search/:view"
+                                    element={<Search />}
+                                />
 
                                 <Route
                                     path="/finish-signup"
@@ -106,31 +87,33 @@ function App() {
                                             <FinishSignup />
                                         </div>
                                     }
-                                    />
-                                    </>
-
-                    ) : (
-                        <>
-                            <Route path="/" element={<ThreeDScene />} />
-                            <Route
-                                path="/login"
-                                element={
-                                    <div className="w-full h-full flex items-center justify-center">
-                                        <LoginFormPage />
-                                    </div>
-                                }
-                            />
-                            <Route
-                                path="/signup"
-                                element={
-                                    <div className="w-full h-full flex items-center justify-center text-white">
-                                        <SignupFormPage />
-                                    </div>
-                                }
-                            />
-                        </>
-                    )}
-                        <Route path='*' element={<Navigate to={user ? '/search':'/'}/>}/>
+                                />
+                            </>
+                        ) : (
+                            <>
+                                <Route path="/" element={<ThreeDScene />} />
+                                <Route
+                                    path="/login"
+                                    element={
+                                        <div className="w-full h-full flex items-center justify-center">
+                                            <LoginFormPage />
+                                        </div>
+                                    }
+                                />
+                                <Route
+                                    path="/signup"
+                                    element={
+                                        <div className="w-full h-full flex items-center justify-center text-white">
+                                            <SignupFormPage />
+                                        </div>
+                                    }
+                                />
+                            </>
+                        )) : <></>}
+                        <Route
+                            path="*"
+                            element={<Navigate to={user ? "/search" : "/"} />}
+                        />
                     </Routes>
                 </div>
             </div>

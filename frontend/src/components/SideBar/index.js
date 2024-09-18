@@ -30,15 +30,6 @@ export default function SideBar() {
         setFeedbackMsg("");
     };
 
-    useEffect(() => {
-        if (user) {
-            dispatch(searchActions.getRecentQueries());
-            dispatch(resultActions.getRecentSavedResults());
-            dispatch(searchActions.getRecentSavedQueries());
-            dispatch(resultActions.getRecentVisitedResults());
-        }
-    }, [dispatch, user]);
-
     const handleNewSearch = () => {
         setQuery([]);
         setString("");
@@ -57,10 +48,10 @@ export default function SideBar() {
                         >
                             <div className="flex flex-col w-full">
                                 <div className="w-full flex flex-row items-center justify-between h-fit"></div>
-                                <div className={`p-4 text-lg`}>
+                                <div className={`p-2 text-lg`}>
                                     <div
                                         onClick={handleNewSearch}
-                                        className="flex flex-row items-center cursor-pointer border-2 rounded hover:bg-slate-600"
+                                        className="flex flex-row text-2xl items-center cursor-pointer p-2 py-3 rounded hover:bg-slate-600"
                                     >
                                         <img
                                             src={require("../../assets/images/plus-white.png")}
@@ -72,19 +63,6 @@ export default function SideBar() {
                                     <RecentStats setSearch={setSearch} />
                                 </div>
                             </div>
-                            {/* <div className="flex flex-col border border-green-800 p-2 rounded ">
-                                <div>
-                                    <p>Developer Notes - Sept 13:</p>
-                                </div>
-                                <ul>
-                                    <li> - Fixed Bing location</li>
-                                    <li> - Added Mobile browser support</li>
-                                    <li>
-                                        {" "}
-                                        - Theres a bug when deleting a paramater
-                                    </li>
-                                </ul>
-                            </div> */}
                             {!sentFeedback ? (
                                 <form
                                     onSubmit={(e) => handleSendFeedback(e)}

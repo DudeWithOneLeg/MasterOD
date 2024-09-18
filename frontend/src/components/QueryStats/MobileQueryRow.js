@@ -5,7 +5,7 @@ import { isMobile } from "react-device-detect";
 import * as queryActions from "../../store/query";
 import * as searchActions from "../../store/search";
 
-export default function QueryRow({ query }) {
+export default function MobileQueryRow({ query }) {
     const { setString, setQuery, setShowOptions } = useContext(SearchContext);
     const dispatch = useDispatch();
     const [hover, setHover] = useState(false);
@@ -54,7 +54,7 @@ export default function QueryRow({ query }) {
     };
     return (
         <div
-            className="flex flex-row grid grid-cols-9 divide divide-x justify-between w-full p-1 hover:bg-zinc-700"
+            className="flex flex-row grid grid-cols-9 divide divide-x justify-between w-full p-1 hover:bg-zinc-700 items-center"
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
         >

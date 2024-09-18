@@ -40,7 +40,7 @@ export default function Parameter({ param, text }) {
                         value={input.split(":")[1] ? input.split(":")[1] : ""}
                     />
                 )}
-                {input && input.split(param.text)[1] && (
+                {/* {input && input.split(param.text)[1] && (
                     <button
                         type="submit"
                         className="rounded-right bg-zinc-300 hover:bg-slate-600 h-full"
@@ -50,7 +50,7 @@ export default function Parameter({ param, text }) {
                             className="w-fit mr-0 self-end px-1 h-full"
                         />
                     </button>
-                )}
+                )} */}
             </div>
         </form>
     );

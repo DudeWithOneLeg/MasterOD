@@ -200,7 +200,6 @@ export default function Search() {
                 setIsRedditShared(true);
             }
         } catch (error) {
-            console.error(error);
             setLoading(false);
         }
     };
@@ -215,7 +214,7 @@ export default function Search() {
             } items-end`}
             id="search-bar"
         >
-            <div className="p-2 overflow-hidden w-full transition-all duration-3000 ease-in-out">
+            <div className={`p-2 w-full transition-all duration-3000 ease-in-out`}>
                 <SearchBar status={status} setStatus={setStatus} />
             </div>
 

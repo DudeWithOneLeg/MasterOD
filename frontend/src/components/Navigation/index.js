@@ -30,7 +30,7 @@ function Navigation() {
     };
 
     return (
-        <div className="h-[5%] w-screen fixed flex p-2 flex flex-row items-center justify-between text-white shadow-md shadow-zinc-800">
+        <div className="h-[5%] w-screen fixed flex p-2 flex flex-row items-center justify-between text-white shadow-md shadow-slate-800 bg-slate-900">
             <div className="flex flex-row items-center">
                 <div
                     className="flex flex-row items-center cursor-pointer items-center"

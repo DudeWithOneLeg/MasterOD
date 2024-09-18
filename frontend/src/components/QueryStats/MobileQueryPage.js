@@ -6,9 +6,8 @@ import QueryRow from "./QueryRow";
 import * as queryActions from "../../store/query";
 import { SelectLimit } from "./SelectLimit";
 import MobileQueryRow from "./MobileQueryRow";
-import MobileQueryPage from "./MobileQueryPage";
 
-export default function QueryPage() {
+export default function MobileQueryPage() {
     const dispatch = useDispatch();
     const queries = useSelector((state) => state.queries.all);
     const [viewAll, setViewAll] = useState(true);
@@ -67,14 +66,18 @@ export default function QueryPage() {
         dispatch(queryActions.getQueries({ limit, filter, saved: !viewAll }));
     };
 
-    if (isMobile) return (<MobileQueryPage />)
     return (
         <div className="flex bg-zinc-900 h-full overflow-hidden w-full">
-            <div className="w-full h-full flex flex-col text-slate-200 bg-zinc-900 rounded pt-5 px-4 justify-center items-center">
-                <div className="px-2 flex flex-row justify-start items-center w-4/5 bg-slate-600">
+            <div className="w-full h-full flex flex-col text-slate-200 bg-zinc-900 rounded justify-center items-center">
+                <div className="px-2 flex flex-row justify-between items-center w-full bg-slate-600">
                     <h1 className="text-4xl !text-white">History</h1>
-                    <div className="w-fit flex justify-center items-center pl-2">
-                        <SelectLimit setViewAll={setViewAll} setLimit={setLimit} limit={limit} viewAll={viewAll}/>
+                    <div className="w-fit flex justify-center items-center h-full">
+                        <SelectLimit
+                            setViewAll={setViewAll}
+                            setLimit={setLimit}
+                            limit={limit}
+                            viewAll={viewAll}
+                        />
 
                         {/* <form
                             onSubmit={(e) => handleSubmit(e)}
@@ -95,11 +98,11 @@ export default function QueryPage() {
                         </form> */}
                     </div>
                 </div>
-                <div className="h-full overflow-y-hidden rounded border-1 border-zinc-600 bg-zinc-900 flex justify-center">
+                <div className="h-full overflow-y-hidden rounded border-1 border-zinc-600 bg-zinc-900 flex justify-center w-full p-2">
                     <div
                         className={`${
                             isMobile ? "flex flex-col" : "flex flex-col"
-                        } h-full overflow-y-scroll no-scrollbar items-center `}
+                        } h-full overflow-y-scroll no-scrollbar items-center w-full`}
                     >
                         {queries && Object.values(queries).length && isMobile
                             ? Object.values(queries)

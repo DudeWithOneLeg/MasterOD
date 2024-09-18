@@ -1,9 +1,8 @@
 import { Suspense, useRef, useState, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
-import { PerspectiveCamera, OrbitControls, ScrollControls } from "@react-three/drei";
+import { PerspectiveCamera, OrbitControls } from "@react-three/drei";
 import Model from "./Blackhole";
 import { isMobile } from "react-device-detect";
-import MobileThreeDScene from "./Mobile3Dscene";
 
 // A component to apply rotation using useFrame
 function RotatingModel(props) {
@@ -15,21 +14,12 @@ function RotatingModel(props) {
     );
 }
 
-export default function ThreeDScene() {
+export default function MobileThreeDScene() {
     const containerRef = useRef(null);
     const [scale, setScale] = useState(1);
     const maxWidthpxDesk = 1078;
     const maxWidthpxMob = 575;
     const [width, setWidth] = useState(window.innerWidth);
-    const [scrollPosition, setScrollPosition] = useState(0);
-
-    const handleScroll = (e) => {
-        const { scrollTop, scrollHeight, clientHeight } = e.target;
-        const position = Math.ceil(
-            (scrollTop / (scrollHeight - clientHeight)) * 100
-        );
-        setScrollPosition(position);
-    };
 
     useEffect(() => {
         const handleResize = () => {
@@ -73,19 +63,18 @@ export default function ThreeDScene() {
         }
     }, [containerRef.current]);
 
-    if (isMobile) {
-        return (<MobileThreeDScene />)
-    }
-
-    else return (
+    return (
         <div
-            className={`h-full w-full flex flex-row text-white relative`}
-            onScroll={handleScroll}
+            className={`h-full w-full flex flex-${
+                isMobile ? "col" : "row"
+            } text-white relative`}
         >
             <div
-                className={`w-1/2 h- flex items-center justify-center`}
+                className={`w-${isMobile ? "full" : "1/2"} h-${
+                    isMobile ? "1/3" : "full"
+                } flex items-center justify-center ${isMobile ? "p-5" : ""}`}
             >
-                <div className={`flex flex-col p-5 rounded-xl w-1/2`}>
+                <div className={`flex flex-col p-5 rounded-xl w-${isMobile ? "2/3" : "1/2"}`}>
                     <h1
                         className={`poppins-regular-italic ${
                             width < 640
@@ -110,7 +99,9 @@ export default function ThreeDScene() {
             </div>
             <div
                 ref={containerRef}
-                className={`w-1/2 h-full relative`}
+                className={`w-${isMobile ? "full" : "1/2"} h-${
+                    isMobile ? "full" : "full"
+                } relative`}
             >
                 <Canvas style={{ width: "100%", height: "100%" }}>
                     <Suspense>
@@ -131,9 +122,7 @@ export default function ThreeDScene() {
                                 />} */}
 
                             {/* <OrbitControls /> */}
-                            {/* <ScrollControls pages={3} damping={.25}>
-                            </ScrollControls> */}
-                                <RotatingModel scale={scale} />
+                            <RotatingModel scale={scale} />
                         </PerspectiveCamera>
                     </Suspense>
                 </Canvas>

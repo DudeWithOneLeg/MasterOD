@@ -1,28 +1,28 @@
 export const SelectLimit = ({setLimit, setViewAll, limit, viewAll}) => {
     return (
-        <div className="flex h-fit justify-content-start items-end">
-            <div className="flex flex-row w-fit rounded text-xl text-zinc-200">
+        <div className="flex h-full justify-content-start items-center">
+            <div className="flex flex-row w-fit rounded text-lg text-zinc-200 h-fit items-end">
                 <p
                     onClick={() => setViewAll(true)}
-                    className={`px-1 cursor-pointer rounded ${
+                    className={`px-1 cursor-pointer rounded transition-all duration-300 flex items-end ${
                         viewAll
-                            ? "border-b-4"
-                            : "hover:border-b-4 hover:border-gray-400"
+                            ? "text-2xl"
+                            : ""
                     }`}
                 >
                     All
                 </p>
                 <p
                     onClick={() => setViewAll(false)}
-                    className={`px-1 cursor-pointer rounded ${
-                        viewAll ? "hover:border-b-4" : "border-b-4"
+                    className={`px-1 cursor-pointer rounded transition-all duration-300 ${
+                        viewAll ? "" : "text-2xl"
                     }`}
                 >
                     Saved
                 </p>
             </div>
             <select
-                className="mx-2 text-slate-600 cursor-pointer rounded"
+                className="mx-2 text-slate-600 cursor-pointer rounded focus:outline-none"
                 onChange={(e) => setLimit(Number(e.target.value))}
                 value={limit}
             >

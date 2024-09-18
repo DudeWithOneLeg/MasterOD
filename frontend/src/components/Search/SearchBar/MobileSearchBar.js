@@ -33,7 +33,7 @@ export default function SearchBar({ setStatus, status }) {
         queryLen,
         hasReachCharLimit,
         currCharCount,
-        maxCharCount
+        maxCharCount,
     } = useContext(SearchContext);
     const { setPageNum, setTotalPages } = useContext(ResultsContext);
     const navigate = useNavigate();
@@ -153,14 +153,20 @@ export default function SearchBar({ setStatus, status }) {
                         <img src={searchIcon} className="h-6" />
                         {/* <button className="focus:outline-none">Search</button> */}
                     </button>
+                ) : currCharCount >= maxCharCount - 100 ? (
+                    <div
+                        className={`${
+                            currCharCount >= maxCharCount
+                                ? "!text-red-400"
+                                : "!text-amber-400"
+                        }  `}
+                    >
+                        <p>
+                            {currCharCount}/{maxCharCount}
+                        </p>
+                    </div>
                 ) : (
-                    hasReachCharLimit ? <div className={`text-red`}>
-                <p
-
-                >
-                    {currCharCount}/{maxCharCount}
-                </p>
-            </div> : <></>
+                    <></>
                 )}
             </form>
             {query && query.length && showOptions ? (

@@ -52,6 +52,13 @@ export default function SearchBar({ status, setStatus }) {
             else setPadding('0')
     },[showOptions])
 
+    useEffect(() => {
+        const path = window.location.pathname === '/search'
+        if (path) {
+            setShowOptions(true)
+        }
+    },[])
+
     const saveQuery = () => {
         const options = {
             q: query.join(";"),
@@ -204,23 +211,23 @@ export default function SearchBar({ status, setStatus }) {
                                     {string ? (
                                         <img
                                             src={clearText}
-                                            className="h-10"
+                                            className="h-10 cursor-pointer"
                                             onClick={() => setString("")}
                                         />
                                     ) : (
                                         <></>
                                     )}
-                                    <div
-                                        className={`text-${
+                                    {currCharCount >= maxCharCount - 100 ? <div
+                                        className={`${
                                             currCharCount >= maxCharCount
-                                                ? "red-400"
-                                                : "zinc-400"
+                                                ? "!text-red-400"
+                                                : "!text-amber-400"
                                         }  `}
                                     >
                                         <p>
                                             {currCharCount}/{maxCharCount}
                                         </p>
-                                    </div>
+                                    </div> : <></>}
                                 </div>
                                 {queryLen() && !hasReachCharLimit() ? (
                                     <button
@@ -249,12 +256,12 @@ export default function SearchBar({ status, setStatus }) {
                                             alt="save query"
                                         />
                                     )}
-                                    <p
+                                    {query && query.length ? <p
                                         className={`text-white rounded h-8 flex align-items-center hover:text-slate-900 cursor-pointer`}
                                         onClick={() => setQuery([])}
                                     >
                                         Clear
-                                    </p>
+                                    </p> : <></>}
                                 </div>
                             ) : (
                                 <></>
@@ -262,7 +269,7 @@ export default function SearchBar({ status, setStatus }) {
                         </div>
                     </div>
                 </form>
-                {query && showOptions && query.length ? (
+                {query && query.length ? (
                     <div className="flex flex-wrap p-1 w-3/5">
                         {query &&
                             query.map((param, index) => {

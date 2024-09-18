@@ -51,12 +51,12 @@ export default function QueryRow({ query }) {
     };
     return (
         <div
-            className="flex flex-col w-fit min-w-60 max-w-full p-2 bg-zinc-800 h-fit rounded m-1 cursor-pointer"
+            className={`flex flex-col w-fit min-w-60 ${hover ? 'p-4' : 'p-2'} max-w-full bg-zinc-800 h-fit rounded m-1 cursor-pointer transition-all duration-500 ease-in-out mb-2`}
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
         >
             {/* Top Row: Bookmark, Time, Search Icon */}
-            <div className="flex flex-row justify-between h-fit border-b border-zinc-400">
+            <div className="flex flex-row justify-between h-fit border-b border-zinc-400 min-w-60">
                 {/* Bookmark Icon - Fixed Width, No Shrink */}
                 <div className="flex flex-row w-fit flex-shrink-0">
                     <img
@@ -106,7 +106,7 @@ export default function QueryRow({ query }) {
                     />
                 </div>
                 {/* Query Text */}
-                <div className="w-full max-h-40 min-h-20 max-w-60 overflow-y-scroll no-scrollbar pt-1 border-l border-zinc-500">
+                <div className="w-full max-h-40 min-h-20 max-w-60 overflow-y-scroll no-scrollbar pt-1 border-l border-zinc-500 bg-zinc-900">
                     <p className="text-wrap max-h-40 min-h-20 w-full pl-1">
                         {query.string
                             ? query.query + " " + query.string
