@@ -27,18 +27,18 @@
 }
 
 /* width */
-.no-scrollbar::-webkit-scrollbar {
+.no-scrollbar::-webkit-scrollbar, ::-webkit-scrollbar {
   width: 6px;
 }
 
 /* Track */
-.no-scrollbar::-webkit-scrollbar-track {
+.no-scrollbar::-webkit-scrollbar-track, ::-webkit-scrollbar-track {
   padding: 1px;
   border-radius: 10px;
 }
 
 /* Handle */
-.no-scrollbar::-webkit-scrollbar-thumb {
+.no-scrollbar::-webkit-scrollbar-thumb, ::-webkit-scrollbar-thumb {
   background: rgb(203, 200, 200);
   border-radius: 10px;
 }

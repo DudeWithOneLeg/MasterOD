@@ -59,7 +59,7 @@ function App() {
                 <div
                     className={`h-[95%] w-full flex flex-${
                         isMobile ? "col" : "row"
-                    } bg-black`}
+                    } bg-zinc-950`}
                 >
                     {user && !user.tempUser && !isMobile ? <SideBar /> : <></>}
                     <Routes>

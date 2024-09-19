@@ -1,18 +1,8 @@
 import { Suspense, useRef, useState, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import { PerspectiveCamera, OrbitControls } from "@react-three/drei";
-import Model from "./Blackhole";
 import { isMobile } from "react-device-detect";
-
-// A component to apply rotation using useFrame
-function RotatingModel(props) {
-    // Rendering your model with ref for rotation
-    return (
-        <group rotation={[0, 0, -0.2604]}>
-            <Model {...props} />
-        </group>
-    );
-}
+import Planets from "./Planets";
 
 export default function MobileThreeDScene() {
     const containerRef = useRef(null);
@@ -69,12 +59,16 @@ export default function MobileThreeDScene() {
                 isMobile ? "col" : "row"
             } text-white relative`}
         >
-            <div
+            {/* <div
                 className={`w-${isMobile ? "full" : "1/2"} h-${
                     isMobile ? "1/3" : "full"
                 } flex items-center justify-center ${isMobile ? "p-5" : ""}`}
             >
-                <div className={`flex flex-col p-5 rounded-xl w-${isMobile ? "2/3" : "1/2"}`}>
+                <div
+                    className={`flex flex-col p-5 rounded-xl w-${
+                        isMobile ? "2/3" : "1/2"
+                    }`}
+                >
                     <h1
                         className={`poppins-regular-italic ${
                             width < 640
@@ -96,7 +90,7 @@ export default function MobileThreeDScene() {
                         and a platform built for deeper discoveries.
                     </p>
                 </div>
-            </div>
+            </div> */}
             <div
                 ref={containerRef}
                 className={`w-${isMobile ? "full" : "1/2"} h-${
@@ -122,7 +116,7 @@ export default function MobileThreeDScene() {
                                 />} */}
 
                             {/* <OrbitControls /> */}
-                            <RotatingModel scale={scale} />
+                            <Planets scale={scale} />
                         </PerspectiveCamera>
                     </Suspense>
                 </Canvas>
