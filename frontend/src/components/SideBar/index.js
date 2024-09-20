@@ -1,10 +1,8 @@
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useContext, useState } from "react";
+import { useSelector } from "react-redux";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { isMobile } from "react-device-detect";
 import MobileSideBar from "./MobileSidebar";
-import * as searchActions from "../../store/search";
-import * as resultActions from "../../store/result";
 import * as sessionActions from "../../store/session";
 import RecentStats from "./RecentStats";
 import { SearchContext } from "../../context/SearchContext";
@@ -13,7 +11,6 @@ import { SearchContext } from "../../context/SearchContext";
 export default function SideBar() {
     const { setSearch, setQuery, setString } = useContext(SearchContext);
 
-    const dispatch = useDispatch();
     const navigate = useNavigate();
     const user = useSelector((state) => state.session.user);
     const [feedbackMsg, setFeedbackMsg] = useState("");
@@ -40,8 +37,8 @@ export default function SideBar() {
 
     return (
         <div>
-            <div className="h-full w-[300px] bg-slate-800 flex flex-row text-slate-100 p-2">
-                <div className={`flex flex-row w-full`}>
+            <div className="h-full w-[300px] flex flex-row text-slate-100 p-2">
+                <div className={`flex flex-row w-full backdrop-blur-lg`}>
                     {user ? (
                         <div
                             className={`p-2 w-full flex flex-col justify-between h-full`}
@@ -51,15 +48,16 @@ export default function SideBar() {
                                 <div className={`p-2 text-lg`}>
                                     <div
                                         onClick={handleNewSearch}
-                                        className="flex flex-row text-2xl items-center cursor-pointer p-2 py-3 rounded hover:bg-slate-600"
+                                        className="flex flex-row text-2xl items-center cursor-pointer p-2 py-2 rounded bg-white text-black"
                                     >
                                         <img
-                                            src={require("../../assets/images/plus-white.png")}
+                                            src={require("../../assets/images/plus.png")}
                                             className="h-8"
                                             alt="new search"
                                         />
                                         New Search
                                     </div>
+                                    <div className="h-2"/>
                                     <RecentStats setSearch={setSearch} />
                                 </div>
                             </div>
@@ -70,31 +68,34 @@ export default function SideBar() {
                                 >
                                     <p className="text-2xl">Feedback:</p>
                                     <div className="h-2" />
-                                    <input
-                                        placeholder="Email (optional)"
-                                        onChange={(e) =>
-                                            setFeedbackEmail(e.target.value)
-                                        }
-                                        value={feedbackEmail}
-                                        className="bg-zinc-800 mb-2 rounded p-1"
-                                    />
-                                    <div className="flex flex-col justify-end">
-                                        <textarea
-                                            onChange={(e) =>
-                                                setFeedbackMsg(e.target.value)
-                                            }
-                                            placeholder={`Have questions or feedback?\nAny features you would like to see?\nHave you experienced bugs that were not fixed?`}
-                                            value={feedbackMsg}
-                                            className="w-full h-40 bg-zinc-800 rounded p-1 !border-1 !border-zinc-500"
-                                        />
-                                        <div className="h-2" />
+                                    <div className="p-1">
 
-                                        <button
-                                            type="submit"
-                                            className="focus:outline-none rounded p-1 hover:bg-zinc-600 w-fit align-self-end"
-                                        >
-                                            Send Feedback
-                                        </button>
+                                        <input
+                                            placeholder="Email (optional)"
+                                            onChange={(e) =>
+                                                setFeedbackEmail(e.target.value)
+                                            }
+                                            value={feedbackEmail}
+                                            className="bg-zinc-800 mb-2 rounded p-1"
+                                        />
+                                        <div className="flex flex-col justify-end">
+                                            <textarea
+                                                onChange={(e) =>
+                                                    setFeedbackMsg(e.target.value)
+                                                }
+                                                placeholder={`Have questions or feedback?\nAny features you would like to see?\nHave you experienced bugs that were not fixed?`}
+                                                value={feedbackMsg}
+                                                className="w-full h-40 bg-zinc-800 rounded p-1 !border-1 !border-zinc-500"
+                                            />
+                                            <div className="h-2" />
+
+                                            <button
+                                                type="submit"
+                                                className="focus:outline-none rounded p-1 hover:bg-zinc-600 w-fit align-self-end"
+                                            >
+                                                Send Feedback
+                                            </button>
+                                        </div>
                                     </div>
                                 </form>
                             ) : (

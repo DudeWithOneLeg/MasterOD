@@ -16,7 +16,7 @@ export default function Results({ data }) {
                 isMobile ? "overflow-x-hidden" : ""
             } ${isMobile && !showResult ? "row-span-2" : ""} pb-1 ${
                 showResult ? "w-full" : "w-100"
-            } bg-zinc-900`}
+            } backdrop-blur-xl`}
             id="results"
         >
             <div

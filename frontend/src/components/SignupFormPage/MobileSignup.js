@@ -131,7 +131,7 @@ function SignupFormPage() {
         >
             <form
                 onSubmit={handleSubmit}
-                className={`flex flex-col items-center w-${isMobile ? 'full' : '1/2'}`}
+                className={`flex flex-col items-center w-${isMobile ? 'full' : '1/2'} backdrop-blur-lg`}
             >
                 <div className="py-2 flex flex-col items-center w-full">
                     <h1 className="align-self-start">Email</h1>

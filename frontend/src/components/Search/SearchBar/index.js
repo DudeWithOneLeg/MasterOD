@@ -134,11 +134,11 @@ export default function SearchBar({ status, setStatus }) {
     else
         return (
             <div
-                className={`w-full bg-zinc-900 flex flex-col font-bold rounded transition-all duration-300 ease-in-out items-center justify-center py-${padding}`}
+                className={`w-full flex flex-col backdrop-blur-lg font-bold rounded transition-all duration-300 ease-in-out items-center justify-center py-${padding} z-50`}
                 id="search-bar-inner"
             >
                 <form
-                    className={`w-full flex text-slate-200 items-center justify-center`}
+                    className={`w-full flex items-center justify-center`}
                     data-collapse-target="collapse"
                     onSubmit={(e) => handleSubmit(e)}
                 >
@@ -172,7 +172,7 @@ export default function SearchBar({ status, setStatus }) {
                                 className={`flex flex-row jusitfy-center h-fit w-full items-center`}
                             >
                                 <div
-                                    className={`flex w-full bg-slate-700 rounded-full px-2 py-1 justify-between items-center h-fit mr-1`}
+                                    className={`flex w-full rounded-full px-2 py-1 justify-between bg-white/5 backdrop-blur-xl items-center h-fit mr-1`}
                                 >
                                 <div className="flex flex-row justify-center items-center h-fit">
                                     <label className="flex items-center h-fit m-0">
@@ -180,11 +180,12 @@ export default function SearchBar({ status, setStatus }) {
                                             onChange={(e) =>
                                                 setEngine(e.target.value)
                                             }
-                                            className="rounded ml-1 cursor-pointer bg-slate-700 text-2xl focus:outline-none text-white"
+                                            className="rounded ml-1 cursor-pointer bg-transparent text-2xl focus:outline-none text-white"
                                         >
                                             <option
                                                 selected={"Google" === engine}
                                                 defaultValue
+                                                className="text-black"
                                             >
                                                 Google
                                             </option>
@@ -192,6 +193,7 @@ export default function SearchBar({ status, setStatus }) {
                                             <option
                                                 value={"Bing"}
                                                 selected={"Bing" === engine}
+                                                className="text-black"
                                             >
                                                 Bing
                                             </option>
@@ -201,7 +203,7 @@ export default function SearchBar({ status, setStatus }) {
                                 </div>
                                     <input
                                         placeholder="Search"
-                                        className={`p-1 bg-slate-700 rounded w-full outline-none h-full`}
+                                        className={`px-1 bg-white/0 rounded w-full outline-none h-full text-white poppins-light text-lg`}
                                         value={string}
                                         onChange={(e) =>
                                             setString(e.target.value)
@@ -231,7 +233,7 @@ export default function SearchBar({ status, setStatus }) {
                                 </div>
                                 {queryLen() && !hasReachCharLimit() ? (
                                     <button
-                                        className="flex justify-self-end px-3 py-1 mx-1 rounded hover:bg-zinc-600 focus:outline-none"
+                                        className="flex justify-self-end px-3 mx-1 hover:bg-zinc-600 rounded-full focus:outline-none"
                                         type="submit"
                                     >
                                         <img src={searchIcon} className="h-10" />

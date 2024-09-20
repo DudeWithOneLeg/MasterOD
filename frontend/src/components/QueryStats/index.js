@@ -5,6 +5,7 @@ import { isMobile } from "react-device-detect";
 import QueryRow from "./QueryRow";
 import * as queryActions from "../../store/query";
 import { SelectLimit } from "./SelectLimit";
+import { SelectEngine } from "./SelectEngine";
 import MobileQueryRow from "./MobileQueryRow";
 import MobileQueryPage from "./MobileQueryPage";
 
@@ -14,6 +15,7 @@ export default function QueryPage() {
     const [viewAll, setViewAll] = useState(true);
     const [filter, setFilter] = useState("");
     const [limit, setLimit] = useState(25);
+    const [engineFilter, setEngineFilter] = useState("");
     const [sortedQueries, setSortedQueries] = useState({});
     const params = useParams();
 
@@ -44,44 +46,40 @@ export default function QueryPage() {
         setSortedQueries(newSortedQueries);
     }, [queries]);
 
-    useEffect(() => {
-        dispatch(queryActions.getQueries({ limit, filter, saved: !viewAll }));
-    }, [dispatch, limit]);
 
     useEffect(() => {
         const { view } = params;
         if (view === "saved") setViewAll(false);
         else if (view === "all") setViewAll(true);
-    }, [params, dispatch]);
+    }, [params]);
 
     useEffect(() => {
-        dispatch(queryActions.getQueries({ limit, filter, saved: !viewAll }));
-    }, [viewAll]);
-
-    useEffect(() => {
-        dispatch(queryActions.getQueries({ limit, filter, saved: !viewAll }));
-    }, [dispatch, limit]);
+        const options = { limit, filter, saved: !viewAll }
+        if (engineFilter !== 'all' && engineFilter !== '') options.engine = engineFilter
+        // console.log(options)
+        dispatch(queryActions.getQueries(options));
+    }, [dispatch, limit, viewAll, engineFilter]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(queryActions.getQueries({ limit, filter, saved: !viewAll }));
+        dispatch(queryActions.getQueries({ limit, filter, saved: !viewAll, engine: engineFilter }));
     };
 
     if (isMobile) return (<MobileQueryPage />)
     return (
-        <div className="flex bg-zinc-900 h-full overflow-hidden w-full">
-            <div className="w-full h-full flex flex-col text-slate-200 bg-zinc-900 rounded pt-5 px-4 justify-center items-center">
+        <div className="flex h-full overflow-hidden w-full">
+            <div className="w-full h-full flex flex-col text-slate-200 backdrop-blur-lg rounded pt-5 px-4 justify-center items-center">
                 <div className="px-2 flex flex-row justify-start items-center w-4/5 bg-slate-600">
                     <h1 className="text-4xl !text-white">History</h1>
                     <div className="w-fit flex justify-center items-center pl-2">
                         <SelectLimit setViewAll={setViewAll} setLimit={setLimit} limit={limit} viewAll={viewAll}/>
-
-                        {/* <form
+                        <SelectEngine engineFilter={engineFilter} setEngineFilter={setEngineFilter}/>
+                        <form
                             onSubmit={(e) => handleSubmit(e)}
                             className={`flex justify-self-center justify-between rounded w-1/2 my-2 px-2 bg-white`}
                         >
                             <input
-                                className="w-1/2 h-[3vh] text-black outline-none"
+                                className="w-full h-[3vh] text-black outline-none"
                                 placeholder="Filter searches"
                                 value={filter}
                                 onChange={(e) => setFilter(e.target.value)}
@@ -92,14 +90,14 @@ export default function QueryPage() {
                             >
                                 Search
                             </button>
-                        </form> */}
+                        </form>
                     </div>
                 </div>
-                <div className="h-full overflow-y-hidden rounded border-1 border-zinc-600 bg-zinc-900 flex justify-center">
+                <div className="h-full w-full overflow-y-hidden rounded border-1 border-zinc-600 flex justify-center">
                     <div
                         className={`${
                             isMobile ? "flex flex-col" : "flex flex-col"
-                        } h-full overflow-y-scroll no-scrollbar items-center `}
+                        } h-full w-full overflow-y-scroll no-scrollbar items-center p-1`}
                     >
                         {queries && Object.values(queries).length && isMobile
                             ? Object.values(queries)
@@ -119,7 +117,9 @@ export default function QueryPage() {
                                               <div className="flex flex-row h-fit flex-wrap pl-2 pt-2">
                                                   {Object.values(
                                                       sortedQueries[date]
-                                                  ).map((query) => {
+                                                  )
+                                                  .reverse()
+                                                  .map((query) => {
                                                       return (
                                                           <QueryRow
                                                               query={query}

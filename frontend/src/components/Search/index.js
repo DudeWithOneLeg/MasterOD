@@ -207,7 +207,7 @@ export default function Search() {
     return (
         //KEEP CLASS AS IS
         <div
-            className={`flex flex-col bg-zinc-900 w-full ${
+            className={`flex flex-col w-full ${
                 width < 640
                     ? "h-[95vh]"
                     : "sm:h-[95vh] md:h-[95vh] lg:[95vh] xl:h-full"
@@ -227,7 +227,7 @@ export default function Search() {
                         id="result-header"
                     >
                         <div
-                            className={`flex justify-content-center justify-self-start p-1 bg-zinc-800 border-b border-zinc-500 ${
+                            className={`flex justify-content-center justify-self-start p-1 backdrop-blur-lg border-b border-zinc-500 ${
                                 isMobile
                                     ? "w-full"
                                     : showResult

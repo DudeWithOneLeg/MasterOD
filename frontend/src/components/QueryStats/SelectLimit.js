@@ -1,9 +1,12 @@
+import { useNavigate } from "react-router-dom";
+
 export const SelectLimit = ({setLimit, setViewAll, limit, viewAll}) => {
+    const navigate = useNavigate()
     return (
         <div className="flex h-full justify-content-start items-center">
             <div className="flex flex-row w-fit rounded text-lg text-zinc-200 h-fit items-end">
                 <p
-                    onClick={() => setViewAll(true)}
+                    onClick={() => navigate('/search/all')}
                     className={`px-1 cursor-pointer rounded transition-all duration-300 flex items-end ${
                         viewAll
                             ? "text-2xl"
@@ -13,7 +16,7 @@ export const SelectLimit = ({setLimit, setViewAll, limit, viewAll}) => {
                     All
                 </p>
                 <p
-                    onClick={() => setViewAll(false)}
+                    onClick={() => navigate('/search/saved')}
                     className={`px-1 cursor-pointer rounded transition-all duration-300 ${
                         viewAll ? "" : "text-2xl"
                     }`}

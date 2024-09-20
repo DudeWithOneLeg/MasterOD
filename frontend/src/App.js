@@ -13,6 +13,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import ThreeDScene from "./components/3Dscene";
 import FinishSignup from "./components/FinishSignup";
 import GuidePage from "./components/GuidePage";
+import stars from './assets/images/stars.jpg'
 
 function App() {
     const dispatch = useDispatch();
@@ -23,6 +24,12 @@ function App() {
     useEffect(() => {
         dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
     }, [dispatch]);
+    const backgroundImageStyle = {
+        backgroundImage: `url(${stars})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      };
 
     // useEffect(() => {
     //     if (user) navigate('/search')
@@ -47,6 +54,7 @@ function App() {
                 className={`h-full w-full poppins-regular flex flex-${
                     isMobile ? "col" : "col"
                 } bg-zinc-900`}
+                style={backgroundImageStyle}
             >
                 {(isMobile && !user) || !isMobile ? <Navigation /> : <></>}
                 {isMobile ? (
@@ -59,7 +67,7 @@ function App() {
                 <div
                     className={`h-[95%] w-full flex flex-${
                         isMobile ? "col" : "row"
-                    } bg-zinc-950`}
+                    }`}
                 >
                     {user && !user.tempUser && !isMobile ? <SideBar /> : <></>}
                     <Routes>

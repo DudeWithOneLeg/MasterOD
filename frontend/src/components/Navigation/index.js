@@ -30,14 +30,14 @@ function Navigation() {
     };
 
     return (
-        <div className="h-[5%] w-screen fixed flex p-2 flex flex-row items-center justify-between text-white shadow-md shadow-slate-800 bg-slate-900">
+        <div className="h-[5%] w-screen fixed flex p-2 flex flex-row items-center justify-between text-white bg-white/5 backdrop-blur-lg z-10">
             <div className="flex flex-row items-center">
                 <div
                     className="flex flex-row items-center cursor-pointer items-center"
                     onClick={handleNavigate}
                 >
                     <img src={logo} className="flex h-10" />
-                    <h1 className="text-2xl p-2">SearchDeck</h1>
+                    <h1 className="text-3xl p-2 poppins-light">SearchDeck</h1>
                 </div>
                 <div className="w-4" />
                 {/* <div className="flex flex-row text-zinc-400 text-xl items-center h-fit">
@@ -76,7 +76,7 @@ function Navigation() {
                             />
                         </div>
                         {showMenu ? (
-                            <div className="flex flex-col fixed h-fit bg-zinc-950 rounded w-32 mt-12 p-2 border">
+                            <div className="flex flex-col fixed h-fit bg-zinc-700 rounded w-32 mt-12 p-2">
                                 <div
                                     className="w-full h-10 rounded flex items-center hover:bg-zinc-600 p-1"
                                     onClick={(e) => handleLogOut(e)}
@@ -92,13 +92,13 @@ function Navigation() {
             ) : (
                 <div className="flex flex-row items-center">
                     <div
-                        className="flex items-center justify-center p-2 cursor-pointer"
+                        className="flex items-center justify-center p-2 cursor-pointer text-xl"
                         onClick={() => navigate("/login")}
                     >
                         <p>Login</p>
                     </div>
                     <div
-                        className="flex items-center justify-center border rounded-full p-1 px-2 cursor-pointer hover:bg-zinc-700"
+                        className="text-lg flex items-center justify-center border rounded-full p-1 px-2 cursor-pointer text-zinc-900 bg-zinc-200"
                         onClick={() => navigate("/signup")}
                     >
                         <p>Create an Account</p>

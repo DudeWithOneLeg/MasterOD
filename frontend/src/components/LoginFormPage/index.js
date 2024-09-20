@@ -74,7 +74,7 @@ function LoginFormPage() {
         >
             <form
                 onSubmit={handleSubmit}
-                className={`flex flex-col w-${isMobile ? "full" : "1/3"}`}
+                className={`flex flex-col w-${isMobile ? "full" : "1/3"} backdrop-blur-lg p-2`}
             >
                 <h1 className="align-self-start text-white">
                     Username or Email

@@ -96,7 +96,7 @@ export default function ResultCard({ data, rowKey }) {
                                         <h3
                                             className={`font-bold text-zinc-300 ${
                                                 isMobile ? "text-sm" : "text-xl"
-                                            } text-wrap underline w-fit`}
+                                            } text-wrap underline w-fit poppins-light`}
                                         >
                                             {result.title && result.title}
                                         </h3>

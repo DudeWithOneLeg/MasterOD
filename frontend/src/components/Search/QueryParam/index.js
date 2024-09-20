@@ -49,7 +49,7 @@ export default function QueryParam({ param, index }) {
         </div>
         <div>
           <input
-            className="flex text-white rounded ml-1 w-32 outline-none px-1 bg-zinc-800 h-full"
+            className="flex text-white rounded ml-1 w-32 outline-none px-1 bg-zinc-800 h-full poppins-light"
             value={paramValue}
             onChange={(e) => setParamValue(e.target.value)}
           />

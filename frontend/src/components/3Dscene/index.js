@@ -3,7 +3,6 @@ import { Canvas } from "@react-three/fiber";
 import { isMobile } from "react-device-detect";
 import MobileThreeDScene from "./Mobile3Dscene";
 import Planets from "./Planets";
-import stars from '../../assets/images/stars.jpg'
 
 
 export default function ThreeDScene() {
@@ -53,18 +52,13 @@ export default function ThreeDScene() {
     //         setScale([newScale, newScale, newScale]);
     //     }
     // }, [containerRef.current]);
-    const backgroundImageStyle = {
-        backgroundImage: `url(${stars})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-      };
 
-    if (isMobile) {
-        return <MobileThreeDScene />;
-    } else
+
+    // if (isMobile) {
+    //     return <MobileThreeDScene />;
+    // } else
         return (
-            <div className={`h-full w-full flex flex-row text-white relative`} style={backgroundImageStyle}>
+            <div className={`h-full w-full flex flex-row text-white relative`}>
                 <div ref={containerRef} className={`w-full h-full relative`}>
                     <Canvas style={{ width: "100%", height: "100%" }}>
                         <Planets />

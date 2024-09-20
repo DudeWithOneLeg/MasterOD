@@ -14,7 +14,7 @@ import * as THREE from 'three';
 
 export default function Earth() {
   const group = useRef();
-  const [initialPosition] = useState(new THREE.Vector3(0.5, 0, 0)); // X = 0.3, Y = 0, Z = 0
+  const [initialPosition] = useState(new THREE.Vector3(0.7, 0, 0)); // X = 0.3, Y = 0, Z = 0
   const { scene } = useGLTF('../../../models/models/earth.gltf');
   const scroll = useScroll();
 
@@ -24,16 +24,17 @@ export default function Earth() {
       group.current.rotation.y += 0.0002; // Rotate around Y-axis
 
       // Update the position relative to the initial position
-      const xPos = initialPosition.x + ((-scroll.offset * 3) * 1.2);
+      const xPos = initialPosition.x + ((-scroll.offset * 3) * 1.3);
       group.current.position.set(xPos, initialPosition.y, initialPosition.z); // Maintain Y and Z values
-
+      const newScale = 1.4 - (-scroll.offset * -1.1)
+      group.current.scale.set(newScale, newScale, newScale)
       // console.log(group.current.position.y);
     }
   });
 
   return (
     <group ref={group} rotation={[0, 0, -0.2604]} >
-      <primitive object={scene} scale={[1, 1, 1]}/>
+      <primitive object={scene} />
     </group>
   );
 }
