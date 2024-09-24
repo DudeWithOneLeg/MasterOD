@@ -211,7 +211,7 @@ export default function Search() {
                 width < 640
                     ? "h-[95vh]"
                     : "sm:h-[95vh] md:h-[95vh] lg:[95vh] xl:h-full"
-            } items-end`}
+            } items-end bg-zinc-900`}
             id="search-bar"
         >
             <div className={`p-2 w-full transition-all duration-3000 ease-in-out`}>
@@ -227,7 +227,7 @@ export default function Search() {
                         id="result-header"
                     >
                         <div
-                            className={`flex justify-content-center justify-self-start p-1 backdrop-blur-lg border-b border-zinc-500 ${
+                            className={`flex justify-content-center justify-self-start p-1 border-b border-zinc-500 ${
                                 isMobile
                                     ? "w-full"
                                     : showResult

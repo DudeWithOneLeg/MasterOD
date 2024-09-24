@@ -23,9 +23,9 @@ Examples:
 "}
 
  the new prompt is `;
- const query = {
-    groups: [{},{}]
- }
+const query = {
+    groups: [{}, {}],
+};
 
 router.post("/iframe/", async (req, res) => {
     const { link, title, snippet, archive, queryId } = req.body;
@@ -66,8 +66,9 @@ router.post("/", async (req, res) => {
             engine: params.engine,
             string: params.string,
         };
-
-        await Queries.create(newQuery);
+        if (params.start === 0) {
+            await Queries.create(newQuery);
+        }
     }
 
     const recentQueries = await Queries.findAll({
@@ -107,7 +108,11 @@ router.post("/", async (req, res) => {
                         Object.values(obj).length ==
                         Object.values(response).length
                     ) {
-                        const currPage = data.serpapi_pagination && data.serpapi_pagination.current ? data.serpapi_pagination.current : 0;
+                        const currPage =
+                            data.serpapi_pagination &&
+                            data.serpapi_pagination.current
+                                ? data.serpapi_pagination.current
+                                : 0;
                         // console.log(data.organic_results?.slice(-1)[0].position);
                         // console.log(data);
                         const totalPages = (

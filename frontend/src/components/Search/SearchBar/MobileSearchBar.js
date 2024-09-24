@@ -220,7 +220,7 @@ export default function SearchBar({ setStatus, status }) {
                             )}
                         </div>
                         <div
-                            className={`w-full h-full divide-y divide-slate-500`}
+                            className={`w-full h-full divide-y divide-slate-500 text-zinc-800`}
                         >
                             {(engine === "Google" || engine === "Bing") && (
                                 <div className="p-2">
@@ -262,7 +262,7 @@ export default function SearchBar({ setStatus, status }) {
                             <div className="p-2">
                                 <select
                                     // id="normalize"
-                                    className="pl-2 cursor-pointer"
+                                    className="pl-2 cursor-pointer text-zinc"
                                     onChange={(e) =>
                                         setCountry(
                                             settings[engine].countries[

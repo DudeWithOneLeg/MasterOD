@@ -60,7 +60,7 @@ export default function ResultsPage() {
         <div
             className={`flex flex-col  w-full ${
                 isMobile ? "h-full" : "h-full"
-            }`}
+            } bg-zinc-900`}
         >
             <div
                 className={`flex items-center justify-content-center pt-2 border-b border-zinc-500 ${

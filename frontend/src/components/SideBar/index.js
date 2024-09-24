@@ -36,7 +36,7 @@ export default function SideBar() {
     if (isMobile) return <MobileSideBar setSearch={setSearch} />;
 
     return (
-        <div>
+        <div className="bg-zinc-800">
             <div className="h-full w-[300px] flex flex-row text-slate-100 p-2">
                 <div className={`flex flex-row w-full backdrop-blur-lg`}>
                     {user ? (
@@ -76,7 +76,7 @@ export default function SideBar() {
                                                 setFeedbackEmail(e.target.value)
                                             }
                                             value={feedbackEmail}
-                                            className="bg-zinc-800 mb-2 rounded p-1"
+                                            className="bg-zinc-700 mb-2 rounded p-1"
                                         />
                                         <div className="flex flex-col justify-end">
                                             <textarea
@@ -85,7 +85,7 @@ export default function SideBar() {
                                                 }
                                                 placeholder={`Have questions or feedback?\nAny features you would like to see?\nHave you experienced bugs that were not fixed?`}
                                                 value={feedbackMsg}
-                                                className="w-full h-40 bg-zinc-800 rounded p-1 !border-1 !border-zinc-500"
+                                                className="w-full h-40 bg-zinc-700 rounded p-1 !border-1 !border-zinc-500"
                                             />
                                             <div className="h-2" />
 

@@ -16,9 +16,8 @@ function Navigation() {
         e.preventDefault();
         setShowMenu(false);
         dispatch(sessionActions.logout()).then(async () => {
-
             navigate("/");
-        })
+        });
     };
 
     const handleNavigate = () => {
@@ -30,10 +29,10 @@ function Navigation() {
     };
 
     return (
-        <div className="h-[5%] w-screen fixed flex p-2 flex flex-row items-center justify-between text-white bg-white/5 backdrop-blur-lg z-10">
+        <div className="h-[5%] w-screen fixed flex p-2 flex flex-row items-center justify-between text-white bg-zinc-800 z-10">
             <div className="flex flex-row items-center">
                 <div
-                    className="flex flex-row items-center cursor-pointer items-center"
+                    className="flex flex-row items-center cursor-pointer items-center "
                     onClick={handleNavigate}
                 >
                     <img src={logo} className="flex h-10" />
@@ -98,7 +97,7 @@ function Navigation() {
                         <p>Login</p>
                     </div>
                     <div
-                        className="text-lg flex items-center justify-center border rounded-full p-1 px-2 cursor-pointer text-zinc-900 bg-zinc-200"
+                        className="text-lg flex items-center justify-center border rounded p-1 px-2 cursor-pointer text-zinc-900 bg-zinc-200"
                         onClick={() => navigate("/signup")}
                     >
                         <p>Create an Account</p>

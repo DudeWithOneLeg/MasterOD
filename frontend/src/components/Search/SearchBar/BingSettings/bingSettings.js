@@ -9,7 +9,7 @@ const operators = {
   "In title:": { "text": "intitle:", "example": "research paper" },
   "IP address:": { "text": "ip:", "example": "192.168.1.1" },
   "Prefer:": { "text": "prefer:", "example": "latest results" },
-  "Site:": { "text": "site:", "example": "example.com" },
+  "Site:": { "text": "site:", "example": ".edu" },
   "URL:": { "text": "url:", "example": "example.com/about" }
 };
 

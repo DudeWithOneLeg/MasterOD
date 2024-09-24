@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import * as sessionActions from "../../store/session";
 import { isMobile } from "react-device-detect";
 import { useGoogleLogin } from "@react-oauth/google";
 import { hasGrantedAnyScopeGoogle } from "@react-oauth/google";
-import { useNavigate } from "react-router-dom";
 import googleLogo from "../../assets/images/google-logo.png";
-//import "./SignupForm.css";
 
 function SignupFormPage() {
     const dispatch = useDispatch();
@@ -17,15 +15,15 @@ function SignupFormPage() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [email, setEmail] = useState("");
     const [errors, setErrors] = useState({});
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     useEffect(() => {
-        if (sessionUser) navigate('/search')
-    },[])
+        if (sessionUser) navigate('/search');
+    }, []);
 
     useEffect(() => {
-        if (sessionUser) navigate('/search')
-    },[sessionUser])
+        if (sessionUser) navigate('/search');
+    }, [sessionUser]);
 
     const login = useGoogleLogin({
         onSuccess: (tokenResponse) => {
@@ -40,7 +38,7 @@ function SignupFormPage() {
                     async (res) => {
                         const data = await res.json();
                         if (data && data.success) {
-                            redirect("/finish-signup");
+                            navigate("/finish-signup");
                         }
                     }
                 );
@@ -54,13 +52,7 @@ function SignupFormPage() {
                 ...errors,
                 username: "Username must be 6 characters or more",
             });
-        }
-        if (
-            !username.length ||
-            (username.length &&
-                (username.length > 6 || username.length === 6) &&
-                errors.username)
-        ) {
+        } else if (username.length >= 6 && errors.username) {
             const newErrors = { ...errors };
             delete newErrors.username;
             setErrors(newErrors);
@@ -68,18 +60,12 @@ function SignupFormPage() {
     }, [username]);
 
     useEffect(() => {
-        if (password.length < 6) {
+        if (password.length && password.length < 6) {
             setErrors({
                 ...errors,
                 password: "Password must be 6 characters or more",
             });
-        }
-        if (
-            !password.length ||
-            (password.length &&
-                (password.length === 6 || password.length > 6) &&
-                errors.password)
-        ) {
+        } else if (password.length && password.length >= 6 && errors.password) {
             const newErrors = { ...errors };
             delete newErrors.password;
             setErrors(newErrors);
@@ -92,7 +78,7 @@ function SignupFormPage() {
                 ...errors,
                 email: "Must be a valid email",
             });
-        } else {
+        } else if (email.includes('@') && email.includes('.') && email.split('.')[1] && errors.email) {
             const newErrors = { ...errors };
             delete newErrors.email;
             setErrors(newErrors);
@@ -102,7 +88,7 @@ function SignupFormPage() {
     useEffect(() => {
         if (password !== confirmPassword) {
             setErrors({ ...errors, confirmPassword: "Must match password" });
-        } else {
+        } else if (password === confirmPassword && errors.confirmPassword) {
             const newErrors = { ...errors };
             delete newErrors.confirmPassword;
             setErrors(newErrors);
@@ -134,82 +120,92 @@ function SignupFormPage() {
     };
 
     return (
-        <div
-            className={`w-${isMobile ? '2/3' : '1/3'} h-full flex flex-col items-center justify-content-center`}
-        >
-            <form
-                onSubmit={handleSubmit}
-                className={`flex flex-col items-center w-${isMobile ? 'full' : '1/2'} backdrop-blur-lg p-2`}
-            >
-                <div className="pt-2 flex flex-col items-center w-full">
-                    <h1 className="align-self-start">Email</h1>
-                    <input
-                        type="text"
-                        placeholder="Email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className={`my-1 p-1 rounded text-black w-full border-4 ${errors.email ? 'border-red-400 bg-red-100' : ''} focus:outline-none`}
-                    />
-                    {errors.email ? <p className="text-red-300 h-6">{errors.email}</p> : <p className="h-6"></p>}
-                </div>
-                <div className="pt-2 flex flex-col items-center w-full">
-                    <h1 className="align-self-start">Username *</h1>
-                    <input
-                        type="text"
-                        value={username}
-                        placeholder="Username"
-                        onChange={(e) => setUsername(e.target.value)}
-                        required
-                        className={`my-1 p-1 rounded text-black w-full border-4 ${errors.username ? 'border-red-400 bg-red-100' : ''} focus:outline-none`}
-                    />
-                    {errors.username ?
-                        <p className="text-red-300 text-wrap h-6">
-                            {errors.username}
-                        </p> : <p className="h-6"></p>
-                    }
-                </div>
-                <div className="pt-2 flex flex-col items-center w-full">
-                    <h1 className="align-self-start">Password *</h1>
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                        className={`my-1 p-1 rounded text-black w-full border-4 ${errors.password ? 'border-red-400 bg-red-100' : ''} focus:outline-none`}
-                    />
-                    {errors.password ?
-                        <p className="text-red-300 h-6">{errors.password}</p> : <p className="h-6"></p>
-                    }
-                </div>
-                <div className="pt-2 flex flex-col items-center w-full">
-                    <h1 className="align-self-start">Confirm Password *</h1>
-                    <input
-                        type="password"
-                        value={confirmPassword}
-                        placeholder="Confirm Password"
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        required
-                        className={`my-1 p-1 rounded text-black w-full border-4 ${errors.confirmPassword ? 'border-red-400 bg-red-100' : ''} focus:outline-none`}
-                    />
-                    {errors.confirmPassword ?
-                        <p className="text-red-300 h-6">{errors.confirmPassword}</p> : <p className="h-6"></p>
-                    }
-                </div>
-                <div className={`flex flex-col items-center w-${isMobile ? '3/4' : '1/2'}`}>
-
-                    <button type="submit" className="my-1 rounded border p-2 px-2 w-full hover:bg-slate-700">
-                        Sign Up
-                    </button>
-                    {/* <div
+        <div className={`h-full flex items-center justify-center bg-zinc-900`}>
+            <div className={`w-full max-w-md p-8 space-y-8 bg-zinc-800 rounded-lg shadow-lg`}>
+                <h2 className="text-3xl font-bold text-center text-white">Sign Up</h2>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                    <div>
+                        <label htmlFor="email" className="block text-sm font-medium text-zinc-300">Email</label>
+                        <input
+                            id="email"
+                            name="email"
+                            type="text"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder="Email"
+                            className="mt-1 block w-full px-3 py-2 bg-zinc-700 text-white rounded-md focus:outline-none focus:ring focus:ring-zinc-500"
+                        />
+                        {errors.email && (
+                            <p className="mt-2 text-sm text-red-500">{errors.email}</p>
+                        )}
+                    </div>
+                    <div>
+                        <label htmlFor="username" className="block text-sm font-medium text-zinc-300">Username</label>
+                        <input
+                            id="username"
+                            name="username"
+                            type="text"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            required
+                            placeholder="Username"
+                            className="mt-1 block w-full px-3 py-2 bg-zinc-700 text-white rounded-md focus:outline-none focus:ring focus:ring-zinc-500"
+                        />
+                        {errors.username && (
+                            <p className="mt-2 text-sm text-red-500">{errors.username}</p>
+                        )}
+                    </div>
+                    <div>
+                        <label htmlFor="password" className="block text-sm font-medium text-zinc-300">Password</label>
+                        <input
+                            id="password"
+                            name="password"
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                            placeholder="Password"
+                            className="mt-1 block w-full px-3 py-2 bg-zinc-700 text-white rounded-md focus:outline-none focus:ring focus:ring-zinc-500"
+                        />
+                        {errors.password && (
+                            <p className="mt-2 text-sm text-red-500">{errors.password}</p>
+                        )}
+                    </div>
+                    <div>
+                        <label htmlFor="confirmPassword" className="block text-sm font-medium text-zinc-300">Confirm Password</label>
+                        <input
+                            id="confirmPassword"
+                            name="confirmPassword"
+                            type="password"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            required
+                            placeholder="Confirm Password"
+                            className="mt-1 block w-full px-3 py-2 bg-zinc-700 text-white rounded-md focus:outline-none focus:ring focus:ring-zinc-500"
+                        />
+                        {errors.confirmPassword && (
+                            <p className="mt-2 text-sm text-red-500">{errors.confirmPassword}</p>
+                        )}
+                    </div>
+                    <div>
+                        <button
+                            type="submit"
+                            className="w-full py-2 px-4 bg-zinc-600 text-white font-semibold rounded-md hover:bg-zinc-500 focus:outline-none focus:ring focus:ring-zinc-500"
+                        >
+                            Sign Up
+                        </button>
+                    </div>
+                </form>
+                {/* <div className="flex items-center justify-center">
+                    <div
                         onClick={() => login()}
-                        className="text-slate-200 w-full rounded hover:bg-slate-700 p-2 my-2 border flex flex-row items-center justify-center cursor-pointer"
+                        className="w-full py-2 px-4 bg-zinc-600 text-white font-semibold rounded-md hover:bg-zinc-500 focus:outline-none focus:ring focus:ring-zinc-500 flex items-center justify-center cursor-pointer"
                     >
-                        <img src={googleLogo} className="h-5 px-1 " />
+                        <img src={googleLogo} className="h-5 mr-2" alt="Google logo" />
                         <p>Sign up with Google</p>
-                    </div> */}
-                </div>
-            </form>
+                    </div>
+                </div> */}
+            </div>
         </div>
     );
 }

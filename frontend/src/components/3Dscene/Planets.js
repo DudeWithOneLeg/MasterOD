@@ -13,11 +13,17 @@ import {
     useScroll,
     useHelper,
 } from "@react-three/drei";
-import stars from "../../assets/images/stars.jpg";
+import landing1 from "../../assets/images/landing-1.jpg";
 
 export default function Planets() {
     const lightRef = useRef();
     const [width, setWidth] = useState(window.innerWidth);
+    // const backgroundImageStyle = {
+    //     backgroundImage: `url(${landing1})`,
+    //     backgroundSize: "cover",
+    //     backgroundPosition: "center",
+    //     backgroundRepeat: "no-repeat",
+    //   };
 
     // Attach DirectionalLightHelper to visualize the axes of the light
     // useHelper(lightRef, DirectionalLightHelper, 1, "red");
@@ -39,40 +45,40 @@ export default function Planets() {
                     >
                         <section className="w-full h-1/3 flex justify-start items-center p-5">
                             <section
-                                className={`flex flex-col justify-start items-start rounded-xl w-1/2 h-fit bg-zinc/40 backdrop-blur-lg p-4`}
+                                className={`flex flex-col justify-start items-start rounded-xl h-1/2 w-1/2 p-4`}
                             >
-                                <div className="rounded">
-
-                                    <h1
-                                        className={`poppins-thin ${
-                                            width < 640
-                                                ? "text-3xl"
-                                                : "sm:text-3xl md:text-3xl lg:text-3xl xl:text-5xl"
-                                        } pb-2`}
-                                    >
-                                        {" "}
-                                        RESEARCH EVOLVED
-                                    </h1>
-                                    <p
-                                        className={`text-wrap poppins-regular ${
-                                            width < 640
-                                                ? "text-xl"
-                                                : "sm:text-xl md:text-xl lg:text-xl xl:text-xl"
-                                        } text-zinc-200`}
-                                    >
-                                        Explore beyond the surface with powerful
-                                        search tools and a platform built for deeper
-                                        discoveries.
-                                    </p>
+                                <div className="flex flex-col justify-center h-full w-full rounded">
+                                        <img src={landing1}  className="h-full w-full object-cover"/>
+                                    <div className="flex flex-col rounded w-fit p-1 bg-black/50 backdrop-blur-lg w-full">
+                                        <h1
+                                            className={`poppins-thin ${
+                                                width < 640
+                                                    ? "text-3xl"
+                                                    : "sm:text-3xl md:text-3xl lg:text-3xl xl:text-5xl"
+                                            } pb-2`}
+                                        >
+                                            RESEARCH EVOLVED
+                                        </h1>
+                                        <p
+                                            className={`text-wrap poppins-regular ${
+                                                width < 640
+                                                    ? "text-xl"
+                                                    : "sm:text-xl md:text-xl lg:text-xl xl:text-3xl"
+                                            } text-zinc-200`}
+                                        >
+                                            Explore beyond the surface with powerful
+                                            search tools and a platform built for
+                                            deeper discoveries.
+                                        </p>
+                                    </div>
                                 </div>
                             </section>
                         </section>
                         <section className="w-full h-1/3 flex justify-end items-start p-5">
                             <section
-                                className={`flex flex-col justify-start items-start rounded-xl w-1/2 h-full bg-zinc/40 backdrop-blur-lg p-4`}
+                                className={`flex flex-col justify-start items-start rounded-xl w-1/2 h-full bg-black/50 backdrop-blur-lg p-4`}
                             >
                                 <div className=" rounded">
-
                                     <h1
                                         className={`poppins-regular-italic ${
                                             width < 640
@@ -91,13 +97,13 @@ export default function Planets() {
                                         } text-zinc-200`}
                                     >
                                         Explore beyond the surface with powerful
-                                        search tools and a platform built for deeper
-                                        discoveries.
+                                        search tools and a platform built for
+                                        deeper discoveries.
                                     </p>
                                 </div>
                             </section>
                         </section>
-                        <section className="w-full h-1/3 flex justify-end itms-center">
+                        <section className="w-full h-1/3 flex justify-end items-center bg-zinc/30 backdrop-blur-lg ">
                             <section
                                 className={`flex flex-col p-5 justify-center rounded-xl w-1/2 h-full`}
                             >
@@ -137,7 +143,7 @@ export default function Planets() {
                             <Mars />
                             <Jupiter />
                         </group>
-                        <Saturn/>
+                        <Saturn />
                     </group>
                 </ScrollControls>
             </OrthographicCamera>

@@ -14,6 +14,7 @@ import ThreeDScene from "./components/3Dscene";
 import FinishSignup from "./components/FinishSignup";
 import GuidePage from "./components/GuidePage";
 import stars from './assets/images/stars.jpg'
+import WelcomePage from "./components/WelcomePage";
 
 function App() {
     const dispatch = useDispatch();
@@ -29,6 +30,7 @@ function App() {
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
+        filter: "blur(10px)", // Adjust the value as needed
       };
 
     // useEffect(() => {
@@ -54,7 +56,6 @@ function App() {
                 className={`h-full w-full poppins-regular flex flex-${
                     isMobile ? "col" : "col"
                 } bg-zinc-900`}
-                style={backgroundImageStyle}
             >
                 {(isMobile && !user) || !isMobile ? <Navigation /> : <></>}
                 {isMobile ? (
@@ -99,7 +100,7 @@ function App() {
                             </>
                         ) : (
                             <>
-                                <Route path="/" element={<ThreeDScene />} />
+                                <Route path="/" element={<WelcomePage />} />
                                 <Route
                                     path="/login"
                                     element={
