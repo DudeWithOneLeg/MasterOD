@@ -8,7 +8,6 @@ import * as sessionActions from "../../store/session";
 function Navigation() {
     const sessionUser = useSelector((state) => state.session.user);
     const [showMenu, setShowMenu] = useState(false);
-    const [underline, setUnderline] = useState("");
     const dispatch = useDispatch();
     const navigate = useNavigate();
 

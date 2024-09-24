@@ -1,3 +1,7 @@
+import { useNavigate } from "react-router-dom";
+import sideBySide from '../../assets/images/side-by-side.png';
+import operators from '../../assets/images/operators.png';
+import multiEngines from '../../assets/images/multiple-engines.png';
 import { isMobile } from "react-device-detect";
 import Footer from "./Footer";
 
@@ -6,7 +10,7 @@ export default function WelcomePage() {
         <div className="bg-zinc-900 text-white h-full w-full overflow-x-hidden">
             <HeroSection />
             <FeaturesSection />
-            <HowItWorks />
+            <UserBenefits />
             <LiveDemo />
             <Footer />
         </div>
@@ -15,12 +19,17 @@ export default function WelcomePage() {
 
 // Hero Section Component
 const HeroSection = () => {
+    const navigate = useNavigate();
+    const navToSignup = (e) => {
+        e.preventDefault();
+        navigate("/signup");
+    }
     return (
         <section className="flex flex-col md:flex-row items-center justify-center p-8 w-full max-w-full">
             <div className="text-center md:text-left md:w-1/2">
-                <h1 className="text-4xl font-bold mb-4">Re-Imagining Research</h1>
-                <p className="text-xl text-slate-400">Search across multiple engines, access snapshots, and keep your searches private.</p>
-                <button className="mt-6 bg-indigo-700 py-3 px-6 rounded hover:bg-slate-600">Get Started</button>
+                <h1 className="text-4xl font-bold mb-4 poppins-bold">Research Efficiently</h1>
+                <p className="text-xl text-slate-400 poppins-regular">Discover and manage top-quality results from various search engines while ensuring your searches remain private.</p>
+                <button className="mt-6 bg-indigo-700 py-3 px-6 rounded hover:bg-indigo-600" onClick={navToSignup}>Get Started</button>
             </div>
         </section>
     );
@@ -30,19 +39,19 @@ const HeroSection = () => {
 const FeaturesSection = () => {
     const features = [
         {
-          // icon: <FaSearch size={32} />,
+          icon: <img src={multiEngines} />,
           title: 'Multi-Engine Search',
           description: 'Search across multiple search engines effortlessly.',
         },
         {
-          // icon: <FaGlobe size={32} />,
-          title: 'Snapshot Viewing',
-          description: 'Access snapshots from the Wayback Machine directly.',
-        },
+            icon: <img src={operators} />,
+            title: 'Enhanced Search',
+            description: 'Utilize powerful search operators to refine your queries and get more relevant results.',
+          },
         {
-          // icon: <FaColumns size={32} />, // You could replace with an appropriate icon
+          icon: <img src={sideBySide} />,
           title: 'Side-by-Side Viewing',
-          description: 'View live search results and snapshots side by side for better comparison.',
+          description: 'View search results and their web pages side by side to keep everything organized and in view.',
         },
         {
           // icon: <FaLock size={32} />,
@@ -52,14 +61,14 @@ const FeaturesSection = () => {
       ];
 
     return (
-        <section className="p-8 bg-zinc-800 w-full max-w-full">
-            <h2 className="text-3xl font-bold text-center mb-8">Features</h2>
+        <section className="p-8 bg-zinc-600 w-full max-w-full">
+            <h2 className="text-3xl font-bold text-center mb-8 poppins-bold">Features</h2>
             <div className="flex flex-col md:flex-row justify-around">
                 {features.map((feature, index) => (
-                    <div key={index} className="text-center mb-8 md:mb-0">
-                        <div className="mb-4"></div>
-                        <h3 className="text-xl font-semibold">{feature.title}</h3>
-                        <p className="text-slate-400">{feature.description}</p>
+                    <div key={index} className={`text-left mb-8 md:mb-0 bg-zinc-800 p-6 rounded-lg shadow-lg ${isMobile ? "w-full" : "w-1/5"}`}>
+                        <div className="mb-4 flex w-fit">{feature.icon || <></>}</div>
+                        <h3 className="text-xl font-semibold poppins-semibold text-white w-fit">{feature.title}</h3>
+                        <p className="text-slate-400 poppins-regular text-lg w-fit">{feature.description}</p>
                     </div>
                 ))}
             </div>
@@ -67,22 +76,34 @@ const FeaturesSection = () => {
     );
 };
 
-// How It Works Section
-const HowItWorks = () => {
-    const steps = [
-        'Enter search terms with built-in operator interface',
-        'Review live search results and archived snapshots',
-        'Save and categorize searches for future reference',
+const UserBenefits = () => {
+    const benefits = [
+        {
+            title: 'Save Time',
+            description: 'Quickly browse search results and web pages side by side, reducing the hassle of switching tabs.',
+        },
+        {
+            title: 'Stay Organized',
+            description: 'Easily categorize and save your searches for future reference, keeping your research streamlined.',
+        },
+        {
+            title: 'Uncover Insights',
+            description: 'Access historical snapshots to compare past and present versions of web pages and track changes over time.',
+        },
+        {
+            title: 'Enhanced Privacy',
+            description: 'Rest assured knowing that your search queries remain private and secure.',
+        },
     ];
 
     return (
         <section className="p-8 w-full max-w-full">
-            <h2 className="text-3xl font-bold text-center mb-8">How It Works</h2>
-            <div className="flex flex-col items-center space-y-6">
-                {steps.map((step, index) => (
-                    <div key={index} className="flex items-center space-x-4">
-                        <span className="text-slate-400 font-semibold text-xl">{index + 1}</span>
-                        <p className="text-slate-300">{step}</p>
+            <h2 className="text-3xl font-bold text-center mb-8 poppins-bold">Why Search Deck?</h2>
+            <div className="flex flex-col md:flex-row justify-around">
+                {benefits.map((benefit, index) => (
+                    <div key={index} className={`text-center mb-8 md:mb-0 bg-zinc-800 p-6 rounded-lg shadow-lg ${isMobile ? "w-full" : "w-1/5"}`}>
+                        <h3 className="text-xl font-semibold poppins-semibold text-white">{benefit.title}</h3>
+                        <p className="text-slate-400 poppins-regular">{benefit.description}</p>
                     </div>
                 ))}
             </div>
@@ -92,10 +113,15 @@ const HowItWorks = () => {
 
 // Live Demo CTA Section
 const LiveDemo = () => {
+    const navigate = useNavigate();
+    const navToSignup = (e) => {
+        e.preventDefault();
+        navigate("/signup");
+    }
     return (
         <section className="p-8 bg-slate-700 text-center w-full max-w-full">
-            <h2 className="text-3xl font-bold mb-4">Try Search Deck Now!</h2>
-            <button className="bg-indigo-600 py-3 px-8 rounded hover:bg-slate-500">Start Searching</button>
+            <h2 className="text-3xl font-bold mb-4 poppins-bold">Try Search Deck Now!</h2>
+            <button className="bg-indigo-600 py-3 px-8 rounded hover:bg-indigo-500" onClick={navToSignup}>Start Searching</button>
         </section>
     );
 };

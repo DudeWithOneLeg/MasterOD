@@ -1,44 +1,44 @@
 {
     "google": [
         {
-            "operator": "site",
+            "operator": "Site: ",
             "description": "Restricts the search to results from a specific website or domain.",
-            "example": "site:github.com \"tensorflow\""
+            "example": "harvard.edu climate change research"
         },
         {
-            "operator": "intitle",
+            "operator": "In title: ",
             "description": "Searches for a specific word or phrase in the title of web pages.",
-            "example": "intitle:\"machine learning\" \"tutorial\""
+            "example": "machine learning applications"
         },
         {
-            "operator": "inurl",
+            "operator": "In url: ",
             "description": "Looks for pages where a particular word or phrase is part of the URL.",
-            "example": "inurl:admin \"login page\""
+            "example": "conference proceedings 2024"
         },
         {
-            "operator": "intext",
+            "operator": "Include text: ",
             "description": "Searches for keywords or phrases within the body text of a webpage.",
-            "example": "intext:\"open source project\" \"JavaScript\""
+            "example": "open access journals biology"
         },
         {
-            "operator": "-site",
+            "operator": "Exclude site: ",
             "description": "Excludes a specific site or domain from the search results.",
-            "example": "\"how to use TensorFlow\" -site:youtube.com"
+            "example": "wikipedia.org"
         },
         {
-            "operator": "-intitle",
+            "operator": "Exclude from title: ",
             "description": "Excludes pages with specific words in their title.",
-            "example": "machine learning -intitle:\"beginner\""
+            "example": "beginner python tutorial"
         },
         {
-            "operator": "-inurl",
+            "operator": "Exclude from url: ",
             "description": "Excludes results with certain keywords in the URL.",
-            "example": "deep learning -inurl:blog"
+            "example": "blog machine learning guide"
         },
         {
-            "operator": "-intext",
+            "operator": "Exclude from text: ",
             "description": "Excludes pages that contain certain text within their body.",
-            "example": "\"data science\" -intext:\"advertisement\""
+            "example": "advertisement online learning platforms"
         }
     ]
 }

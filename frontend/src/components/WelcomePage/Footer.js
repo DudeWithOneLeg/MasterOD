@@ -1,6 +1,6 @@
 export default function Footer() {
     return (
-        <footer className="bg-zinc-800 text-zinc-300 py-8 px-4">
+        <footer className="bg-zinc-900 text-zinc-300 py-8 px-4">
             <div className="max-w-5xl mx-auto flex flex-wrap justify-between">
                 <div className="w-full md:w-1/3 mb-6 md:mb-0">
                     <h3 className="text-xl font-semibold mb-4">SearchDeck</h3>
