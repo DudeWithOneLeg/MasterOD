@@ -6,6 +6,7 @@ import MobileSideBar from "./MobileSidebar";
 import * as sessionActions from "../../store/session";
 import RecentStats from "./RecentStats";
 import { SearchContext } from "../../context/SearchContext";
+import SideBarFooter from "./SideBarFooter";
 // import SearchBar from "../SearchBar";
 
 export default function SideBar() {
@@ -101,9 +102,7 @@ export default function SideBar() {
                             ) : (
                                 <p>Thank you for your feedback.</p>
                             )}
-                            <div className="flex flex-col justify-self-end">
-                                <p>© 2024 SearchDeck</p>
-                            </div>
+                            <SideBarFooter />
                         </div>
                     ) : (
                         <div className="w-[300px]"></div>

@@ -67,7 +67,7 @@ export default function ResultCard({ data, rowKey }) {
                     : ""
             } ${
                 isMobile ? "text-sm" : ""
-            } h-fit w-full cursor-pointer flex items-center rounded bg-gradient-to-r from-zinc-950 via-zinc-800 hover:bg-gradient-to-r hover:from-zinc-800 hover:via-zinc-800 py-2 mb-2 mr-1 transition-all duration-300 ease-in-out `}
+            } h-fit w-full cursor-pointer flex items-center rounded bg-zinc-800 hover:bg-zinc-700 py-2 mb-2 mr-1 transition-all duration-100 ease-in-out `}
         >
             <div className="flex flex-col items-center justify-content-around min-w-10 h-full">
                 {/* <div className="text-white">{result.id}</div> */}
