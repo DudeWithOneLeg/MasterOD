@@ -56,7 +56,7 @@ function App() {
                 className={`h-full w-full poppins-regular flex flex-${isMobile ? "col" : "col"
                     } bg-zinc-900`}
             >
-                {(isMobile && !user) || !isMobile ? <Navigation /> : <></>}
+                {!isMobile ? <Navigation /> : <></>}
                 {isMobile ? (
                     <div className="h-[5%]">
                         <SideBar />
