@@ -59,7 +59,7 @@ export default function Browser() {
 
     return (
         <div
-            className={`flex flex-col h-full w-full bg-slate-300 ${
+            className={`flex flex-col h-full w-full bg-zinc-700 ${
                 isMobile ? "" : "ml-2"
             } p-1 rounded overflow-hidden`}
             // ref={parentRef}

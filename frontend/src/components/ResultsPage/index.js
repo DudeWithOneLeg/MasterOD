@@ -51,19 +51,19 @@ export default function ResultsPage() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const options = { limit };
+        const options = { limit, saved: !viewAll };
         if (filterInput) options.filter = filterInput;
         dispatch(resultActions.getallResults(options));
     };
 
     return (
         <div
-            className={`flex flex-col  w-full bg-zinc-900 ${
+            className={`flex flex-col  w-full ${
                 isMobile ? "h-full" : "h-full"
-            }`}
+            } bg-zinc-900`}
         >
             <div
-                className={`flex items-center justify-content-center pt-2 border-b border-zinc-500 bg-zinc-800 ${
+                className={`flex items-center justify-content-center pt-2 border-b border-zinc-500 ${
                     preview && !isMobile ? "w-1/2" : ""
                 }`}
             >

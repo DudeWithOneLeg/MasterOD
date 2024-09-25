@@ -67,7 +67,7 @@ export default function ResultCard({ data, rowKey }) {
                     : ""
             } ${
                 isMobile ? "text-sm" : ""
-            } h-fit w-full cursor-pointer flex items-center rounded bg-gradient-to-r from-slate-800 via-slate-800 hover:bg-gradient-to-r hover:from-slate-700 hover:via-slate-800 py-2 mb-2 mr-1 transition-all duration-300 ease-in-out `}
+            } h-fit w-full cursor-pointer flex items-center rounded bg-gradient-to-r from-zinc-950 via-zinc-800 hover:bg-gradient-to-r hover:from-zinc-800 hover:via-zinc-800 py-2 mb-2 mr-1 transition-all duration-300 ease-in-out `}
         >
             <div className="flex flex-col items-center justify-content-around min-w-10 h-full">
                 {/* <div className="text-white">{result.id}</div> */}
@@ -94,9 +94,9 @@ export default function ResultCard({ data, rowKey }) {
                                 <div className="flex flex-row justify-between items-center w-full">
                                     <div className="flex flex-row">
                                         <h3
-                                            className={`font-bold text-slate-300 ${
+                                            className={`font-bold text-zinc-300 ${
                                                 isMobile ? "text-sm" : "text-xl"
-                                            } text-wrap underline w-fit`}
+                                            } text-wrap underline w-fit poppins-light`}
                                         >
                                             {result.title && result.title}
                                         </h3>
@@ -123,8 +123,8 @@ export default function ResultCard({ data, rowKey }) {
                                         alt="new tab"
                                     />
                                 </div>
-                                <p className="truncate  text-slate-500 w-3/4">
-                                    {result.link ? 
+                                <p className="truncate text-zinc-400 w-3/4">
+                                    {result.link ?
                                         result.link
                                         .split("")
                                         .slice(0, 50)
@@ -134,7 +134,7 @@ export default function ResultCard({ data, rowKey }) {
                             </div>
                         </div>
                         <div>
-                            <p className="underline w-fit">{result.snippet}</p>
+                            <p className="underline w-fit text-zinc-300">{result.snippet}</p>
                         </div>
 
                         {result.archive &&
@@ -147,7 +147,7 @@ export default function ResultCard({ data, rowKey }) {
                                             .closest.url
                                     }
                                     target="_blank"
-                                    className="font-bold text-slate-400 w-fit"
+                                    className="font-bold text-zinc-400 w-fit"
                                     rel="noreferrer"
                                 >
                                     Archive

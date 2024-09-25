@@ -7,24 +7,48 @@
   from {
     height: 0;
   }
+
   to {
     height: 100px;
   }
 }
 
+/* Set background color to transparent for autofill */
+.parameter-input:-webkit-autofill,
+.parameter-input:-webkit-autofill:hover,
+.parameter-input:-webkit-autofill:focus {
+  /* background-color: transparent !important; */
+  color: #ffffff !important;
+  /* Maintain the input field's text color */
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Adjust the first line color, just in case */
+.parameter-input:-webkit-autofill::first-line {
+  color: #ffffff !important;
+}
+
+.no-scrollbar::-webkit-scrollbar,
+::-webkit-scrollbar {
+  display: none;
+}
+
 /* width */
-.no-scrollbar::-webkit-scrollbar {
+.styled-scrollbar::-webkit-scrollbar,
+::-webkit-scrollbar {
   width: 6px;
 }
 
 /* Track */
-.no-scrollbar::-webkit-scrollbar-track {
+.styled-scrollbar::-webkit-scrollbar-track,
+::-webkit-scrollbar-track {
   padding: 1px;
   border-radius: 10px;
 }
 
 /* Handle */
-.no-scrollbar::-webkit-scrollbar-thumb {
+.styled-scrollbar::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-thumb {
   background: rgb(203, 200, 200);
   border-radius: 10px;
 }
