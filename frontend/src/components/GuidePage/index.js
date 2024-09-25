@@ -1,11 +1,12 @@
 import { useState } from "react";
+import { isMobile } from "react-device-detect";
+import MobileGuidePage from "./MobileGuidePage";
 import guideInfo from "./guide-info.json";
 
 const Card = ({ operator, description, example }) => {
     return (
         <div className="p-6 bg-zinc-700 rounded-lg shadow-md mb-6">
             <h1 className="text-3xl font-bold text-amber-500 mb-2">{operator}</h1>
-            <p className="text-lg font-semibold mb-1">Description:</p>
             <p className="text-zinc-200 mb-4">{description}</p>
             <p className="text-lg font-semibold mb-1">Example:</p>
             <div className="text-zinc-200 bg-zinc-800 rounded p-3">
@@ -17,17 +18,6 @@ const Card = ({ operator, description, example }) => {
                     <p
                         className={`pl-2 pr-0 outline-none w-full !bg-zinc-800 h-fit text-white parameter-input poppins-bold`}
                     >{example}</p>
-                {/* {input && input.split(param.text)[1] && (
-                    <button
-                        type="submit"
-                        className="rounded-right bg-zinc-300 hover:bg-slate-600 h-full"
-                    >
-                        <img
-                            src={require("../../../assets/images/plus.png")}
-                            className="w-fit mr-0 self-end px-1 h-full"
-                        />
-                    </button>
-                )} */}
             </div>
             </div>
         </div>
@@ -37,8 +27,10 @@ const Card = ({ operator, description, example }) => {
 export default function GuidePage() {
     const [engine, setEngine] = useState("google");
     const [selectedOperator, setSelectedOperator] = useState(0);
-
-    return (
+    if (isMobile) {
+        return <MobileGuidePage />;
+    }
+    else return (
         <div className="min-h-full w-full bg-zinc-900 text-white p-8 flex flex-row">
                 <div className="p-4 bg-zinc-800 rounded-lg shadow-md w-1/6">
                     <h2 className="text-2xl font-bold mb-4">Operators</h2>
@@ -84,4 +76,4 @@ export default function GuidePage() {
             </div>
         </div>
     );
-}
+};

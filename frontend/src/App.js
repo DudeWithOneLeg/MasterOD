@@ -31,7 +31,7 @@ function App() {
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
         filter: "blur(10px)", // Adjust the value as needed
-      };
+    };
 
     // useEffect(() => {
     //     if (user) navigate('/search')
@@ -53,9 +53,8 @@ function App() {
     return (
         <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
             <div
-                className={`h-full w-full poppins-regular flex flex-${
-                    isMobile ? "col" : "col"
-                } bg-zinc-900`}
+                className={`h-full w-full poppins-regular flex flex-${isMobile ? "col" : "col"
+                    } bg-zinc-900`}
             >
                 {(isMobile && !user) || !isMobile ? <Navigation /> : <></>}
                 {isMobile ? (
@@ -66,15 +65,15 @@ function App() {
                     <div className="h-[5%]"></div>
                 )}
                 <div
-                    className={`h-[95%] w-full flex flex-${
-                        isMobile ? "col" : "row"
-                    }`}
+                    className={`h-[95%] w-full flex flex-${isMobile ? "col" : "row"
+                        }`}
                 >
                     {user && !user.tempUser && !isMobile ? <SideBar /> : <></>}
                     <Routes>
                         <Route path="/guide" element={<GuidePage />} />
-                        {isLoaded ? (user ? (
-                            <>
+                        {isLoaded ? <>
+
+                            user ?    (<>
                                 <Route
                                     path="/results"
                                     element={<ResultsPage />}
@@ -97,10 +96,9 @@ function App() {
                                         </div>
                                     }
                                 />
-                            </>
-                        ) : (
-                            <>
-                                <Route path="/" element={<WelcomePage />} />
+                            </>)
+                            :
+                            (<>
                                 <Route
                                     path="/login"
                                     element={
@@ -117,12 +115,17 @@ function App() {
                                         </div>
                                     }
                                 />
-                            </>
-                        )) : <></>}
-                        <Route
-                            path="*"
-                            element={<Navigate to={user ? "/search" : "/"} />}
-                        />
+                                <Route path="/" element={<WelcomePage />} />
+                            </>)
+                            <Route
+                                path="*"
+                                element={<Navigate to={user ? "/search" : "/"} />}
+                            />
+                        </>
+                            : <>
+
+                            </>}
+
                     </Routes>
                 </div>
             </div>

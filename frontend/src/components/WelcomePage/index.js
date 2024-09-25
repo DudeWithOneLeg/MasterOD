@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import sideBySide from '../../assets/images/side-by-side.png';
 import operators from '../../assets/images/operators.png';
 import multiEngines from '../../assets/images/multiple-engines.png';
+import privacy from '../../assets/images/privacy.png';
 import { isMobile } from "react-device-detect";
 import Footer from "./Footer";
 
@@ -39,22 +40,22 @@ const HeroSection = () => {
 const FeaturesSection = () => {
     const features = [
         {
-          icon: <img src={multiEngines} />,
+          icon: <img src={multiEngines} alt="Multi-Engine Search" />,
           title: 'Multi-Engine Search',
           description: 'Search across multiple search engines effortlessly.',
         },
         {
-            icon: <img src={operators} />,
+            icon: <img src={operators} alt="Enhanced Search" />,
             title: 'Enhanced Search',
             description: 'Utilize powerful search operators to refine your queries and get more relevant results.',
           },
         {
-          icon: <img src={sideBySide} />,
+          icon: <img src={sideBySide} alt="Side-by-Side Viewing" />,
           title: 'Side-by-Side Viewing',
           description: 'View search results and their web pages side by side to keep everything organized and in view.',
         },
         {
-          // icon: <FaLock size={32} />,
+          icon: <img src={privacy} alt="Privacy First" />,
           title: 'Privacy First',
           description: 'Your searches are secure, with no shared data.',
         },

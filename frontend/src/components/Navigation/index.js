@@ -28,7 +28,7 @@ function Navigation() {
     };
 
     return (
-        <div className="h-[5%] w-screen fixed flex p-2 flex flex-row items-center justify-between text-white bg-zinc-800 z-10">
+        <div className="h-[5%] w-screen fixed flex p-2 flex flex-row items-center justify-between text-white bg-slate-800 z-10">
             <div className="flex flex-row items-center">
                 <div
                     className="flex flex-row items-center cursor-pointer items-center "
@@ -38,23 +38,22 @@ function Navigation() {
                     <h1 className="text-3xl p-2 poppins-light">SearchDeck</h1>
                 </div>
                 <div className="w-4" />
-                {/* <div className="flex flex-row text-zinc-400 text-xl items-center h-fit">
+                <div className="flex flex-row text-zinc-300 text-xl items-center h-fit">
                     <p
                         className="cursor-pointer"
                         onClick={() => {
-                            setUnderline("guide");
                             navigate('/guide')
                         }}
                     >
                         Guide
                     </p>
-                    <p
+                    {/* <p
                         className="cursor-pointer pl-2"
                         onClick={() => setUnderline("option")}
                     >
                         Option
-                    </p>
-                </div> */}
+                    </p> */}
+                </div>
             </div>
             {sessionUser ? (
                 <div className="flex justify-items-center">

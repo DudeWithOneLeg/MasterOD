@@ -7,7 +7,7 @@ export default function Footer() {
                     <p className="mb-4">Empowering researchers and students with advanced search techniques.</p>
                     <p>&copy; {new Date().getFullYear()} SearchDeck. All rights reserved.</p>
                 </div>
-                <div className="w-full md:w-1/4 mb-6 md:mb-0">
+                {/* <div className="w-full md:w-1/4 mb-6 md:mb-0">
                     <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
                     <ul>
                         <li className="mb-2"><a href="#" className="hover:text-white">Home</a></li>
@@ -15,7 +15,7 @@ export default function Footer() {
                         <li className="mb-2"><a href="#" className="hover:text-white">Pricing</a></li>
                         <li className="mb-2"><a href="#" className="hover:text-white">Contact</a></li>
                     </ul>
-                </div>
+                </div> */}
                 {/* <div className="w-full md:w-1/4 mb-6 md:mb-0">
                     <h4 className="text-lg font-semibold mb-4">Resources</h4>
                     <ul>

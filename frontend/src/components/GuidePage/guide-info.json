@@ -3,7 +3,7 @@
         {
             "operator": "Site: ",
             "description": "Restricts the search to results from a specific website or domain.",
-            "example": "harvard.edu climate change research"
+            "example": "harvard.edu"
         },
         {
             "operator": "In title: ",
@@ -39,6 +39,53 @@
             "operator": "Exclude from text: ",
             "description": "Excludes pages that contain certain text within their body.",
             "example": "advertisement online learning platforms"
+        }
+    ],
+    "bing": [
+        {
+            "operator": "Contains: ",
+            "description": "Searches for pages that contain specific file types or formats.",
+            "example": "pdf"
+        },
+        {
+            "operator": "Filetype: ",
+            "description": "Restricts the search to specific file types.",
+            "example": "pdf"
+        },
+        {
+            "operator": "In anchor: ",
+            "description": "Searches for web pages with specific words or phrases in anchor text (hyperlink text).",
+            "example": "buy now"
+        },
+        {
+            "operator": "In body: ",
+            "description": "Searches for specific terms or phrases within the main body of the web page.",
+            "example": "artificial intelligence"
+        },
+        {
+            "operator": "In title: ",
+            "description": "Searches for specific keywords within the title of the web pages.",
+            "example": "research paper"
+        },
+        {
+            "operator": "IP address: ",
+            "description": "Searches for websites hosted on a specific IP address.",
+            "example": "192.168.1.1"
+        },
+        {
+            "operator": "Prefer: ",
+            "description": "Prioritizes or prefers results with a specific keyword or attribute.",
+            "example": "latest results"
+        },
+        {
+            "operator": "Site: ",
+            "description": "Limits the search results to a specific website or domain.",
+            "example": ".edu"
+        },
+        {
+            "operator": "URL: ",
+            "description": "Searches for web pages containing a specific word or phrase within the URL.",
+            "example": "example.com/about"
         }
     ]
 }

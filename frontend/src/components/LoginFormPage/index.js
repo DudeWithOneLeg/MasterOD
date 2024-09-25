@@ -15,13 +15,11 @@ function LoginFormPage() {
     const sessionUser = useSelector(state => state.session.user)
     const navigate = useNavigate();
 
-    useEffect(() => {
-        if (sessionUser) navigate('/search')
-    },[])
-
-    useEffect(() => {
-        if (sessionUser) navigate('/search')
-    },[sessionUser])
+    // useEffect(() => {
+    //     if (sessionUser) {
+    //         navigate('/search')
+    //     }
+    // },[sessionUser, navigate])
 
     const login = useGoogleLogin({
         onSuccess: (tokenResponse) => {
@@ -46,6 +44,7 @@ function LoginFormPage() {
     });
 
     const handleSubmit = (e) => {
+        console.log('hii')
         e.preventDefault();
         setErrors({});
         return dispatch(sessionActions.login({ credential, password })).then(
@@ -69,8 +68,8 @@ function LoginFormPage() {
         <div className={`h-full flex items-center justify-center bg-zinc-900`}>
             <div className={`w-full max-w-md p-8 space-y-8 bg-zinc-800 rounded-lg shadow-lg`}>
                 <h2 className="text-3xl font-bold text-center text-white">Log In</h2>
-                <form onSubmit={handleSubmit} className="space-y-6">
-                    <div>
+                <form onSubmit={handleSubmit} className="space-y-6 w-full">
+                    <div className="w-full">
                         <label htmlFor="credential" className="block text-sm font-medium text-zinc-300">Username or Email</label>
                         <input
                             id="credential"

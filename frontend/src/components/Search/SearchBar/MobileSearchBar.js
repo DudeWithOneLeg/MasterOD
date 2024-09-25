@@ -12,7 +12,7 @@ import * as resultActions from "../../../store/result";
 const clearText = require("../../../assets/images/clear.png");
 const searchIcon = require("../../../assets/images/search.png");
 
-export default function SearchBar({ setStatus, status }) {
+export default function MobileSearchBar({ setStatus, status, selectedOperator, setSelectedOperator }) {
     const {
         query,
         setQuery,
@@ -115,9 +115,8 @@ export default function SearchBar({ setStatus, status }) {
                     <div className={`flex flex-row h-fit items-center w-full`}>
                         <img
                             src={require("../../../assets/images/arrow-forward-2.png")}
-                            className={`h-[2.5vh] w-8 flex flex-row transition-all duration-300 ease-in-out z-20 ${
-                                showOptions ? "rotate-90" : ""
-                            } cursor-pointer`}
+                            className={`h-[2.5vh] w-8 flex flex-row transition-all duration-300 ease-in-out z-20 ${showOptions ? "rotate-90" : ""
+                                } cursor-pointer`}
                             onClick={() => setShowOptions(!showOptions)}
                             alt="show options"
                         />
@@ -125,13 +124,40 @@ export default function SearchBar({ setStatus, status }) {
                             className={`flex flex-row jusitfy-center h-[2vh] w-full items-center`}
                         >
                             <div
-                                className={`flex w-full bg-zinc-800 rounded-full px-2 py-1 justify-between items-center h-8 mr-1`}
+                                className={`flex w-full bg-zinc-800 rounded-full px-2 justify-between items-center h-8 mr-1`}
                             >
+                                <div className="flex flex-row justify-center items-center h-full">
+                                    <label className="flex items-center h-full m-0">
+                                        <select
+                                            onChange={(e) =>
+                                                setEngine(e.target.value)
+                                            }
+                                            className="rounded ml-1 cursor-pointer text-xl focus:outline-none text-white bg-zinc-800 h-full"
+                                        >
+                                            <option
+                                                selected={"Google" === engine}
+                                                defaultValue
+                                            >
+                                                Google
+                                            </option>
+                                            {/* <option value={"Baidu"}>Baidu</option> */}
+                                            <option
+                                                value={"Bing"}
+                                                selected={"Bing" === engine}
+                                            >
+                                                Bing
+                                            </option>
+                                            {/* <option value={"Yandex"}>Yandex</option> */}
+                                        </select>
+                                    </label>
+                                </div>
                                 <input
                                     placeholder="Search"
-                                    className={`p-1 bg-zinc-800 rounded w-full outline-none h-full`}
+                                    className={`px-1 bg-white/0 rounded w-full outline-none h-full text-white poppins-light text-lg`}
                                     value={string}
-                                    onChange={(e) => setString(e.target.value)}
+                                    onChange={(e) =>
+                                        setString(e.target.value)
+                                    }
                                     onClick={() => setShowOptions(true)}
                                 />
                                 <img
@@ -140,7 +166,6 @@ export default function SearchBar({ setStatus, status }) {
                                     onClick={() => setString("")}
                                 />
                             </div>
-                            <div></div>
                         </div>
                     </div>
                     <div className="flex flex-row w-fit"></div>
@@ -155,11 +180,10 @@ export default function SearchBar({ setStatus, status }) {
                     </button>
                 ) : currCharCount >= maxCharCount - 100 ? (
                     <div
-                        className={`${
-                            currCharCount >= maxCharCount
+                        className={`${currCharCount >= maxCharCount
                                 ? "!text-red-400"
                                 : "!text-amber-400"
-                        }  `}
+                            }  `}
                     >
                         <p>
                             {currCharCount}/{maxCharCount}
@@ -209,28 +233,31 @@ export default function SearchBar({ setStatus, status }) {
                     <div className={`flex flex-col bg-zinc-800 rounded w-full`}>
                         <div className={`w-full`}>
                             {Object.keys(settings[engine].operators).map(
-                                (param) => (
+                                (param, index) => (
                                     <Parameter
+                                        index={index}
                                         text={param}
                                         param={
                                             settings[engine].operators[param]
                                         }
+                                        selectedOperator={selectedOperator}
+                                        setSelectedOperator={setSelectedOperator}
                                     />
                                 )
                             )}
                         </div>
                         <div
-                            className={`w-full h-full divide-y divide-slate-500 text-zinc-800`}
+                            className={`w-full h-full text-zinc-800`}
                         >
                             {(engine === "Google" || engine === "Bing") && (
                                 <div className="p-2">
                                     <select
                                         // id="normalize"
-                                        className="pl-2 cursor-pointer"
+                                        className="pl-2 cursor-pointer bg-zinc-900 text-white py-1 rounded"
                                         onChange={(e) =>
                                             setLanguage(
                                                 settings[engine].languages[
-                                                    e.target.value
+                                                e.target.value
                                                 ]
                                             )
                                         }
@@ -248,7 +275,7 @@ export default function SearchBar({ setStatus, status }) {
                                             <option
                                                 selected={
                                                     settings[engine].languages[
-                                                        name
+                                                    name
                                                     ] === language
                                                 }
                                                 value={name}
@@ -262,11 +289,11 @@ export default function SearchBar({ setStatus, status }) {
                             <div className="p-2">
                                 <select
                                     // id="normalize"
-                                    className="pl-2 cursor-pointer text-zinc"
+                                    className="pl-2 cursor-pointer text-white bg-zinc-900 py-1 rounded"
                                     onChange={(e) =>
                                         setCountry(
                                             settings[engine].countries[
-                                                e.target.value
+                                            e.target.value
                                             ]
                                         )
                                     }
@@ -286,7 +313,7 @@ export default function SearchBar({ setStatus, status }) {
                                             value={name}
                                             selected={
                                                 settings[engine].countries[
-                                                    name
+                                                name
                                                 ] === country
                                             }
                                         >
