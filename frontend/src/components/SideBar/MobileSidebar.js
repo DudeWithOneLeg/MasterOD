@@ -49,21 +49,16 @@ export default function MobileSideBar({ setSearch }) {
                 </div>
             ) : (
                 <div className="grid grid-cols-3 h-full items-center justify-between w-full text-white">
-                    <p
-                        className="p-1 rounded !bg-indigo-700 mx-1 justify-self-start"
-                        onClick={() => navigate("/signup")}
-                    >
-                        Create an account
-                    </p>
+
                     <div
-                        className="flex flex-row items-center justify-center cursor-pointer text-white"
+                        className="flex flex-row col-span-2 items-center justify-start cursor-pointer text-white px-2"
                         onClick={handleNavigate}
                     >
                         <img src={logo} className="flex h-10" />
-                        <h1 className="text-2xl p-2">SearchDeck</h1>
+                        <h1 className="text-xl p-1">SearchDeck</h1>
                     </div>
                     <p
-                        className="p-1 rounded bg-indigo-700 mx-1 justify-self-end"
+                        className="p-1 rounded bg-indigo-700 mx-1 justify-self-end w-fit"
                         onClick={() => {
                             return navigate("/login");
                         }}
