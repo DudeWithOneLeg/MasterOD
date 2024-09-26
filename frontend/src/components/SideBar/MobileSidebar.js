@@ -30,21 +30,21 @@ export default function MobileSideBar({ setSearch }) {
     }
 
     return (
-        <div className="text-white w-screen bg-zinc-900 fixed h-[5vh] z-30 border-b border-zinc-500">
+        <div className="text-white w-screen bg-zinc-900 fixed h-[5vh] z-30">
             {user ? (
                 <div className="grid grid-cols-3 justify-content-between items-center">
                     <img
                         src={menuIcon}
                         onClick={() => setShowMenu(!showMenu)}
-                        className="h-14 p-2 rounded-full"
-                        alt="profile"
+                        className="h-12 rounded-full"
+                        alt="menu"
                     />
                     <div
                         className="flex flex-row items-center justify-center cursor-pointer justify-self-center"
                         onClick={handleNavigate}
                     >
-                        <img src={logo} className="flex h-10" />
-                        <h1 className="text-2xl p-2">SearchDeck</h1>
+                        <img src={logo} className="flex h-8" />
+                        <h1 className="text-xl p-2">SearchDeck</h1>
                     </div>
                 </div>
             ) : (

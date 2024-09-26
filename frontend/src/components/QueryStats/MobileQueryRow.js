@@ -21,7 +21,7 @@ export default function MobileQueryRow({ query }) {
     const formattedMinutes = minutes < 10 ? "0" + minutes : minutes;
     const date = `${
         createdAt.getMonth() + 1
-    }-${createdAt.getDate()}-${createdAt.getFullYear()}`;
+    }-${createdAt.getDate()}`;
     const time = `${hours}:${formattedMinutes} ${ampm}`;
 
     const updateQuery = (queryId) => {
@@ -54,7 +54,7 @@ export default function MobileQueryRow({ query }) {
     };
     return (
         <div
-            className="flex flex-row grid grid-cols-9 divide divide-x justify-between w-full p-1 hover:bg-zinc-700 items-center"
+            className="flex flex-row grid grid-cols-9 divide divide-x justify-between w-full py-1 hover:bg-zinc-700 items-center"
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
         >
@@ -69,7 +69,7 @@ export default function MobileQueryRow({ query }) {
                     className="h-8 cursor-pointer"
                     onClick={() => updateQuery(query.id)}
                 />
-                <p className="flex items-center justify-center text-wrap w-full">
+                <p className="flex items-center justify-center text-wrap w-full text-sm pl-2 text-white">
                     {query.string
                         ? query.query + " " + query.string
                         : query.query}
@@ -98,7 +98,7 @@ export default function MobileQueryRow({ query }) {
             <div
                 className={`col-span-${
                     isMobile ? "1" : "1/3"
-                } flex items-center justify-center`}
+                } flex items-center justify-center h-full`}
             >
                 {query.engine === "google" ? (
                     <img

@@ -10,6 +10,7 @@ import SearchBar from "./SearchBar";
 import QueryStats from "../QueryStats";
 import { SearchContext } from "../../context/SearchContext";
 import { ResultsContext } from "../../context/ResultsContext";
+import Pagination from "./Pagination";
 import arrowBack from "../../assets/images/arrow-back.png";
 
 export default function Search() {
@@ -110,8 +111,8 @@ export default function Search() {
                 setPageNum(pageNum + 1);
                 setVisitedResults([]);
                 setCurrentSelected(null);
-                setLoadingResults(false);
             }
+            setLoadingResults(false);
         });
     };
 
@@ -214,28 +215,28 @@ export default function Search() {
             } items-end bg-zinc-900`}
             id="search-bar"
         >
-            <div className={`p-2 w-full transition-all duration-3000 ease-in-out`}>
+            <div className={`p-2 w-full transition-all duration-3000 ease-in-out `}>
                 <SearchBar status={status} setStatus={setStatus} />
             </div>
 
             {results && search ? (
                 <>
                     <div
-                        className={`rounded text-slate-200 h-fit w-full flex flex-row justify-content-${
+                        className={`text-slate-200 h-fit w-full flex flex-row justify-content-${
                             showResult ? "start" : "center"
                         }`}
                         id="result-header"
                     >
                         <div
-                            className={`flex justify-content-center justify-self-start p-1 border-b border-zinc-500 ${
+                            className={`flex justify-content-center justify-self-start px-1 bg-zinc-900 ${
                                 isMobile
                                     ? "w-full"
                                     : showResult
                                     ? "w-1/2"
                                     : "w-full"
-                            }`}
+                            } ${isMobile ? '' : 'pb-1'}`}
                         >
-                            <div className="grid grid-cols-3 w-full items-center px-2">
+                            <div className={`grid grid-cols-${isMobile ? '3': '4'} w-full items-center px-2 w-full ${!isMobile && !showResult ? '1': '2'}`}>
                                 <div
                                     className="flex flex-row items-center justify-self-start poppins-regular text-lg cursor-pointer"
                                     onClick={() => {
@@ -246,20 +247,23 @@ export default function Search() {
                                     <img src={arrowBack} className="h-7" />
                                     <p>History</p>
                                 </div>
-                                <div className="grid grid-cols-3 justify-center w-full">
-                                    <div></div>
-                                    <div className="flex flex-row justify-self-center justify-center">
+                                <div className="justify-center w-full col-span-2 w-fit">
+
+                                    <div className="flex flex-row justify-self-center justify-center space-x-1">
                                         {pageNum > 1 ? (
-                                            <img
-                                                src={require("../../assets/icons/triangle-backward.png")}
-                                                className="h-6 cursor-pointer"
-                                                alt="previous page"
-                                                onClick={handlePreviousPage}
-                                            />
+                                            <div className="rounded-full bg-zinc-700 w-8 h-8 flex justify-center items-center hover:bg-zinc-600">
+
+                                                <img
+                                                    src={require("../../assets/icons/triangle-backward.png")}
+                                                    className="h-6 cursor-pointer"
+                                                    alt="previous page"
+                                                    onClick={handlePreviousPage}
+                                                />
+                                            </div>
                                         ) : (
                                             <div className="w-6"></div>
                                         )}
-                                        <form onSubmit={(e) => goToPage(e)}>
+                                        {/* <form onSubmit={(e) => goToPage(e)}>
                                             <input
                                                 value={pageNum}
                                                 className="w-10 rounded text-center text-slate-600"
@@ -268,19 +272,21 @@ export default function Search() {
                                                 }
                                                 type="number"
                                             />
-                                        </form>
+                                        </form> */}
+                                        <Pagination currentPage={pageNum} totalPages={totalPages}/>
                                         {pageNum < totalPages ||
                                         totalPages === "N/A" ? (
-                                            <img
-                                                src={require("../../assets/icons/triangle-forward.png")}
-                                                className="h-6 cursor-pointer"
-                                                alt="next page"
-                                                onClick={handleNextPage}
-                                            />
+                                            <div className="rounded-full bg-zinc-700 w-8 h-8 flex justify-center items-center hover:bg-zinc-600">
+                                                <img
+                                                    src={require("../../assets/icons/triangle-forward.png")}
+                                                    className="h-6 cursor-pointer"
+                                                    alt="next page"
+                                                    onClick={handleNextPage}
+                                                />
+                                            </div>
                                         ) : (
                                             <div className="w-6"></div>
                                         )}
-                                        / <p>{totalPages}</p>
                                     </div>
                                     {results &&
                                     results.info &&
@@ -369,7 +375,7 @@ export default function Search() {
                         </div>
                     </div>
                 </>
-            ) : loadingResults ? (
+            ) : loadingResults  ? (
                 <div className="flex justify-content-center items-center w-full h-full">
                     <img
                         src={require("../../assets/icons/loading.png")}

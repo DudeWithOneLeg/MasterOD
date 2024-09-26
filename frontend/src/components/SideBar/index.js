@@ -37,9 +37,9 @@ export default function SideBar() {
     if (isMobile) return <MobileSideBar setSearch={setSearch} />;
 
     return (
-        <div className="bg-slate-700">
-            <div className="h-full w-[300px] flex flex-row text-slate-100 p-2">
-                <div className={`flex flex-row w-full backdrop-blur-lg`}>
+        <div className=" p-2">
+            <div className="h-full w-[300px] flex flex-row text-slate-100 bg-slate-700 rounded-lg">
+                <div className={`flex flex-row w-full`}>
                     {user ? (
                         <div
                             className={`p-2 w-full flex flex-col justify-between h-full`}

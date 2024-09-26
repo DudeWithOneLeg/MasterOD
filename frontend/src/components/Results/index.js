@@ -8,6 +8,7 @@ export default function Results({ data }) {
     const { loadingResults } = useContext(SearchContext);
     const { showResult } =
         useContext(ResultsContext);
+        console.log(data)
 
     return data && Object.values(data).length ? (
         //KEEP CLASS NAME AS IS
