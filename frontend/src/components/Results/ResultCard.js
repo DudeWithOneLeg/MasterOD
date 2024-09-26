@@ -4,6 +4,7 @@ import { SearchContext } from "../../context/SearchContext";
 import { ResultsContext } from "../../context/ResultsContext";
 import SaveResult from "../SaveResult";
 import { isMobile } from "react-device-detect";
+import MobileResultCard from "./MobileResultCard";
 const newTab = require("../../assets/icons/open_in_new.png");
 
 export default function ResultCard({ data, rowKey }) {
@@ -52,6 +53,8 @@ export default function ResultCard({ data, rowKey }) {
 
     // console.log(result)
 
+    if (isMobile) return <MobileResultCard data={data} rowKey={rowKey} />
+
     return (
         <div
             key={rowKey}
@@ -83,7 +86,7 @@ export default function ResultCard({ data, rowKey }) {
             </div>
             <div
                 className="flex flex-col items-start h-full w-full"
-                
+
             >
                 {result ? (
                     <div
@@ -97,7 +100,7 @@ export default function ResultCard({ data, rowKey }) {
                                         <h3
                                             className={`font-bold text-zinc-300 ${
                                                 isMobile ? "text-sm" : "text-xl"
-                                            } text-wrap underline w-fit poppins-light`}
+                                            } text-wrap underline w-fit poppins-regular`}
                                         >
                                             {result.title && result.title}
                                         </h3>

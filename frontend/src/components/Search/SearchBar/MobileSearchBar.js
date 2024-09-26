@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { SearchContext } from "../../../context/SearchContext";
 import { ResultsContext } from "../../../context/ResultsContext";
 import Parameter from "../Parameter";
-import QueryParam from "../QueryParam";
+import QueryParam from "../QueryParam.js";
 import { bingSettings } from "./BingSettings/bingSettings";
 import { googleSettings } from "./GoogleSettings/googleSettings";
 import * as searchActions from "../../../store/search";
@@ -102,7 +102,7 @@ export default function MobileSearchBar({ setStatus, status, selectedOperator, s
 
     return (
         <div
-            className={`w-full bg-zinc-900 flex flex-col font-bold rounded transition-all duration-300 ease-in-out items-center justify-center`}
+            className={`w-full flex flex-col font-bold rounded transition-all duration-300 ease-in-out items-center justify-center`}
             id="search-bar-inner"
             data-collapse="collapse"
         >
@@ -111,7 +111,7 @@ export default function MobileSearchBar({ setStatus, status, selectedOperator, s
                 data-collapse-target="collapse"
                 onSubmit={(e) => handleSubmit(e)}
             >
-                <div className="flex items-center w-full h-[4vh] fit justify-content-between p-2">
+                <div className="flex items-center w-full h-[4vh] fit justify-content-between p-2 ">
                     <div className={`flex flex-row h-fit items-center w-full`}>
                         <img
                             src={require("../../../assets/images/arrow-forward-2.png")}
@@ -172,17 +172,17 @@ export default function MobileSearchBar({ setStatus, status, selectedOperator, s
                 </div>
                 {queryLen() && !hasReachCharLimit() ? (
                     <button
-                        className="flex justify-self-end px-3 py-1 mx-1 rounded hover:bg-zinc-600 focus:outline-none shadow shadow-zinc-400"
+                        className="flex justify-self-end rounded hover:bg-zinc-600 focus:outline-none"
                         type="submit"
                     >
-                        <img src={searchIcon} className="h-6" />
+                        <img src={searchIcon} className="h-8" />
                         {/* <button className="focus:outline-none">Search</button> */}
                     </button>
                 ) : currCharCount >= maxCharCount - 100 ? (
                     <div
                         className={`${currCharCount >= maxCharCount
-                                ? "!text-red-400"
-                                : "!text-amber-400"
+                            ? "!text-red-400"
+                            : "!text-amber-400"
                             }  `}
                     >
                         <p>
@@ -289,7 +289,7 @@ export default function MobileSearchBar({ setStatus, status, selectedOperator, s
                             <div className="p-2">
                                 <select
                                     // id="normalize"
-                                    className="pl-2 cursor-pointer text-white bg-zinc-900 py-1 rounded"
+                                    className="pl-2 cursor-pointer text-white bg-zinc-900 py-1 rounded w-full"
                                     onChange={(e) =>
                                         setCountry(
                                             settings[engine].countries[
@@ -321,32 +321,6 @@ export default function MobileSearchBar({ setStatus, status, selectedOperator, s
                                         </option>
                                     ))}
                                 </select>
-                            </div>
-                            <div className="flex flex-row text-white p-2">
-                                <label className="h-fit m-0">
-                                    Search Engine:
-                                    <select
-                                        onChange={(e) =>
-                                            setEngine(e.target.value)
-                                        }
-                                        className="bg-slate-500 rounded ml-1 cursor-pointer"
-                                    >
-                                        <option
-                                            selected={"Google" === engine}
-                                            defaultValue="Google"
-                                        >
-                                            Google
-                                        </option>
-                                        {/* <option value={"Baidu"}>Baidu</option> */}
-                                        <option
-                                            value={"Bing"}
-                                            selected={"Bing" === engine}
-                                        >
-                                            Bing
-                                        </option>
-                                        {/* <option value={"Yandex"}>Yandex</option> */}
-                                    </select>
-                                </label>
                             </div>
                         </div>
                     </div>

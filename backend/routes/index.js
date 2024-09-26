@@ -2,7 +2,7 @@
 const express = require('express')
 const router = express.Router()
 const apiRouter = require('./api');
-const {createProxyMiddleware} =require('http-proxy-middleware')
+const { createProxyMiddleware } = require('http-proxy-middleware')
 
 
 router.use('/api', apiRouter);

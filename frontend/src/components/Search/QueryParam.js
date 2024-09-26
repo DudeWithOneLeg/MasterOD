@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect, useContext } from "react";
-import { SearchContext } from "../../../context/SearchContext";
+import { SearchContext } from "../../context/SearchContext";
 
 export default function QueryParam({ param, index }) {
-  const {setQuery} = useContext(SearchContext)
+  const { setQuery } = useContext(SearchContext)
   const [currParam, setCurrParam] = useState(param);
   const [paramValue, setParamValue] = useState(
     currParam.split(":")[1]?.split('"').join("") || ""
@@ -34,9 +34,8 @@ export default function QueryParam({ param, index }) {
 
   return (
     <div
-      className={`p-1 flex justify-content-end items-center rounded mr-1 mt-1 h-fit w-fit ${
-        param.split(":")[0].includes("-") ? "bg-amber-700" : "bg-zinc-700"
-      }`}
+      className={`p-1 flex justify-content-end items-center rounded mr-1 mt-1 h-fit w-fit ${param.split(":")[0].includes("-") ? "bg-amber-700" : "bg-zinc-700"
+        }`}
       o
       onMouseEnter={() => setShowDeleteIcon(true)}
       onMouseLeave={() => setShowDeleteIcon(false)}
@@ -58,7 +57,7 @@ export default function QueryParam({ param, index }) {
       <div className="flex w-7">
         {showDeleteIcon ? (
           <img
-            src={require("../../../assets/images/trash.png")}
+            src={require("../../assets/images/trash.png")}
             onClick={handleDelete}
             className="flex h-6 w-8 rounded ml-1 hover:bg-red-600 align-self-start cursor-pointer"
           />

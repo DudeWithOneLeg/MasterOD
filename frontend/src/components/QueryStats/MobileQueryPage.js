@@ -98,7 +98,7 @@ export default function MobileQueryPage() {
                         </form> */}
                     </div>
                 </div>
-                <div className="h-full overflow-y-hidden rounded border-1 border-zinc-600 bg-zinc-900 flex justify-center w-full p-2">
+                <div className="h-full overflow-y-hidden rounded border-1 border-zinc-600 bg-zinc-900 flex justify-center w-full p-1">
                     <div
                         className={`${
                             isMobile ? "flex flex-col" : "flex flex-col"

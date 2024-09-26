@@ -135,7 +135,7 @@ export default function SearchBar({ status, setStatus }) {
     else
         return (
             <div
-                className={`w-full flex flex-col backdrop-blur-lg font-bold rounded transition-all duration-300 ease-in-out items-center justify-center py-${padding} z-50 bg-zinc-800`}
+                className={`w-full flex flex-col font-bold rounded transition-all duration-300 ease-in-out items-center justify-center py-${padding} z-50 bg-sl-800`}
                 id="search-bar-inner"
             >
                 <form
@@ -150,8 +150,8 @@ export default function SearchBar({ status, setStatus }) {
                             {!isProduction && (
                                 <div
                                     className={`w-12 h-5 ${gptSearch
-                                            ? "bg-green-500 justify-end"
-                                            : "bg-zinc-500 justify-start"
+                                        ? "bg-green-500 justify-end"
+                                        : "bg-zinc-500 justify-start"
                                         } rounded-full flex cursor-pointer`}
                                     onClick={() => setGptSearch(!gptSearch)}
                                 >
@@ -220,8 +220,8 @@ export default function SearchBar({ status, setStatus }) {
                                     )}
                                     {currCharCount >= maxCharCount - 100 ? <div
                                         className={`${currCharCount >= maxCharCount
-                                                ? "!text-red-400"
-                                                : "!text-amber-400"
+                                            ? "!text-red-400"
+                                            : "!text-amber-400"
                                             }  `}
                                     >
                                         <p>

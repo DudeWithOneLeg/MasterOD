@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as resultActions from "../../store/result";
 
-export default function SaveResult({ result, saved, setSaved }) {
+export default function SaveResult({ result, saved, setSaved, className }) {
   const dispatch = useDispatch();
   const [lastSearchId, setLastSearchId] = useState(0)
   const lastSearch = useSelector(
@@ -33,8 +33,8 @@ export default function SaveResult({ result, saved, setSaved }) {
   }
 
   return saved || result.saved ? (
-    <img onClick={deleteResult} src={require("../../assets/icons/bookmark_FILL.png")} />
+    <img onClick={deleteResult} src={require("../../assets/icons/bookmark_FILL.png")} className={className} />
   ) : (
-    <img onClick={saveResult} src={require("../../assets/icons/bookmark.png")} />
+    <img onClick={saveResult} src={require("../../assets/icons/bookmark.png")} className={className} />
   );
 }

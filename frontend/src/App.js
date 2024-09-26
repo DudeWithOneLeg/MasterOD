@@ -15,6 +15,7 @@ import FinishSignup from "./components/FinishSignup";
 import GuidePage from "./components/GuidePage";
 import stars from './assets/images/stars.jpg'
 import WelcomePage from "./components/WelcomePage";
+import AccountSettings from "./components/AccountSettings/index.js";
 
 function App() {
     const dispatch = useDispatch();
@@ -95,6 +96,10 @@ function App() {
                                             <FinishSignup />
                                         </div>
                                     }
+                                />
+                                <Route
+                                    path="/user/settings"
+                                    element={<AccountSettings />}
                                 />
                             </>)
                             :

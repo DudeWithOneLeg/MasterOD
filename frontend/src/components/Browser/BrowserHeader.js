@@ -26,10 +26,10 @@ export default function BrowserHeader({preview, component, setComponent}) {
         setCopied(false)
       },[preview])
   return (
-    <div className={`flex h-[${isMobile ? '10' : '5'}%]`}>
-      <div className="fixed -mt-6 flex flex-row text-white pb-1">
+    <div className={`flex h-[${isMobile ? '10' : '5'}%] bg-blue-400`}>
+      <div className={`fixed -mt-6 flex flex-row text-white pb-1`}>
         <div
-          className={`bg-zinc-${
+          className={`bg-blue-${
             component === "browser" ? "600" : "700 hover:bg-zinc-600"
           } rounded-t mx-1 px-1 cursor-pointer rounded-b-none`}
           onClick={() => setComponent("browser")}
@@ -37,8 +37,8 @@ export default function BrowserHeader({preview, component, setComponent}) {
           Browser
         </div>
         <div
-          className={`bg-zinc-${
-            component === "archive" ? "600" : "700 hover:bg-zinc-600"
+          className={`${
+            component === "archive" ? "bg-blue-600" : "bg-gradient-to-b from-zinc-700 to-zinc-900 hover:bg-zinc-900"
           } rounded-t mx-1 px-1 cursor-pointer rounded-b-none`}
           onClick={() => setComponent("archive")}
         >
