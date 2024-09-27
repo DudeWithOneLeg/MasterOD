@@ -52,7 +52,7 @@ export default function MobilePagination({ handlePreviousPage, handleNextPage })
 
     const LastPage = () => (pageNum !== pageStart + 5) && (totalPages > 5) ? <p>{totalPages}</p> : <></>
     const PreviousPage = () => pageNum > 1 ? (
-        <div className="rounded-full bg-zinc-700 w-8 h-8 flex justify-center items-center hover:bg-zinc-600">
+        <div className="rounded-full bg-zinc-700 w-6 h-6 flex justify-center items-center hover:bg-zinc-600">
 
             <img
                 src={require("../../assets/icons/triangle-backward.png")}
@@ -67,7 +67,7 @@ export default function MobilePagination({ handlePreviousPage, handleNextPage })
 
     const NextPage = () => pageNum < totalPages ||
         totalPages === "N/A" ? (
-        <div className="rounded-full bg-zinc-700 w-8 h-8 flex justify-center items-center hover:bg-zinc-600 cursor-pointer"
+        <div className="rounded-full bg-zinc-700 w-6 h-6 flex justify-center items-center hover:bg-zinc-600 cursor-pointer"
             onClick={handleNextPage}>
             <img
                 src={require("../../assets/icons/triangle-forward.png")}
