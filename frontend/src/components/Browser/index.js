@@ -25,7 +25,18 @@ export default function Browser() {
     const docExtensions = ["ppt", "doc", "docx", "pdf"];
 
     useEffect(() => {
-        if (preview && docExtensions.includes(preview.split(".").slice(-1)[0])) {
+        if (
+            preview &&
+            docExtensions.includes(preview.split(".").slice(-1)[0]) &&
+            // !preview.includes("https") &&
+            !preview.includes("https://docs.google.com/viewerng") &&
+            !preview.includes(
+                "https://docs.google.com/gview?embedded=true&url="
+            )
+        ) {
+            setPreview(
+                `https://docs.google.com/gview?embedded=true&url=${preview}`
+            );
             setDisplayUrl(preview);
         }
     }, [preview]);
