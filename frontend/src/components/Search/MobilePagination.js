@@ -5,7 +5,7 @@ import { ResultsContext } from "../../context/ResultsContext"
 import * as resultActions from "../../store/result"
 import { useDispatch, useSelector } from "react-redux"
 
-export default function Pagination({ handlePreviousPage, handleNextPage }) {
+export default function MobilePagination({ handlePreviousPage, handleNextPage }) {
     const results = useSelector((state) => state.results.results);
     const dispatch = useDispatch()
     const {
@@ -80,7 +80,7 @@ export default function Pagination({ handlePreviousPage, handleNextPage }) {
     )
 
     return (
-        <div className="flex flex-row justify-between w-full col-span-2" id="pagination">
+        <div className="flex flex-row justify-between w-full col-span-3" id="mobile-pagination">
             <div className="w-full col-span-1 flex justify-center">
                 <div className="flex flex-row space-x-1 w-fit items-center">
 
@@ -105,8 +105,8 @@ export default function Pagination({ handlePreviousPage, handleNextPage }) {
             ) : (
                 <div></div>
             )}
-            <form onSubmit={(e) => goToPage(e)} className={`flex flex-row items-center justify-end w-full`}>
-                <p className={`${isMobile ? 'text-sm' : ''} text-zinc-300 mr-2`}>Go to: </p>
+            <form onSubmit={(e) => goToPage(e)} className={`flex flex-row items-center justify-end w-fit`}>
+                <p className={`${isMobile ? 'text-sm' : ''} text-zinc-500 w-fit text-center whitespace-nowrap overflow-hidden text-ellipsis mr-1`}>Go to</p>
                 <input
                     value={pageNum}
                     className="w-10 rounded text-center text-white bg-zinc-700"

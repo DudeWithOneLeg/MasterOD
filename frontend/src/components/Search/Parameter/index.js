@@ -5,8 +5,6 @@ export default function Parameter({ index ,param, text, selectedOperator, setSel
     const { query, setQuery } = useContext(SearchContext);
     const [input, setInput] = useState("");
 
-    console.log(selectedOperator);
-
     const handleSubmit = (e) => {
         e.preventDefault();
         if (input.split(param.text)[1]) {

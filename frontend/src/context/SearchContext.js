@@ -17,6 +17,13 @@ export const SearchProvider = ({ children }) => {
     const [engine, setEngine] = useState("Google");
     const [showOptions, setShowOptions] = useState(false);
     const [currCharCount, setCurrCharCount] = useState(0);
+    const [currentSearchStatus, setCurrentSearchStatus] = useState({
+        q: query.join(";"),
+        engine: engine.toLocaleLowerCase(),
+        start: 0,
+        string: string,
+    });
+
     const maxCharCount = 3400;
     useEffect(() => {
         setCurrCharCount((query.join(";") + string).length);
@@ -24,6 +31,20 @@ export const SearchProvider = ({ children }) => {
     useEffect(() => {
         setQuery([]);
     }, [engine]);
+
+    const updateQuery = (newQuery) => {
+        setCurrentSearchStatus(prevStatus => ({
+            ...prevStatus,
+            ...newQuery
+        }));
+    }
+
+    const searchState = {
+        updateQuery,
+        currentSearchStatus
+    }
+
+
 
     const queryLen = () => (query && query.length) || string
     const hasReachCharLimit = () => currCharCount >= maxCharCount
@@ -61,7 +82,8 @@ export const SearchProvider = ({ children }) => {
                 queryLen,
                 hasReachCharLimit,
                 currCharCount,
-                maxCharCount
+                maxCharCount,
+                searchState
             }}
         >
             {children}
