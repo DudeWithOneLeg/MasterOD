@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom"
 import * as searchActions from "../../store/search";
 import * as resultActions from "../../store/result";
 import { isMobile } from "react-device-detect";
@@ -25,12 +26,17 @@ export default function Search() {
         setStart,
         result,
     } = useContext(ResultsContext);
+    const navigate = useNavigate()
     const results = useSelector((state) => state.results.results);
+    const user = useSelector (state => state.session.user)
 
     const [status, setStatus] = useState("");
     const [width, setWidth] = useState(window.innerWidth);
 
     useEffect(() => {
+        if (!user) {
+            navigate('/')
+        }
         const handleResize = () => setWidth(window.innerWidth);
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
