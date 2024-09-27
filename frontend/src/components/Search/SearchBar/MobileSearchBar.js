@@ -213,7 +213,7 @@ export default function MobileSearchBar({ setStatus, status, selectedOperator, s
             )}
 
             {showOptions && (
-                <div className="flex flex-col w-full">
+                <div className="flex flex-col w-full px-2">
                     {query ? (
                         <div className="flex flex-wrap p-1 w-full">
                             {query.map((param, index) => {

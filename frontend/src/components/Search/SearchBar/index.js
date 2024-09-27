@@ -38,6 +38,7 @@ export default function SearchBar({ status, setStatus }) {
         hasReachCharLimit,
         currCharCount,
         maxCharCount,
+        searchState
     } = useContext(SearchContext);
     const { setPageNum, setTotalPages } = useContext(ResultsContext);
     const navigate = useNavigate();
@@ -104,6 +105,7 @@ export default function SearchBar({ status, setStatus }) {
             } else {
                 options.cr = country;
             }
+            searchState.updateQuery(options)
             dispatch(resultActions.search(options, (status = "initial"))).then(
                 async (data) => {
                     navigate("/search");
@@ -176,9 +178,7 @@ export default function SearchBar({ status, setStatus }) {
                                     <div className="flex flex-row justify-center items-center h-fit">
                                         <label className="flex items-center h-fit m-0">
                                             <select
-                                                onChange={(e) =>
-                                                    setEngine(e.target.value)
-                                                }
+                                                onChange={(e) => searchState.updateQuery({ engine: e.target.value })}
                                                 className="rounded ml-1 cursor-pointer bg-transparent text-2xl focus:outline-none text-white"
                                             >
                                                 <option
@@ -204,16 +204,17 @@ export default function SearchBar({ status, setStatus }) {
                                         placeholder="Search"
                                         className={`px-1 bg-white/0 rounded w-full outline-none h-full text-white poppins-light text-lg`}
                                         value={string}
-                                        onChange={(e) =>
+                                        onChange={(e) => {
+                                            searchState.updateQuery({ string: e.target.value })
                                             setString(e.target.value)
-                                        }
+                                        }}
                                         onClick={() => setShowOptions(true)}
                                     />
                                     {string ? (
                                         <img
                                             src={clearText}
                                             className="h-10 cursor-pointer"
-                                            onClick={() => setString("")}
+                                            onClick={() => searchState.updateQuery({ string: "" })}
                                         />
                                     ) : (
                                         <></>
@@ -252,7 +253,7 @@ export default function SearchBar({ status, setStatus }) {
                                         <img
                                             className="h-8 cursor-pointer px-2"
                                             src={require("../../../assets/icons/save.png")}
-                                            onClick={() => saveQuery()}
+                                            onClick={() => saveQuery}
                                             alt="save query"
                                         />
                                     )}
@@ -292,6 +293,7 @@ export default function SearchBar({ status, setStatus }) {
                             {Object.keys(settings[engine].operators).map(
                                 (param, index) => (
                                     <Parameter
+                                        key={`param-${param}`}  // Add this line
                                         index={index}
                                         text={param}
                                         param={
@@ -304,7 +306,6 @@ export default function SearchBar({ status, setStatus }) {
                             )}
                             {(engine === "Google" || engine === "Bing") && (
                                 <select
-                                    // id="normalize"
                                     className="pl-1 py-1 cursor-pointer bg-zinc-900 w-full text-white rounded"
                                     onChange={(e) =>
                                         setLanguage(
@@ -315,6 +316,7 @@ export default function SearchBar({ status, setStatus }) {
                                     }
                                 >
                                     <option
+                                        key="language-default"
                                         selected={language === ""}
                                         disabled
                                     >
@@ -325,6 +327,7 @@ export default function SearchBar({ status, setStatus }) {
                                         settings[engine].languages
                                     ).map((name) => (
                                         <option
+                                            key={`language-${name}`}
                                             selected={
                                                 settings[engine].languages[
                                                 name
@@ -338,17 +341,14 @@ export default function SearchBar({ status, setStatus }) {
                                 </select>
                             )}
                             <select
-                                // id="normalize"
                                 className="pl-1 py-1 cursor-pointer bg-zinc-900 w-full h-full text-white flex items-center"
-                                onChange={(e) =>
-                                    setCountry(
-                                        settings[engine].countries[
-                                        e.target.value
-                                        ]
-                                    )
-                                }
+                                onChange={(e) => {
+                                    const newCountry = engine === "Google" ? { cr: e.target.value } : { location: e.target.value }
+                                    searchState.updateQuery(newCountry)
+                                }}
                             >
                                 <option
+                                    key="country-default"
                                     selected={country === ""}
                                     disabled
                                     className=""
@@ -360,6 +360,7 @@ export default function SearchBar({ status, setStatus }) {
                                     settings[engine].countries
                                 ).map((name) => (
                                     <option
+                                        key={`country-${name}`}
                                         value={name}
                                         selected={
                                             settings[engine].countries[

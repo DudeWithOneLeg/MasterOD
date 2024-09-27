@@ -8,21 +8,15 @@ import { isMobile } from "react-device-detect";
 export default function Browser() {
     const { preview, setPreview } = useContext(ResultsContext);
     const [component, setComponent] = useState("");
-    const [displayUrl, setdisplayUrl] = useState("");
+    const [displayUrl, setDisplayUrl] = useState("");
     const [components, setComponents] = useState({
-        browser: (props) => (
-            <iframe className="h-full w-full" src={props.url} />
-        ),
+        browser: (props) => <iframe className="h-full w-full" src={props.url} />,
         archive: (props) => <Archive url={props.url} />,
         analyze: (props) => (
             <GptDocAnalyze
                 url={
-                    props.url.includes(
-                        "https://docs.google.com/gview?embedded=true&url="
-                    )
-                        ? props.url.split(
-                              "https://docs.google.com/gview?embedded=true&url="
-                          )[1]
+                    props.url.includes("https://docs.google.com/gview?embedded=true&url=")
+                        ? props.url.split("https://docs.google.com/gview?embedded=true&url=")[1]
                         : props.url
                 }
             />
@@ -31,25 +25,14 @@ export default function Browser() {
     const docExtensions = ["ppt", "doc", "docx", "pdf"];
 
     useEffect(() => {
-        if (
-            preview &&
-            docExtensions.includes(preview.split(".").slice(-1)[0]) &&
-            // !preview.includes("https") &&
-            !preview.includes("https://docs.google.com/viewerng") &&
-            !preview.includes(
-                "https://docs.google.com/gview?embedded=true&url="
-            )
-        ) {
-            setPreview(
-                `https://docs.google.com/gview?embedded=true&url=${preview}`
-            );
-            setdisplayUrl(preview);
+        if (preview && docExtensions.includes(preview.split(".").slice(-1)[0])) {
+            setDisplayUrl(preview);
         }
     }, [preview]);
 
     useEffect(() => {
         setComponent("browser");
-        setdisplayUrl(preview);
+        setDisplayUrl(preview);
     }, [preview]);
 
     const showComponent = (componentName, url) => {
@@ -58,17 +41,8 @@ export default function Browser() {
     };
 
     return (
-        <div
-            className={`flex flex-col h-full w-full bg-zinc-700 ${
-                isMobile ? "" : "ml-2"
-            } p-1 rounded overflow-hidden`}
-            // ref={parentRef}
-        >
-            <BrowserHeader
-                preview={displayUrl}
-                component={component}
-                setComponent={setComponent}
-            />
+        <div className={`flex flex-col h-full w-full bg-zinc-700 ${isMobile ? "" : "ml-2"} p-1 rounded overflow-hidden`}>
+            <BrowserHeader preview={displayUrl} component={component} setComponent={setComponent} />
             {component ? showComponent(component, preview) : <></>}
         </div>
     );

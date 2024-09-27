@@ -1,12 +1,11 @@
 import { useState, useContext } from "react";
 import { useDispatch } from "react-redux";
 import { SearchContext } from "../../context/SearchContext";
-import { isMobile } from "react-device-detect";
 import * as queryActions from "../../store/query";
 import * as searchActions from "../../store/search";
 
 export default function QueryRow({ query }) {
-    const { setString, setQuery, setShowOptions } = useContext(SearchContext);
+    const { setString, setQuery, setShowOptions, searchState } = useContext(SearchContext);
     const dispatch = useDispatch();
     const [hover, setHover] = useState(false);
 
@@ -28,7 +27,6 @@ export default function QueryRow({ query }) {
     };
 
     const addToSearch = (query) => {
-        setString(query.string);
         const regex = /(\w+:)(?:"([^"]*)"|(\S+))|(\S+)/g;
         const result = [];
         let match;
@@ -38,7 +36,7 @@ export default function QueryRow({ query }) {
                 // Operator:value pair
                 const operator = match[1];
                 const value =
-                    match[2] !== undefined ? `"${match[2]}"` : match[3];
+                match[2] !== undefined ? `"${match[2]}"` : match[3];
                 result.push(`${operator}${value}`);
             } else {
                 // Single word without operator
@@ -46,7 +44,10 @@ export default function QueryRow({ query }) {
             }
         }
 
+        setString(query.string);
         setQuery(result);
+        console.log(query)
+        searchState.updateQuery({string: query.string, q: query.query, engine: query.engine});
         setShowOptions(true);
     };
     return (
@@ -54,6 +55,7 @@ export default function QueryRow({ query }) {
             className={`flex flex-col w-fit min-w-60 ${hover ? 'p-4' : 'p-2'} max-w-full bg-zinc-800 h-fit rounded m-1 cursor-pointer transition-all duration-500 ease-in-out mb-2`}
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
+            key={query.id}
         >
             {/* Top Row: Bookmark, Time, Search Icon */}
             <div className="flex flex-row justify-between h-fit border-b border-zinc-400 min-w-60">
