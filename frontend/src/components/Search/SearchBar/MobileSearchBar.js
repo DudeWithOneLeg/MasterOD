@@ -78,6 +78,7 @@ export default function MobileSearchBar({ setStatus, status, selectedOperator, s
             } else {
                 options.cr = country;
             }
+            searchState.updateQuery(options)
             dispatch(resultActions.search(options, (status = "initial"))).then(
                 async (data) => {
                     navigate("/search");
@@ -255,13 +256,14 @@ export default function MobileSearchBar({ setStatus, status, selectedOperator, s
                                     <select
                                         // id="normalize"
                                         className="pl-2 cursor-pointer bg-zinc-900 text-white py-1 rounded"
-                                        onChange={(e) =>
+                                        onChange={(e) => {
                                             setLanguage(
                                                 settings[engine].languages[
                                                 e.target.value
                                                 ]
                                             )
-                                        }
+                                            searchState.updateQuery({hl: settings[engine].languages[e.target.value]})
+                                        }}
                                     >
                                         <option
                                             selected={language === ""}
@@ -291,13 +293,12 @@ export default function MobileSearchBar({ setStatus, status, selectedOperator, s
                                 <select
                                     // id="normalize"
                                     className="pl-2 cursor-pointer text-white bg-zinc-900 py-1 rounded w-full"
-                                    onChange={(e) =>
-                                        setCountry(
-                                            settings[engine].countries[
-                                            e.target.value
-                                            ]
-                                        )
-                                    }
+                                    onChange={(e) => {
+                                        const newCountry = engine === "Google" ? { cr: settings[engine].countries[e.target.value] } : { location: settings[engine].countries[e.target.value] }
+                                        searchState.updateQuery(newCountry)
+                                        console.log(searchState.currentSearchStatus)
+                                        setCountry(settings[engine].countries[e.target.value])
+                                    }}
                                 >
                                     <option
                                         selected={country === ""}

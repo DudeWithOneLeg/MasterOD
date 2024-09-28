@@ -274,7 +274,6 @@ export default function SearchBar({ status, setStatus }) {
                     <div className="flex flex-wrap p-1 w-3/5">
                         {query && query.length ?
                             query.map((param, index) => {
-                                console.log(param)
                                 if (param.includes(":")) {
                                     return (
                                         <QueryParam
@@ -309,13 +308,14 @@ export default function SearchBar({ status, setStatus }) {
                             {(engine === "Google" || engine === "Bing") && (
                                 <select
                                     className="pl-1 py-1 cursor-pointer bg-zinc-900 w-full text-white rounded"
-                                    onChange={(e) =>
+                                    onChange={(e) => {
                                         setLanguage(
                                             settings[engine].languages[
                                             e.target.value
                                             ]
                                         )
-                                    }
+                                        searchState.updateQuery({hl: settings[engine].languages[e.target.value]})
+                                    }}
                                 >
                                     <option
                                         key="language-default"
@@ -345,8 +345,10 @@ export default function SearchBar({ status, setStatus }) {
                             <select
                                 className="pl-1 py-1 cursor-pointer bg-zinc-900 w-full h-full text-white flex items-center"
                                 onChange={(e) => {
-                                    const newCountry = engine === "Google" ? { cr: e.target.value } : { location: e.target.value }
+                                    const newCountry = engine === "Google" ? { cr: settings[engine].countries[e.target.value] } : { location: settings[engine].countries[e.target.value] }
                                     searchState.updateQuery(newCountry)
+                                    console.log(searchState.currentSearchStatus)
+                                    setCountry(settings[engine].countries[e.target.value])
                                 }}
                             >
                                 <option
