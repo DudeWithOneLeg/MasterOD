@@ -35,6 +35,7 @@ export default function ResultInfo() {
         language,
         country,
         engine,
+        searchState
     } = useContext(SearchContext);
     const results = useSelector((state) => state.results.results);
     const dispatch = useDispatch();
@@ -42,6 +43,7 @@ export default function ResultInfo() {
 
     const handleNextPage = () => {
         setLoadingResults(true);
+        console.log(searchState.currentSearchStatus)
         dispatch(resultActions.search({
             q: query.join(";"),
             cr: country,
@@ -58,6 +60,7 @@ export default function ResultInfo() {
                 setNewPageNum(pageNum + 1);
                 setVisitedResults([]);
                 setCurrentSelected(null);
+                searchState.updateQuery({pageNum: pageNum + 1});
             }
             setLoadingResults(false);
         });
@@ -110,7 +113,7 @@ export default function ResultInfo() {
     };
 
     return (
-        <div className={`text-slate-200 h-fit w-full flex flex-row justify-${showResult ? "start" : "center"}`} id="result-info">
+        <div className={`text-slate-200 h-fit w-full flex flex-row py-2 justify-${showResult ? "start" : "center"}`} id="result-info">
             <div className={`flex justify-center justify-self-start px-1 bg-zinc-900 ${isMobile ? '' : 'pb-1'} ${isMobile ? 'w-full' : showResult ? 'w-1/2' : 'w-3/5'} transition-all duration-300 ease-in-out `}>
                 <div className={`grid grid-cols-3 w-full items-center px-2 ${isMobile ? 'w-full' : showResult ? 'w-1/2' : 'w-full'} `}>
                     <div className="flex flex-row items-center justify-self-start poppins-regular text-lg cursor-pointer col-span-1 w-full" onClick={() => { navigate("/search/all"); setSearch(false); }}>

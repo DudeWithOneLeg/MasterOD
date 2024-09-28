@@ -36,7 +36,7 @@ export default function QueryRow({ query }) {
                 // Operator:value pair
                 const operator = match[1];
                 const value =
-                match[2] !== undefined ? `"${match[2]}"` : match[3];
+                match[2] !== undefined ? ((match[2][0] === '"' && match[2][match[2].length - 1] === '"') ? match[2] : `"${match[2]}"`) : match[3];
                 result.push(`${operator}${value}`);
             } else {
                 // Single word without operator
