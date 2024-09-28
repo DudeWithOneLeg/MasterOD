@@ -6,7 +6,6 @@ import { SearchContext } from "../../context/SearchContext";
 import * as resultActions from "../../store/result";
 import { isMobile } from "react-device-detect";
 import arrowBack from "../../assets/images/arrow-back.png";
-import Pagination from "./Pagination";
 import MobilePagination from "./MobilePagination";
 export default function MobileResultInfo() {
     const {
@@ -14,7 +13,6 @@ export default function MobileResultInfo() {
         showResult,
         pageNum,
         setPageNum,
-        totalPages,
         setTotalPages
     } = useContext(ResultsContext);
     const {
@@ -109,7 +107,7 @@ export default function MobileResultInfo() {
     return (
         <div className={`text-slate-200 h-fit w-full flex flex-row justify-${showResult ? "start" : "center"}`} id="mobile result-info">
             <div className={`flex justify-center justify-self-start px-1 bg-zinc-900 w-full transition-all duration-300 ease-in-out `}>
-                <div className={`flex flex-row w-full items-center px-2 w-full`}>
+                <div className={`flex flex-row w-full items-center px-2 pb-1 w-full`}>
                     <div className="flex flex-row items-center justify-self-start poppins-regular text-md cursor-pointer col-span-1 w-fit" onClick={() => { navigate("/search/all"); setSearch(false); }}>
                         <img src={arrowBack} className="h-7" />
                         <p>History</p>

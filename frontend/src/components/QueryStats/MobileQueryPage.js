@@ -70,7 +70,7 @@ export default function MobileQueryPage() {
         <div className="flex bg-zinc-900 h-full overflow-hidden w-full">
             <div className="w-full h-full flex flex-col text-slate-200 bg-zinc-900 rounded justify-center items-center">
                 <div className="px-2 flex flex-row justify-between items-center w-full bg-slate-600">
-                    <h1 className="text-4xl !text-white">History</h1>
+                    <h1 className="text-xl !text-white">History</h1>
                     <div className="w-fit flex justify-center items-center h-full">
                         <SelectLimit
                             setViewAll={setViewAll}
@@ -98,11 +98,11 @@ export default function MobileQueryPage() {
                         </form> */}
                     </div>
                 </div>
-                <div className="h-full overflow-y-hidden rounded border-1 border-zinc-600 bg-zinc-900 flex justify-center w-full p-1">
+                <div className="h-full overflow-y-hidden rounded border-1 border-zinc-600 bg-zinc-900 flex justify-center w-full p-2">
                     <div
                         className={`${
                             isMobile ? "flex flex-col" : "flex flex-col"
-                        } h-full overflow-y-scroll no-scrollbar items-center w-full`}
+                        } h-full overflow-y-scroll no-scrollbar items-center w-full space-y-2`}
                     >
                         {queries && Object.values(queries).length && isMobile
                             ? Object.values(queries)

@@ -20,14 +20,16 @@ export default function Pagination({ handlePreviousPage, handleNextPage }) {
         showResult
     } = useContext(SearchContext);
     const {
-        setPageNum,
         pageNum,
+        setPageNum,
         totalPages,
         setTotalPages,
+        newPageNum,
+        setNewPageNum,
     } = useContext(ResultsContext);
     const pageStart = pageNum <= 3 ? 1 : pageNum
     const [isWarning, setIsWarning] = useState(results?.info?.dmca && !showResult && !isMobile)
-    const goToPage = (e) => {
+    const goToPage = (e, userSelection) => {
         e.preventDefault();
         setLoadingResults(true);
         dispatch(
@@ -36,12 +38,15 @@ export default function Pagination({ handlePreviousPage, handleNextPage }) {
                 cr: country,
                 hl: language,
                 engine: engine.toLocaleLowerCase(),
-                start: (pageNum - 1) * 100,
+                start: ((userSelection || newPageNum) - 1) * 100,
                 string: string,
             })
         ).then(async (data) => {
             if (data.results && data.results.info.totalPages) {
                 setTotalPages(data.results.info.totalPages);
+            }
+            if (data.results && data.results.info.currentPage) {
+                setPageNum(data.results.info.currentPage);
             }
 
             setVisitedResults([]);
@@ -90,7 +95,7 @@ export default function Pagination({ handlePreviousPage, handleNextPage }) {
                         if (thisPage > totalPages) {
                             return <div className="w-8 h-8"></div>
                         }
-                        return <PageButton key={index} page={thisPage} isCurrent={index === pageNum - 1} />
+                        return <PageButton key={index} page={thisPage} isCurrent={thisPage === pageNum} onClick={(e) => goToPage(e, thisPage)} />
                     }
                     )}
                     <NextPage />
@@ -111,7 +116,7 @@ export default function Pagination({ handlePreviousPage, handleNextPage }) {
                     value={pageNum}
                     className="w-10 rounded text-center text-white bg-zinc-700"
                     onChange={(e) =>
-                        setPageNum(e.target.value)
+                        setNewPageNum(e.target.value)
                     }
                     type="number"
                 />
@@ -122,7 +127,7 @@ export default function Pagination({ handlePreviousPage, handleNextPage }) {
 
 const PageButton = ({ page, isCurrent, onClick }) => {
     return (
-        <button onClick={onClick} className={`${isCurrent ? 'bg-blue-500 hover:bg-blue-600' : 'bg-zinc-700 hover:bg-zinc-800'} text-white ${isMobile ? 'h-6 w-6' : 'h-8 w-8'} rounded-full`}>
+        <button onClick={onClick} className={`${isCurrent ? 'bg-blue-500 hover:bg-blue-600' : 'bg-zinc-700 hover:bg-zinc-800'} text-white ${isMobile ? 'h-6 w-6' : 'h-8 w-8'} rounded-full focus:outline-none`}>
             {page}
         </button>
     )

@@ -272,17 +272,19 @@ export default function SearchBar({ status, setStatus }) {
                 </form>
                 {query && query.length ? (
                     <div className="flex flex-wrap p-1 w-3/5">
-                        {query &&
+                        {query && query.length ?
                             query.map((param, index) => {
+                                console.log(param)
                                 if (param.includes(":")) {
                                     return (
                                         <QueryParam
                                             param={param}
                                             index={index}
+                                            key={`query-param-${index}`}
                                         />
                                     );
                                 }
-                            })}
+                            }) : <></>}
                     </div>
                 ) : (
                     <></>

@@ -6,7 +6,7 @@ import * as queryActions from "../../store/query";
 import * as searchActions from "../../store/search";
 
 export default function MobileQueryRow({ query }) {
-    const { setString, setQuery, setShowOptions } = useContext(SearchContext);
+    const { setString, setQuery, setShowOptions, searchState } = useContext(SearchContext);
     const dispatch = useDispatch();
     const [hover, setHover] = useState(false);
 
@@ -19,9 +19,8 @@ export default function MobileQueryRow({ query }) {
     hours = hours ? hours : 12;
 
     const formattedMinutes = minutes < 10 ? "0" + minutes : minutes;
-    const date = `${
-        createdAt.getMonth() + 1
-    }-${createdAt.getDate()}`;
+    const date = `${createdAt.getMonth() + 1
+        }-${createdAt.getDate()}`;
     const time = `${hours}:${formattedMinutes} ${ampm}`;
 
     const updateQuery = (queryId) => {
@@ -48,17 +47,19 @@ export default function MobileQueryRow({ query }) {
                 result.push(match[4]);
             }
         }
-
+        setString(query.string);
         setQuery(result);
+        searchState.updateQuery({string: query.string, q: query.query, engine: query.engine});
         setShowOptions(true);
     };
     return (
         <div
-            className="flex flex-row grid grid-cols-9 divide divide-x justify-between w-full py-1 hover:bg-zinc-700 items-center"
+            className="flex flex-row grid grid-cols-9 divide divide-x justify-between w-full py-1 hover:bg-zinc-700 items-center rounded-md bg-zinc-800"
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
+            onClick={() => addToSearch(query)}
         >
-            <div className="flex flex-row col-span-6 justify-between">
+            <div className="flex flex-row col-span-6 justify-between h-fit w-full">
                 <img
                     src={
                         query.saved
@@ -69,36 +70,24 @@ export default function MobileQueryRow({ query }) {
                     className="h-8 cursor-pointer"
                     onClick={() => updateQuery(query.id)}
                 />
-                <p className="flex items-center justify-center text-wrap w-full text-sm pl-2 text-white">
-                    {query.string
-                        ? query.query + " " + query.string
-                        : query.query}
-                </p>
-                <div>
-                    {hover ? (
-                        <img
-                            src={require("../../assets/images/search.png")}
-                            className="h-8 w-8 cursor-pointer"
-                            onClick={() => addToSearch(query)}
-                            alt="add to search"
-                        />
-                    ) : (
-                        <div className="w-8 h-8"></div>
-                    )}
+                <div className="px-2 w-full">
+                    <p className="text-sm text-white break-all whitespace-pre-wrap overflow-wrap-anywhere hyphens-auto" style={{ wordBreak: 'break-word' }}>
+                        {query.string
+                            ? query.query + " " + query.string
+                            : query.query}
+                    </p>
                 </div>
             </div>
             <div
-                className={`col-span-2 flex flex-${
-                    isMobile ? "col" : "row"
-                } items-center justify-center`}
+                className={`col-span-2 flex flex-${isMobile ? "col" : "row"
+                    } items-center justify-center`}
             >
                 <p>{date}</p>
                 <p>{time}</p>
             </div>
             <div
-                className={`col-span-${
-                    isMobile ? "1" : "1/3"
-                } flex items-center justify-center h-full`}
+                className={`col-span-${isMobile ? "1" : "1/3"
+                    } flex items-center justify-center h-full`}
             >
                 {query.engine === "google" ? (
                     <img

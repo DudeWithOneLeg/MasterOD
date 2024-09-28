@@ -1,4 +1,4 @@
-import { useEffect, useContext } from "react";
+import { useEffect, useContext, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { SearchContext } from "../../../context/SearchContext";
@@ -34,6 +34,7 @@ export default function MobileSearchBar({ setStatus, status, selectedOperator, s
         hasReachCharLimit,
         currCharCount,
         maxCharCount,
+        searchState
     } = useContext(SearchContext);
     const { setPageNum, setTotalPages } = useContext(ResultsContext);
     const navigate = useNavigate();
@@ -91,7 +92,6 @@ export default function MobileSearchBar({ setStatus, status, selectedOperator, s
                     setLoadingResults(false);
                 }
             );
-            // console.log(status)
             setSearch(true);
             setStatus("next");
             setVisitedResults([]);
@@ -111,7 +111,7 @@ export default function MobileSearchBar({ setStatus, status, selectedOperator, s
                 data-collapse-target="collapse"
                 onSubmit={(e) => handleSubmit(e)}
             >
-                <div className="flex items-center w-full h-[4vh] fit justify-content-between p-2 ">
+                <div className="flex items-center w-full h-[4vh] fit justify-content-between m-1 my-2">
                     <div className={`flex flex-row h-fit items-center w-full`}>
                         <img
                             src={require("../../../assets/images/arrow-forward-2.png")}
@@ -124,7 +124,7 @@ export default function MobileSearchBar({ setStatus, status, selectedOperator, s
                             className={`flex flex-row jusitfy-center h-[2vh] w-full items-center`}
                         >
                             <div
-                                className={`flex w-full bg-zinc-800 rounded-full px-2 justify-between items-center h-8 mr-1`}
+                                className={`flex w-full bg-zinc-800 rounded-full px-2 justify-between items-center h-8`}
                             >
                                 <div className="flex flex-row justify-center items-center h-full">
                                     <label className="flex items-center h-full m-0">
@@ -155,9 +155,10 @@ export default function MobileSearchBar({ setStatus, status, selectedOperator, s
                                     placeholder="Search"
                                     className={`px-1 bg-white/0 rounded w-full outline-none h-full text-white poppins-light text-lg`}
                                     value={string}
-                                    onChange={(e) =>
+                                    onChange={(e) => {
+                                        searchState.updateQuery({ string: e.target.value })
                                         setString(e.target.value)
-                                    }
+                                    }}
                                     onClick={() => setShowOptions(true)}
                                 />
                                 <img
@@ -172,7 +173,7 @@ export default function MobileSearchBar({ setStatus, status, selectedOperator, s
                 </div>
                 {queryLen() && !hasReachCharLimit() ? (
                     <button
-                        className="flex justify-self-end rounded hover:bg-zinc-600 focus:outline-none"
+                        className="flex justify-self-end rounded hover:bg-zinc-600 focus:outline-none mx-1"
                         type="submit"
                     >
                         <img src={searchIcon} className="h-8" />
@@ -213,7 +214,7 @@ export default function MobileSearchBar({ setStatus, status, selectedOperator, s
             )}
 
             {showOptions && (
-                <div className="flex flex-col w-full px-2">
+                <div className="flex flex-col w-full p-2">
                     {query ? (
                         <div className="flex flex-wrap p-1 w-full">
                             {query.map((param, index) => {

@@ -68,9 +68,32 @@ export default function QueryPage() {
     if (isMobile) return (<MobileQueryPage />)
     else return (
         <div className="flex h-full overflow-hidden w-full">
-            {/* ... existing code ... */}
             <div className="h-full w-full overflow-y-hidden rounded border-1 border-zinc-600 flex justify-center">
                 <div className={`${isMobile ? "flex flex-col" : "flex flex-col"} h-full w-full overflow-y-scroll no-scrollbar items-center p-1`}>
+                    <div className="px-2 flex flex-row justify-start items-center w-4/5 bg-slate-600">
+                        <h1 className="text-4xl !text-white">History</h1>
+                        <div className="w-fit flex justify-center items-center pl-2">
+                            <SelectLimit setViewAll={setViewAll} setLimit={setLimit} limit={limit} viewAll={viewAll} />
+                            <SelectEngine engineFilter={engineFilter} setEngineFilter={setEngineFilter} />
+                            <form
+                                onSubmit={(e) => handleSubmit(e)}
+                                className={`flex justify-self-center justify-between rounded w-1/2 my-2 px-2 bg-white`}
+                            >
+                                <input
+                                    className="w-full h-[3vh] text-black outline-none"
+                                    placeholder="Filter searches"
+                                    value={filter}
+                                    onChange={(e) => setFilter(e.target.value)}
+                                />
+                                <button
+                                    type="submit"
+                                    className="text-black focus:outline-none"
+                                >
+                                    Search
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                     {queries && Object.values(queries).length && isMobile
                         ? Object.values(queries)
                             .reverse()

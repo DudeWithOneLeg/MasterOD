@@ -5,24 +5,24 @@ export const SelectLimit = ({setLimit, setViewAll, limit, viewAll}) => {
     return (
         <div className="flex h-full justify-content-start items-center">
             <div className="flex flex-row w-fit rounded text-lg text-zinc-200 h-fit items-end">
-                <p
+                <button
                     onClick={() => navigate('/search/all')}
-                    className={`px-1 cursor-pointer rounded transition-all duration-300 flex items-end ${
+                    className={`px-1 cursor-pointer rounded transition-all duration-300 flex items-end focus:outline-none ${
                         viewAll
                             ? "text-2xl"
                             : ""
                     }`}
                 >
                     All
-                </p>
-                <p
+                </button>
+                <button
                     onClick={() => navigate('/search/saved')}
-                    className={`px-1 cursor-pointer rounded transition-all duration-300 ${
+                    className={`px-1 cursor-pointer rounded transition-all duration-300 focus:outline-none ${
                         viewAll ? "" : "text-2xl"
                     }`}
                 >
                     Saved
-                </p>
+                </button>
             </div>
             <select
                 className="mx-2 text-slate-600 cursor-pointer rounded focus:outline-none"
