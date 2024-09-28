@@ -1,6 +1,6 @@
 export default function SideBarFooter() {
     return (
-        <footer className="bg-zinc-900 text-zinc-300 p-2">
+        <footer className="text-zinc-300 p-2">
             <div className="max-w-5xl mx-auto flex flex-wrap justify-between">
                 <div className="w-full mb-6 md:mb-0">
                     <h3 className="text-xl poppins-regular-thin mb-2">SearchDeck</h3>

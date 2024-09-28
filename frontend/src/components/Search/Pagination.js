@@ -31,6 +31,9 @@ export default function Pagination({ handlePreviousPage, handleNextPage }) {
     const [isWarning, setIsWarning] = useState(results?.info?.dmca && !showResult && !isMobile)
     const goToPage = (e, userSelection) => {
         e.preventDefault();
+        if (Number(newPageNum) > Number(totalPages)) {
+            return
+        }
         setLoadingResults(true);
         dispatch(
             resultActions.search({
@@ -47,6 +50,7 @@ export default function Pagination({ handlePreviousPage, handleNextPage }) {
             }
             if (data.results && data.results.info.currentPage) {
                 setPageNum(data.results.info.currentPage);
+                setNewPageNum(data.results.info.currentPage);
             }
 
             setVisitedResults([]);
@@ -104,7 +108,7 @@ export default function Pagination({ handlePreviousPage, handleNextPage }) {
             </div>
             {isWarning ? (
                 <div className="col-span-1flex flex-row rounded bg-yellow-700 px-2 ml-2 items-center justify-self-end w-full">
-                    <img src={require("../../assets/icons/caution.png")} className="h-4" />
+                    <img src={require("../../assets/icons/caution.png")} className="h-4" alt="dmca limited results"/>
                     <p>DMCA: Limited results</p>
                 </div>
             ) : (
@@ -113,11 +117,11 @@ export default function Pagination({ handlePreviousPage, handleNextPage }) {
             <form onSubmit={(e) => goToPage(e)} className={`flex flex-row items-center justify-end w-full`}>
                 <p className={`${isMobile ? 'text-sm' : ''} text-zinc-300 mr-2`}>Go to: </p>
                 <input
-                    value={pageNum}
+                    value={newPageNum}
                     className="w-10 rounded text-center text-white bg-zinc-700"
-                    onChange={(e) =>
+                    onChange={(e) => {
                         setNewPageNum(e.target.value)
-                    }
+                    }}
                     type="number"
                 />
             </form>

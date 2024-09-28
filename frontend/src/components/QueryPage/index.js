@@ -6,8 +6,8 @@ import QueryRow from "./QueryRow";
 import * as queryActions from "../../store/query";
 import { SelectLimit } from "./SelectLimit";
 import { SelectEngine } from "./SelectEngine";
-import MobileQueryRow from "./MobileQueryRow";
 import MobileQueryPage from "./MobileQueryPage";
+const searchIcon = require("../../assets/images/search.png");
 
 export default function QueryPage() {
     const dispatch = useDispatch();
@@ -18,8 +18,7 @@ export default function QueryPage() {
     const [engineFilter, setEngineFilter] = useState("");
     const [sortedQueries, setSortedQueries] = useState({});
     const params = useParams();
-
-    useEffect(() => {
+    const sortByDay = (queries) => {
         const newSortedQueries = {};
         const days = [
             "Sunday",
@@ -30,27 +29,33 @@ export default function QueryPage() {
             "Friday",
             "Saturday",
         ];
-        if (queries) {
-            Object.values(queries).map((query) => {
-                const createdAt = new Date(query.createdAt);
-                const dayOfWeek = days[createdAt.getDay()].slice(0, 3);
-                const dayOfMonth = createdAt.getDate();
-                if (!newSortedQueries[`${dayOfWeek} - ${dayOfMonth}`]) {
-                    newSortedQueries[`${dayOfWeek} - ${dayOfMonth}`] = [query];
-                } else
-                    newSortedQueries[`${dayOfWeek} - ${dayOfMonth}`].push(
-                        query
-                    );
-            });
-        }
+        Object.values(queries).forEach((query) => {
+            const createdAt = new Date(query.createdAt);
+            const dayOfWeek = days[createdAt.getDay()].slice(0, 3);
+            const dayOfMonth = createdAt.getDate();
+            if (!newSortedQueries[`${dayOfWeek} - ${dayOfMonth}`]) {
+                return newSortedQueries[`${dayOfWeek} - ${dayOfMonth}`] = [query];
+            } else {
+                return newSortedQueries[`${dayOfWeek} - ${dayOfMonth}`].push(query);
+            }
+
+        });
         setSortedQueries(newSortedQueries);
+        return
+    }
+
+    useEffect(() => {
+
+        if (queries) {
+            sortByDay(queries);
+        }
+
     }, [queries]);
 
 
     useEffect(() => {
         const { view } = params;
-        if (view === "saved") setViewAll(false);
-        else if (view === "all") setViewAll(true);
+        setViewAll(view === "all");
     }, [params]);
 
     useEffect(() => {
@@ -70,37 +75,32 @@ export default function QueryPage() {
         <div className="flex h-full overflow-hidden w-full">
             <div className="h-full w-full overflow-y-hidden rounded border-1 border-zinc-600 flex justify-center">
                 <div className={`${isMobile ? "flex flex-col" : "flex flex-col"} h-full w-full overflow-y-scroll no-scrollbar items-center p-1`}>
-                    <div className="px-2 flex flex-row justify-start items-center w-4/5 bg-slate-600">
+                    <div className="flex flex-row justify-start items-center w-4/5">
                         <h1 className="text-4xl !text-white">History</h1>
-                        <div className="w-fit flex justify-center items-center pl-2">
+                        <div className="w-fit flex justify-center items-center">
                             <SelectLimit setViewAll={setViewAll} setLimit={setLimit} limit={limit} viewAll={viewAll} />
                             <SelectEngine engineFilter={engineFilter} setEngineFilter={setEngineFilter} />
                             <form
                                 onSubmit={(e) => handleSubmit(e)}
-                                className={`flex justify-self-center justify-between rounded w-1/2 my-2 px-2 bg-white`}
+                                className={`rounded-full px-2 py-1 flex justify-self-center justify-between w-1/2 my-2 bg-white/5 backdrop-blur-xl`}
                             >
                                 <input
-                                    className="w-full h-[3vh] text-black outline-none"
+                                    className="px-1 bg-white/0 rounded w-full outline-none h-full text-white poppins-light text-lg"
                                     placeholder="Filter searches"
                                     value={filter}
                                     onChange={(e) => setFilter(e.target.value)}
                                 />
                                 <button
                                     type="submit"
-                                    className="text-black focus:outline-none"
+                                    className="text-black focus:outline-none cursor-pointer rounded-full h-7 w-7"
                                 >
-                                    Search
+                                    <img src={searchIcon} className="h-6 w-6 transition-all duration-200 hover:h-7 hover:w-7" alt="search"/>
                                 </button>
                             </form>
                         </div>
                     </div>
-                    {queries && Object.values(queries).length && isMobile
-                        ? Object.values(queries)
-                            .reverse()
-                            .map((query) => {
-                                return <MobileQueryRow query={query} key={query.id} />;
-                            })
-                        : Object.keys(sortedQueries)
+                    {sortedQueries && Object.keys(sortedQueries).length
+                        ? Object.keys(sortedQueries)
                             .reverse()
                             .map((date) => {
                                 return (
@@ -123,7 +123,8 @@ export default function QueryPage() {
                                         </div>
                                     </div>
                                 );
-                            })}
+                            })
+                        : <></>}
                 </div>
             </div>
         </div>

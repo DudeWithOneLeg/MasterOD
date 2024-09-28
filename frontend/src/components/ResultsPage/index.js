@@ -7,11 +7,12 @@ import Results from "../Results";
 import Browser from "../Browser";
 import * as resultActions from "../../store/result";
 import * as searchActions from "../../store/search";
+import searchIcon from "../../assets/images/search.png";
 
 export default function ResultsPage() {
     const dispatch = useDispatch();
     const params = useParams();
-    const {preview, showResult, result} = useContext(ResultsContext)
+    const { preview, showResult, result } = useContext(ResultsContext)
 
     const saved = useSelector((state) => state.results.saved);
     const visited = useSelector((state) => state.results.visited);
@@ -58,60 +59,57 @@ export default function ResultsPage() {
 
     return (
         <div
-            className={`flex flex-col  w-full ${
-                isMobile ? "h-full" : "h-full"
-            } bg-zinc-900`}
+            className={`flex flex-col  w-full ${isMobile ? "h-full" : "h-full"
+                } bg-zinc-900`}
         >
             <div
-                className={`flex items-center justify-content-center pt-2 border-b border-zinc-500 ${
-                    preview && !isMobile ? "w-1/2" : ""
-                }`}
+                className={`flex items-center justify-content-center pt-2 ${preview && !isMobile ? "w-1/2" : ""
+                    }`}
             >
                 <form
-                    className={`flex justify-center items-center text-white ${
-                        preview && !isMobile
+                    className={`flex justify-center items-center text-white ${preview && !isMobile
                             ? "w-1/2 flex-col"
                             : (!preview && !isMobile
-                            ? "w-1/3 flex-col"
-                            : "w-2/3 flex-col")
-                    }`}
+                                ? "w-1/3 flex-col"
+                                : "w-2/3 flex-col")
+                        }`}
                     onSubmit={(e) => handleSubmit(e)}
                 >
-                    <div className=" flex w-full rounded h-8 text-black bg-white">
-                        <input
-                            className="w-full h-full rounded focus:outline-none px-2"
-                            placeholder="Filter results"
-                            value={filterInput}
-                            onChange={(e) =>
-                                setFilterInput(e.target.value.toLowerCase())
-                            }
-                        />
-                        <button
-                            type="submit"
-                            className="focus:outline-none px-2"
+                    <div className="flex flex-row p-2 items-center space-x-2">
+                        <div
+                            className={`rounded-full px-2 py-1 flex justify-self-center justify-between w-full my-2 bg-white/5 backdrop-blur-xl`}
                         >
-                            Search
-                        </button>
-                    </div>
-                    <div className="flex flex-row p-2 items-center">
-                        <div className="flex flex-row w-fit rounded bg-slate-500">
+                            <input
+                                className="px-1 bg-white/0 rounded w-full outline-none h-full text-white poppins-light text-lg"
+                                placeholder="Filter Resources"
+                                value={filterInput}
+                                onChange={(e) =>
+                                    setFilterInput(e.target.value.toLowerCase())
+                                }
+                            />
+                            <button
+                                type="submit"
+                                className="text-black focus:outline-none cursor-pointer rounded-full h-7 w-7"
+                            >
+                                <img src={searchIcon} className="h-6 w-6 transition-all duration-200 hover:h-7 hover:w-7" alt="search" />
+                            </button>
+                        </div>
+                        <div className="flex flex-row w-fit rounded">
                             <p
                                 onClick={() => setViewAll(true)}
-                                className={`px-1 cursor-pointer rounded ${
-                                    viewAll
+                                className={`px-1 cursor-pointer rounded ${viewAll
                                         ? "border-b-4"
                                         : "hover:bg-slate-600 hover:border-b-4 hover:border-gray-400"
-                                }`}
+                                    }`}
                             >
                                 All
                             </p>
                             <p
                                 onClick={() => setViewAll(false)}
-                                className={`px-1 cursor-pointer rounded ${
-                                    viewAll
+                                className={`px-1 cursor-pointer rounded ${viewAll
                                         ? "hover:bg-slate-600 hover:border-b-4"
                                         : "border-b-4"
-                                }`}
+                                    }`}
                             >
                                 Saved
                             </p>
@@ -133,9 +131,8 @@ export default function ResultsPage() {
                 </form>
             </div>
             <div
-                className={`flex w-full h-full overflow-y-hidden ${
-                    isMobile ? "grid grid-rows-2 gap-1 flex-col" : ""
-                }`}
+                className={`flex w-full h-full overflow-y-hidden ${isMobile ? "grid grid-rows-2 gap-1 flex-col" : ""
+                    }`}
             >
                 {saved && !viewAll ? (
                     <>

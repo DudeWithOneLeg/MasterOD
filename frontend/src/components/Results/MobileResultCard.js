@@ -65,7 +65,7 @@ export default function MobileResultCard({ data, rowKey }) {
               currentSelected !== result.id
             ? "border-2 border-white"
             : ""
-    } ${isMobile ? "text-sm" : ""} w-full cursor-pointer flex flex-row rounded bg-slate-800 hover:bg-zinc-700 py-2 pr-2 my-2 pl-0 transition-all duration-100 ease-in-out bg-gradient-to-r from-zinc-800 to-zinc-900`}
+    } ${isMobile ? "text-sm" : ""} w-full cursor-pointer flex flex-row rounded hover:bg-zinc-700 py-2 pr-2 my-2 pl-0 transition-all duration-100 ease-in-out bg-gradient-to-r from-zinc-800 to-zinc-900`}
     onClick={handleClick}
 >
     {/* First Child */}

@@ -13,7 +13,8 @@ export default function MobileResultInfo() {
         showResult,
         pageNum,
         setPageNum,
-        setTotalPages
+        setTotalPages,
+        setNewPageNum
     } = useContext(ResultsContext);
     const {
         setSearch,
@@ -54,6 +55,7 @@ export default function MobileResultInfo() {
                 setPageNum(pageNum + 1);
                 setVisitedResults([]);
                 setCurrentSelected(null);
+                setNewPageNum(pageNum + 1);
             }
             setLoadingResults(false);
         });
@@ -76,6 +78,7 @@ export default function MobileResultInfo() {
                 setPageNum(pageNum - 1);
                 setVisitedResults([]);
                 setCurrentSelected(null);
+                setNewPageNum(pageNum - 1);
             }
             setLoadingResults(false);
         });
@@ -109,13 +112,13 @@ export default function MobileResultInfo() {
             <div className={`flex justify-center justify-self-start px-1 bg-zinc-900 w-full transition-all duration-300 ease-in-out `}>
                 <div className={`flex flex-row w-full items-center px-2 pb-1 w-full`}>
                     <div className="flex flex-row items-center justify-self-start poppins-regular text-md cursor-pointer col-span-1 w-fit" onClick={() => { navigate("/search/all"); setSearch(false); }}>
-                        <img src={arrowBack} className="h-7" />
+                        <img src={arrowBack} className="h-7" alt="arrow back"/>
                         <p>History</p>
                     </div>
 
                         {results?.info?.dmca && (showResult || isMobile) && (
                             <div className="flex flex-row rounded bg-yellow-700 px-2 ml-2 items-center justify-self-end col-span-1">
-                                <img src={require("../../assets/icons/caution.png")} className="h-4" />
+                                <img src={require("../../assets/icons/caution.png")} className="h-4" alt="dmca limited results"/>
                                 <p>DMCA: Limited results</p>
                             </div>
                         )}
@@ -134,7 +137,7 @@ export default function MobileResultInfo() {
                     {!isRedditShared && !isOnReddit && loading && (
                         <div className="bg-orange-600 rounded px-1 border-2 border-white-400 flex flex-row items-center justify-center h-fit">
                             <p>Checking Reddit</p>
-                            <img src={require("../../assets/icons/loading.png")} className="h-6 w-6 rounded-full animate-spin" />
+                            <img src={require("../../assets/icons/loading.png")} className="h-6 w-6 rounded-full animate-spin" alt="loading"/>
                         </div>
                     )}
                     {isRedditShared && !isOnReddit && !loading && (

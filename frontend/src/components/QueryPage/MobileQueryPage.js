@@ -104,35 +104,13 @@ export default function MobileQueryPage() {
                             isMobile ? "flex flex-col" : "flex flex-col"
                         } h-full overflow-y-scroll no-scrollbar items-center w-full space-y-2`}
                     >
-                        {queries && Object.values(queries).length && isMobile
+                        {queries && Object.keys(queries).length
                             ? Object.values(queries)
                                   .reverse()
                                   .map((query) => {
                                       return <MobileQueryRow query={query} />;
                                   })
-                            : Object.keys(sortedQueries)
-                                  .reverse()
-                                  .map((date) => {
-                                      return (
-                                          <div className="flex flex-col text-white py-2 h-fit w-4/5">
-                                              <h1 className="text-2xl w-full border-b-4 border-amber-900">
-                                                  {date}
-                                              </h1>
-
-                                              <div className="flex flex-row h-fit flex-wrap pl-2 pt-2">
-                                                  {Object.values(
-                                                      sortedQueries[date]
-                                                  ).map((query) => {
-                                                      return (
-                                                          <QueryRow
-                                                              query={query}
-                                                          />
-                                                      );
-                                                  })}
-                                              </div>
-                                          </div>
-                                      );
-                                  })}
+                            : <></>}
                     </div>
                 </div>
             </div>

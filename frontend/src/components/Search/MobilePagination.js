@@ -47,6 +47,7 @@ export default function MobilePagination({ handlePreviousPage, handleNextPage })
             }
             if (data.results && data.results.info.currentPage) {
                 setPageNum(data.results.info.currentPage);
+                setNewPageNum(data.results.info.currentPage);
             }
 
             setVisitedResults([]);
@@ -104,7 +105,7 @@ export default function MobilePagination({ handlePreviousPage, handleNextPage })
             </div>
             {isWarning ? (
                 <div className="col-span-1flex flex-row rounded bg-yellow-700 px-2 ml-2 items-center justify-self-end w-full">
-                    <img src={require("../../assets/icons/caution.png")} className="h-4" />
+                    <img src={require("../../assets/icons/caution.png")} className="h-4" alt="dmca limited results"/>
                     <p>DMCA: Limited results</p>
                 </div>
             ) : (

@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux";
 import RecentStat from "../RecentStat";
 
 export default function RecentStats({setSearch, setShowMenu}) {
@@ -13,11 +12,11 @@ export default function RecentStats({setSearch, setShowMenu}) {
       path: "/search/all",
     },
     {
-      stat: "Result History",
+      stat: "Resources",
       path: "/results/all",
     },
     {
-      stat: "Saved Results",
+      stat: "Saved Resources",
       path: "/results/saved",
     },
   ];
