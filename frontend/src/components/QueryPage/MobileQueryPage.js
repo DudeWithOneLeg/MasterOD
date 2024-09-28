@@ -70,7 +70,7 @@ export default function MobileQueryPage() {
         <div className="flex bg-zinc-900 h-full overflow-hidden w-full">
             <div className="w-full h-full flex flex-col text-slate-200 bg-zinc-900 rounded justify-center items-center">
                 <div className="px-2 flex flex-row justify-between items-center w-full bg-slate-600">
-                    <h1 className="text-4xl !text-white">History</h1>
+                    <h1 className="text-xl !text-white">History</h1>
                     <div className="w-fit flex justify-center items-center h-full">
                         <SelectLimit
                             setViewAll={setViewAll}
@@ -98,41 +98,19 @@ export default function MobileQueryPage() {
                         </form> */}
                     </div>
                 </div>
-                <div className="h-full overflow-y-hidden rounded border-1 border-zinc-600 bg-zinc-900 flex justify-center w-full p-1">
+                <div className="h-full overflow-y-hidden rounded border-1 border-zinc-600 bg-zinc-900 flex justify-center w-full p-2">
                     <div
                         className={`${
                             isMobile ? "flex flex-col" : "flex flex-col"
-                        } h-full overflow-y-scroll no-scrollbar items-center w-full`}
+                        } h-full overflow-y-scroll no-scrollbar items-center w-full space-y-2`}
                     >
-                        {queries && Object.values(queries).length && isMobile
+                        {queries && Object.keys(queries).length
                             ? Object.values(queries)
                                   .reverse()
                                   .map((query) => {
                                       return <MobileQueryRow query={query} />;
                                   })
-                            : Object.keys(sortedQueries)
-                                  .reverse()
-                                  .map((date) => {
-                                      return (
-                                          <div className="flex flex-col text-white py-2 h-fit w-4/5">
-                                              <h1 className="text-2xl w-full border-b-4 border-amber-900">
-                                                  {date}
-                                              </h1>
-
-                                              <div className="flex flex-row h-fit flex-wrap pl-2 pt-2">
-                                                  {Object.values(
-                                                      sortedQueries[date]
-                                                  ).map((query) => {
-                                                      return (
-                                                          <QueryRow
-                                                              query={query}
-                                                          />
-                                                      );
-                                                  })}
-                                              </div>
-                                          </div>
-                                      );
-                                  })}
+                            : <></>}
                     </div>
                 </div>
             </div>

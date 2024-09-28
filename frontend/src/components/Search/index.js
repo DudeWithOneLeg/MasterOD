@@ -2,12 +2,11 @@ import { useState, useEffect, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom"
 import * as searchActions from "../../store/search";
-import * as resultActions from "../../store/result";
 import { isMobile } from "react-device-detect";
 import Results from "../Results";
 import Browser from "../Browser";
 import SearchBar from "./SearchBar";
-import QueryStats from "../QueryStats";
+import QueryPage from "../QueryPage";
 import { SearchContext } from "../../context/SearchContext";
 import { ResultsContext } from "../../context/ResultsContext";
 import ResultInfo from "./ResultInfo";
@@ -40,14 +39,13 @@ export default function Search() {
         const handleResize = () => setWidth(window.innerWidth);
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
-    }, []);
+    }, [navigate, user]);
 
     const dispatch = useDispatch();
 
     useEffect(() => {
         if (preview) {
             dispatch(searchActions.fetchResult(result));
-            dispatch(resultActions.getRecentVisitedResults());
         }
     }, [preview, dispatch]);
 
@@ -55,17 +53,17 @@ export default function Search() {
         setIsRedditShared(false);
         setLoading(false);
         setIsOnReddit(false);
-    }, [preview]);
+    }, [preview, setIsRedditShared, setLoading, setIsOnReddit]);
 
     useEffect(() => {
         if (results) {
             const lastResultIndex = Number(Object.keys(results).slice(-2, -1)[0]);
             setStart(lastResultIndex);
         }
-    }, [results]);
+    }, [results, setStart]);
 
     return (
-        <div className={`flex flex-col w-full ${width < 640 ? "h-[95vh]" : "sm:h-[95vh] md:h-[95vh] lg:h-[95vh] xl:h-full"} items-end bg-zinc-900 overflow-hidden`} id="search-bar">
+        <div className={`flex flex-col w-full ${width < 640 ? "h-[95vh]" : "sm:h-[95vh] md:h-[95vh] lg:h-[95vh] xl:h-full"} items-end bg-gradient-to-b from-zinc-900 to-zinc-950 overflow-hidden`} id="search-bar">
             <SearchBar status={status} setStatus={setStatus} />
             {results && search ? (
                 <div className="flex flex-col h-full w-full overflow-hidden justify-center items-center">
@@ -79,10 +77,10 @@ export default function Search() {
                 </div>
             ) : loadingResults ? (
                 <div className="flex justify-center items-center w-full h-full">
-                    <img src={require("../../assets/icons/loading.png")} className="h-26 w-26 rounded-full animate-spin mb-4" />
+                    <img src={require("../../assets/icons/loading.png")} className="h-26 w-26 rounded-full animate-spin mb-4" alt="loading"/>
                 </div>
             ) : (
-                <QueryStats />
+                <QueryPage />
             )}
         </div>
     );

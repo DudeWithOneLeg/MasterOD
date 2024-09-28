@@ -5,7 +5,7 @@ const AccountSettings = () => {
 
   // Example user data
   const user = {
-    name: "John Doe",
+    username: "John_Doe",
     email: "johndoe@example.com",
     subscription: "Premium",
     billing: "Last payment: 09/20/2024",
@@ -26,25 +26,25 @@ const AccountSettings = () => {
             </button>
             </div>
             <div className="text-center">
-            <h1 className="text-3xl font-semibold">{user.name}</h1>
+            <h1 className="text-3xl font-semibold">{user.username}</h1>
             <p className="text-zinc-400 mt-2">{user.email}</p>
             </div>
         </div>
 
         {/* Profile Information Section */}
         <div className="bg-slate-700 p-6 rounded-lg mb-8">
-            <h2 className="text-2xl mb-4">Profile Information</h2>
+            <h2 className="text-2xl mb-4">Account Information</h2>
             <div className="flex flex-col gap-4">
             <div>
-                <label className="block text-zinc-400 mb-2">Name</label>
+                <label className="block text-zinc-400 mb-2">Username</label>
                 {editMode ? (
                 <input
                     type="text"
-                    defaultValue={user.name}
+                    defaultValue={user.username}
                     className="w-full p-2 rounded bg-zinc-900 text-white"
                 />
                 ) : (
-                <p>{user.name}</p>
+                <p>{user.username}</p>
                 )}
             </div>
             <div>

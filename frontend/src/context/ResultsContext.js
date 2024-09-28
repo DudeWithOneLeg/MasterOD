@@ -5,6 +5,7 @@ export const ResultsProvider = ({ children }) => {
     const [preview, setPreview] = useState("");
     const [showResult, setShowResult] = useState(false);
     const [pageNum, setPageNum] = useState(1);
+    const [newPageNum, setNewPageNum] = useState(1);
     const [totalPages, setTotalPages] = useState(null);
     const [start, setStart] = useState(0);
     const [result, setResult] = useState({});
@@ -17,6 +18,8 @@ export const ResultsProvider = ({ children }) => {
                 setShowResult,
                 pageNum,
                 setPageNum,
+                newPageNum,
+                setNewPageNum,
                 totalPages,
                 setTotalPages,
                 start,

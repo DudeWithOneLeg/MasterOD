@@ -20,15 +20,20 @@ export default function Pagination({ handlePreviousPage, handleNextPage }) {
         showResult
     } = useContext(SearchContext);
     const {
-        setPageNum,
         pageNum,
+        setPageNum,
         totalPages,
         setTotalPages,
+        newPageNum,
+        setNewPageNum,
     } = useContext(ResultsContext);
     const pageStart = pageNum <= 3 ? 1 : pageNum
     const [isWarning, setIsWarning] = useState(results?.info?.dmca && !showResult && !isMobile)
-    const goToPage = (e) => {
+    const goToPage = (e, userSelection) => {
         e.preventDefault();
+        if (Number(newPageNum) > Number(totalPages)) {
+            return
+        }
         setLoadingResults(true);
         dispatch(
             resultActions.search({
@@ -36,12 +41,16 @@ export default function Pagination({ handlePreviousPage, handleNextPage }) {
                 cr: country,
                 hl: language,
                 engine: engine.toLocaleLowerCase(),
-                start: (pageNum - 1) * 100,
+                start: ((userSelection || newPageNum) - 1) * 100,
                 string: string,
             })
         ).then(async (data) => {
             if (data.results && data.results.info.totalPages) {
                 setTotalPages(data.results.info.totalPages);
+            }
+            if (data.results && data.results.info.currentPage) {
+                setPageNum(data.results.info.currentPage);
+                setNewPageNum(data.results.info.currentPage);
             }
 
             setVisitedResults([]);
@@ -90,7 +99,7 @@ export default function Pagination({ handlePreviousPage, handleNextPage }) {
                         if (thisPage > totalPages) {
                             return <div className="w-8 h-8"></div>
                         }
-                        return <PageButton key={index} page={thisPage} isCurrent={index === pageNum - 1} />
+                        return <PageButton key={index} page={thisPage} isCurrent={thisPage === pageNum} onClick={(e) => goToPage(e, thisPage)} />
                     }
                     )}
                     <NextPage />
@@ -99,7 +108,7 @@ export default function Pagination({ handlePreviousPage, handleNextPage }) {
             </div>
             {isWarning ? (
                 <div className="col-span-1flex flex-row rounded bg-yellow-700 px-2 ml-2 items-center justify-self-end w-full">
-                    <img src={require("../../assets/icons/caution.png")} className="h-4" />
+                    <img src={require("../../assets/icons/caution.png")} className="h-4" alt="dmca limited results"/>
                     <p>DMCA: Limited results</p>
                 </div>
             ) : (
@@ -108,11 +117,11 @@ export default function Pagination({ handlePreviousPage, handleNextPage }) {
             <form onSubmit={(e) => goToPage(e)} className={`flex flex-row items-center justify-end w-full`}>
                 <p className={`${isMobile ? 'text-sm' : ''} text-zinc-300 mr-2`}>Go to: </p>
                 <input
-                    value={pageNum}
+                    value={newPageNum}
                     className="w-10 rounded text-center text-white bg-zinc-700"
-                    onChange={(e) =>
-                        setPageNum(e.target.value)
-                    }
+                    onChange={(e) => {
+                        setNewPageNum(e.target.value)
+                    }}
                     type="number"
                 />
             </form>
@@ -122,7 +131,7 @@ export default function Pagination({ handlePreviousPage, handleNextPage }) {
 
 const PageButton = ({ page, isCurrent, onClick }) => {
     return (
-        <button onClick={onClick} className={`${isCurrent ? 'bg-blue-500 hover:bg-blue-600' : 'bg-zinc-700 hover:bg-zinc-800'} text-white ${isMobile ? 'h-6 w-6' : 'h-8 w-8'} rounded-full`}>
+        <button onClick={onClick} className={`${isCurrent ? 'bg-blue-500 hover:bg-blue-600' : 'bg-zinc-700 hover:bg-zinc-800'} text-white ${isMobile ? 'h-6 w-6' : 'h-8 w-8'} rounded-full focus:outline-none`}>
             {page}
         </button>
     )

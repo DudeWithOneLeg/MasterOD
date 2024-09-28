@@ -70,7 +70,7 @@ export default function ResultCard({ data, rowKey }) {
                     : ""
             } ${
                 isMobile ? "text-sm" : ""
-            } h-fit w-full cursor-pointer flex items-center rounded bg-zinc-800 hover:bg-zinc-700 py-2 mb-2 mr-1 transition-all duration-100 ease-in-out `}
+            } h-fit w-full cursor-pointer flex items-center rounded hover:border-2 hover:border-green-400 bg-gradient-to-r from-zinc-800 to-zinc-900 hover:bg-zinc-700 py-2 mb-2 mr-1`}
             onClick={handleClick}
         >
             <div className="flex flex-col items-center justify-content-around min-w-10 h-full">

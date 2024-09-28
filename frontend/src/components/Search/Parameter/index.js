@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import { SearchContext } from "../../../context/SearchContext";
 
-export default function Parameter({ index ,param, text, selectedOperator, setSelectedOperator }) {
+export default function Parameter({ index , param, text, selectedOperator, setSelectedOperator }) {
     const { query, setQuery } = useContext(SearchContext);
     const [input, setInput] = useState("");
 

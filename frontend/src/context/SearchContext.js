@@ -29,6 +29,9 @@ export const SearchProvider = ({ children }) => {
         setCurrCharCount((query.join(";") + string).length);
     }, [query, string]);
     useEffect(() => {
+        console.log(currentSearchStatus)
+    }, [query, string, engine]);
+    useEffect(() => {
         setQuery([]);
     }, [engine]);
 

@@ -43,7 +43,7 @@ export default function MobileSideBar({ setSearch }) {
                         className="flex flex-row items-center justify-center cursor-pointer justify-self-center"
                         onClick={handleNavigate}
                     >
-                        <img src={logo} className="flex h-8" />
+                        <img src={logo} className="flex h-8" alt="logo" />
                         <h1 className="text-xl p-2">SearchDeck</h1>
                     </div>
                 </div>
@@ -54,7 +54,7 @@ export default function MobileSideBar({ setSearch }) {
                         className="flex flex-row col-span-2 items-center justify-start cursor-pointer text-white px-2"
                         onClick={handleNavigate}
                     >
-                        <img src={logo} className="flex h-10" />
+                        <img src={logo} className="flex h-10" alt="logo" />
                         <h1 className="text-xl p-1">SearchDeck</h1>
                     </div>
                     <p

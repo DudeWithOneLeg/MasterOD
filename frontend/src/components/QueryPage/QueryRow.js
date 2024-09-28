@@ -46,7 +46,6 @@ export default function QueryRow({ query }) {
 
         setString(query.string);
         setQuery(result);
-        console.log(query)
         searchState.updateQuery({string: query.string, q: query.query, engine: query.engine});
         setShowOptions(true);
     };
