@@ -178,11 +178,15 @@ export default function SearchBar({ status, setStatus }) {
                                     <div className="flex flex-row justify-center items-center h-fit">
                                         <label className="flex items-center h-fit m-0">
                                             <select
-                                                onChange={(e) => searchState.updateQuery({ engine: e.target.value })}
+                                                onChange={(e) => {
+                                                    searchState.updateQuery({ engine: e.target.value })
+                                                    setEngine(e.target.value)
+                                                }}
                                                 className="rounded ml-1 cursor-pointer bg-transparent text-2xl focus:outline-none text-white"
                                             >
                                                 <option
                                                     selected={"Google" === engine}
+                                                    value={"Google"}
                                                     defaultValue
                                                     className="text-black"
                                                 >
