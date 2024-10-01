@@ -5,7 +5,7 @@ import * as queryActions from "../../store/query";
 import * as searchActions from "../../store/search";
 
 export default function QueryRow({ query }) {
-    const { setString, setQuery, setShowOptions, searchState } = useContext(SearchContext);
+    const { setString, setQuery, setShowOptions, searchState, setEngine } = useContext(SearchContext);
     const dispatch = useDispatch();
     const [hover, setHover] = useState(false);
 
@@ -46,7 +46,9 @@ export default function QueryRow({ query }) {
 
         setString(query.string);
         setQuery(result);
-        searchState.updateQuery({string: query.string, q: query.query, engine: query.engine});
+        const engineUpperCase = query.engine[0].toUpperCase() + query.engine.slice(1);
+        setEngine(engineUpperCase);
+        searchState.updateQuery({string: query.string, q: query.query, engine: engineUpperCase, query: result});
         setShowOptions(true);
     };
     return (
