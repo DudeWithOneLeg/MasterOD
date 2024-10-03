@@ -7,15 +7,15 @@ import ResultCard from "../Results/ResultCard";
 const Card = ({ operator, description, example, exampleData }) => {
     return (
         <div className="p-6 bg-zinc-700 rounded-lg shadow-md mb-6" id={operator.split('').filter(char => char !== ' ').join('').toLowerCase()}>
-            <h1 className="text-3xl font-bold text-amber-500 mb-2">{operator}</h1>
+            <h1 className="text-3xl text-amber-500 mb-2">{operator}</h1>
             <p className="text-zinc-200 mb-4">{description}</p>
             {Object.keys(exampleData).map((row) => {
                 return (
-                    <ResultCard data={exampleData} rowKey={row} displayOnly={true}/>
+                    <ResultCard data={exampleData} rowKey={row} displayOnly={true} />
                 )
             }
             )}
-            <p className="text-lg font-semibold mb-1">Example:</p>
+            <p className="text-lg mb-1">Example:</p>
             <div className="text-zinc-200 bg-zinc-800 rounded p-3">
 
                 <div className="flex flex-row w-full items-end rounded h-full">
@@ -70,6 +70,15 @@ export default function GuidePage() {
                     </button>
                 </div>
                 <div className="w-fit overflow-y-auto h-full">
+                    <div className="p-6 bg-zinc-700 rounded-lg shadow-md mb-6">
+                        <div className="w-1/2">
+                            <h1 className="text-3xl mb-4 text-amber-500">What is this ?</h1>
+                            <p className="text-wrap">The basic idea of search operators is simple:
+                                They're special commands you type into a search box to make your searches more precise. Instead of just typing regular words, you add these special symbols or words to tell the search engine exactly what you want to find or avoid.
+                                It's like giving the search engine extra instructions to help it understand what you're really looking for.</p>
+                        </div>
+                    </div>
+
                     {Object.values(guideInfo[engine]).map((info, index) => (
                         (
                             <Card

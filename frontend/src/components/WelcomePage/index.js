@@ -26,10 +26,10 @@ const HeroSection = () => {
         navigate("/signup");
     }
     return (
-        <section className="flex flex-col md:flex-row items-center justify-center p-8 w-full max-w-full">
+        <section className="flex flex-col md:flex-row items-center justify-center p-8 w-full max-w-full ">
             <div className="text-left md:text-left md:w-3/5">
                 <p className="text-xl text-slate-400 poppins-regular">Discover and manage top-quality results from various search engines while ensuring your searches remain private.</p>
-                <h1 className="text-4xl font-bold mb-4 poppins-bold">Research Efficiently</h1>
+                <h1 className="text-4xl mb-4 poppins">Research Efficiently</h1>
                 <button className="mt-6 bg-indigo-700 py-3 px-6 rounded hover:bg-indigo-600" onClick={navToSignup}>Get Started</button>
             </div>
         </section>

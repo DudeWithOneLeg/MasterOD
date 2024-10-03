@@ -57,7 +57,7 @@ export default function MobileGuidePage() {
             <div className="mb-4 p-4 bg-zinc-800 rounded-lg shadow-md">
                 <div onClick={() => setShowListOfOperators(!showListOfOperators)} className={`flex flex-row items-center justify-start ${showListOfOperators ? "mb-2" : ""}`}>
                     <img src={rightArrow} alt="right-arrow" className={`h-6 w-6 flex flex-row transition-all duration-300 ease-in-out z-20 ${showListOfOperators ? "rotate-90" : ""
-                                    } cursor-pointer`} />
+                        } cursor-pointer`} />
                     <h2 className="text-xl h-fit">Operators:</h2>
                 </div>
                 <div className="flex flex-wrap gap-2">
@@ -78,6 +78,14 @@ export default function MobileGuidePage() {
             </div>
 
             <div className="w-full overflow-y-auto h-full">
+                <div className="p-6 bg-zinc-700 rounded-lg shadow-md mb-6">
+                    <div className="w-2/3">
+                        <h1 className="text-3xl mb-4 text-amber-500">What is this ?</h1>
+                        <p className="text-wrap">The basic idea of search operators is simple:
+                            They're special commands you type into a search box to make your searches more precise. Instead of just typing regular words, you add these special symbols or words to tell the search engine exactly what you want to find or avoid.
+                            It's like giving the search engine extra instructions to help it understand what you're really looking for.</p>
+                    </div>
+                </div>
                 {Object.values(guideInfo[engine]).map((info, index) => (
                     (
                         <Card
