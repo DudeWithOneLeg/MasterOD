@@ -7,6 +7,7 @@ import * as searchActions from "../../store/search";
 
 export default function MobileQueryRow({ query }) {
     const { setString, setQuery, setShowOptions, searchState, setEngine } = useContext(SearchContext);
+
     const dispatch = useDispatch();
     const [hover, setHover] = useState(false);
 
@@ -49,9 +50,9 @@ export default function MobileQueryRow({ query }) {
         }
         setString(query.string);
         setQuery(result);
-        const engineUpperCase = query.engine[0].toUpperCase() + query.engine.slice(1);
+       const engineUpperCase = query.engine[0].toUpperCase() + query.engine.slice(1);
         setEngine(engineUpperCase);
-        searchState.updateQuery({string: query.string, q: query.query, engine: query.engine});
+        searchState.updateQuery({string: query.string, q: query.query, engine: engineUpperCase, query: result});
         setShowOptions(true);
     };
     return (
