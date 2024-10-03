@@ -7,10 +7,10 @@ if (process.env.NODE_ENV === "production") {
 }
 module.exports = {
     async up(queryInterface, Sequelize) {
-        // await queryInterface.addColumn("Users", "email", {
-        //     type: Sequelize.STRING(256),
-        //     allowNull: true
-        // });
+        await queryInterface.addColumn("Users", "email", {
+            type: Sequelize.STRING(256),
+            allowNull: true
+        });
         await queryInterface.addColumn("Users", "isOauth", {
             type: Sequelize.BOOLEAN,
             allowNull: false,

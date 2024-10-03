@@ -2,7 +2,7 @@ import { React, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import logo from "../../assets/images/searchdeck-favicon.png";
-import profileImg from "../../assets/icons/profile.jpg";
+import profileImg from "../../assets/icons/profile.png";
 import * as sessionActions from "../../store/session";
 
 function Navigation() {
@@ -28,8 +28,8 @@ function Navigation() {
     };
 
     return (
-        <div className="h-[5%] w-screen fixed flex flex flex-row items-center text-white bg-slate-800 z-10">
-            <div className="w-[316px] h-full"/>
+        <div className="h-[5%] w-screen fixed flex flex flex-row items-center text-white bg-zinc-900 z-20">
+            <div className="w-[316px] h-full" />
             <div className="w-4/5 flex flex-row items-center justify-between">
 
                 <div className="flex flex-row items-center">
@@ -76,7 +76,7 @@ function Navigation() {
                                 />
                             </div>
                             {showMenu ? (
-                                <div className="flex flex-col fixed h-fit bg-zinc-700 rounded w-32 mt-12 p-2">
+                                <div className="flex flex-col fixed h-fit bg-zinc-700 rounded w-32 mt-12 p-2 z-10">
                                     <div
                                         className="w-full h-10 rounded flex items-center hover:bg-zinc-600 p-1 cursor-pointer"
                                         onClick={(e) => handleLogOut(e)}

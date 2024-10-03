@@ -48,7 +48,7 @@ export default function QueryRow({ query }) {
         setQuery(result);
         const engineUpperCase = query.engine[0].toUpperCase() + query.engine.slice(1);
         setEngine(engineUpperCase);
-        searchState.updateQuery({string: query.string, q: query.query, engine: engineUpperCase, query: result});
+        searchState.updateQuery({string: query.string, q: query.query, engine: query.engine, query: result});
         setShowOptions(true);
     };
     return (

@@ -120,7 +120,7 @@ export default function MobileResultCard({ data, rowKey }) {
                     <p className={`underline text-zinc-300 ${isMobile ? 'text-sm' : 'text-lg'}`}>{result.snippet}</p>
                 </div>
 
-                {result.archive?.archived_snapshots?.closest?.url && (
+                {/* {result.archive?.archived_snapshots?.closest?.url && (
                     <a
                         href={result.archive.archived_snapshots.closest.url}
                         target="_blank"
@@ -129,7 +129,7 @@ export default function MobileResultCard({ data, rowKey }) {
                     >
                         Archive
                     </a>
-                )}
+                )} */}
             </div>
         ) : null}
     </div>

@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { ResultsContext } from "../../context/ResultsContext";
+import { SearchContext } from "../../context/SearchContext";
 import GptDocAnalyze from "../GptDocAnalyze/GptDocAnalyze";
 import Archive from "../Archive/archive";
 import BrowserHeader from "./BrowserHeader";
@@ -7,6 +8,7 @@ import { isMobile } from "react-device-detect";
 
 export default function Browser() {
     const { preview, setPreview } = useContext(ResultsContext);
+    const { searchState } = useContext(SearchContext);
     const [component, setComponent] = useState("");
     const [displayUrl, setDisplayUrl] = useState("");
     const [components, setComponents] = useState({
@@ -38,6 +40,9 @@ export default function Browser() {
                 `https://docs.google.com/gview?embedded=true&url=${preview}`
             );
             setDisplayUrl(preview);
+            searchState.updateQuery({
+                preview: preview
+            })
         }
     }, [preview]);
 

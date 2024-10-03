@@ -5,7 +5,7 @@ import RecentStats from "./RecentStats";
 import * as sessionActions from "../../store/session";
 import menuIcon from "../../assets/images/menu-icon.png";
 import logo from "../../assets/images/searchdeck-favicon.png";
-
+import profileImg from "../../assets/icons/profile.png";
 export default function MobileSideBar({ setSearch }) {
     const [showMenu, setShowMenu] = useState(false);
     const user = useSelector((state) => state.session.user);
@@ -74,7 +74,7 @@ export default function MobileSideBar({ setSearch }) {
                             <div className="flex flex-row justify-between items-center">
                                 <div className="flex flex-row items-center">
                                     <img
-                                        src={require("../../assets/icons/profile.jpg")}
+                                        src={profileImg}
                                         onClick={() => setShowMenu(!showMenu)}
                                         className="h-14 p-2 rounded-full"
                                         alt="profile"

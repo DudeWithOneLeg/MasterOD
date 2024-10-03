@@ -6,7 +6,8 @@ import * as queryActions from "../../store/query";
 import * as searchActions from "../../store/search";
 
 export default function MobileQueryRow({ query }) {
-    const { setString, setQuery, setShowOptions, searchState, setEngine} = useContext(SearchContext);
+    const { setString, setQuery, setShowOptions, searchState, setEngine } = useContext(SearchContext);
+
     const dispatch = useDispatch();
     const [hover, setHover] = useState(false);
 

@@ -15,7 +15,7 @@ export default function RecentStat({ object, setSearch, setShowMenu }) {
     else return (
         <div className={``}>
             <div
-                className={`p-1 flex flex-row items-center cursor-pointer justify-content-between rounded transition-text duration-300 ${path === object.path || (path === '/search' && object.path === '/search/all')? 'bg-amber-800 text-2xl':'hover:text-2xl text-xl'}`}
+                className={`p-2 flex flex-row items-center cursor-pointer justify-content-between rounded ${path === object.path || (path === '/search' && object.path === '/search/all')? 'bg-amber-800':'hover:bg-zinc-800'} text-xl`}
                 onClick={() => {
                     navigate(object.path);
                     setSearch(false);
