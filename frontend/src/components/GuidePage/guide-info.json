@@ -3,89 +3,429 @@
         {
             "operator": "Site: ",
             "description": "Restricts the search to results from a specific website or domain.",
-            "example": "harvard.edu"
+            "example": "harvard.edu",
+            "exampleData": {
+                "0": {
+                    "id": 0,
+                    "title": "Harvard University Official Site",
+                    "link": "https://www.harvard.edu",
+                    "snippet": "Welcome to Harvard University, a place of learning and discovery."
+                },
+                "1": {
+                    "id": 1,
+                    "title": "Harvard Admissions",
+                    "link": "https://www.harvard.edu/admissions",
+                    "snippet": "Learn about the admissions process at Harvard University."
+                },
+                "2": {
+                    "id": 2,
+                    "title": "Harvard Research",
+                    "link": "https://www.harvard.edu/research",
+                    "snippet": "Explore the research initiatives at Harvard University."
+                }
+            }
         },
         {
             "operator": "In title: ",
             "description": "Searches for a specific word or phrase in the title of web pages.",
-            "example": "machine learning applications"
+            "example": "machine learning applications",
+            "exampleData": {
+                "0": {
+                    "id": 0,
+                    "title": "Machine Learning Applications in Healthcare",
+                    "link": "https://www.example.com/ml-healthcare",
+                    "snippet": "Discover how machine learning is transforming healthcare."
+                },
+                "1": {
+                    "id": 1,
+                    "title": "Applications of Machine Learning in Finance",
+                    "link": "https://www.example.com/ml-finance",
+                    "snippet": "Learn about the impact of machine learning on financial services."
+                },
+                "2": {
+                    "id": 2,
+                    "title": "Machine Learning for Beginners",
+                    "link": "https://www.example.com/ml-beginners",
+                    "snippet": "An introductory guide to machine learning applications."
+                }
+            }
         },
         {
             "operator": "In url: ",
             "description": "Looks for pages where a particular word or phrase is part of the URL.",
-            "example": "conference proceedings 2024"
+            "example": "conference proceedings 2024",
+            "exampleData": {
+                "0": {
+                    "id": 0,
+                    "title": "2024 Conference Proceedings",
+                    "link": "https://www.example.com/conference-2024",
+                    "snippet": "Access the proceedings of the 2024 conference."
+                },
+                "1": {
+                    "id": 1,
+                    "title": "Upcoming Conferences 2024",
+                    "link": "https://www.example.com/upcoming-conferences-2024",
+                    "snippet": "Find information on upcoming conferences in 2024."
+                },
+                "2": {
+                    "id": 2,
+                    "title": "Conference Schedule 2024",
+                    "link": "https://www.example.com/schedule-2024",
+                    "snippet": "View the schedule for the 2024 conference."
+                }
+            }
         },
         {
             "operator": "Include text: ",
             "description": "Searches for keywords or phrases within the body text of a webpage.",
-            "example": "open access journals biology"
+            "example": "open access journals biology",
+            "exampleData": {
+                "0": {
+                    "id": 0,
+                    "title": "Open Access Biology Journals",
+                    "link": "https://www.example.com/biology-journals",
+                    "snippet": "Explore open access journals in the field of biology."
+                },
+                "1": {
+                    "id": 1,
+                    "title": "Biology Research Publications",
+                    "link": "https://www.example.com/biology-research",
+                    "snippet": "Find open access research publications in biology."
+                },
+                "2": {
+                    "id": 2,
+                    "title": "Top Biology Journals",
+                    "link": "https://www.example.com/top-biology-journals",
+                    "snippet": "A list of top open access journals in biology."
+                }
+            }
         },
         {
             "operator": "Exclude site: ",
             "description": "Excludes a specific site or domain from the search results.",
-            "example": "wikipedia.org"
+            "example": "wikipedia.org",
+            "exampleData": {
+                "0": {
+                    "id": 0,
+                    "title": "Non-Wikipedia Biology Resources",
+                    "link": "https://www.example.com/biology-resources",
+                    "snippet": "Find biology resources excluding Wikipedia."
+                },
+                "1": {
+                    "id": 1,
+                    "title": "Biology Articles",
+                    "link": "https://www.example.com/biology-articles",
+                    "snippet": "Explore biology articles from various sources."
+                },
+                "2": {
+                    "id": 2,
+                    "title": "Educational Biology Sites",
+                    "link": "https://www.example.com/educational-biology",
+                    "snippet": "Access educational biology sites excluding Wikipedia."
+                }
+            }
         },
         {
             "operator": "Exclude from title: ",
             "description": "Excludes pages with specific words in their title.",
-            "example": "beginner python tutorial"
+            "example": "beginner python tutorial",
+            "exampleData": {
+                "0": {
+                    "id": 0,
+                    "title": "Advanced Python Programming",
+                    "link": "https://www.example.com/advanced-python",
+                    "snippet": "Learn advanced Python programming techniques."
+                },
+                "1": {
+                    "id": 1,
+                    "title": "Python for Data Science",
+                    "link": "https://www.example.com/python-data-science",
+                    "snippet": "Explore Python applications in data science."
+                },
+                "2": {
+                    "id": 2,
+                    "title": "Python Scripting for Automation",
+                    "link": "https://www.example.com/python-automation",
+                    "snippet": "Automate tasks using Python scripting."
+                }
+            }
         },
         {
             "operator": "Exclude from url: ",
             "description": "Excludes results with certain keywords in the URL.",
-            "example": "blog machine learning guide"
+            "example": "blog machine learning guide",
+            "exampleData": {
+                "0": {
+                    "id": 0,
+                    "title": "Machine Learning Research Papers",
+                    "link": "https://www.example.com/ml-research",
+                    "snippet": "Access research papers on machine learning."
+                },
+                "1": {
+                    "id": 1,
+                    "title": "Machine Learning Tutorials",
+                    "link": "https://www.example.com/ml-tutorials",
+                    "snippet": "Find tutorials on machine learning techniques."
+                },
+                "2": {
+                    "id": 2,
+                    "title": "Machine Learning Conferences",
+                    "link": "https://www.example.com/ml-conferences",
+                    "snippet": "Discover upcoming machine learning conferences."
+                }
+            }
         },
         {
             "operator": "Exclude from text: ",
             "description": "Excludes pages that contain certain text within their body.",
-            "example": "advertisement online learning platforms"
+            "example": "advertisement online learning platforms",
+            "exampleData": {
+                "0": {
+                    "id": 0,
+                    "title": "Online Learning Platforms",
+                    "link": "https://www.example.com/learning-platforms",
+                    "snippet": "Explore various online learning platforms."
+                },
+                "1": {
+                    "id": 1,
+                    "title": "E-Learning Resources",
+                    "link": "https://www.example.com/e-learning-resources",
+                    "snippet": "Access resources for e-learning and online education."
+                },
+                "2": {
+                    "id": 2,
+                    "title": "Digital Education Tools",
+                    "link": "https://www.example.com/digital-education",
+                    "snippet": "Discover tools for digital education and learning."
+                }
+            }
         }
     ],
     "bing": [
         {
             "operator": "Contains: ",
             "description": "Searches for pages that contain specific file types or formats.",
-            "example": "pdf"
+            "example": "pdf",
+            "exampleData": {
+                "0": {
+                    "id": 0,
+                    "title": "PDF Document on AI",
+                    "link": "https://www.example.com/ai-document.pdf",
+                    "snippet": "Download the PDF document on artificial intelligence."
+                },
+                "1": {
+                    "id": 1,
+                    "title": "Research Paper PDF",
+                    "link": "https://www.example.com/research-paper.pdf",
+                    "snippet": "Access the PDF version of the research paper."
+                },
+                "2": {
+                    "id": 2,
+                    "title": "PDF Guide to Machine Learning",
+                    "link": "https://www.example.com/ml-guide.pdf",
+                    "snippet": "Download the PDF guide to machine learning."
+                }
+            }
         },
         {
             "operator": "Filetype: ",
             "description": "Restricts the search to specific file types.",
-            "example": "pdf"
+            "example": "pdf",
+            "exampleData": {
+                "0": {
+                    "id": 0,
+                    "title": "PDF Document on AI",
+                    "link": "https://www.example.com/ai-document.pdf",
+                    "snippet": "Download the PDF document on artificial intelligence."
+                },
+                "1": {
+                    "id": 1,
+                    "title": "Research Paper PDF",
+                    "link": "https://www.example.com/research-paper.pdf",
+                    "snippet": "Access the PDF version of the research paper."
+                },
+                "2": {
+                    "id": 2,
+                    "title": "PDF Guide to Machine Learning",
+                    "link": "https://www.example.com/ml-guide.pdf",
+                    "snippet": "Download the PDF guide to machine learning."
+                }
+            }
         },
         {
             "operator": "In anchor: ",
             "description": "Searches for web pages with specific words or phrases in anchor text (hyperlink text).",
-            "example": "buy now"
+            "example": "buy now",
+            "exampleData": {
+                "0": {
+                    "id": 0,
+                    "title": "Purchase the Latest Gadgets",
+                    "link": "https://www.example.com/gadgets",
+                    "snippet": "Click 'buy now' to purchase the latest gadgets."
+                },
+                "1": {
+                    "id": 1,
+                    "title": "Order Your Favorite Books",
+                    "link": "https://www.example.com/books",
+                    "snippet": "Click 'buy now' to order your favorite books."
+                },
+                "2": {
+                    "id": 2,
+                    "title": "Shop for Electronics",
+                    "link": "https://www.example.com/electronics",
+                    "snippet": "Click 'buy now' to shop for electronics."
+                }
+            }
         },
         {
             "operator": "In body: ",
             "description": "Searches for specific terms or phrases within the main body of the web page.",
-            "example": "artificial intelligence"
+            "example": "artificial intelligence",
+            "exampleData": {
+                "0": {
+                    "id": 0,
+                    "title": "Understanding Artificial Intelligence",
+                    "link": "https://www.example.com/ai",
+                    "snippet": "Explore the fundamentals of artificial intelligence."
+                },
+                "1": {
+                    "id": 1,
+                    "title": "AI in Modern Technology",
+                    "link": "https://www.example.com/ai-tech",
+                    "snippet": "Discover how AI is used in modern technology."
+                },
+                "2": {
+                    "id": 2,
+                    "title": "The Future of AI",
+                    "link": "https://www.example.com/future-ai",
+                    "snippet": "Learn about the future prospects of artificial intelligence."
+                }
+            }
         },
         {
             "operator": "In title: ",
             "description": "Searches for specific keywords within the title of the web pages.",
-            "example": "research paper"
+            "example": "research paper",
+            "exampleData": {
+                "0": {
+                    "id": 0,
+                    "title": "Research Paper on Quantum Computing",
+                    "link": "https://www.example.com/quantum-computing",
+                    "snippet": "Read the research paper on quantum computing."
+                },
+                "1": {
+                    "id": 1,
+                    "title": "AI Research Paper",
+                    "link": "https://www.example.com/ai-research",
+                    "snippet": "Access the AI research paper."
+                },
+                "2": {
+                    "id": 2,
+                    "title": "Machine Learning Research Paper",
+                    "link": "https://www.example.com/ml-research",
+                    "snippet": "Explore the research paper on machine learning."
+                }
+            }
         },
         {
             "operator": "IP address: ",
             "description": "Searches for websites hosted on a specific IP address.",
-            "example": "192.168.1.1"
+            "example": "192.168.1.1",
+            "exampleData": {
+                "0": {
+                    "id": 0,
+                    "title": "Local Network Device",
+                    "link": "http://192.168.1.1/device",
+                    "snippet": "Access the local network device at 192.168.1.1."
+                },
+                "1": {
+                    "id": 1,
+                    "title": "Router Configuration",
+                    "link": "http://192.168.1.1/router",
+                    "snippet": "Configure your router at 192.168.1.1."
+                },
+                "2": {
+                    "id": 2,
+                    "title": "Network Settings",
+                    "link": "http://192.168.1.1/settings",
+                    "snippet": "Adjust network settings at 192.168.1.1."
+                }
+            }
         },
         {
             "operator": "Prefer: ",
             "description": "Prioritizes or prefers results with a specific keyword or attribute.",
-            "example": "latest results"
+            "example": "latest results",
+            "exampleData": {
+                "0": {
+                    "id": 0,
+                    "title": "Latest News on AI",
+                    "link": "https://www.example.com/latest-ai-news",
+                    "snippet": "Stay updated with the latest news on artificial intelligence."
+                },
+                "1": {
+                    "id": 1,
+                    "title": "Recent Developments in Technology",
+                    "link": "https://www.example.com/latest-tech",
+                    "snippet": "Explore recent developments in technology."
+                },
+                "2": {
+                    "id": 2,
+                    "title": "Newest Research Papers",
+                    "link": "https://www.example.com/latest-research",
+                    "snippet": "Read the newest research papers in various fields."
+                }
+            }
         },
         {
             "operator": "Site: ",
             "description": "Limits the search results to a specific website or domain.",
-            "example": ".edu"
+            "example": ".edu",
+            "exampleData": {
+                "0": {
+                    "id": 0,
+                    "title": "Educational Resources",
+                    "link": "https://www.example.edu/resources",
+                    "snippet": "Access educational resources from .edu domains."
+                },
+                "1": {
+                    "id": 1,
+                    "title": "University Research",
+                    "link": "https://www.example.edu/research",
+                    "snippet": "Explore research conducted at universities."
+                },
+                "2": {
+                    "id": 2,
+                    "title": "Academic Journals",
+                    "link": "https://www.example.edu/journals",
+                    "snippet": "Find academic journals hosted on .edu domains."
+                }
+            }
         },
         {
             "operator": "URL: ",
             "description": "Searches for web pages containing a specific word or phrase within the URL.",
-            "example": "example.com/about"
+            "example": "example.com/about",
+            "exampleData": {
+                "0": {
+                    "id": 0,
+                    "title": "About Us - Example Company",
+                    "link": "https://www.example.com/about",
+                    "snippet": "Learn more about Example Company."
+                },
+                "1": {
+                    "id": 1,
+                    "title": "About Our Services",
+                    "link": "https://www.example.com/about/services",
+                    "snippet": "Discover the services offered by Example Company."
+                },
+                "2": {
+                    "id": 2,
+                    "title": "About Our Team",
+                    "link": "https://www.example.com/about/team",
+                    "snippet": "Meet the team behind Example Company."
+                }
+            }
         }
     ]
 }

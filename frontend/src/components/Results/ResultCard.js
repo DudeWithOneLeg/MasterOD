@@ -7,7 +7,8 @@ import { isMobile } from "react-device-detect";
 import MobileResultCard from "./MobileResultCard";
 const newTab = require("../../assets/icons/open_in_new.png");
 
-export default function ResultCard({ data, rowKey }) {
+
+export default function ResultCard({ data, rowKey, displayOnly }) {
     const {
         currentSelected,
         setCurrentSelected,
@@ -30,8 +31,22 @@ export default function ResultCard({ data, rowKey }) {
 
     const docExtensions = ["pdf", "doc", "docx", "ppt", "pptx"];
     const result = data[rowKey];
+    console.log(result)
+
+    // useEffect(() => {
+    //     // const options = { url: '' };
+    //     // ogs(options)
+    //     //     .then((data) => {
+    //     //         const { error, html, result, response } = data;
+    //     //         console.log('error:', error);  // This returns true or false. True if there was an error. The error itself is inside the result object.
+    //     //         console.log('html:', html); // This contains the HTML of page
+    //     //         console.log('result:', result); // This contains all of the Open Graph results
+    //     //         console.log('response:', response); // This contains response from the Fetch API
+    //     //     })
+    // }, [])
 
     const handleClick = () => {
+        if (displayOnly) return;
         setIsIndex(false);
         const newResult = { ...data[rowKey] };
         newResult.queryId = lastSearchId;
@@ -46,6 +61,7 @@ export default function ResultCard({ data, rowKey }) {
     };
 
     const handleNewTab = () => {
+        if (displayOnly) return;
         const link = data[rowKey].link;
         window.open(link, "_blank");
         return;
@@ -61,23 +77,20 @@ export default function ResultCard({ data, rowKey }) {
             data-collapse-target="collapse"
             data-collapse="collapse"
             id="result"
-            className={`${
-                currentSelected === result.id
-                    ? "border-2 border-green-400"
-                    : visitedResults?.includes(result.id) &&
-                      currentSelected !== result.id
+            className={`${!displayOnly ? (currentSelected === result.id
+                ? "border-2 border-green-400"
+                : visitedResults?.includes(result.id) &&
+                    currentSelected !== result.id
                     ? "border-2 border-white"
                     : ""
-            } ${
-                isMobile ? "text-sm" : ""
-            } h-fit w-full cursor-pointer flex items-center rounded hover:border-2 hover:border-green-400 bg-gradient-to-r from-zinc-800 to-zinc-900 hover:bg-zinc-700 py-2 mb-2 mr-1`}
+                ) : ''} h-fit w-full cursor-pointer flex items-center rounded ${!displayOnly ? 'hover:border-2 hover:border-green-400' : ''} bg-gradient-to-r from-zinc-800 to-zinc-900 hover:bg-zinc-700 py-2 mb-2 mr-1 pr-2`}
             onClick={handleClick}
         >
             <div className="flex flex-col items-center justify-content-around min-w-10 h-full">
                 {/* <div className="text-white">{result.id}</div> */}
                 <SaveResult result={result} saved={saved} setSaved={setSaved} />
                 {result.title &&
-                result.title.toLowerCase().includes("index of /") ? (
+                    result.title.toLowerCase().includes("index of /") ? (
                     <div className="rounded bg-green-200 w-6 my-1">Idx</div>
                 ) : (
                     <></>
@@ -98,9 +111,8 @@ export default function ResultCard({ data, rowKey }) {
                                 <div className="flex flex-row justify-between items-center w-full">
                                     <div className="flex flex-row">
                                         <h3
-                                            className={`font-bold text-zinc-300 ${
-                                                isMobile ? "text-sm" : "text-xl"
-                                            } text-wrap underline w-fit poppins-regular`}
+                                            className={`font-bold text-zinc-300 ${isMobile ? "text-sm" : "text-xl"
+                                                } text-wrap underline w-fit poppins-regular`}
                                         >
                                             {result.title && result.title}
                                         </h3>
@@ -113,9 +125,8 @@ export default function ResultCard({ data, rowKey }) {
                                             ) && (
                                                 <img
                                                     src={require("../../assets/images/document.png")}
-                                                    className={`w-${
-                                                        isMobile ? "6" : "8"
-                                                    }`}
+                                                    className={`w-${isMobile ? "6" : "8"
+                                                        }`}
                                                     alt="document"
                                                 />
                                             )}
@@ -130,9 +141,9 @@ export default function ResultCard({ data, rowKey }) {
                                 <p className="truncate text-zinc-400 w-3/4">
                                     {result.link ?
                                         result.link
-                                        .split("")
-                                        .slice(0, 50)
-                                        .join("") : ""}
+                                            .split("")
+                                            .slice(0, 50)
+                                            .join("") : ""}
                                     ...
                                 </p>
                             </div>
@@ -141,7 +152,7 @@ export default function ResultCard({ data, rowKey }) {
                             <p className="underline w-fit text-zinc-300">{result.snippet}</p>
                         </div>
 
-                        {result.archive &&
+                        {/* {result.archive &&
                             result.archive.archived_snapshots &&
                             result?.archive?.archived_snapshots?.closest
                                 ?.url && (
@@ -156,7 +167,7 @@ export default function ResultCard({ data, rowKey }) {
                                 >
                                     Archive
                                 </a>
-                            )}
+                            )} */}
                     </div>
                 ) : (
                     <></>

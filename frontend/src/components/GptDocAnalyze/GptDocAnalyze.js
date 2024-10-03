@@ -1,36 +1,16 @@
 import { useState, useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
-import styles from "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
-import {
-  MainContainer,
-  ChatContainer,
-  MessageList,
-  Message,
-  MessageInput,
-} from "@chatscope/chat-ui-kit-react";
 import { io } from "socket.io-client";
+
 export default function GptDocAnalyze({ url }) {
   const socketRef = useRef(null);
-  const [message, setMessage] = useState(``);
-  const sendMessage = () => {
-    setMessages((prevMessages) => {
-      const updatedMessages = [
-        ...prevMessages,
-        { role: "user", content: message },
-        {role:"system", content: ""}
-      ];
-      return updatedMessages;
-    });
-    socketRef.current.emit("message", message);
-    setMessage('')
-  };
-
+  const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([
     { role: "user", content: "Analyze this document" },
     { role: "system", content: `` },
   ]);
-  const convoRef = useRef(null);
-  const responseRef = useRef(""); // useRef to retain response value across renders
+  const chatContainerRef = useRef(null);
+  const responseRef = useRef("");
 
   useEffect(() => {
     setMessages([
@@ -89,7 +69,7 @@ Overall, this announcement underlines a concerted effort by AWS and Slalom to de
       console.log("room 1 joined by client");
 
       if (!responseRef.current) {
-        socketRef.current.emit("url", { url });
+        // socketRef.current.emit("url", { url });
       }
     });
 
@@ -124,45 +104,71 @@ Overall, this announcement underlines a concerted effort by AWS and Slalom to de
     };
   }, [url]);
 
-  const handleChange = (e) => {
-    console.log(e);
-    setMessage(e);
+  const sendMessage = () => {
+    if (message.trim() === "") return;
+
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      { role: "user", content: message },
+      { role: "system", content: "" }
+    ]);
+    socketRef.current.emit("message", message);
+    setMessage('');
   };
 
+  const handleChange = (e) => {
+    setMessage(e.target.value);
+  };
+
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  }, [messages]);
+
   return (
-    <div className="h-full relative">
-      <MainContainer
-        className="flex flex-col w-full h-full overflow-none"
-        style={{height: '100%', position:'relative'}}
-      >
-        <ChatContainer ref={convoRef} className="h-full flex">
-          <MessageList className="overflow-y-scroll h-full flex">
-            {messages.map((message, index) => {
-              if (message.role !== "system") {
-                return (
-                  <Message
-                    key={index}
-                    model={{ message: message.content, sender: message.role, direction: "outgoing" }}
-                  />
-                );
-              } else {
-                return (
-                  <Message
-                    key={index}
-                    model={{ message: message.content, sender: message.role, direction:"incoming" }}
-                  />
-                );
-              }
-            })}
-          </MessageList>
-          <MessageInput
-            onSend={sendMessage}
+    <div className="h-[95%] w-full flex flex-col bg-gray-100">
+      <div className="flex-1 overflow-hidden">
+        <div
+          ref={chatContainerRef}
+          className="h-full overflow-y-auto p-4 space-y-4"
+        >
+          {messages.map((msg, index) => (
+            <div
+              key={index}
+              className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+            >
+              <div
+                className={`max-w-xs lg:max-w-md xl:max-w-lg px-4 py-2 rounded-lg ${
+                  msg.role === 'user'
+                    ? 'bg-blue-500 text-white'
+                    : 'bg-white text-gray-800'
+                }`}
+              >
+                <ReactMarkdown className="break-words">{msg.content}</ReactMarkdown>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="p-4 bg-white border-t">
+        <div className="flex space-x-2">
+          <input
+            type="text"
             value={message}
-            placeholder="Type message here"
             onChange={handleChange}
+            placeholder="Type your message..."
+            className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
           />
-        </ChatContainer>
-      </MainContainer>
+          <button
+            onClick={sendMessage}
+            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            Send
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

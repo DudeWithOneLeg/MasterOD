@@ -6,6 +6,7 @@ const SERP_API_ACCESS_KEY = process.env.SERP_API_ACCESS_KEY;
 const search = new SerpApi.GoogleSearch(SERP_API_ACCESS_KEY);
 const OpenAI = require("openai");
 const apiKey = process.env.OPENAI_API_KEY;
+const ogs = require('open-graph-scraper');
 const openai = new OpenAI({
     apiKey,
 });
@@ -87,6 +88,7 @@ router.post("/", async (req, res) => {
                 const index = {};
                 Object.values(rest).forEach(async (resp) => {
                     const link = resp.link;
+                    console.log(resp)
                     if (!index[link]) {
                         obj[resp.position] = {
                             id: resp.position,
@@ -110,17 +112,32 @@ router.post("/", async (req, res) => {
                     ) {
                         const currPage =
                             data.serpapi_pagination &&
-                            data.serpapi_pagination.current
+                                data.serpapi_pagination.current
                                 ? data.serpapi_pagination.current
                                 : 0;
                         // console.log(data.organic_results?.slice(-1)[0].position);
                         // console.log(data);
                         const totalPages = (
                             data.search_information.total_results /
-                                (request.engine === "google" ? 100 : 50) +
+                            (request.engine === "google" ? 100 : 50) +
                             1
                         ).toFixed();
                         console.log(currPage, totalPages);
+                        // console.log(Object.values(obj).slice(0, -1)[0]);
+                        // for (const result of Object.values(obj)) {
+                        //     const url = obj[result.id].link
+                        //     const options = { url };
+                        //     const data = await ogs(options).catch((err) => {
+                        //         console.log(err);
+                        //     });
+                        //     if (data && !data.error && data.result && data.result.ogImage && data.result.ogImage.length) {
+                        //         console.log(data.result.ogImage);
+                        //     }
+                        //     // console.log('error:', error);  // This returns true or false. True if there was an error. The error itself is inside the result object.
+                        //                 // console.log('html:', html); // This contains the HTML of page
+                        //     // console.log('result:', result); // This contains all of the Open Graph results
+                        //     // console.log('response:', response); // This contains response from the Fetch API
+                        // }
                         obj.info = {
                             currentPage: currPage,
                             totalPages: totalPages === NaN ? "N/A" : totalPages,
@@ -154,9 +171,8 @@ router.post("/", async (req, res) => {
         request = {
             ...request,
             ...params,
-            q: `${params.q ? params.q : ""}${
-                params.string ? " " + params.string : ""
-            }`,
+            q: `${params.q ? params.q : ""}${params.string ? " " + params.string : ""
+                }`,
         };
     } else {
         const completion = await openai.chat.completions.create({

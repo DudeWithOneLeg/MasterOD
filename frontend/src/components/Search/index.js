@@ -63,7 +63,7 @@ export default function Search() {
     }, [results, setStart]);
 
     return (
-        <div className={`flex flex-col w-full ${width < 640 ? "h-[95vh]" : "sm:h-[95vh] md:h-[95vh] lg:h-[95vh] xl:h-full"} items-end bg-gradient-to-b from-zinc-900 to-zinc-950 overflow-hidden`} id="search-bar">
+        <div className={`flex flex-col w-full ${width < 640 ? "h-[95vh]" : "sm:h-[95vh] md:h-[95vh] lg:h-[95vh] xl:h-full"} items-end bg-gradient-to-b from-zinc-900 to-zinc-950 overflow-hidden z-10`} id="search-bar">
             <SearchBar status={status} setStatus={setStatus} />
             {results && search ? (
                 <div className="flex flex-col h-full w-full overflow-hidden justify-center items-center">
