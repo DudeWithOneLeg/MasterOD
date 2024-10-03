@@ -44,7 +44,6 @@ function LoginFormPage() {
     });
 
     const handleSubmit = (e) => {
-        console.log('hii')
         e.preventDefault();
         setErrors({});
         return dispatch(sessionActions.login({ credential, password })).then(
@@ -67,7 +66,7 @@ function LoginFormPage() {
     return (
         <div className={`h-full flex items-center justify-center bg-zinc-900`}>
             <div className={`w-full max-w-md p-8 space-y-8 bg-zinc-800 rounded-lg shadow-lg`}>
-                <h2 className="text-3xl font-bold text-center text-white">Log In</h2>
+                <h2 className="text-3xl text-center text-white">Log In</h2>
                 <form onSubmit={handleSubmit} className="space-y-6 w-full">
                     <div className="w-full">
                         <label htmlFor="credential" className="block text-sm font-medium text-zinc-300">Username or Email</label>
@@ -104,7 +103,7 @@ function LoginFormPage() {
                     <div>
                         <button
                             type="submit"
-                            className="w-full py-2 px-4 bg-zinc-600 text-white font-semibold rounded-md hover:bg-zinc-500 focus:outline-none focus:ring focus:ring-zinc-500"
+                            className="w-full py-2 px-4 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-400 focus:outline-none focus:ring focus:ring-zinc-500"
                         >
                             Log In
                         </button>

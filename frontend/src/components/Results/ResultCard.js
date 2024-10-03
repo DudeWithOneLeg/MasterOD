@@ -31,7 +31,6 @@ export default function ResultCard({ data, rowKey, displayOnly }) {
 
     const docExtensions = ["pdf", "doc", "docx", "ppt", "pptx"];
     const result = data[rowKey];
-    console.log(result)
 
     // useEffect(() => {
     //     // const options = { url: '' };

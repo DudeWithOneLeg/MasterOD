@@ -16,6 +16,7 @@ function SignupFormPage() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [email, setEmail] = useState("");
     const [errors, setErrors] = useState({});
+    const [acceptedTOS, setAcceptedTOS] = useState(false);
 
     const login = useGoogleLogin({
         onSuccess: (tokenResponse) => {
@@ -87,6 +88,11 @@ function SignupFormPage() {
             delete newErrors.email;
             setErrors(newErrors);
         }
+        if (!email) {
+            const newErrors = { ...errors };
+            delete newErrors.email;
+            setErrors(newErrors);
+        }
     }, [email]);
 
     useEffect(() => {
@@ -124,6 +130,7 @@ function SignupFormPage() {
             });
         }
     };
+    const isValidForm = () => !Object.values(errors).length && acceptedTOS;
 
     return (
         <div
@@ -188,9 +195,14 @@ function SignupFormPage() {
                         <p className="text-red-300 h-6">{errors.confirmPassword}</p> : <p className="h-6"></p>
                     }
                 </div>
+                <ToS acceptedTOS={acceptedTOS} setAcceptedTOS={setAcceptedTOS} />
                 <div className={`flex flex-col items-center w-${isMobile ? '3/4' : '1/2'}`}>
 
-                    <button type="submit" className="my-1 rounded-full border p-1 px-2 w-full hover:bg-slate-700">
+                    <button
+                        type="submit"
+                        className={`w-full py-2 px-4 text-white font-semibold rounded-md focus:outline-none focus:ring focus:ring-zinc-500 ${isValidForm() ? 'bg-blue-500 hover:bg-blue-400' : 'bg-zinc-600'}`}
+                        disabled={!isValidForm()}
+                    >
                         Sign Up
                     </button>
                     {/* <div

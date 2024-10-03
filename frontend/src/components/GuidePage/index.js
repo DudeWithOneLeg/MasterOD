@@ -10,7 +10,6 @@ const Card = ({ operator, description, example, exampleData }) => {
             <h1 className="text-3xl font-bold text-amber-500 mb-2">{operator}</h1>
             <p className="text-zinc-200 mb-4">{description}</p>
             {Object.keys(exampleData).map((row) => {
-                console.log(row)
                 return (
                     <ResultCard data={exampleData} rowKey={row} displayOnly={true}/>
                 )
