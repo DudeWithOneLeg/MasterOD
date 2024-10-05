@@ -7,6 +7,7 @@ import * as queryActions from "../../store/query";
 import { SelectLimit } from "./SelectLimit";
 import { SelectEngine } from "./SelectEngine";
 import MobileQueryPage from "./MobileQueryPage";
+import GuidePage from "../GuidePage";
 const searchIcon = require("../../assets/images/search.png");
 
 export default function QueryPage() {
@@ -55,7 +56,7 @@ export default function QueryPage() {
 
     useEffect(() => {
         const { view } = params;
-        setViewAll(view === "all");
+        setViewAll(view === "all" || view === undefined);
     }, [params]);
 
     useEffect(() => {
@@ -72,59 +73,76 @@ export default function QueryPage() {
 
     if (isMobile) return (<MobileQueryPage />)
     else return (
-        <div className="flex h-full overflow-hidden w-full">
+        <div className="flex h-full overflow-hidden w-full pt-4">
             <div className="h-full w-full overflow-y-hidden rounded border-1 border-zinc-600 flex justify-center">
-                <div className={`${isMobile ? "flex flex-col" : "flex flex-col"} h-full w-full overflow-y-scroll no-scrollbar items-center p-1`}>
-                    <div className="flex flex-row justify-start items-center w-4/5">
-                        <h1 className="text-4xl !text-white">History</h1>
-                        <div className="w-fit flex justify-center items-center">
-                            <SelectLimit setViewAll={setViewAll} setLimit={setLimit} limit={limit} viewAll={viewAll} />
-                            <SelectEngine engineFilter={engineFilter} setEngineFilter={setEngineFilter} />
-                            <form
-                                onSubmit={(e) => handleSubmit(e)}
-                                className={`rounded-full px-2 py-1 flex justify-self-center justify-between w-1/2 my-2 bg-white/5 backdrop-blur-xl`}
-                            >
-                                <input
-                                    className="px-1 bg-white/0 rounded w-full outline-none h-full text-white poppins-light text-lg"
-                                    placeholder="Filter searches"
-                                    value={filter}
-                                    onChange={(e) => setFilter(e.target.value)}
-                                />
-                                <button
-                                    type="submit"
-                                    className="text-black focus:outline-none cursor-pointer rounded-full h-7 w-7"
+                <div className={`${isMobile ? "flex flex-col" : "flex flex-col"} h-full w-4/5 overflow-y-scroll no-scrollbar items-center p-1`}>
+                    <div className="flex flex-row justify-start items-center w-full border-b-2 border-zinc-600">
+                        <div className="w-full flex justify-between items-center">
+                            <div className="flex flex-row justify-center items-center">
+
+                                <h1 className="text-4xl !text-amber-600 pr-2 mr-2 border-r-2 border-zinc-600">History</h1>
+                                <SelectLimit setViewAll={setViewAll} setLimit={setLimit} limit={limit} viewAll={viewAll} />
+                                <SelectEngine engineFilter={engineFilter} setEngineFilter={setEngineFilter} />
+                            </div>
+                            <div className="flex flex-row justify-center items-center w-1/4">
+
+                                <form
+                                    onSubmit={(e) => handleSubmit(e)}
+                                    className={`rounded-full px-2 py-1 flex justify-self-center justify-between w-full my-2 bg-white/5 backdrop-blur-xl`}
                                 >
-                                    <img src={searchIcon} className="h-6 w-6 transition-all duration-200 hover:h-7 hover:w-7" alt="search"/>
-                                </button>
-                            </form>
+                                    <input
+                                        className="px-1 bg-white/0 rounded w-full outline-none h-full text-white poppins-light text-lg"
+                                        placeholder="Filter searches"
+                                        value={filter}
+                                        onChange={(e) => setFilter(e.target.value)}
+                                    />
+                                    <button
+                                        type="submit"
+                                        className="text-black focus:outline-none cursor-pointer rounded-full h-7 w-7"
+                                    >
+                                        <img src={searchIcon} className="h-6 w-6 transition-all duration-200 hover:h-7 hover:w-7" alt="search"/>
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                    {sortedQueries && Object.keys(sortedQueries).length
-                        ? Object.keys(sortedQueries)
-                            .reverse()
-                            .map((date) => {
-                                return (
-                                    <div className="flex flex-col text-white py-2 h-fit w-4/5" key={date}>
-                                        <h1 className="text-2xl w-full border-b-4 border-amber-900">
-                                            {date}
-                                        </h1>
+                    <div className="w-full px-4 flex flex-col">
 
-                                        <div className="flex flex-row h-fit flex-wrap pl-2 pt-2">
-                                            {Object.values(sortedQueries[date])
-                                                .reverse()
-                                                .map((query) => {
-                                                    return (
-                                                        <QueryRow
-                                                            query={query}
-                                                            key={query.id}
-                                                        />
-                                                    );
-                                                })}
+                        {sortedQueries && Object.keys(sortedQueries).length
+                            ? Object.keys(sortedQueries)
+                                .reverse()
+                                .map((date) => {
+                                    return (
+                                        <div className="flex flex-col text-white py-2 h-fit w-full" key={date}>
+                                            <h1 className="text-2xl w-full border-b-4 border-amber-900">
+                                                {date}
+                                            </h1>
+
+                                            <div className="flex flex-row h-fit flex-wrap pl-2 pt-2">
+                                                {Object.values(sortedQueries[date])
+                                                    .reverse()
+                                                    .map((query) => {
+                                                        return (
+                                                            <QueryRow
+                                                                query={query}
+                                                                key={query.id}
+                                                            />
+                                                        );
+                                                    })}
+                                            </div>
                                         </div>
-                                    </div>
-                                );
-                            })
-                        : <></>}
+                                    );
+                                })
+                            : <></>}
+                    </div>
+                    <div className="w-full px-4 flex flex-col h-full">
+
+                        {!sortedQueries || !Object.keys(sortedQueries).length
+                            ? <div className="w-full h-full overflow-y-scroll">
+                                <GuidePage />
+                            </div>
+                            : <></>}
+                    </div>
                 </div>
             </div>
         </div>

@@ -38,23 +38,23 @@ export default function GuidePage() {
         return <MobileGuidePage />;
     }
     else return (
-        <div className="min-h-full w-full bg-zinc-900 text-white p-8 pb-0 flex flex-row">
-            <div className="p-4 bg-zinc-800 rounded-lg shadow-md w-1/6 mb-8">
+        <div className="h-full w-full bg-zinc-900 text-white p-8 pb-0 flex flex-row">
+            <div className="p-4 bg-zinc-800 rounded-lg shadow-md w-1/6 mb-8 h-full">
                 <h2 className="text-2xl font-bold mb-4">Operators</h2>
-                <div className="flex flex-col space-y-2 w-full">
+                <div className="flex flex-col space-y-2 w-full min-w-fit">
                     {Object.values(guideInfo[engine]).map((info, index) => (
                         <a
                             key={index}
-                            className={`p-2 rounded cursor-pointer w-full ${selectedOperator === index ? 'bg-amber-700' : 'bg-zinc-700 hover:bg-zinc-600'} hover:text-white hover:underline-none`}
+                            className={`p-2 rounded cursor-pointer w-full min-w-fit ${selectedOperator === index ? 'bg-amber-700' : 'bg-zinc-700 hover:bg-zinc-600'} hover:text-white hover:underline-none`}
                             onClick={() => setSelectedOperator(index)}
                             href={`#${info.operator.split('').filter(char => char !== ' ').join('').toLowerCase()}`}
                         >
-                            <p className="text-lg w-fit">{info.operator}</p>
+                            <p className="text-lg min-w-fit">{info.operator}</p>
                         </a>
                     ))}
                 </div>
             </div>
-            <div className="flex flex-col w-full px-8">
+            <div className="flex flex-col w-full px-8 h-full">
                 <div className="flex justify-start mb-8">
                     <button
                         className={`mx-2 px-4 py-2 rounded ${engine === 'google' ? 'bg-amber-700' : 'bg-zinc-700 hover:bg-zinc-600'} focus:outline-none`}
@@ -69,7 +69,7 @@ export default function GuidePage() {
                         Bing
                     </button>
                 </div>
-                <div className="w-fit overflow-y-auto h-full">
+                <div className="w-fit overflow-y-scroll h-full">
                     <div className="p-6 bg-zinc-700 rounded-lg shadow-md mb-6">
                         <div className="w-1/2">
                             <h1 className="text-3xl mb-4 text-amber-500">What is this ?</h1>

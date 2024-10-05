@@ -137,7 +137,7 @@ export default function SearchBar({ status, setStatus }) {
     else
         return (
             <div
-                className={`w-full flex flex-col font-bold rounded transition-all duration-300 ease-in-out items-center justify-center py-${padding} z-50 bg-sl-800`}
+                className={`w-full flex flex-col font-bold rounded transition-all duration-300 ease-in-out items-center justify-center py-${padding} z-50 bg-zinc-800`}
                 id="search-bar-inner"
             >
                 <form
