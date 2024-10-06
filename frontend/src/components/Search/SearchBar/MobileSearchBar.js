@@ -14,7 +14,6 @@ const searchIcon = require("../../../assets/images/search.png");
 
 export default function MobileSearchBar({ setStatus, status, selectedOperator, setSelectedOperator }) {
     const {
-        setSearch,
         setLoadingResults,
         showOptions,
         setShowOptions,
@@ -78,7 +77,7 @@ export default function MobileSearchBar({ setStatus, status, selectedOperator, s
                     setLoadingResults(false);
                 }
             );
-            setSearch(true);
+            searchState.setSearch(true);
             setStatus("next");
             clickHistory.setVisitedResults([]);
             clickHistory.setCurrentSelected(null);
