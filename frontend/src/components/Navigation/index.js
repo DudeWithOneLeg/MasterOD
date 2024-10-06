@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import logo from "../../assets/images/searchdeck-favicon.png";
 import profileImg from "../../assets/icons/profile.png";
+import logoutIcon from '../../assets/images/logout.png'
+import accountIcon from '../../assets/images/manage-account.png'
 import * as sessionActions from "../../store/session";
 
 function Navigation() {
@@ -76,11 +78,19 @@ function Navigation() {
                                 />
                             </div>
                             {showMenu ? (
-                                <div className="flex flex-col fixed h-fit bg-zinc-700 rounded w-32 mt-12 p-2 z-10">
+                                <div className="flex flex-col fixed h-fit bg-zinc-800 rounded w-32 mt-12 p-2 z-10 border-2 border-zinc-500">
+                                    <div
+                                        className="w-full h-10 rounded flex items-center hover:bg-zinc-600 p-1 cursor-pointer"
+                                        onClick={() => navigate('/user/settings')}
+                                    >
+                                        <img src={accountIcon} className="h-7 mr-2" alt="account"/>
+                                        <p>Account</p>
+                                    </div>
                                     <div
                                         className="w-full h-10 rounded flex items-center hover:bg-zinc-600 p-1 cursor-pointer"
                                         onClick={(e) => handleLogOut(e)}
                                     >
+                                        <img src={logoutIcon} className="h-7 mr-2" alt="logout"/>
                                         <p>Logout</p>
                                     </div>
                                 </div>

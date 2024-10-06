@@ -158,7 +158,7 @@ export default function MobileSearchBar({ setStatus, status, selectedOperator, s
                 </div>
                 {queryLen() && !hasReachCharLimit() ? (
                     <button
-                        className="flex justify-self-end rounded hover:bg-zinc-600 focus:outline-none mx-1"
+                        className="flex justify-self-end rounded focus:outline-none mx-1"
                         type="submit"
                     >
                         <img src={searchIcon} className="h-8" />

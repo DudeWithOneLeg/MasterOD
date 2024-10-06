@@ -63,7 +63,7 @@ export default function MobileResultCard({ data, rowKey }) {
             ? "border-2 border-white"
             : ""
     } ${isMobile ? "text-sm" : ""} w-full cursor-pointer flex flex-row rounded hover:bg-zinc-700 py-2 pr-2 my-2 pl-0 transition-all duration-100 ease-in-out bg-gradient-to-r from-zinc-800 to-zinc-900`}
-    onClick={handleClick}
+
 >
     {/* First Child */}
     <div className="flex items-start justify-center w-[8%] h-auto py-2">
@@ -74,7 +74,7 @@ export default function MobileResultCard({ data, rowKey }) {
     </div>
 
     {/* Second Child */}
-    <div className="flex flex-col items-start justify-between w-[92%]">
+    <div className="flex flex-col items-start justify-between w-[92%]" onClick={handleClick}>
         {result ? (
             <div key={result.id} className="flex flex-col text-white w-full">
                 <div className="flex flex-row">

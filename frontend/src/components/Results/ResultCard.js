@@ -78,8 +78,8 @@ export default function ResultCard({ data, rowKey, displayOnly, index }) {
                     clickHistory.currentSelected !== index
                     ? "border-2 border-white"
                     : "")
-                ) : ''} h-fit py-2 mb-2 mr-1 pr-2 border-2 border-zinc-600 min-w-fit max-w-full cursor-pointer flex items-center rounded ${!displayOnly ? 'hover:border-2 hover:border-green-400' : ''} bg-zinc-950 hover:bg-zinc-800`}
-            onClick={handleClick}
+                ) : ''} h-fit py-2 mb-2 mr-1 pr-2 border-2 border-zinc-600 min-w-fit max-w-full cursor-pointer flex items-center rounded ${!displayOnly ? 'hover:border-2 hover:border-green-400' : ''} bg-zinc-900 hover:bg-zinc-800`}
+
         >
             <div className="flex flex-col items-center justify-content-around min-w-10 h-full">
                 {/* <div className="text-white">{result.id}</div> */}
@@ -94,7 +94,7 @@ export default function ResultCard({ data, rowKey, displayOnly, index }) {
             </div>
             <div
                 className="flex flex-col items-start h-full w-full"
-
+                onClick={handleClick}
             >
                 {result ? (
                     <div
@@ -106,8 +106,8 @@ export default function ResultCard({ data, rowKey, displayOnly, index }) {
                                 <div className="flex flex-row justify-between items-center w-full">
                                     <div className="flex flex-row w-full">
                                         <h3
-                                            className={`font-bold text-zinc-300 ${isMobile ? "text-sm" : "text-xl"
-                                                } text-wrap underline w-fit poppins-regular`}
+                                            className={`font-bold ${isMobile ? "text-sm" : "text-xl"
+                                                } text-wrap underline w-fit poppins-bold`}
                                         >
                                             {result.title && result.title}
                                         </h3>

@@ -84,30 +84,32 @@ function LoginFormPage() {
                             <p className="mt-2 text-sm text-red-500">{errors.credential}</p>
                         )}
                     </div>
-                    <div>
-                        <label htmlFor="password" className="block text-sm font-medium text-zinc-300">Password</label>
-                        <input
-                            id="password"
-                            name="password"
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                            placeholder="Password"
-                            className="mt-1 block w-full px-3 py-2 bg-zinc-700 text-white rounded-md focus:outline-none focus:ring focus:ring-zinc-500"
-                        />
-                        {errors.password && (
-                            <p className="mt-2 text-sm text-red-500">{errors.password}</p>
-                        )}
-                    </div>
-                    <div>
-                        <button
-                            type="submit"
-                            className="w-full py-2 px-4 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-400 focus:outline-none focus:ring focus:ring-zinc-500"
-                        >
-                            Log In
-                        </button>
-                    </div>
+                    {credential.includes('@gmail.com') ? <></> : <>
+                        <div>
+                            <label htmlFor="password" className="block text-sm font-medium text-zinc-300">Password</label>
+                            <input
+                                id="password"
+                                name="password"
+                                type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                                placeholder="Password"
+                                className="mt-1 block w-full px-3 py-2 bg-zinc-700 text-white rounded-md focus:outline-none focus:ring focus:ring-zinc-500"
+                            />
+                            {errors.password && (
+                                <p className="mt-2 text-sm text-red-500">{errors.password}</p>
+                            )}
+                        </div>
+                        <div>
+                            <button
+                                type="submit"
+                                className="w-full py-2 px-4 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-400 focus:outline-none focus:ring focus:ring-zinc-500"
+                            >
+                                Log In
+                            </button>
+                        </div>
+                    </>}
                 </form>
                 {/* <div className="flex items-center justify-center">
                     <div
