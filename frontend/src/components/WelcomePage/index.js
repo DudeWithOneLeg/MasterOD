@@ -67,10 +67,10 @@ const FeaturesSection = () => {
                 <div className="w-full md:w-full flex justify-center items-center">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 flex justify-center items-center w-3/5">
                         {features.map((feature, index) => (
-                            <div key={index} className="bg-zinc-800 p-6 rounded-lg shadow-xl flex flex-col w-full h-full">
+                            <div key={index} className="p-6 flex flex-col w-full h-full">
                                 <div className="mb-4 flex justify-center md:justify-center w-full">{feature.icon}</div>
                                 <h3 className="text-xl font-semibold poppins-semibold text-white w-full">{feature.title}</h3>
-                                <p className="text-slate-400 poppins-regular text-sm mt-2 w-full">{feature.description}</p>
+                                <p className="text-slate-400 poppins-regular text-lg mt-2 w-full">{feature.description}</p>
                             </div>
                         ))}
                     </div>

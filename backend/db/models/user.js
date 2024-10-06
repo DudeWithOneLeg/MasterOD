@@ -40,6 +40,13 @@ module.exports = (sequelize, DataTypes) => {
           len: [60, 60]
         }
       },
+      googleHashedPassword: {
+        type: DataTypes.STRING.BINARY,
+        allowNull: true,
+        validate: {
+          len: [60, 60]
+        }
+      },
       isOauth: {
         type: DataTypes.BOOLEAN,
         allowNull: false
