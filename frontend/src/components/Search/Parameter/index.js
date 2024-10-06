@@ -2,15 +2,15 @@ import { useState, useContext } from "react";
 import { SearchContext } from "../../../context/SearchContext";
 
 export default function Parameter({ index , param, text, selectedOperator, setSelectedOperator }) {
-    const { query, setQuery } = useContext(SearchContext);
+    const { searchState } = useContext(SearchContext);
     const [input, setInput] = useState("");
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (input.split(param.text)[1]) {
             const parsed = input.split(text).join(param);
-            const q = query;
-            setQuery([...q, parsed]);
+            const q = searchState.query;
+            searchState.setQuery([...q, parsed]);
             setInput("");
         }
     };

@@ -92,7 +92,7 @@ export default function QueryPage() {
                         <div className="w-full flex justify-between items-center">
                             <div className="flex flex-row justify-center items-center">
 
-                                <h1 className="text-4xl !text-amber-600 pr-2 mr-2 border-r-2 border-zinc-600">History</h1>
+                                <h1 className="text-4xl !text-blue-300 pr-2 mr-2 border-r-2 border-zinc-600">History</h1>
                                 <SelectLimit setViewAll={setViewAll} setLimit={setLimit} limit={limit} viewAll={viewAll} />
                                 <SelectEngine engineFilter={engineFilter} setEngineFilter={setEngineFilter} />
                             </div>
@@ -126,7 +126,7 @@ export default function QueryPage() {
                                 .map((date) => {
                                     return (
                                         <div className="flex flex-col text-white py-2 h-fit w-full" key={date}>
-                                            <h1 className="text-2xl w-full border-b-4 border-amber-900">
+                                            <h1 className="text-2xl w-full border-b-4 border-blue-400">
                                                 {date}
                                             </h1>
 

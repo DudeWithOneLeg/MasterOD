@@ -68,16 +68,16 @@ export default function ResultsPage() {
             >
                 <form
                     className={`flex justify-center items-center text-white ${preview && !isMobile
-                            ? "w-1/2 flex-col"
+                            ? "w-full flex-col"
                             : (!preview && !isMobile
                                 ? "w-1/3 flex-col"
-                                : "w-2/3 flex-col")
+                                : "w-full flex-col")
                         }`}
                     onSubmit={(e) => handleSubmit(e)}
                 >
-                    <div className="flex flex-row p-2 items-center space-x-2">
+                    <div className="flex flex-row p-2 items-center space-x-2 w-full">
                         <div
-                            className={`rounded-full px-2 py-1 flex justify-self-center justify-between w-full my-2 bg-white/5 backdrop-blur-xl`}
+                            className={`rounded-full px-2 py-1 flex justify-between w-full my-2 bg-white/5 backdrop-blur-xl`}
                         >
                             <input
                                 className="px-1 bg-white/0 rounded w-full outline-none h-full text-white poppins-light text-lg"

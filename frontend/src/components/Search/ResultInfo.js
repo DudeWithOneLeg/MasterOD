@@ -107,24 +107,25 @@ export default function ResultInfo() {
 
     return (
         <div className={`text-slate-200 h-fit w-full flex flex-row py-2 justify-${showResult ? "start" : "center"}`} id="result-info">
-            <div className={`flex justify-center justify-self-start px-1 bg-zinc-900 ${isMobile ? '' : 'pb-1'} ${isMobile ? 'w-full' : showResult ? 'w-1/2' : 'w-3/5'} transition-all duration-300 ease-in-out `}>
-                <div className={`grid grid-cols-3 w-full items-center px-2 ${isMobile ? 'w-full' : showResult ? 'w-1/2' : 'w-full'} `}>
+            <div className={`flex justify-center justify-self-start px-1 bg-zinc-900 pb-1 ${showResult ? 'w-1/2' : 'w-3/5'} transition-all duration-300 ease-in-out `}>
+                <div className={`grid grid-cols-3 w-full items-center px-2 ${showResult ? 'w-1/2' : 'w-full'} `}>
                     <div className="flex flex-row items-center justify-self-start poppins-regular text-lg cursor-pointer col-span-1 w-full" onClick={() => { navigate("/search/all"); setSearch(false); }}>
                         <img src={arrowBack} className="h-7" alt="arrow back"/>
                         <p>History</p>
                     </div>
 
-                        {results?.info?.dmca && (showResult || isMobile) && (
-                            <div className="flex flex-row rounded bg-yellow-700 px-2 ml-2 items-center justify-self-end col-span-1">
-                                <img src={require("../../assets/icons/caution.png")} className="h-4" alt="dmca result warning"/>
-                                <p>DMCA: Limited results</p>
-                            </div>
-                        )}
+
 
                         {isMobile ? <MobilePagination handlePreviousPage={handlePreviousPage} handleNextPage={handleNextPage} /> : <Pagination handlePreviousPage={handlePreviousPage} handleNextPage={handleNextPage} />}
 
                 </div>
             </div>
+                {results?.info?.dmca && showResult && (
+                            <div className="flex flex-row rounded bg-yellow-700 px-2 ml-2 items-center justify-self-end col-span-1">
+                                <img src={require("../../assets/icons/caution.png")} className="h-4" alt="dmca result warning"/>
+                                <p>DMCA: Limited results</p>
+                            </div>
+                        )}
             {showResult && isIndex && (
                 <div className="w-1/2 flex justify-end items-center">
                     {!isRedditShared && !isOnReddit && !loading && (
