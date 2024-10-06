@@ -14,6 +14,7 @@ const AccountSettings = () => {
 //     billing: "Last payment: 09/20/2024",
 //   };
 
+
   return (
     <div className="h-full w-full flex justify-center items-center">
 

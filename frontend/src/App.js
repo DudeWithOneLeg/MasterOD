@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
+import { Routes, Route, useNavigate, Navigate, Outlet } from "react-router-dom";
 import { isMobile } from "react-device-detect";
 import * as sessionActions from "./store/session";
 import Search from "./components/Search";
@@ -27,13 +27,6 @@ function App() {
     useEffect(() => {
         dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
     }, [dispatch]);
-    const backgroundImageStyle = {
-        backgroundImage: `url(${stars})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        filter: "blur(10px)", // Adjust the value as needed
-    };
 
     // useEffect(() => {
     //     if (user) navigate('/search')
@@ -54,10 +47,7 @@ function App() {
 
     return (
         <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
-            <div
-                className={`h-full w-full poppins-regular flex flex-${isMobile ? "col" : "col"
-                    } bg-zinc-900`}
-            >
+            <div className={`h-full w-full poppins-regular flex flex-${isMobile ? "col" : "col"} bg-zinc-900`}>
                 {!isMobile ? <Navigation /> : <></>}
                 {isMobile ? (
                     <div className="h-[5%]">
@@ -66,78 +56,45 @@ function App() {
                 ) : (
                     <div className="h-[5%]"></div>
                 )}
-                <div
-                    className={`h-[95%] w-full flex flex-${isMobile ? "col" : "row"
-                        }`}
-                >
+                <div className={`h-[95%] w-full flex flex-${isMobile ? "col" : "row"}`}>
                     {user && !user.tempUser && !isMobile ? <SideBar /> : <></>}
-                    <Routes>
-                        <Route path="/guide" element={<GuidePage />} />
-                        <Route path="/tos" element={<TermsOfServicePage />} />
-                        {isLoaded ? <>
+                    {isLoaded ? (
+                        <Routes>
+                            <Route path="/guide" element={<GuidePage />} />
+                            <Route path="/tos" element={<TermsOfServicePage />} />
 
-                            user ?    (<>
-                                <Route
-                                    path="/results"
-                                    element={<ResultsPage />}
-                                />
-                                <Route
-                                    path="/results/:view"
-                                    element={<ResultsPage />}
-                                />
+                            {/* Public routes */}
+                            <Route path="/login" element={<LoginFormPage />} />
+                            <Route path="/signup" element={<SignupFormPage />} />
+                            <Route path="/" element={<WelcomePage />} />
+
+                            {/* Protected routes */}
+                            <Route element={<ProtectedRoute user={user} />}>
+                                <Route path="/results" element={<ResultsPage />} />
+                                <Route path="/results/:view" element={<ResultsPage />} />
                                 <Route path="/search" element={<Search />} />
-                                <Route
-                                    path="/search/:view"
-                                    element={<Search />}
-                                />
+                                <Route path="/search/:view" element={<Search />} />
+                                <Route path="/finish-signup" element={<FinishSignup />} />
+                                {/* <Route path="/user/settings" element={<AccountSettings />} /> */}
+                            </Route>
 
-                                <Route
-                                    path="/finish-signup"
-                                    element={
-                                        <div className="w-full h-full flex items-center justify-center">
-                                            <FinishSignup />
-                                        </div>
-                                    }
-                                />
-                                <Route
-                                    path="/user/settings"
-                                    element={<AccountSettings />}
-                                />
-                            </>)
-                            :
-                            (<>
-                                <Route
-                                    path="/login"
-                                    element={
-                                        <div className="w-full h-full flex items-center justify-center">
-                                            <LoginFormPage />
-                                        </div>
-                                    }
-                                />
-                                <Route
-                                    path="/signup"
-                                    element={
-                                        <div className="w-full h-full flex items-center justify-center text-white">
-                                            <SignupFormPage />
-                                        </div>
-                                    }
-                                />
-                                <Route path="/" element={<WelcomePage />} />
-                            </>)
-                            <Route
-                                path="*"
-                                element={<Navigate to={user ? "/search" : "/"} />}
-                            />
-                        </>
-                            : <>
-
-                            </>}
-
-                    </Routes>
+                            {/* Catch-all route */}
+                            <Route path="*" element={<Navigate to={user ? "/search" : "/"} />} />
+                        </Routes>
+                    ) : (
+                        <div>Loading...</div>
+                    )}
                 </div>
             </div>
         </GoogleOAuthProvider>
     );
 }
+
+const ProtectedRoute = ({ user }) => {
+    if (!user) {
+        return <Navigate to="/login" replace />;
+    }
+    return <Outlet />;
+};
 
 export default App;

@@ -34,9 +34,6 @@ export default function Search() {
     const docExtensions = ["ppt", "doc", "docx", "pdf"];
 
     useEffect(() => {
-        if (!user) {
-            navigate('/')
-        }
         const handleResize = () => setWidth(window.innerWidth);
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);

@@ -128,7 +128,7 @@ function SignupFormPage() {
     const isValidForm = () => !Object.values(errors).length && acceptedTOS;
 
     return (
-        <div className={`h-full w-2/3 flex items-center justify-center bg-zinc-900`}>
+        <div className={`h-full w-full flex items-center justify-center bg-zinc-900 text-white`}>
             <div className={`w-full max-w-md p-8 space-y-8 bg-zinc-800 rounded-lg shadow-lg`}>
                 <h2 className="text-3xl text-center text-white">Sign Up</h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
