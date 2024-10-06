@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { isMobile } from "react-device-detect";
-import QueryRow from "./QueryRow";
+import { useParams, useNavigate } from "react-router-dom";
 import * as queryActions from "../../store/query";
 import { SelectLimit } from "./SelectLimit";
 import MobileQueryRow from "./MobileQueryRow";
 
 export default function MobileQueryPage() {
     const dispatch = useDispatch();
+    const navigate = useNavigate()
     const queries = useSelector((state) => state.queries.all);
     const [viewAll, setViewAll] = useState(true);
     const [filter, setFilter] = useState("");
@@ -27,7 +26,7 @@ export default function MobileQueryPage() {
             "Friday",
             "Saturday",
         ];
-        if (queries) {
+        if (queries && Object.keys(queries).length && !queries.message) {
             Object.values(queries).map((query) => {
                 const createdAt = new Date(query.createdAt);
                 const dayOfWeek = days[createdAt.getDay()].slice(0, 3);
@@ -100,17 +99,21 @@ export default function MobileQueryPage() {
                 </div>
                 <div className="h-full overflow-y-hidden rounded border-1 border-zinc-600 bg-zinc-900 flex justify-center w-full p-2">
                     <div
-                        className={`${
-                            isMobile ? "flex flex-col" : "flex flex-col"
-                        } h-full overflow-y-scroll no-scrollbar items-center w-full space-y-2`}
+                        className={`flex flex-col h-full overflow-y-scroll no-scrollbar items-center w-full space-y-2`}
                     >
-                        {queries && Object.keys(queries).length
+                        {queries && Object.keys(queries).length && !queries.message
                             ? Object.values(queries)
                                   .reverse()
                                   .map((query) => {
                                       return <MobileQueryRow query={query} />;
                                   })
-                            : <></>}
+                            : <div className="w-full px-4 flex flex-col h-full items-center justify-center text-3xl text-white">
+                            <div className="flex flex-row">
+                                <h1 className="cursor-pointer">View our</h1>
+                                <h1 onClick={() => navigate("/guide")} className="ml-2 underline text-amber-600"> Guide</h1>
+                            </div>
+
+                        </div>}
                     </div>
                 </div>
             </div>

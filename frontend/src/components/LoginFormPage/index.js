@@ -64,7 +64,7 @@ function LoginFormPage() {
     };
 
     return (
-        <div className={`h-full flex items-center justify-center bg-zinc-900`}>
+        <div className={`h-full w-full flex items-center justify-center bg-zinc-900`}>
             <div className={`w-full max-w-md p-8 space-y-8 bg-zinc-800 rounded-lg shadow-lg`}>
                 <h2 className="text-3xl text-center text-white">Log In</h2>
                 <form onSubmit={handleSubmit} className="space-y-6 w-full">
