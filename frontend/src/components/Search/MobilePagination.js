@@ -9,15 +9,10 @@ export default function MobilePagination({ handlePreviousPage, handleNextPage })
     const results = useSelector((state) => state.results.results);
     const dispatch = useDispatch()
     const {
-        query,
-        string,
-        setVisitedResults,
-        setCurrentSelected,
         setLoadingResults,
-        language,
-        country,
-        engine,
-        showResult
+        showResult,
+        clickHistory,
+        searchState
     } = useContext(SearchContext);
     const {
         setPageNum,
@@ -34,12 +29,12 @@ export default function MobilePagination({ handlePreviousPage, handleNextPage })
         setLoadingResults(true);
         dispatch(
             resultActions.search({
-                q: query.join(";"),
-                cr: country,
-                hl: language,
-                engine: engine.toLocaleLowerCase(),
+                q: searchState.query.join(";"),
+                cr: searchState.country,
+                hl: searchState.language,
+                engine: searchState.engine.toLocaleLowerCase(),
                 start:  ((userSelection || newPageNum) - 1) * 100,
-                string: string,
+                string: searchState.string,
             })
         ).then(async (data) => {
             if (data.results && data.results.info.totalPages) {
@@ -50,8 +45,8 @@ export default function MobilePagination({ handlePreviousPage, handleNextPage })
                 setNewPageNum(data.results.info.currentPage);
             }
 
-            setVisitedResults([]);
-            setCurrentSelected(null);
+            clickHistory.setVisitedResults([]);
+            clickHistory.setCurrentSelected(null);
             setLoadingResults(false);
         });
     };

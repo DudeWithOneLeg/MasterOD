@@ -65,7 +65,6 @@ export const fetchResult = (result) => async (dispatch) => {
   await response.json().then(async (data) => {
     // console.log(data)
     await dispatch(setData(data));
-    // console.log(data);
   });
   return response;
 };

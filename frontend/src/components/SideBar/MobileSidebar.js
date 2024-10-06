@@ -30,9 +30,9 @@ export default function MobileSideBar({ setSearch }) {
     }
 
     return (
-        <div className="text-white w-screen bg-zinc-900 fixed h-[5vh] z-30">
+        <div className="text-white w-screen bg-zinc-900 fixed h-fit z-30">
             {user ? (
-                <div className="grid grid-cols-3 justify-content-between items-center">
+                <div className="grid grid-cols-3 justify-between items-center h-full px-2 py-1">
                     <img
                         src={menuIcon}
                         onClick={() => setShowMenu(!showMenu)}
@@ -48,7 +48,7 @@ export default function MobileSideBar({ setSearch }) {
                     </div>
                 </div>
             ) : (
-                <div className="grid grid-cols-3 h-full items-center justify-between w-full text-white">
+                <div className="grid grid-cols-3 h-full items-center justify-between w-full text-white p-2">
 
                     <div
                         className="flex flex-row col-span-2 items-center justify-start cursor-pointer text-white px-2"
@@ -68,9 +68,9 @@ export default function MobileSideBar({ setSearch }) {
                 </div>
             )}
             {showMenu ? (
-                <div className="fixed flex bg-zinc-900 w-full h-screen px-2 pb-2 z-30">
+                <div className="fixed flex bg-zinc-900 w-full h-full z-30">
                     {user ? (
-                        <div className="flex flex-col w-full -r-2 divide-y ">
+                        <div className="flex flex-col w-full divide-y ">
                             <div className="flex flex-row justify-between items-center">
                                 <div className="flex flex-row items-center">
                                     <img

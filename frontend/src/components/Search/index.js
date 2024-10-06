@@ -31,6 +31,7 @@ export default function Search() {
 
     const [status, setStatus] = useState("");
     const [width, setWidth] = useState(window.innerWidth);
+    const docExtensions = ["ppt", "doc", "docx", "pdf"];
 
     useEffect(() => {
         if (!user) {
@@ -44,7 +45,10 @@ export default function Search() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (preview) {
+        if (preview && !docExtensions.includes(preview.split(".").slice(-1)[0])) {
+            dispatch(searchActions.fetchResult(result));
+        }
+        else if (preview && docExtensions.includes(preview.split(".").slice(-1)[0]) && (preview.includes('https://docs.google.com/gview?embedded=true&url=') || preview.includes('https://docs.google.com/viewerng'))) {
             dispatch(searchActions.fetchResult(result));
         }
     }, [preview, dispatch]);

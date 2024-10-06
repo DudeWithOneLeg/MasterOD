@@ -10,7 +10,7 @@ import SideBarFooter from "./SideBarFooter";
 // import SearchBar from "../SearchBar";
 
 export default function SideBar() {
-    const { setSearch, setQuery, setString } = useContext(SearchContext);
+    const { searchState } = useContext(SearchContext);
 
     const navigate = useNavigate();
     const user = useSelector((state) => state.session.user);
@@ -29,12 +29,12 @@ export default function SideBar() {
     };
 
     const handleNewSearch = () => {
-        setQuery([]);
-        setString("");
+        searchState.setQuery([]);
+        searchState.setString("");
         navigate("/search");
     };
 
-    if (isMobile) return <MobileSideBar setSearch={setSearch} />;
+    if (isMobile) return <MobileSideBar setSearch={searchState.setSearch} />;
 
     return (
         <div className=" p-2">
@@ -59,7 +59,10 @@ export default function SideBar() {
                                         New Search
                                     </div>
                                     <div className="h-2"/>
-                                    <RecentStats setSearch={setSearch} />
+                                    {/* <div className="w-full p-2 text-2xl underline text-amber-600 poppins-regular-italic">
+                                        <h1>Current Search</h1>
+                                    </div> */}
+                                    <RecentStats setSearch={searchState.setSearch} />
                                 </div>
                             </div>
                             {!sentFeedback ? (

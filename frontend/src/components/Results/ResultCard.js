@@ -8,13 +8,10 @@ import MobileResultCard from "./MobileResultCard";
 const newTab = require("../../assets/icons/open_in_new.png");
 
 
-export default function ResultCard({ data, rowKey, displayOnly }) {
+export default function ResultCard({ data, rowKey, displayOnly, index }) {
     const {
-        currentSelected,
-        setCurrentSelected,
-        visitedResults,
-        setVisitedResults,
         setIsIndex,
+        clickHistory
     } = useContext(SearchContext);
     const { setShowResult, setPreview, setResult } = useContext(ResultsContext);
 
@@ -28,10 +25,8 @@ export default function ResultCard({ data, rowKey, displayOnly }) {
             setLastSearchId(Object.values(lastSearch)[0].id);
         }
     }, [lastSearch]);
-
     const docExtensions = ["pdf", "doc", "docx", "ppt", "pptx"];
     const result = data[rowKey];
-    console.log(result)
 
     // useEffect(() => {
     //     // const options = { url: '' };
@@ -54,8 +49,8 @@ export default function ResultCard({ data, rowKey, displayOnly }) {
         setShowResult(true);
         setResult(newResult);
         setPreview(data[rowKey].link);
-        setCurrentSelected(result.id);
-        setVisitedResults([...visitedResults, result.id]);
+        clickHistory.setCurrentSelected(index);
+        clickHistory.setVisitedResults([...clickHistory.visitedResults, index]);
         if (result.title.toLowerCase().includes("index of /")) setIsIndex(true);
         return;
     };
@@ -77,13 +72,13 @@ export default function ResultCard({ data, rowKey, displayOnly }) {
             data-collapse-target="collapse"
             data-collapse="collapse"
             id="result"
-            className={`${!displayOnly ? (currentSelected === result.id
-                ? "border-2 border-green-400"
-                : visitedResults?.includes(result.id) &&
-                    currentSelected !== result.id
+            className={`${!displayOnly ? (clickHistory.currentSelected == index
+                ? "border-2 !border-green-400"
+                :( clickHistory.visitedResults?.includes(index) &&
+                    clickHistory.currentSelected !== index
                     ? "border-2 border-white"
-                    : ""
-                ) : ''} h-fit w-full cursor-pointer flex items-center rounded ${!displayOnly ? 'hover:border-2 hover:border-green-400' : ''} bg-gradient-to-r from-zinc-800 to-zinc-900 hover:bg-zinc-700 py-2 mb-2 mr-1 pr-2`}
+                    : "")
+                ) : ''} h-fit py-2 mb-2 mr-1 pr-2 border-2 border-zinc-600 min-w-fit max-w-full cursor-pointer flex items-center rounded ${!displayOnly ? 'hover:border-2 hover:border-green-400' : ''} bg-zinc-950 hover:bg-zinc-800`}
             onClick={handleClick}
         >
             <div className="flex flex-col items-center justify-content-around min-w-10 h-full">
@@ -106,10 +101,10 @@ export default function ResultCard({ data, rowKey, displayOnly }) {
                         key={result.id}
                         className={`flex flex-col text-slate-400 h-fit w-full`}
                     >
-                        <div className="flex flex-row ">
+                        <div className="flex flex-row w-full">
                             <div className="w-full">
                                 <div className="flex flex-row justify-between items-center w-full">
-                                    <div className="flex flex-row">
+                                    <div className="flex flex-row w-full">
                                         <h3
                                             className={`font-bold text-zinc-300 ${isMobile ? "text-sm" : "text-xl"
                                                 } text-wrap underline w-fit poppins-regular`}

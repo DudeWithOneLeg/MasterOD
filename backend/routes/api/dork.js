@@ -29,7 +29,7 @@ const query = {
 };
 
 router.post("/iframe/", async (req, res) => {
-    const { link, title, snippet, archive, queryId } = req.body;
+    const { link, title, snippet, queryId } = req.body;
     const { user } = req;
     if (user) {
         await Result.create({

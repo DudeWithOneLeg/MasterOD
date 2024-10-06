@@ -8,11 +8,8 @@ const newTab = require("../../assets/icons/open_in_new.png");
 
 export default function MobileResultCard({ data, rowKey }) {
     const {
-        currentSelected,
-        setCurrentSelected,
-        visitedResults,
-        setVisitedResults,
         setIsIndex,
+        clickHistory
     } = useContext(SearchContext);
     const { setShowResult, setPreview, setResult } = useContext(ResultsContext);
 
@@ -38,8 +35,8 @@ export default function MobileResultCard({ data, rowKey }) {
         setShowResult(true);
         setResult(newResult);
         setPreview(data[rowKey].link);
-        setCurrentSelected(result.id);
-        setVisitedResults([...visitedResults, result.id]);
+        clickHistory.setCurrentSelected(result.id);
+        clickHistory.setVisitedResults([...clickHistory.visitedResults, result.id]);
         if (result.title.toLowerCase().includes("index of /")) setIsIndex(true);
         return;
     };
@@ -59,10 +56,10 @@ export default function MobileResultCard({ data, rowKey }) {
     data-collapse="collapse"
     id="result"
     className={`${
-        currentSelected === result.id
+        clickHistory.currentSelected === result.id
             ? "border-2 border-green-400"
-            : visitedResults?.includes(result.id) &&
-              currentSelected !== result.id
+            : clickHistory.visitedResults?.includes(result.id) &&
+              clickHistory.currentSelected !== result.id
             ? "border-2 border-white"
             : ""
     } ${isMobile ? "text-sm" : ""} w-full cursor-pointer flex flex-row rounded hover:bg-zinc-700 py-2 pr-2 my-2 pl-0 transition-all duration-100 ease-in-out bg-gradient-to-r from-zinc-800 to-zinc-900`}

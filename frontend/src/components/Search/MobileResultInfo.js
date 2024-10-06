@@ -18,10 +18,6 @@ export default function MobileResultInfo() {
     } = useContext(ResultsContext);
     const {
         setSearch,
-        query,
-        string,
-        setVisitedResults,
-        setCurrentSelected,
         setLoadingResults,
         isIndex,
         isRedditShared,
@@ -30,9 +26,8 @@ export default function MobileResultInfo() {
         setIsOnReddit,
         loading,
         setLoading,
-        language,
-        country,
-        engine,
+        clickHistory,
+        searchState
     } = useContext(SearchContext);
     const results = useSelector((state) => state.results.results);
     const dispatch = useDispatch();
@@ -41,20 +36,20 @@ export default function MobileResultInfo() {
     const handleNextPage = () => {
         setLoadingResults(true);
         dispatch(resultActions.search({
-            q: query.join(";"),
-            cr: country,
-            hl: language,
-            engine: engine.toLowerCase(),
+            q: searchState.query.join(";"),
+            cr: searchState.country,
+            hl: searchState.language,
+            engine: searchState.engine.toLowerCase(),
             start: pageNum * 100,
-            string: string,
+            string: searchState.string,
         })).then(data => {
             if (data.results?.info?.totalPages) {
                 setTotalPages(data.results.info.totalPages);
             }
             if (data.results) {
                 setPageNum(pageNum + 1);
-                setVisitedResults([]);
-                setCurrentSelected(null);
+                clickHistory.setVisitedResults([]);
+                clickHistory.setCurrentSelected(null);
                 setNewPageNum(pageNum + 1);
             }
             setLoadingResults(false);
@@ -64,20 +59,20 @@ export default function MobileResultInfo() {
     const handlePreviousPage = () => {
         setLoadingResults(true);
         dispatch(resultActions.search({
-            q: query.join(";"),
-            cr: country,
-            hl: language,
-            engine: engine.toLowerCase(),
+            q: searchState.query.join(";"),
+            cr: searchState.country,
+            hl: searchState.language,
+            engine: searchState.engine.toLowerCase(),
             start: (pageNum - 2) * 100,
-            string: string,
+            string: searchState.string,
         })).then(data => {
             if (data.results?.info?.totalPages) {
                 setTotalPages(data.results.info.totalPages);
             }
             if (data.results) {
                 setPageNum(pageNum - 1);
-                setVisitedResults([]);
-                setCurrentSelected(null);
+                clickHistory.setVisitedResults([]);
+                clickHistory.setCurrentSelected(null);
                 setNewPageNum(pageNum - 1);
             }
             setLoadingResults(false);

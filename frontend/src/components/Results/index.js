@@ -20,13 +20,13 @@ export default function Results({ data }) {
                         ? Object.keys(data)
                               .reverse()
                               .filter((key) => !data[key].currentPage)
-                              .map((rowKey) => (
-                                  <ResultCard key={rowKey} rowKey={rowKey} data={data} />
+                              .map((rowKey, index) => (
+                                  <ResultCard key={rowKey} rowKey={rowKey} data={data} index={index} />
                               ))
                         : Object.keys(data)
                               .filter((key) => !data[key].currentPage)
-                              .map((rowKey) => (
-                                  <ResultCard key={rowKey} rowKey={rowKey} data={data} />
+                              .map((rowKey, index) => (
+                                  <ResultCard key={rowKey} rowKey={rowKey} data={data} index={index} />
                               ))}
                 </div>
             )}

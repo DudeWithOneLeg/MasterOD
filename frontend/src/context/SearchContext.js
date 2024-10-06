@@ -42,28 +42,11 @@ export const SearchProvider = ({ children }) => {
         }));
     }
 
-    const searchState = {
-        updateQuery,
-        currentSearchStatus
-    }
-
-
-
     const queryLen = () => (query && query.length) || string
     const hasReachCharLimit = () => currCharCount >= maxCharCount
     return (
         <SearchContext.Provider
             value={{
-                search,
-                setSearch,
-                query,
-                setQuery,
-                string,
-                setString,
-                visitedResults,
-                setVisitedResults,
-                currentSelected,
-                setCurrentSelected,
                 loadingResults,
                 setLoadingResults,
                 isIndex,
@@ -74,19 +57,36 @@ export const SearchProvider = ({ children }) => {
                 setIsOnReddit,
                 loading,
                 setLoading,
-                language,
-                setLanguage,
-                country,
-                setCountry,
-                engine,
-                setEngine,
+                setSearch,
+                search,
                 showOptions,
                 setShowOptions,
                 queryLen,
                 hasReachCharLimit,
                 currCharCount,
                 maxCharCount,
-                searchState
+                searchState: {
+                    updateQuery,
+                    currentSearchStatus,
+                    search,
+                    setSearch,
+                    query,
+                    setQuery,
+                    string,
+                    setString,
+                    engine,
+                    setEngine,
+                    country,
+                    setCountry,
+                    language,
+                    setLanguage
+                },
+                clickHistory: {
+                    visitedResults,
+                    setVisitedResults,
+                    currentSelected,
+                    setCurrentSelected
+                }
             }}
         >
             {children}

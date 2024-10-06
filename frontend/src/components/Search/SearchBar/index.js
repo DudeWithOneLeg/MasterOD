@@ -18,19 +18,7 @@ const isProduction = process.env.NODE_ENV === "production";
 
 export default function SearchBar({ status, setStatus }) {
     const {
-        query,
-        setQuery,
-        country,
-        setCountry,
-        language,
-        setLanguage,
-        engine,
-        setEngine,
-        string,
-        setString,
         setSearch,
-        setVisitedResults,
-        setCurrentSelected,
         setLoadingResults,
         showOptions,
         setShowOptions,
@@ -38,7 +26,8 @@ export default function SearchBar({ status, setStatus }) {
         hasReachCharLimit,
         currCharCount,
         maxCharCount,
-        searchState
+        searchState,
+        clickHistory,
     } = useContext(SearchContext);
     const { setPageNum, setTotalPages } = useContext(ResultsContext);
     const navigate = useNavigate();
@@ -63,16 +52,16 @@ export default function SearchBar({ status, setStatus }) {
 
     const saveQuery = () => {
         const options = {
-            q: query.join(";"),
-            hl: language,
-            engine: engine.toLocaleLowerCase(),
+            q: searchState.query.join(";"),
+            hl: searchState.language,
+            engine: searchState.engine.toLocaleLowerCase(),
             start: 0,
-            string: string,
+            string: searchState.string,
         };
-        if (engine === "Bing") {
-            options.location = country;
+        if (searchState.engine === "Bing") {
+            options.location = searchState.country;
         } else {
-            options.cr = country;
+            options.cr = searchState.country;
         }
         dispatch(searchActions.saveQuery(options));
     };
@@ -80,30 +69,30 @@ export default function SearchBar({ status, setStatus }) {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (currCharCount >= maxCharCount) return;
-        if (query || string) {
+        if (searchState.query || searchState.string) {
             setLoadingResults(true);
             setStatus("initial");
             setShowOptions(false);
             let options = {};
             if (!gptSearch) {
                 options = {
-                    q: query.join(";"),
-                    hl: language,
-                    engine: engine.toLocaleLowerCase(),
+                    q: searchState.query.join(";"),
+                    hl: searchState.language,
+                    engine: searchState.engine.toLocaleLowerCase(),
                     start: 0,
-                    string: string,
+                    string: searchState.string,
                 };
             } else {
                 options = {
-                    q: string,
+                    q: searchState.string,
                     start: 0,
                     gpt: true,
                 };
             }
-            if (engine === "Bing") {
-                options.location = country;
+            if (searchState.engine === "Bing") {
+                options.location = searchState.country;
             } else {
-                options.cr = country;
+                options.cr = searchState.country;
             }
             searchState.updateQuery(options)
             dispatch(resultActions.search(options, (status = "initial"))).then(
@@ -112,11 +101,9 @@ export default function SearchBar({ status, setStatus }) {
                     // const resultsContainer = window.document.querySelector("#inner-result");
                     // const bottomPosition = resultsContainer.scrollHeight;
                     // resultsContainer.scrollTo(0, 0)
-                    dispatch(searchActions.getRecentQueries());
                     if (
-                        data.results &&
-                        data.results.info &&
-                        data.results.info.totalPages
+
+                        data?.results?.info?.totalPages
                     ) {
                         setTotalPages(data.results.info.totalPages);
                         setPadding('0')
@@ -126,8 +113,8 @@ export default function SearchBar({ status, setStatus }) {
             );
             setSearch(true);
             setStatus("next");
-            setVisitedResults([]);
-            setCurrentSelected(null);
+            clickHistory.setVisitedResults([]);
+            clickHistory.setCurrentSelected(null);
             setPageNum(1);
         }
     };
@@ -137,7 +124,7 @@ export default function SearchBar({ status, setStatus }) {
     else
         return (
             <div
-                className={`w-full flex flex-col font-bold rounded transition-all duration-300 ease-in-out items-center justify-center py-${padding} z-50 bg-sl-800`}
+                className={`w-full flex flex-col font-bold rounded transition-all duration-300 ease-in-out items-center justify-center py-${padding} z-50 bg-zinc-800`}
                 id="search-bar-inner"
             >
                 <form
@@ -180,12 +167,12 @@ export default function SearchBar({ status, setStatus }) {
                                             <select
                                                 onChange={(e) => {
                                                     searchState.updateQuery({ engine: e.target.value })
-                                                    setEngine(e.target.value)
+                                                    searchState.setEngine(e.target.value)
                                                 }}
                                                 className="rounded ml-1 cursor-pointer bg-transparent text-2xl focus:outline-none text-white"
                                             >
                                                 <option
-                                                    selected={"Google" === engine}
+                                                    selected={"Google" === searchState.engine}
                                                     value={"Google"}
                                                     defaultValue
                                                     className="text-black"
@@ -195,7 +182,7 @@ export default function SearchBar({ status, setStatus }) {
                                                 {/* <option value={"Baidu"}>Baidu</option> */}
                                                 <option
                                                     value={"Bing"}
-                                                    selected={"Bing" === engine}
+                                                    selected={"Bing" === searchState.engine}
                                                     className="text-black"
                                                 >
                                                     Bing
@@ -207,14 +194,14 @@ export default function SearchBar({ status, setStatus }) {
                                     <input
                                         placeholder="Search"
                                         className={`px-1 bg-white/0 rounded w-full outline-none h-full text-white poppins-light text-lg`}
-                                        value={string}
+                                        value={searchState.string}
                                         onChange={(e) => {
                                             searchState.updateQuery({ string: e.target.value })
-                                            setString(e.target.value)
+                                            searchState.setString(e.target.value)
                                         }}
                                         onClick={() => setShowOptions(true)}
                                     />
-                                    {string ? (
+                                    {searchState.string ? (
                                         <img
                                             src={clearText}
                                             className="h-10 cursor-pointer"
@@ -257,13 +244,13 @@ export default function SearchBar({ status, setStatus }) {
                                         <img
                                             className="h-8 cursor-pointer px-2"
                                             src={require("../../../assets/icons/save.png")}
-                                            onClick={() => saveQuery}
+                                            onClick={() => saveQuery()}
                                             alt="save query"
                                         />
                                     )}
-                                    {query && query.length ? <p
+                                    {searchState.query && searchState.query.length ? <p
                                         className={`text-white rounded h-8 flex align-items-center hover:text-slate-900 cursor-pointer`}
-                                        onClick={() => setQuery([])}
+                                        onClick={() => searchState.setQuery([])}
                                     >
                                         Clear
                                     </p> : <></>}
@@ -274,10 +261,10 @@ export default function SearchBar({ status, setStatus }) {
                         </div>
                     </div>
                 </form>
-                {query && query.length ? (
+                {searchState.query && searchState.query.length ? (
                     <div className="flex flex-wrap p-1 w-3/5">
-                        {query && query.length ?
-                            query.map((param, index) => {
+                        {searchState.query && searchState.query.length ?
+                            searchState.query.map((param, index) => {
                                 if (param.includes(":")) {
                                     return (
                                         <QueryParam
@@ -295,49 +282,49 @@ export default function SearchBar({ status, setStatus }) {
                 {showOptions && (
                     <div className={`flex flex-row w-3/5 flex-wrap`}>
                         <div className={`w-full grid grid-cols-3`}>
-                            {Object.keys(settings[engine].operators).map(
+                            {Object.keys(settings[searchState.engine].operators).map(
                                 (param, index) => (
                                     <Parameter
                                         key={`param-${param}`}  // Add this line
                                         index={index}
                                         text={param}
                                         param={
-                                            settings[engine].operators[param]
+                                            settings[searchState.engine].operators[param]
                                         }
                                         selectedOperator={selectedOperator}
                                         setSelectedOperator={setSelectedOperator}
                                     />
                                 )
                             )}
-                            {(engine === "Google" || engine === "Bing") && (
+                            {(searchState.engine === "Google" || searchState.engine === "Bing") && (
                                 <select
                                     className="pl-1 py-1 cursor-pointer bg-zinc-900 w-full text-white rounded"
                                     onChange={(e) => {
-                                        setLanguage(
-                                            settings[engine].languages[
+                                        searchState.setLanguage(
+                                            settings[searchState.engine].languages[
                                             e.target.value
                                             ]
                                         )
-                                        searchState.updateQuery({hl: settings[engine].languages[e.target.value]})
+                                        searchState.updateQuery({hl: settings[searchState.engine].languages[e.target.value]})
                                     }}
                                 >
                                     <option
                                         key="language-default"
-                                        selected={language === ""}
+                                        selected={searchState.language === ""}
                                         disabled
                                     >
                                         Language
                                     </option>
 
                                     {Object.keys(
-                                        settings[engine].languages
+                                        settings[searchState.engine].languages
                                     ).map((name) => (
                                         <option
                                             key={`language-${name}`}
                                             selected={
-                                                settings[engine].languages[
+                                                settings[searchState.engine].languages[
                                                 name
-                                                ] === language
+                                                ] === searchState.language
                                             }
                                             value={name}
                                         >
@@ -349,15 +336,15 @@ export default function SearchBar({ status, setStatus }) {
                             <select
                                 className="pl-1 py-1 cursor-pointer bg-zinc-900 w-full h-full text-white flex items-center"
                                 onChange={(e) => {
-                                    const newCountry = engine === "Google" ? { cr: settings[engine].countries[e.target.value] } : { location: settings[engine].countries[e.target.value] }
+                                    const newCountry = searchState.engine === "Google" ? { cr: settings[searchState.engine].countries[e.target.value] } : { location: settings[searchState.engine].countries[e.target.value] }
                                     searchState.updateQuery(newCountry)
                                     console.log(searchState.currentSearchStatus)
-                                    setCountry(settings[engine].countries[e.target.value])
+                                    searchState.setCountry(settings[searchState.engine].countries[e.target.value])
                                 }}
                             >
                                 <option
                                     key="country-default"
-                                    selected={country === ""}
+                                    selected={searchState.country === ""}
                                     disabled
                                     className=""
                                 >
@@ -365,15 +352,15 @@ export default function SearchBar({ status, setStatus }) {
                                 </option>
 
                                 {Object.keys(
-                                    settings[engine].countries
+                                    settings[searchState.engine].countries
                                 ).map((name) => (
                                     <option
                                         key={`country-${name}`}
                                         value={name}
                                         selected={
-                                            settings[engine].countries[
+                                            settings[searchState.engine].countries[
                                             name
-                                            ] === country
+                                            ] === searchState.country
                                         }
                                     >
                                         {name}

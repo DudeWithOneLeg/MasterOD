@@ -6,6 +6,7 @@ import { isMobile } from "react-device-detect";
 import { useGoogleLogin } from "@react-oauth/google";
 import { hasGrantedAnyScopeGoogle } from "@react-oauth/google";
 import googleLogo from "../../assets/images/google-logo.png";
+import ToS from "./ToS";
 
 function SignupFormPage() {
     const dispatch = useDispatch();
@@ -15,6 +16,7 @@ function SignupFormPage() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [email, setEmail] = useState("");
     const [errors, setErrors] = useState({});
+    const [acceptedTOS, setAcceptedTOS] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -83,6 +85,11 @@ function SignupFormPage() {
             delete newErrors.email;
             setErrors(newErrors);
         }
+        if (!email) {
+            const newErrors = { ...errors };
+            delete newErrors.email;
+            setErrors(newErrors);
+        }
     }, [email]);
 
     useEffect(() => {
@@ -118,14 +125,15 @@ function SignupFormPage() {
             });
         }
     };
+    const isValidForm = () => !Object.values(errors).length && acceptedTOS;
 
     return (
-        <div className={`h-full flex items-center justify-center bg-zinc-900`}>
+        <div className={`h-full w-2/3 flex items-center justify-center bg-zinc-900`}>
             <div className={`w-full max-w-md p-8 space-y-8 bg-zinc-800 rounded-lg shadow-lg`}>
-                <h2 className="text-3xl font-bold text-center text-white">Sign Up</h2>
+                <h2 className="text-3xl text-center text-white">Sign Up</h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
-                        <label htmlFor="email" className="block text-sm font-medium text-zinc-300">Email</label>
+                        <label htmlFor="email" className="block text-sm font-medium">Email</label>
                         <input
                             id="email"
                             name="email"
@@ -140,7 +148,7 @@ function SignupFormPage() {
                         )}
                     </div>
                     <div>
-                        <label htmlFor="username" className="block text-sm font-medium text-zinc-300">Username</label>
+                        <label htmlFor="username" className="block text-sm font-medium">Username</label>
                         <input
                             id="username"
                             name="username"
@@ -156,7 +164,7 @@ function SignupFormPage() {
                         )}
                     </div>
                     <div>
-                        <label htmlFor="password" className="block text-sm font-medium text-zinc-300">Password</label>
+                        <label htmlFor="password" className="block text-sm font-medium">Password</label>
                         <input
                             id="password"
                             name="password"
@@ -172,7 +180,7 @@ function SignupFormPage() {
                         )}
                     </div>
                     <div>
-                        <label htmlFor="confirmPassword" className="block text-sm font-medium text-zinc-300">Confirm Password</label>
+                        <label htmlFor="confirmPassword" className="block text-sm font-medium">Confirm Password</label>
                         <input
                             id="confirmPassword"
                             name="confirmPassword"
@@ -187,10 +195,12 @@ function SignupFormPage() {
                             <p className="mt-2 text-sm text-red-500">{errors.confirmPassword}</p>
                         )}
                     </div>
+                    <ToS acceptedTOS={acceptedTOS} setAcceptedTOS={setAcceptedTOS}/>
                     <div>
                         <button
                             type="submit"
-                            className="w-full py-2 px-4 bg-zinc-600 text-white font-semibold rounded-md hover:bg-zinc-500 focus:outline-none focus:ring focus:ring-zinc-500"
+                            className={`w-full py-2 px-4 text-white font-semibold rounded-md focus:outline-none focus:ring focus:ring-zinc-500 ${isValidForm() ? 'bg-blue-500 hover:bg-blue-400' : 'bg-zinc-600'}`}
+                            disabled={!isValidForm()}
                         >
                             Sign Up
                         </button>

@@ -16,6 +16,7 @@ import GuidePage from "./components/GuidePage";
 import stars from './assets/images/stars.jpg'
 import WelcomePage from "./components/WelcomePage";
 import AccountSettings from "./components/AccountSettings/index.js";
+import TermsOfServicePage from "./components/TermsOfServicePage";
 
 function App() {
     const dispatch = useDispatch();
@@ -72,6 +73,7 @@ function App() {
                     {user && !user.tempUser && !isMobile ? <SideBar /> : <></>}
                     <Routes>
                         <Route path="/guide" element={<GuidePage />} />
+                        <Route path="/tos" element={<TermsOfServicePage />} />
                         {isLoaded ? <>
 
                             user ?    (<>
