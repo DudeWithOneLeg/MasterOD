@@ -10,11 +10,8 @@ const newTab = require("../../assets/icons/open_in_new.png");
 
 export default function ResultCard({ data, rowKey, displayOnly, index }) {
     const {
-        currentSelected,
-        setCurrentSelected,
-        visitedResults,
-        setVisitedResults,
         setIsIndex,
+        clickHistory
     } = useContext(SearchContext);
     const { setShowResult, setPreview, setResult } = useContext(ResultsContext);
 
@@ -52,8 +49,8 @@ export default function ResultCard({ data, rowKey, displayOnly, index }) {
         setShowResult(true);
         setResult(newResult);
         setPreview(data[rowKey].link);
-        setCurrentSelected(index);
-        setVisitedResults([...visitedResults, index]);
+        clickHistory.setCurrentSelected(index);
+        clickHistory.setVisitedResults([...clickHistory.visitedResults, index]);
         if (result.title.toLowerCase().includes("index of /")) setIsIndex(true);
         return;
     };
@@ -75,10 +72,10 @@ export default function ResultCard({ data, rowKey, displayOnly, index }) {
             data-collapse-target="collapse"
             data-collapse="collapse"
             id="result"
-            className={`${!displayOnly ? (currentSelected == index
+            className={`${!displayOnly ? (clickHistory.currentSelected == index
                 ? "border-2 !border-green-400"
-                :( visitedResults?.includes(index) &&
-                    currentSelected !== index
+                :( clickHistory.visitedResults?.includes(index) &&
+                    clickHistory.currentSelected !== index
                     ? "border-2 border-white"
                     : "")
                 ) : ''} h-fit py-2 mb-2 mr-1 pr-2 border-2 border-zinc-600 min-w-fit max-w-full cursor-pointer flex items-center rounded ${!displayOnly ? 'hover:border-2 hover:border-green-400' : ''} bg-zinc-950 hover:bg-zinc-800`}

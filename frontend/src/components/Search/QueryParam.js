@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useContext, useCallback } from "react";
 import { SearchContext } from "../../context/SearchContext";
 
 export default function QueryParam({ param, index }) {
-  const { setQuery, query } = useContext(SearchContext);
+  const { searchState } = useContext(SearchContext);
   const [paramValue, setParamValue] = useState(
     param.split(":")[1]?.split('"').join("") || ""
   );
@@ -11,18 +11,18 @@ export default function QueryParam({ param, index }) {
   const queryParamRef = useRef(null);
 
   const handleDelete = useCallback(() => {
-    setQuery(prevQuery => prevQuery.filter(p => p !== param));
-  }, [setQuery, param]);
+    searchState.setQuery(prevQuery => prevQuery.filter(p => p !== param));
+  }, [searchState, param]);
 
   const handleParamValueChange = useCallback((e) => {
     const newValue = e.target.value;
     setParamValue(newValue);
-    setQuery(prevQuery => {
+    searchState.setQuery(prevQuery => {
       const newQuery = [...prevQuery];
       newQuery[index] = `${qparam}:${newValue}`;
       return newQuery;
     });
-  }, [qparam, index, setQuery]);
+  }, [qparam, index, searchState]);
 
   useEffect(() => {
     if (param) {

@@ -20,10 +20,6 @@ export default function ResultInfo() {
     } = useContext(ResultsContext);
     const {
         setSearch,
-        query,
-        string,
-        setVisitedResults,
-        setCurrentSelected,
         setLoadingResults,
         isIndex,
         isRedditShared,
@@ -32,10 +28,8 @@ export default function ResultInfo() {
         setIsOnReddit,
         loading,
         setLoading,
-        language,
-        country,
-        engine,
-        searchState
+        searchState,
+        clickHistory
     } = useContext(SearchContext);
     const results = useSelector((state) => state.results.results);
     const dispatch = useDispatch();
@@ -43,14 +37,13 @@ export default function ResultInfo() {
 
     const handleNextPage = () => {
         setLoadingResults(true);
-        console.log(searchState.currentSearchStatus)
         dispatch(resultActions.search({
-            q: query.join(";"),
-            cr: country,
-            hl: language,
-            engine: engine.toLowerCase(),
+            q: searchState.query.join(";"),
+            cr: searchState.country,
+            hl: searchState.language,
+            engine: searchState.engine.toLowerCase(),
             start: pageNum * 100,
-            string: string,
+            string: searchState.string,
         })).then(data => {
             if (data.results?.info?.totalPages) {
                 setTotalPages(data.results.info.totalPages);
@@ -58,8 +51,8 @@ export default function ResultInfo() {
             if (data.results) {
                 setPageNum(pageNum + 1);
                 setNewPageNum(pageNum + 1);
-                setVisitedResults([]);
-                setCurrentSelected(null);
+                clickHistory.setVisitedResults([]);
+                clickHistory.setCurrentSelected(null);
                 searchState.updateQuery({pageNum: pageNum + 1});
             }
             setLoadingResults(false);
@@ -69,21 +62,21 @@ export default function ResultInfo() {
     const handlePreviousPage = () => {
         setLoadingResults(true);
         dispatch(resultActions.search({
-            q: query.join(";"),
-            cr: country,
-            hl: language,
-            engine: engine.toLowerCase(),
+            q: searchState.query.join(";"),
+            cr: searchState.country,
+            hl: searchState.language,
+            engine: searchState.engine.toLowerCase(),
             start: (pageNum - 2) * 100,
-            string: string,
+            string: searchState.string,
         })).then(data => {
-            if (data.results?.info?.totalPages) {
+            if (data?.results?.info?.totalPages) {
                 setTotalPages(data.results.info.totalPages);
             }
             if (data.results) {
                 setPageNum(pageNum - 1);
                 setNewPageNum(pageNum - 1);
-                setVisitedResults([]);
-                setCurrentSelected(null);
+                clickHistory.setVisitedResults([]);
+                clickHistory.setCurrentSelected(null);
             }
             setLoadingResults(false);
         });

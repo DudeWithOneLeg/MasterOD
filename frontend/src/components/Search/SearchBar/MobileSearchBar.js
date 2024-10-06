@@ -14,19 +14,7 @@ const searchIcon = require("../../../assets/images/search.png");
 
 export default function MobileSearchBar({ setStatus, status, selectedOperator, setSelectedOperator }) {
     const {
-        query,
-        setQuery,
-        country,
-        setCountry,
-        language,
-        setLanguage,
-        engine,
-        setEngine,
-        string,
-        setString,
         setSearch,
-        setVisitedResults,
-        setCurrentSelected,
         setLoadingResults,
         showOptions,
         setShowOptions,
@@ -34,7 +22,8 @@ export default function MobileSearchBar({ setStatus, status, selectedOperator, s
         hasReachCharLimit,
         currCharCount,
         maxCharCount,
-        searchState
+        searchState,
+        clickHistory
     } = useContext(SearchContext);
     const { setPageNum, setTotalPages } = useContext(ResultsContext);
     const navigate = useNavigate();
@@ -44,16 +33,16 @@ export default function MobileSearchBar({ setStatus, status, selectedOperator, s
 
     const saveQuery = () => {
         const options = {
-            q: query.join(";"),
-            hl: language,
-            engine: engine.toLocaleLowerCase(),
+            q: searchState.query.join(";"),
+            hl: searchState.language,
+            engine: searchState.engine.toLocaleLowerCase(),
             start: 0,
-            string: string,
+            string: searchState.string,
         };
-        if (engine === "Bing") {
-            options.location = country;
+        if (searchState.engine === "Bing") {
+            options.location = searchState.country;
         } else {
-            options.cr = country;
+            options.cr = searchState.country;
         }
         dispatch(searchActions.saveQuery(options));
     };
@@ -61,33 +50,29 @@ export default function MobileSearchBar({ setStatus, status, selectedOperator, s
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (query || string) {
+        if (searchState.query || searchState.string) {
             setLoadingResults(true);
             setStatus("initial");
             setShowOptions(false);
             let options = {};
             options = {
-                q: query.join(";"),
-                hl: language,
-                engine: engine.toLocaleLowerCase(),
+                q: searchState.query.join(";"),
+                hl: searchState.language,
+                engine: searchState.engine.toLocaleLowerCase(),
                 start: 0,
-                string: string,
+                string: searchState.string,
             };
-            if (engine === "Bing") {
-                options.location = country;
+            if (searchState.engine === "Bing") {
+                options.location = searchState.country;
             } else {
-                options.cr = country;
+                options.cr = searchState.country;
             }
             searchState.updateQuery(options)
             dispatch(resultActions.search(options, (status = "initial"))).then(
                 async (data) => {
                     navigate("/search");
                     dispatch(searchActions.getRecentQueries());
-                    if (
-                        data.results &&
-                        data.results.info &&
-                        data.results.info.totalPages
-                    ) {
+                    if (data?.results?.info?.totalPages) {
                         setTotalPages(data.results.info.totalPages);
                     }
                     setLoadingResults(false);
@@ -95,8 +80,8 @@ export default function MobileSearchBar({ setStatus, status, selectedOperator, s
             );
             setSearch(true);
             setStatus("next");
-            setVisitedResults([]);
-            setCurrentSelected(null);
+            clickHistory.setVisitedResults([]);
+            clickHistory.setCurrentSelected(null);
             setPageNum(1);
         }
     };
@@ -131,12 +116,12 @@ export default function MobileSearchBar({ setStatus, status, selectedOperator, s
                                     <label className="flex items-center h-full m-0">
                                         <select
                                             onChange={(e) =>
-                                                setEngine(e.target.value)
+                                                searchState.setEngine(e.target.value)
                                             }
                                             className="rounded ml-1 cursor-pointer text-xl focus:outline-none text-white bg-zinc-800 h-full"
                                         >
                                             <option
-                                                selected={"Google" === engine}
+                                                selected={"Google" === searchState.engine}
                                                 defaultValue
                                             >
                                                 Google
@@ -144,7 +129,7 @@ export default function MobileSearchBar({ setStatus, status, selectedOperator, s
                                             {/* <option value={"Baidu"}>Baidu</option> */}
                                             <option
                                                 value={"Bing"}
-                                                selected={"Bing" === engine}
+                                                selected={"Bing" === searchState.engine}
                                             >
                                                 Bing
                                             </option>
@@ -155,17 +140,17 @@ export default function MobileSearchBar({ setStatus, status, selectedOperator, s
                                 <input
                                     placeholder="Search"
                                     className={`px-1 bg-white/0 rounded w-full outline-none h-full text-white poppins-light text-lg`}
-                                    value={string}
+                                    value={searchState.string}
                                     onChange={(e) => {
                                         searchState.updateQuery({ string: e.target.value })
-                                        setString(e.target.value)
+                                        searchState.setString(e.target.value)
                                     }}
                                     onClick={() => setShowOptions(true)}
                                 />
                                 <img
                                     src={clearText}
                                     className="h-full"
-                                    onClick={() => setString("")}
+                                    onClick={() => searchState.setString("")}
                                 />
                             </div>
                         </div>
@@ -195,7 +180,7 @@ export default function MobileSearchBar({ setStatus, status, selectedOperator, s
                     <></>
                 )}
             </form>
-            {query && query.length && showOptions ? (
+            {searchState.query && searchState.query.length && showOptions ? (
                 <div className="flex flex-row align-items-center justify-end p-1 w-full">
                     <img
                         className="h-8 cursor-pointer px-1"
@@ -205,7 +190,7 @@ export default function MobileSearchBar({ setStatus, status, selectedOperator, s
                     />
                     <p
                         className={`px-1 text-white rounded h-8 flex align-items-center hover:text-slate-900 cursor-pointer`}
-                        onClick={() => setQuery([])}
+                        onClick={() => searchState.setQuery([])}
                     >
                         Clear
                     </p>
@@ -216,9 +201,9 @@ export default function MobileSearchBar({ setStatus, status, selectedOperator, s
 
             {showOptions && (
                 <div className="flex flex-col w-full p-2">
-                    {query ? (
+                    {searchState.query ? (
                         <div className="flex flex-wrap p-1 w-full">
-                            {query.map((param, index) => {
+                            {searchState.query.map((param, index) => {
                                 if (param.includes(":")) {
                                     return (
                                         <QueryParam
@@ -234,13 +219,13 @@ export default function MobileSearchBar({ setStatus, status, selectedOperator, s
                     )}
                     <div className={`flex flex-col bg-zinc-800 rounded w-full`}>
                         <div className={`w-full`}>
-                            {Object.keys(settings[engine].operators).map(
+                            {Object.keys(settings[searchState.engine].operators).map(
                                 (param, index) => (
                                     <Parameter
                                         index={index}
                                         text={param}
                                         param={
-                                            settings[engine].operators[param]
+                                            settings[searchState.engine].operators[param]
                                         }
                                         selectedOperator={selectedOperator}
                                         setSelectedOperator={setSelectedOperator}
@@ -251,35 +236,35 @@ export default function MobileSearchBar({ setStatus, status, selectedOperator, s
                         <div
                             className={`w-full h-full text-zinc-800`}
                         >
-                            {(engine === "Google" || engine === "Bing") && (
+                            {(searchState.engine === "Google" || searchState.engine === "Bing") && (
                                 <div className="p-2">
                                     <select
                                         // id="normalize"
                                         className="pl-2 cursor-pointer bg-zinc-900 text-white py-1 rounded"
                                         onChange={(e) => {
-                                            setLanguage(
-                                                settings[engine].languages[
+                                            searchState.setLanguage(
+                                                settings[searchState.engine].languages[
                                                 e.target.value
                                                 ]
                                             )
-                                            searchState.updateQuery({hl: settings[engine].languages[e.target.value]})
+                                            searchState.updateQuery({hl: settings[searchState.engine].languages[e.target.value]})
                                         }}
                                     >
                                         <option
-                                            selected={language === ""}
+                                            selected={searchState.language === ""}
                                             disabled
                                         >
                                             Language
                                         </option>
 
                                         {Object.keys(
-                                            settings[engine].languages
+                                            settings[searchState.engine].languages
                                         ).map((name) => (
                                             <option
                                                 selected={
-                                                    settings[engine].languages[
+                                                    settings[searchState.engine].languages[
                                                     name
-                                                    ] === language
+                                                    ] === searchState.language
                                                 }
                                                 value={name}
                                             >
@@ -294,14 +279,14 @@ export default function MobileSearchBar({ setStatus, status, selectedOperator, s
                                     // id="normalize"
                                     className="pl-2 cursor-pointer text-white bg-zinc-900 py-1 rounded w-full"
                                     onChange={(e) => {
-                                        const newCountry = engine === "Google" ? { cr: settings[engine].countries[e.target.value] } : { location: settings[engine].countries[e.target.value] }
+                                        const newCountry = searchState.engine === "Google" ? { cr: settings[searchState.engine].countries[e.target.value] } : { location: settings[searchState.engine].countries[e.target.value] }
                                         searchState.updateQuery(newCountry)
                                         console.log(searchState.currentSearchStatus)
-                                        setCountry(settings[engine].countries[e.target.value])
+                                        searchState.setCountry(settings[searchState.engine].countries[e.target.value])
                                     }}
                                 >
                                     <option
-                                        selected={country === ""}
+                                        selected={searchState.country === ""}
                                         disabled
                                         className=""
                                     >
@@ -309,14 +294,14 @@ export default function MobileSearchBar({ setStatus, status, selectedOperator, s
                                     </option>
 
                                     {Object.keys(
-                                        settings[engine].countries
+                                        settings[searchState.engine].countries
                                     ).map((name) => (
                                         <option
                                             value={name}
                                             selected={
-                                                settings[engine].countries[
+                                                settings[searchState.engine].countries[
                                                 name
-                                                ] === country
+                                                ] === searchState.country
                                             }
                                         >
                                             {name}
