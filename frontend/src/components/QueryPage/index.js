@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { isMobile } from "react-device-detect";
 import QueryRow from "./QueryRow";
 import * as queryActions from "../../store/query";
 import { SelectLimit } from "./SelectLimit";
 import { SelectEngine } from "./SelectEngine";
 import MobileQueryPage from "./MobileQueryPage";
-import GuidePage from "../GuidePage";
 const searchIcon = require("../../assets/images/search.png");
 
 export default function QueryPage() {
@@ -18,7 +17,9 @@ export default function QueryPage() {
     const [limit, setLimit] = useState(25);
     const [engineFilter, setEngineFilter] = useState("");
     const [sortedQueries, setSortedQueries] = useState({});
+    const [error, setError] = useState("");
     const params = useParams();
+    const navigate = useNavigate();
     const sortByDay = (queries) => {
         const newSortedQueries = {};
         const days = [
@@ -47,7 +48,7 @@ export default function QueryPage() {
 
     useEffect(() => {
 
-        if (queries) {
+        if (queries && !error && !queries.message) {
             sortByDay(queries);
         }
 
@@ -66,16 +67,27 @@ export default function QueryPage() {
         dispatch(queryActions.getQueries(options));
     }, [dispatch, limit, viewAll, engineFilter]);
 
+    useEffect(() => {
+        setError("")
+        setSortedQueries({})
+    }, [viewAll])
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(queryActions.getQueries({ limit, filter, saved: !viewAll, engine: engineFilter }));
+        setSortedQueries({})
+        setError("")
+        dispatch(queryActions.getQueries({ limit, filter, saved: !viewAll, engine: engineFilter })).then(async (data) => {
+            if (data.message) {
+                setError(data.message)
+            }
+        })
     };
 
     if (isMobile) return (<MobileQueryPage />)
     else return (
         <div className="flex h-full overflow-hidden w-full pt-4">
             <div className="h-full w-full overflow-y-hidden rounded border-1 border-zinc-600 flex justify-center">
-                <div className={`${isMobile ? "flex flex-col" : "flex flex-col"} h-full w-4/5 overflow-y-scroll no-scrollbar items-center p-1`}>
+                <div className={`${isMobile ? "flex flex-col" : "flex flex-col"} h-full w-4/5 no-scrollbar items-center p-1`}>
                     <div className="flex flex-row justify-start items-center w-full border-b-2 border-zinc-600">
                         <div className="w-full flex justify-between items-center">
                             <div className="flex flex-row justify-center items-center">
@@ -100,13 +112,13 @@ export default function QueryPage() {
                                         type="submit"
                                         className="text-black focus:outline-none cursor-pointer rounded-full h-7 w-7"
                                     >
-                                        <img src={searchIcon} className="h-6 w-6 transition-all duration-200 hover:h-7 hover:w-7" alt="search"/>
+                                        <img src={searchIcon} className="h-6 w-6 transition-all duration-200 hover:h-7 hover:w-7" alt="search" />
                                     </button>
                                 </form>
                             </div>
                         </div>
                     </div>
-                    <div className="w-full px-4 flex flex-col">
+                    <div className={`w-full px-4 flex flex-col justify-center items-center ${error.length ? "h-full" : ""}`}>
 
                         {sortedQueries && Object.keys(sortedQueries).length
                             ? Object.keys(sortedQueries)
@@ -133,16 +145,18 @@ export default function QueryPage() {
                                         </div>
                                     );
                                 })
-                            : <></>}
+                            : (error.length ? <h1 className="text-2xl text-amber-500">No results found</h1> : <></>)}
                     </div>
-                    <div className="w-full px-4 flex flex-col h-full">
 
-                        {!sortedQueries || !Object.keys(sortedQueries).length
-                            ? <div className="w-full h-full overflow-y-scroll">
-                                <GuidePage />
+                    {!sortedQueries || !Object.keys(sortedQueries).length && !error
+                        ? <div className="w-full px-4 flex flex-col h-full items-center justify-center text-3xl text-white">
+                            <div className="flex flex-row">
+                                <h1 className="cursor-pointer">View our</h1>
+                                <h1 onClick={() => navigate("/guide")} className="ml-2 underline text-amber-600"> Guide</h1>
                             </div>
-                            : <></>}
-                    </div>
+
+                        </div>
+                        : <></>}
                 </div>
             </div>
         </div>

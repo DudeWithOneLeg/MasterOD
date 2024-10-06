@@ -24,8 +24,10 @@ export const getQueries = (options) => async (dispatch) => {
         body: JSON.stringify(options)
     })
     if (res.ok && res.status === 200) {
-        const queries = await res.json()
+        const data = await res.json()
+        const queries = data.length ? flatten(data) : {message: "No results found"}
         dispatch(setQueries(queries))
+        return queries
     }
 }
 
@@ -45,7 +47,7 @@ const queryReducer = (state = intitialState, action) => {
     let newState;
     switch (action.type) {
         case GET_QUERIES:
-            newState = {...state, all: flatten(action.payload)}
+            newState = {...state, all: action.payload}
             return newState;
 
         case UPDATE_QUERY:

@@ -24,7 +24,6 @@ router.post("/", async (req, res) => {
         ]
       }
     }
-    console.log(options)
     const results = await Result.findAll(options);
     res.statusCode = 200;
     return res.json({ results }).status(200);
