@@ -59,9 +59,9 @@ export default function SideBar() {
                                         New Search
                                     </div>
                                     <div className="h-2"/>
-                                    <div className="w-full p-2 text-2xl underline text-amber-600 poppins-regular-italic">
+                                    {/* <div className="w-full p-2 text-2xl underline text-amber-600 poppins-regular-italic">
                                         <h1>Current Search</h1>
-                                    </div>
+                                    </div> */}
                                     <RecentStats setSearch={searchState.setSearch} />
                                 </div>
                             </div>
