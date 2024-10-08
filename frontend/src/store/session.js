@@ -78,9 +78,12 @@ export const signup = (user) => async (dispatch) => {
     });
     const data = await response.json();
 
-    if (data && data.success) {
+    if (data?.success) {
       dispatch(setUser({tempUser: true}));
-
+    }
+    else if (data?.user) {
+      console.log()
+      dispatch(setUser(data.user));
     }
     return response;
   }
@@ -106,8 +109,11 @@ export const signup = (user) => async (dispatch) => {
       }),
     });
     const data = await response.json();
-    dispatch(setUser(data.user));
-    return response;
+    if (data && !data.errors) {
+
+      dispatch(setUser(data.user));
+    }
+    return data;
   }
 };
 

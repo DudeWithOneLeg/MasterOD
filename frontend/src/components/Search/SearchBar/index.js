@@ -39,6 +39,7 @@ export default function SearchBar({ status, setStatus }) {
         searchState,
         clickHistory,
     } = useContext(SearchContext);
+    console.log(searchState.engine)
 
     useEffect(() => {
         if (showOptions) setPadding('5')
@@ -174,7 +175,7 @@ export default function SearchBar({ status, setStatus }) {
                                                 className="rounded ml-1 cursor-pointer bg-transparent text-2xl focus:outline-none text-white"
                                             >
                                                 <option
-                                                    selected={"Google" === isCurrentSearch ? searchState.currentSearchStatus.engine : searchState.engine}
+                                                    selected={"Google" === (isCurrentSearch ? searchState.currentSearchStatus.engine : searchState.engine)}
                                                     value={"Google"}
                                                     defaultValue
                                                     className="text-black"
@@ -184,7 +185,7 @@ export default function SearchBar({ status, setStatus }) {
                                                 {/* <option value={"Baidu"}>Baidu</option> */}
                                                 <option
                                                     value={"Bing"}
-                                                    selected={"Bing" === isCurrentSearch ? searchState.currentSearchStatus.engine : searchState.engine}
+                                                    selected={"Bing" === (isCurrentSearch ? searchState.currentSearchStatus.engine : searchState.engine)}
                                                     className="text-black"
                                                 >
                                                     Bing

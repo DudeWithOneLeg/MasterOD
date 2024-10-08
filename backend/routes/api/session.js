@@ -38,8 +38,9 @@ router.get("/", async (req, res) => {
   if (user) {
     const safeUser = {
       id: user.id,
-      // email: user.email,
-      username: user.username
+      email: user.email,
+      username: user.username,
+      isOauth: user.isOauth
     };
     return res.json({
       user: safeUser,
@@ -73,31 +74,14 @@ router.post("/google", async (req, res, next) => {
     err.errors = { credential: "The credentials were invalid." };
     return next(err);
   }
-  const recentQueries = await Queries.findAll({
-    where: {
-      userId: user.id,
-    },
-    order: [["updatedAt", "DESC"]],
-    limit: 5,
-  });
-
-  const savedQueries = await Queries.findAll({
-    where: {
-      userId: user.id,
-      saved: true,
-    },
-    order: [["updatedAt", "DESC"]],
-    limit: 5,
-  });
 
   // console.log(recentQueries)
 
   const safeUser = {
     id: user.id,
-    // email: user.email,
+    email: user.email,
     username: user.username,
-    recentQueries,
-    savedQueries,
+    isOauth: user.isOauth
   };
 
   await setTokenCookie(res, safeUser);
@@ -127,31 +111,12 @@ router.post("/", validateLogin, async (req, res, next) => {
     err.errors = { credential: "The credentials were invalid." };
     return next(err);
   }
-  const recentQueries = await Queries.findAll({
-    where: {
-      userId: user.id,
-    },
-    order: [["updatedAt", "DESC"]],
-    limit: 5,
-  });
-
-  const savedQueries = await Queries.findAll({
-    where: {
-      userId: user.id,
-      saved: true,
-    },
-    order: [["updatedAt", "DESC"]],
-    limit: 5,
-  });
-
-  // console.log(recentQueries)
 
   const safeUser = {
     id: user.id,
-    // email: user.email,
+    email: user.email,
     username: user.username,
-    recentQueries,
-    savedQueries,
+    isOauth: user.isOauth
   };
 
   await setTokenCookie(res, safeUser);
