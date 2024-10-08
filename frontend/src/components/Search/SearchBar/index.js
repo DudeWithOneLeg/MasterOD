@@ -39,7 +39,6 @@ export default function SearchBar({ status, setStatus }) {
         searchState,
         clickHistory,
     } = useContext(SearchContext);
-    console.log(searchState.engine)
 
     useEffect(() => {
         if (showOptions) setPadding('5')
