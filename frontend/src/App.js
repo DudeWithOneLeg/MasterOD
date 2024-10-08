@@ -75,7 +75,7 @@ function App() {
                                 <Route path="/search" element={<Search />} />
                                 <Route path="/search/:view" element={<Search />} />
                                 <Route path="/finish-signup" element={<FinishSignup />} />
-                                {/* <Route path="/user/settings" element={<AccountSettings />} /> */}
+                                <Route path="/user/settings" element={<AccountSettings />} />
                             </Route>
 
                             {/* Catch-all route */}
