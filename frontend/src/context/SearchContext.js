@@ -36,6 +36,7 @@ export const SearchProvider = ({ children }) => {
     }, [engine]);
 
     const updateQuery = (newQuery) => {
+        console.log(newQuery)
         setCurrentSearchStatus(prevStatus => ({
             ...prevStatus,
             ...newQuery
