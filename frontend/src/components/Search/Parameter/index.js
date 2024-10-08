@@ -11,6 +11,7 @@ export default function Parameter({ index , param, text, selectedOperator, setSe
             const parsed = input.split(text).join(param);
             const q = searchState.query;
             searchState.setQuery([...q, parsed]);
+            searchState.updateQuery({query: [...q, parsed]})
             setInput("");
         }
     };

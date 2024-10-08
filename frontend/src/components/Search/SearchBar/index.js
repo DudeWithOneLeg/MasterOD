@@ -17,6 +17,16 @@ const searchIcon = require("../../../assets/images/search.png");
 const isProduction = process.env.NODE_ENV === "production";
 
 export default function SearchBar({ status, setStatus }) {
+    const isCurrentSearch = window.location.pathname === '/search/current'
+    const { setPageNum, setTotalPages } = useContext(ResultsContext);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const [gptSearch, setGptSearch] = useState(false);
+    const [padding, setPadding] = useState('5')
+    const [selectedOperator, setSelectedOperator] = useState(null);
+
+    const settings = { Google: googleSettings, Bing: bingSettings };
+
     const {
         setSearch,
         setLoadingResults,
@@ -29,14 +39,6 @@ export default function SearchBar({ status, setStatus }) {
         searchState,
         clickHistory,
     } = useContext(SearchContext);
-    const { setPageNum, setTotalPages } = useContext(ResultsContext);
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const [gptSearch, setGptSearch] = useState(false);
-    const [padding, setPadding] = useState('5')
-    const [selectedOperator, setSelectedOperator] = useState(null);
-
-    const settings = { Google: googleSettings, Bing: bingSettings };
 
     useEffect(() => {
         if (showOptions) setPadding('5')
@@ -172,7 +174,7 @@ export default function SearchBar({ status, setStatus }) {
                                                 className="rounded ml-1 cursor-pointer bg-transparent text-2xl focus:outline-none text-white"
                                             >
                                                 <option
-                                                    selected={"Google" === searchState.engine}
+                                                    selected={"Google" === isCurrentSearch ? searchState.currentSearchStatus.engine : searchState.engine}
                                                     value={"Google"}
                                                     defaultValue
                                                     className="text-black"
@@ -182,7 +184,7 @@ export default function SearchBar({ status, setStatus }) {
                                                 {/* <option value={"Baidu"}>Baidu</option> */}
                                                 <option
                                                     value={"Bing"}
-                                                    selected={"Bing" === searchState.engine}
+                                                    selected={"Bing" === isCurrentSearch ? searchState.currentSearchStatus.engine : searchState.engine}
                                                     className="text-black"
                                                 >
                                                     Bing
@@ -194,7 +196,7 @@ export default function SearchBar({ status, setStatus }) {
                                     <input
                                         placeholder="Search"
                                         className={`px-1 bg-white/0 rounded w-full outline-none h-full text-white poppins-light text-lg`}
-                                        value={searchState.string}
+                                        value={isCurrentSearch ? searchState.currentSearchStatus.string : searchState.string}
                                         onChange={(e) => {
                                             searchState.updateQuery({ string: e.target.value })
                                             searchState.setString(e.target.value)
@@ -261,20 +263,36 @@ export default function SearchBar({ status, setStatus }) {
                         </div>
                     </div>
                 </form>
-                {searchState.query && searchState.query.length ? (
+                {searchState?.query?.length && !isCurrentSearch ? (
                     <div className="flex flex-wrap p-1 w-3/5">
-                        {searchState.query && searchState.query.length ?
-                            searchState.query.map((param, index) => {
-                                if (param.includes(":")) {
-                                    return (
-                                        <QueryParam
-                                            param={param}
-                                            index={index}
-                                            key={`query-param-${index}`}
-                                        />
-                                    );
-                                }
-                            }) : <></>}
+                        {searchState.query.map((param, index) => {
+                            if (param.includes(":")) {
+                                return (
+                                    <QueryParam
+                                        param={param}
+                                        index={index}
+                                        key={`query-param-${index}`}
+                                    />
+                                );
+                            }
+                        })}
+                    </div>
+                ) : (
+                    <></>
+                )}
+                {searchState?.query?.length && isCurrentSearch ? (
+                    <div className="flex flex-wrap p-1 w-3/5">
+                        {searchState.currentSearchStatus.query.map((param, index) => {
+                            if (param.includes(":")) {
+                                return (
+                                    <QueryParam
+                                        param={param}
+                                        index={index}
+                                        key={`query-param-${index}`}
+                                    />
+                                );
+                            }
+                        })}
                     </div>
                 ) : (
                     <></>
@@ -305,7 +323,7 @@ export default function SearchBar({ status, setStatus }) {
                                             e.target.value
                                             ]
                                         )
-                                        searchState.updateQuery({hl: settings[searchState.engine].languages[e.target.value]})
+                                        searchState.updateQuery({ hl: settings[searchState.engine].languages[e.target.value] })
                                     }}
                                 >
                                     <option

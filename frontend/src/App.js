@@ -73,6 +73,7 @@ function App() {
                                 <Route path="/results" element={<ResultsPage />} />
                                 <Route path="/results/:view" element={<ResultsPage />} />
                                 <Route path="/search" element={<Search />} />
+                                <Route path="/search/current" element={<Search />} />
                                 <Route path="/search/:view" element={<Search />} />
                                 <Route path="/finish-signup" element={<FinishSignup />} />
                                 <Route path="/user/settings" element={<AccountSettings />} />

@@ -10,18 +10,8 @@ const Card = ({ operator, description, example, exampleData }) => {
             <h1 className="text-3xl text-amber-500 mb-2">{operator}</h1>
             <p className="text-zinc-200 mb-4">{description}</p>
             <div className="flex flex-col w-1/2">
-                <div className="max-w-fit">
-
-                    {Object.keys(exampleData).map((row) => {
-                        return (
-                            <ResultCard data={exampleData} rowKey={row} displayOnly={true} />
-                        )
-                    }
-                    )}
-                </div>
-
                 <p className="text-lg mb-1">Example:</p>
-                <div className="text-zinc-200 bg-zinc-800 rounded p-3">
+                <div className="text-zinc-200 bg-zinc-800 rounded p-3 mb-2">
 
                     <div className="flex flex-row w-full items-end rounded h-full">
                         <div className="rounded-left flex-shrink-0 text-white h-fit !text-zinc-100 text-lg">
@@ -32,6 +22,16 @@ const Card = ({ operator, description, example, exampleData }) => {
                         >{example}</p>
                     </div>
                 </div>
+                <div className="max-w-fit">
+
+                    {Object.keys(exampleData).map((row) => {
+                        return (
+                            <ResultCard data={exampleData} rowKey={row} displayOnly={true} />
+                        )
+                    }
+                    )}
+                </div>
+
             </div>
         </div>
     );
