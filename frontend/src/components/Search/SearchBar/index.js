@@ -208,7 +208,10 @@ export default function SearchBar({ status, setStatus }) {
                                         <img
                                             src={clearText}
                                             className="h-10 cursor-pointer"
-                                            onClick={() => searchState.updateQuery({ string: "" })}
+                                            onClick={() => {
+                                                searchState.updateQuery({ string: "" })
+                                                searchState.setString("")
+                                            }}
                                         />
                                     ) : (
                                         <></>

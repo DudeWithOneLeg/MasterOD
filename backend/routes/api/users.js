@@ -125,9 +125,9 @@ router.post("/", validateSignup, async (req, res) => {
 
 router.post("/google", async (req, res) => {
     const { token } = req.body;
+    const { email, sub } = await verify(token);
 
     if (!req.user) {
-        const { email, sub } = await verify(token);
         const user = await User.findOne({
             where: {
                 email
@@ -173,7 +173,7 @@ router.post("/google", async (req, res) => {
             }
         })
         const googleHashedPassword = bcrypt.hashSync(sub);
-        const updated = {googleHashedPassword, isOauth: true}
+        const updated = {googleHashedPassword, isOauth: true, email}
         if (!user.email) updated.email = email
         await user.update(updated)
         return res

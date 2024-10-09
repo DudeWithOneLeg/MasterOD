@@ -118,7 +118,7 @@ export default function QueryPage() {
                             </div>
                         </div>
                     </div>
-                    <div className={`w-full px-4 flex flex-col justify-center items-center ${error.length ? "h-full" : ""}`}>
+                    <div className={`w-full px-4 flex flex-col ${error.length ? "h-full items-center justify-center" : ""} overflow-y-auto`}>
 
                         {sortedQueries && Object.keys(sortedQueries).length
                             ? Object.keys(sortedQueries)
