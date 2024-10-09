@@ -24,7 +24,6 @@ async function verify(token) {
     const response = await fetch(
         `https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=${token.access_token}`
     );
-    console.log(token);
 
     if (!response.ok) {
         return false;
@@ -72,19 +71,12 @@ router.use(session({
 // Restore session user
 router.get("/", async (req, res) => {
     const { user } = req;
-    const recentQueries = await Queries.findAll({
-        where: {
-            userId: user.id,
-        },
-        order: [["updatedAt", "DESC"]],
-        limit: 10,
-    });
     if (user) {
         const safeUser = {
             id: user.id,
-            // email: user.email,
+            email: user.email,
             username: user.username,
-            recentQueries,
+            isOauth: user.isOauth
         };
 
         res.statusCode = 200;
@@ -97,6 +89,15 @@ router.get("/", async (req, res) => {
 // Sign up
 router.post("/", validateSignup, async (req, res) => {
     const { password, username, email } = req.body;
+    const existingUser = await User.findOne({
+        where: {
+            email
+        }
+    })
+
+    if (existingUser) {
+        return res.json({errors: {email: "An account already exists with this email"}})
+    }
     const hashedPassword = bcrypt.hashSync(password);
     const user = await User.create({
         username,
@@ -107,7 +108,8 @@ router.post("/", validateSignup, async (req, res) => {
 
     const safeUser = {
         id: user.id,
-        // email: user.email,
+        email: user.email,
+        isOauth: user.isOauth,
         username: user.username,
     };
 
@@ -124,19 +126,61 @@ router.post("/", validateSignup, async (req, res) => {
 router.post("/google", async (req, res) => {
     const { token } = req.body;
 
-    const { email, sub } = await verify(token);
-    const hashedPassword = bcrypt.hashSync(sub);
-    const tempUser = { hashedPassword, email: email, isOauth: true };
-
-    req.session.tempUser = tempUser
-
-    await setTokenCookie(res, tempUser);
-
-    return res
-        .json({
-            success: true,
+    if (!req.user) {
+        const { email, sub } = await verify(token);
+        const user = await User.findOne({
+            where: {
+                email
+            }
         })
-        .status(200);
+        if (user) {
+            const safeUser = {
+                id: user.id,
+                email: user.email,
+                username: user.username,
+                isOauth: user.isOauth
+            }
+
+            await setTokenCookie(res, safeUser);
+
+            return res
+            .json({user: {...safeUser}})
+            .status(200);
+        }
+        else {
+            const hashedPassword = bcrypt.hashSync(sub);
+            const tempUser = { email: email, isOauth: true };
+
+            req.session.tempUser = {...tempUser, hashedPassword}
+
+            await setTokenCookie(res, tempUser);
+
+            return res
+                .json({
+                    success: true,
+                })
+                .status(200);
+
+        }
+    }
+    else {
+        const {id, username} = req.user
+        const { email, sub } = await verify(token);
+        const user = await User.findOne({
+            where: {
+                id,
+                username
+            }
+        })
+        const googleHashedPassword = bcrypt.hashSync(sub);
+        const updated = {googleHashedPassword, isOauth: true}
+        if (!user.email) updated.email = email
+        await user.update(updated)
+        return res
+            .json({user})
+            .status(200);
+    }
+
 });
 
 router.patch("/google", async (req, res) => {

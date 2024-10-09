@@ -12,6 +12,13 @@ import { ResultsContext } from "../../context/ResultsContext";
 import ResultInfo from "./ResultInfo";
 import MobileResultInfo from "./MobileResultInfo";
 export default function Search() {
+    const navigate = useNavigate()
+    const results = useSelector((state) => state.results.results);
+    const user = useSelector (state => state.session.user)
+
+    const [status, setStatus] = useState("");
+    const [width, setWidth] = useState(window.innerWidth);
+    const docExtensions = ["ppt", "doc", "docx", "pdf"];
     const {
         search,
         loadingResults,
@@ -25,13 +32,6 @@ export default function Search() {
         setStart,
         result,
     } = useContext(ResultsContext);
-    const navigate = useNavigate()
-    const results = useSelector((state) => state.results.results);
-    const user = useSelector (state => state.session.user)
-
-    const [status, setStatus] = useState("");
-    const [width, setWidth] = useState(window.innerWidth);
-    const docExtensions = ["ppt", "doc", "docx", "pdf"];
 
     useEffect(() => {
         const handleResize = () => setWidth(window.innerWidth);
