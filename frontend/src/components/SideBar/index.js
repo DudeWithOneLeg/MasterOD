@@ -11,7 +11,6 @@ import SideBarFooter from "./SideBarFooter";
 
 export default function SideBar() {
     const { searchState } = useContext(SearchContext);
-
     const navigate = useNavigate();
     const user = useSelector((state) => state.session.user);
     const [feedbackMsg, setFeedbackMsg] = useState("");
@@ -46,7 +45,7 @@ export default function SideBar() {
                         >
                             <div className="flex flex-col w-full">
                                 <div className="w-full flex flex-row items-center justify-between h-fit"></div>
-                                <div className={`p-2 text-lg`}>
+                                <div className={`p-2 text-lg space-y-2`}>
                                     <div
                                         onClick={handleNewSearch}
                                         className="flex flex-row text-2xl items-center cursor-pointer p-2 py-2 rounded bg-white text-black"
@@ -56,9 +55,20 @@ export default function SideBar() {
                                             className="h-8"
                                             alt="new search"
                                         />
-                                        New Search
+                                        Search
                                     </div>
-                                    <div className="h-2"/>
+                                    {/* <div
+                                        onClick={() => navigate('/results/new')}
+                                        className="flex flex-row text-2xl items-center cursor-pointer p-2 py-2 rounded bg-white text-black"
+                                    >
+                                        <img
+                                            src={require("../../assets/images/plus.png")}
+                                            className="h-8"
+                                            alt="new search"
+                                        />
+                                        Resource Group
+                                    </div> */}
+                                    <div className="h-2" />
                                     {/* <div className="w-full p-2 text-2xl underline text-blue-600 poppins-regular-italic" onClick={() => navigate('/search/current')}>
                                         <h1>Current Search</h1>
                                     </div> */}

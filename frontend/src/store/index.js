@@ -6,13 +6,15 @@
   import resultReducer from "./result";
   import queryReducer from "./query";
   import archiveReducer from "./archive";
+  import resourceGroupReducer from "./resourcegroups";
 
   const rootReducer = combineReducers({
     session: sessionReducer,
     search: searchReducer,
     results: resultReducer,
     queries: queryReducer,
-    archive: archiveReducer
+    archive: archiveReducer,
+    resourceGroups: resourceGroupReducer
   });
 
   let enhancer;

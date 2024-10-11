@@ -8,17 +8,18 @@ import MobileResultCard from "./MobileResultCard";
 const newTab = require("../../assets/icons/open_in_new.png");
 
 
-export default function ResultCard({ data, rowKey, displayOnly, index }) {
+export default function ResultCard({ data, rowKey, displayOnly, index, selectResources }) {
     const {
         setIsIndex,
         clickHistory
     } = useContext(SearchContext);
-    const { setShowResult, setPreview, setResult } = useContext(ResultsContext);
+    const { setShowResult, setPreview, setResult, groupSelection, setGroupSelection } = useContext(ResultsContext);
 
     const [showInfo, setShowInfo] = useState(false);
     const [saved, setSaved] = useState(false);
     const [lastSearchId, setLastSearchId] = useState(0);
     const lastSearch = useSelector((state) => state.search.recentQueries);
+    const [isSelected, setIsSelected] = useState(false);
 
     useEffect(() => {
         if (lastSearch && Object.values(lastSearch)[0]) {
@@ -27,18 +28,6 @@ export default function ResultCard({ data, rowKey, displayOnly, index }) {
     }, [lastSearch]);
     const docExtensions = ["pdf", "doc", "docx", "ppt", "pptx"];
     const result = data[rowKey];
-
-    // useEffect(() => {
-    //     // const options = { url: '' };
-    //     // ogs(options)
-    //     //     .then((data) => {
-    //     //         const { error, html, result, response } = data;
-    //     //         console.log('error:', error);  // This returns true or false. True if there was an error. The error itself is inside the result object.
-    //     //         console.log('html:', html); // This contains the HTML of page
-    //     //         console.log('result:', result); // This contains all of the Open Graph results
-    //     //         console.log('response:', response); // This contains response from the Fetch API
-    //     //     })
-    // }, [])
 
     const handleClick = () => {
         if (displayOnly) return;
@@ -62,7 +51,17 @@ export default function ResultCard({ data, rowKey, displayOnly, index }) {
         return;
     };
 
-    // console.log(result)
+    const handleGroupSelection = (e) => {
+        setIsSelected(e.target.checked)
+
+        if (e.target.checked) {
+            setGroupSelection([...groupSelection, result])
+        }
+        else {
+            const newGroupSelection = groupSelection.filter(resource => resource.id !== result.id)
+            setGroupSelection(newGroupSelection)
+        }
+    }
 
     if (isMobile) return <MobileResultCard data={data} rowKey={rowKey} />
 
@@ -74,16 +73,17 @@ export default function ResultCard({ data, rowKey, displayOnly, index }) {
             id="result"
             className={`${!displayOnly ? (clickHistory.currentSelected == index
                 ? "border-2 !border-green-400"
-                :( clickHistory.visitedResults?.includes(index) &&
+                : (clickHistory.visitedResults?.includes(index) &&
                     clickHistory.currentSelected !== index
                     ? "border-2 border-white"
                     : "")
-                ) : ''} h-fit py-2 mb-2 mr-1 pr-2 border-2 border-zinc-600 min-w-fit max-w-full cursor-pointer flex items-center rounded ${!displayOnly ? 'hover:border-2 hover:border-green-400' : ''} bg-zinc-900 hover:bg-zinc-800`}
+            ) : ''} h-fit py-2 mb-2 mr-1 pr-2 border-2 border-zinc-600 min-w-fit max-w-full cursor-pointer flex items-center rounded ${!displayOnly ? 'hover:border-2 hover:border-green-400' : ''} bg-zinc-900 hover:bg-zinc-800`}
 
         >
-            <div className="flex flex-col items-center justify-content-around min-w-10 h-full">
+            <div className="flex flex-col items-center justify-content-around min-w-10 h-full space-y-2">
                 {/* <div className="text-white">{result.id}</div> */}
-                <SaveResult result={result} saved={saved} setSaved={setSaved} />
+                {selectResources ? <input checked={isSelected} onChange={handleGroupSelection} type='checkbox' className="w-6 h-6 cursor-pointer"/>
+                    : <SaveResult result={result} saved={saved} setSaved={setSaved} />}
                 {result.title &&
                     result.title.toLowerCase().includes("index of /") ? (
                     <div className="rounded bg-green-200 w-6 my-1">Idx</div>

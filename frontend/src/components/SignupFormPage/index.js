@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, redirect } from "react-router-dom";
 import * as sessionActions from "../../store/session";
 import { isMobile } from "react-device-detect";
 import { useGoogleLogin } from "@react-oauth/google";
@@ -36,11 +36,19 @@ function SignupFormPage() {
                 "profile"
             );
             if (hasAccess) {
-                dispatch(sessionActions.signup({ token: tokenResponse })).catch(
+                dispatch(sessionActions.signup({ token: tokenResponse }))
+                .then(async data => {
+                    console.log(data)
+                        if (data && data.success) {
+                            console.log('hi')
+                            return navigate("/finish-signup");
+                        }
+                })
+                .catch(
                     async (res) => {
                         const data = await res.json();
-                        if (data && data.success) {
-                            navigate("/finish-signup");
+                        if (data && data.errors) {
+                            setErrors(data.errors)
                         }
                     }
                 );
@@ -211,7 +219,7 @@ function SignupFormPage() {
                         </button>
                     </div>
                 </form>
-                <div className="flex items-center justify-center">
+                {/* <div className="flex items-center justify-center">
                     <div
                         onClick={() => login()}
                         className="w-full py-2 px-4 bg-zinc-600 text-white font-semibold rounded-md hover:bg-zinc-500 focus:outline-none focus:ring focus:ring-zinc-500 flex items-center justify-center cursor-pointer"
@@ -219,7 +227,7 @@ function SignupFormPage() {
                         <img src={googleLogo} className="h-5 mr-2" alt="Google logo" />
                         <p>Sign up with Google</p>
                     </div>
-                </div>
+                </div> */}
             </div>
         </div>
     );
