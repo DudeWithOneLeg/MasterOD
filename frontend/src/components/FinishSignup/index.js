@@ -10,6 +10,7 @@ export default function FinishSignup() {
     const [errors, setErrors] = useState({});
     const navigate = useNavigate()
     const user = useSelector((state) => state.session.user);
+    console.log('hiiiii')
 
     useEffect(() => {
         if (username.length && username.length < 6) {
@@ -41,48 +42,45 @@ export default function FinishSignup() {
             }
         })
     };
-
-    if (!user || !user.tempUser) navigate('/')
+    if (!user?.tempUser) navigate('/search')
 
     return (
-        <form
-            onSubmit={(e) => handleSubmit(e)}
-            className={`w-${
-                isMobile ? "2/3" : "1/3"
-            } h-full flex flex-col items-center justify-content-center text-white`}
-        >
+        <div className="w-full h-full flex items-center justify-center">
             <div
-                className={`flex flex-col items-center w-${
-                    isMobile ? "full" : "1/2"
-                }`}
+                className={`w-full sm:w-2/3 md:w-1/2 lg:w-1/3 h-fit flex flex-col items-center justify-content-center text-white`}
             >
-                <div className="py-2 flex flex-col items-center w-full">
-                    <h1 className="align-self-start">Username *</h1>
-                    <input
-                        required
-                        value={username}
-                        placeholder="Username"
-                        onChange={(e) => setUsername(e.target.value)}
-                        className={`my-1 p-1 rounded text-black w-full border-4 border-${
-                            errors.username ? "red-200 bg-red-100" : ""
-                        } focus:outline-none`}
-                    />
-                    {errors.username ? (
-                        <p className="text-red-300 text-wrap h-6">
-                            {errors.username}
-                        </p>
-                    ) : (
-                        <p className="h-6"></p>
-                    )}
-                    <span className="h-10" />
-                    <button
-                        type="submit"
-                        className="my-1 rounded-full border p-1 px-2 w-1/2 hover:bg-slate-700"
-                    >
-                        Finish Signup
-                    </button>
-                </div>
+                <form
+                    onSubmit={(e) => handleSubmit(e)}
+                    className="w-full sm:w-2/3 md:w-1/2 p-4"
+                >
+                    <div className="flex flex-col items-center w-full h-fit">
+                        <div className="py-2 flex flex-col items-center w-full h-fit">
+                            <h1 className="align-self-start">Username *</h1>
+                            <input
+                                required
+                                value={username}
+                                placeholder="Username"
+                                onChange={(e) => setUsername(e.target.value)}
+                                className={`my-1 p-1 rounded text-black w-full border-4 ${errors.username ? "border-red-200 bg-red-100" : "border-gray-300"} focus:outline-none`}
+                            />
+                            {errors.username ? (
+                                <p className="text-red-300 h-fit w-full text-center">
+                                    {errors.username}
+                                </p>
+                            ) : (
+                                <p className="h-6"></p>
+                            )}
+                            <span className="h-10" />
+                            <button
+                                type="submit"
+                                className={`my-1 rounded ${username.length >= 6 ? 'bg-blue-500' : 'bg-zinc-600'} p-1 px-2 w-full hover:bg-slate-700 text-xl`}
+                            >
+                                Finish Signup
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
     );
 }
