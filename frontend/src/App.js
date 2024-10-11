@@ -28,9 +28,9 @@ function App() {
         dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
     }, [dispatch]);
 
-    // useEffect(() => {
-    //     if (user) navigate('/search')
-    // },[isLoaded])
+    useEffect(() => {
+        if (user) navigate('/search')
+    },[isLoaded])
 
     // useEffect(() => {
     //     if (isLoaded &&
@@ -70,18 +70,18 @@ function App() {
 
                             {/* Protected routes */}
                             <Route element={<ProtectedRoute user={user} />}>
+                                <Route path="/finish-signup" element={<FinishSignup />} />
                                 <Route path="/results" element={<ResultsPage />} />
                                 <Route path="/results/:view" element={<ResultsPage />} />
                                 <Route path="/results/:view/:group" element={<ResultsPage />} />
                                 <Route path="/search" element={<Search />} />
                                 <Route path="/search/current" element={<Search />} />
                                 <Route path="/search/:view" element={<Search />} />
-                                <Route path="/finish-signup" element={<FinishSignup />} />
                                 <Route path="/user/settings" element={<AccountSettings />} />
                             </Route>
 
                             {/* Catch-all route */}
-                            <Route path="*" element={<Navigate to={user ? "/search" : "/"} />} />
+                            <Route path="*" element={<Navigate to={user && !user.tempUser ? "/search" : "/"} />} />
                         </Routes>
                     ) : (
                         <div>Loading...</div>
@@ -95,6 +95,9 @@ function App() {
 const ProtectedRoute = ({ user }) => {
     if (!user) {
         return <Navigate to="/login" replace />;
+    }
+    else if (user.tempUser) {
+        return <Navigate to="/finish-signup" replace />;
     }
     return <Outlet />;
 };

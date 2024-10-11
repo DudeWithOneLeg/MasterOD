@@ -35,25 +35,32 @@ function SignupFormPage() {
                 "email",
                 "profile"
             );
+            console.log('Has access:', hasAccess);
             if (hasAccess) {
                 dispatch(sessionActions.signup({ token: tokenResponse }))
-                .then(async data => {
-                    console.log(data)
+                    .then(async (data) => {
+                        console.log('Dispatch result:', data);
                         if (data && data.success) {
-                            console.log('hi')
-                            return navigate("/finish-signup");
+                            console.log('Redirecting to /finish-signup');
+                            navigate("/finish-signup",{ replace: true });
+                        } else {
+                            console.log('Redirection condition not met');
                         }
-                })
-                .catch(
-                    async (res) => {
-                        const data = await res.json();
-                        if (data && data.errors) {
-                            setErrors(data.errors)
+                    })
+                    .catch(async (res) => {
+                        console.error('Error:', res);
+                        try {
+                            const data = await res.json();
+                            console.log('Error data:', data);
+                            if (data && data.errors) {
+                                setErrors(data.errors);
+                            }
+                        } catch (e) {
+                            console.error('Error parsing response:', e);
                         }
-                    }
-                );
+                    });
             }
-        },
+        }
     });
 
     useEffect(() => {
@@ -219,7 +226,7 @@ function SignupFormPage() {
                         </button>
                     </div>
                 </form>
-                {/* <div className="flex items-center justify-center">
+                <div className="flex items-center justify-center">
                     <div
                         onClick={() => login()}
                         className="w-full py-2 px-4 bg-zinc-600 text-white font-semibold rounded-md hover:bg-zinc-500 focus:outline-none focus:ring focus:ring-zinc-500 flex items-center justify-center cursor-pointer"
@@ -227,7 +234,7 @@ function SignupFormPage() {
                         <img src={googleLogo} className="h-5 mr-2" alt="Google logo" />
                         <p>Sign up with Google</p>
                     </div>
-                </div> */}
+                </div>
             </div>
         </div>
     );

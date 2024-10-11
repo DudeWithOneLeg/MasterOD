@@ -12,6 +12,7 @@ function Navigation() {
     const [showMenu, setShowMenu] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const path = window.location.pathname
 
     const handleLogOut = (e) => {
         e.preventDefault();
@@ -100,14 +101,21 @@ function Navigation() {
                         </div>
                     </div>
                 ) : (
-                    <div className="flex flex-row items-center">
+                    (path !== '/login' ? <div className="flex flex-row items-center">
                         <div
                             className="flex items-center justify-center p-2 cursor-pointer text-xl"
                             onClick={() => navigate("/login")}
                         >
                             <p>Login</p>
                         </div>
-                    </div>
+                    </div> : <div className="flex flex-row items-center">
+                        <div
+                            className="flex items-center justify-center p-2 cursor-pointer text-xl"
+                            onClick={() => navigate("/signup")}
+                        >
+                            <p>Signup</p>
+                        </div>
+                    </div> )
                 )}
             </div>
         </div>
