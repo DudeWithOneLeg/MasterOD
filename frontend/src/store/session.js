@@ -82,10 +82,9 @@ export const signup = (user) => async (dispatch) => {
       dispatch(setUser({tempUser: true}));
     }
     else if (data?.user) {
-      console.log()
       dispatch(setUser(data.user));
     }
-    return response;
+    return data;
   }
   else if (finishSignup) {
     const response = await csrfFetch("/api/users/google", {
@@ -96,7 +95,7 @@ export const signup = (user) => async (dispatch) => {
     });
     const data = await response.json();
       dispatch(setUser(data.user));
-    return response;
+    return data;
   }
   else {
 

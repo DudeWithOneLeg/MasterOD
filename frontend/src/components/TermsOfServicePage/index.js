@@ -43,12 +43,12 @@ export default function TermsOfServicePage() {
           <p class="mb-4">We reserve the right to modify these TOS at any time. Your continued use of the Service after changes are made constitutes your acceptance of the new terms.</p>
 
           <h2 class="text-2xl font-semibold  mt-8 mb-2">11. Governing Law</h2>
-          <p class="mb-4">These TOS are governed by the laws of [Your Jurisdiction], and any disputes will be subject to the jurisdiction of [Your Jurisdiction]'s courts.</p>
+          <p class="mb-4">These Terms of Service are governed by the laws of Texas, and any disputes will be subject to the jurisdiction of Texas' courts.</p>
         </section>
 
         <section id="privacy-policy" class="bg-zinc-700 rounded-lg shadow-lg p-6">
           <h1 class="text-3xl font-bold  mb-4">Privacy Policy</h1>
-          <p class="mb-4">Effective Date: <strong>[Insert Date]</strong></p>
+          <p class="mb-4">Effective Date: <strong>10/2/2024</strong></p>
 
           <p class="mb-4">At Search Deck, we respect your privacy and are committed to protecting your personal information. This Privacy Policy outlines how we collect, use, and protect your data when you use our Service.</p>
 

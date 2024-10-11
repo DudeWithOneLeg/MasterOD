@@ -7,12 +7,13 @@ import Results from "../Results";
 import Browser from "../Browser";
 import * as resultActions from "../../store/result";
 import * as searchActions from "../../store/search";
+import * as resourceGroupActions from '../../store/resourcegroups'
 import searchIcon from "../../assets/images/search.png";
 
 export default function ResultsPage() {
     const dispatch = useDispatch();
     const params = useParams();
-    const { preview, showResult, result } = useContext(ResultsContext)
+    const { preview, showResult, result, groupSelection } = useContext(ResultsContext)
 
     const saved = useSelector((state) => state.results.saved);
     const visited = useSelector((state) => state.results.visited);
@@ -21,6 +22,7 @@ export default function ResultsPage() {
     const [filterInput, setFilterInput] = useState("");
     const [viewAll, setViewAll] = useState(true);
     const [limit, setLimit] = useState(25);
+    const [selectResources, setSelectResources] = useState(false)
 
     const docExtensions = ["pdf", "ppt", "doc", "docx"];
 
@@ -43,11 +45,12 @@ export default function ResultsPage() {
     }, [preview, dispatch]);
 
     useEffect(() => {
-        const { view } = params;
-        // console.log(params)
+        const { view, group } = params;
         if (view === "saved") setViewAll(false);
         else if (view === "all") setViewAll(true);
         else setViewAll(true);
+
+        if (group === 'new') setSelectResources(true)
     }, [params]);
 
     const handleSubmit = (e) => {
@@ -57,21 +60,28 @@ export default function ResultsPage() {
         dispatch(resultActions.getallResults(options));
     };
 
+    const createResourceGroup = () => {
+        if (groupSelection.length) {
+            dispatch(resourceGroupActions.createResourceGroup({resources: groupSelection }))
+        }
+    }
+
     return (
         <div
             className={`flex flex-col  w-full ${isMobile ? "h-full" : "h-full"
                 } bg-zinc-900`}
         >
             <div
-                className={`flex items-center justify-content-center pt-2 ${preview && !isMobile ? "w-1/2" : ""
+                className={`flex items-center justify-center pt-2 flex-col ${preview && !isMobile ? "w-1/2" : ""
                     }`}
             >
+
                 <form
                     className={`flex justify-center items-center text-white ${preview && !isMobile
-                            ? "w-full flex-col"
-                            : (!preview && !isMobile
-                                ? "w-1/3 flex-col"
-                                : "w-full flex-col")
+                        ? "w-full flex-col"
+                        : (!preview && !isMobile
+                            ? "w-1/2 flex-col"
+                            : "w-full flex-col")
                         }`}
                     onSubmit={(e) => handleSubmit(e)}
                 >
@@ -98,8 +108,8 @@ export default function ResultsPage() {
                             <p
                                 onClick={() => setViewAll(true)}
                                 className={`px-1 cursor-pointer rounded ${viewAll
-                                        ? "border-b-4"
-                                        : "hover:bg-slate-600 hover:border-b-4 hover:border-gray-400"
+                                    ? "border-b-4"
+                                    : "hover:bg-slate-600 hover:border-b-4 hover:border-gray-400"
                                     }`}
                             >
                                 All
@@ -107,8 +117,8 @@ export default function ResultsPage() {
                             <p
                                 onClick={() => setViewAll(false)}
                                 className={`px-1 cursor-pointer rounded ${viewAll
-                                        ? "hover:bg-slate-600 hover:border-b-4"
-                                        : "border-b-4"
+                                    ? "hover:bg-slate-600 hover:border-b-4"
+                                    : "border-b-4"
                                     }`}
                             >
                                 Saved
@@ -129,6 +139,10 @@ export default function ResultsPage() {
                         </div>
                     </div>
                 </form>
+            {selectResources ? <div className={`h-10 text-white flex items-center bg-${groupSelection.length ? 'green-700' : 'zinc-500 !text-zinc-800'} rounded px-2`} onClick={createResourceGroup}>
+                    <p>Create Group</p>
+                </div> : <div>
+                </div>}
             </div>
             <div
                 className={`flex w-full h-full overflow-y-hidden ${isMobile ? "grid grid-rows-2 gap-1 flex-col" : ""
@@ -138,6 +152,7 @@ export default function ResultsPage() {
                     <>
                         <Results
                             data={saved}
+                            selectResources={selectResources}
                         />
                     </>
                 ) : (
@@ -147,6 +162,7 @@ export default function ResultsPage() {
                     <>
                         <Results
                             data={visited}
+                            selectResources={selectResources}
                         />
                     </>
                 ) : (

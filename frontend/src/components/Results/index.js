@@ -4,7 +4,7 @@ import { SearchContext } from "../../context/SearchContext";
 import { ResultsContext } from "../../context/ResultsContext";
 import { isMobile } from "react-device-detect";
 
-export default function Results({ data }) {
+export default function Results({ data, selectResources }) {
     const { loadingResults } = useContext(SearchContext);
     const { showResult } = useContext(ResultsContext);
 
@@ -21,12 +21,12 @@ export default function Results({ data }) {
                               .reverse()
                               .filter((key) => !data[key].currentPage)
                               .map((rowKey, index) => (
-                                  <ResultCard key={rowKey} rowKey={rowKey} data={data} index={index} />
+                                  <ResultCard key={rowKey} rowKey={rowKey} data={data} index={index} selectResources={selectResources} />
                               ))
                         : Object.keys(data)
                               .filter((key) => !data[key].currentPage)
                               .map((rowKey, index) => (
-                                  <ResultCard key={rowKey} rowKey={rowKey} data={data} index={index} />
+                                  <ResultCard key={rowKey} rowKey={rowKey} data={data} index={index} selectResources={selectResources} />
                               ))}
                 </div>
             )}

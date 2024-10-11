@@ -32,13 +32,17 @@ function LoginFormPage() {
             if (hasAccess) {
                 dispatch(sessionActions.login({ token: tokenResponse })).then(
                     async (data) => {
-                        if (data && data.errors) {
-                            setErrors(data.errors);
-                        } else {
+                        if (data && !data.errors) {
                             navigate("/search");
                         }
                     }
-                );
+                ).catch(async res => {
+                    const data = await res.json()
+                    console.log(data)
+                    if (data && data.errors) {
+                        setErrors(data.errors);
+                    }
+                })
             }
         },
     });
@@ -111,7 +115,7 @@ function LoginFormPage() {
                         </div>
                     </>}
                 </form>
-                <div className="flex items-center justify-center">
+                {/* <div className="flex items-center justify-center">
                     <div
                         onClick={() => login()}
                         className="w-full py-2 px-4 bg-zinc-600 text-white font-semibold rounded-md hover:bg-zinc-500 focus:outline-none focus:ring focus:ring-zinc-500 flex items-center justify-center cursor-pointer"
@@ -119,7 +123,7 @@ function LoginFormPage() {
                         <img src={googleLogo} className="h-5 mr-2" alt="Google logo" />
                         <p>Sign in with Google</p>
                     </div>
-                </div>
+                </div> */}
             </div>
         </div>
     );

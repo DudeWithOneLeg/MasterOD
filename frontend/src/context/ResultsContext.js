@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 export const ResultsContext = createContext();
 
 export const ResultsProvider = ({ children }) => {
@@ -9,6 +9,12 @@ export const ResultsProvider = ({ children }) => {
     const [totalPages, setTotalPages] = useState(null);
     const [start, setStart] = useState(0);
     const [result, setResult] = useState({});
+    const [groupSelection, setGroupSelection] = useState([])
+
+    useEffect(() => {
+        console.log(groupSelection)
+    },[groupSelection])
+
     return (
         <ResultsContext.Provider
             value={{
@@ -25,7 +31,9 @@ export const ResultsProvider = ({ children }) => {
                 start,
                 setStart,
                 result,
-                setResult
+                setResult,
+                groupSelection,
+                setGroupSelection
             }}
         >
             {children}

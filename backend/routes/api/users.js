@@ -20,7 +20,6 @@ const { User, Queries } = require("../../db/models");
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
 async function verify(token) {
-    await User.sync().catch((err) => console.log(err));
     const response = await fetch(
         `https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=${token.access_token}`
     );
@@ -134,6 +133,7 @@ router.post("/google", async (req, res) => {
             }
         })
         if (user) {
+            console.log(user)
             const safeUser = {
                 id: user.id,
                 email: user.email,
@@ -148,10 +148,12 @@ router.post("/google", async (req, res) => {
             .status(200);
         }
         else {
+            console.log('hiii')
             const hashedPassword = bcrypt.hashSync(sub);
             const tempUser = { email: email, isOauth: true };
 
             req.session.tempUser = {...tempUser, hashedPassword}
+            console.log(tempUser)
 
             await setTokenCookie(res, tempUser);
 
@@ -160,7 +162,6 @@ router.post("/google", async (req, res) => {
                     success: true,
                 })
                 .status(200);
-
         }
     }
     else {

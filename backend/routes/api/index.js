@@ -7,6 +7,7 @@ const resultRouter = require('./result.js')
 const queryRouter = require('./queries.js')
 const archiveRouter = require('./archive.js')
 const chatgptRouter = require('./chatgpt.js')
+const resourceGroupRouter = require('./resourceGroups.js')
 const { setTokenCookie } = require('../../utils/auth.js');
 const { User, Queries } = require('../../db/models');
 const { restoreUser } = require('../../utils/auth.js');
@@ -27,6 +28,8 @@ router.use('/queries', queryRouter)
 router.use('/archive', archiveRouter)
 
 router.use('/chatgpt', chatgptRouter)
+
+router.use('/resourcegroups', resourceGroupRouter)
 
 router.get(
   '/restore-user',
