@@ -29,7 +29,7 @@ function App() {
     }, [dispatch]);
 
     useEffect(() => {
-        if (user) navigate('/search')
+        if (user && path === '/') navigate('/search')
     },[isLoaded])
 
     // useEffect(() => {

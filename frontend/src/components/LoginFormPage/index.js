@@ -16,7 +16,8 @@ function LoginFormPage() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (sessionUser) {
+        const path = window.location.pathname
+        if (sessionUser && path === '/') {
             navigate('/search')
         }
     },[sessionUser, navigate])
