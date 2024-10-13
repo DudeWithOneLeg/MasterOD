@@ -3,7 +3,7 @@ const CREATE_RESOURCE_GROUP = 'resourcegrpup/create'
 
 const setNewResourceGroup = (newResourceGroup) => {
     return {
-        action: CREATE_RESOURCE_GROUP,
+        type: CREATE_RESOURCE_GROUP,
         payload: newResourceGroup
     }
 }

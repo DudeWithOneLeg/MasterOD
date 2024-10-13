@@ -8,16 +8,16 @@ router.post('/', async (req, res) => {
     console.log(req.user)
     const {id} = req.user
 
-    const resourceGroup = await ResourceGroup.create({userId: id})
+    const group = await ResourceGroup.create({userId: id})
     const newGroup = {
         group,
         resources: []
     }
 
-    console.log(btoa(resourceGroup.id))
+    console.log(btoa(group.id))
 
     resources.map(async resource => {
-        const newResource = await GroupResources.create({...resource, userId: id})
+        const newResource = await GroupResources.create({userId: id, resourceId: resource.id, groupId: group.id})
         newGroup.resources.push(newResource)
     })
 

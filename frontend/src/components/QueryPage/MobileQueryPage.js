@@ -110,7 +110,7 @@ export default function MobileQueryPage() {
                             : <div className="w-full px-4 flex flex-col h-full items-center justify-center text-3xl text-white">
                             <div className="flex flex-row">
                                 <h1>View our</h1>
-                                <h1 onClick={() => navigate("/guide")} className="ml-2 underline text-amber-600 cursor-pointer"> Guide</h1>
+                                <h1 onClick={() => navigate("/guide")} className="ml-2 underline text-blue-600 cursor-pointer"> Guide</h1>
                             </div>
 
                         </div>}
