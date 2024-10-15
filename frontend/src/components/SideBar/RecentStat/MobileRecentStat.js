@@ -11,7 +11,7 @@ export default function MobileRecentStat({ object, setSearch, setShowMenu }) {
     return (
         <div className={`p-2`}>
             <div
-                className={`p-2 flex flex-row items-center cursor-pointer justify-content-between rounded ${path === object.path ? 'bg-zinc-500':'hover:bg-zinc-700'}`}
+                className={`p-2 flex flex-row items-center cursor-pointer justify-content-between rounded ${path === object.path ? 'bg-amber-800':'hover:bg-zinc-800'}`}
                 onClick={() => {
                     navigate(object.path);
                     setSearch(false);

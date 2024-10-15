@@ -1,10 +1,19 @@
 import { csrfFetch } from "./csrf"
-const CREATE_RESOURCE_GROUP = 'resourcegrpup/create'
+import { flatten } from "./csrf"
+const CREATE_RESOURCE_GROUP = 'resourceGroup/create'
+const FETCH_RESOURCE_GROUP = 'resourceGroup/get'
 
 const setNewResourceGroup = (newResourceGroup) => {
     return {
-        action: CREATE_RESOURCE_GROUP,
+        type: CREATE_RESOURCE_GROUP,
         payload: newResourceGroup
+    }
+}
+
+const setResourceGroup = (resourceGroup) => {
+    return {
+        type: FETCH_RESOURCE_GROUP,
+        payload: resourceGroup
     }
 }
 
@@ -21,6 +30,16 @@ export const createResourceGroup = (newResourceGroup) => async (dispatch) => {
     return data
 }
 
+export const fetchResourceGroup = (resourceGroupId) => async (dispatch) => {
+    const res = await csrfFetch(`/api/resourcegroups/${resourceGroupId}`)
+    const data = await res.json()
+
+    if (data && !data.errors) {
+        dispatch(setResourceGroup({...data, resources: flatten(data.resources)}))
+    }
+    return data
+}
+
 const intitialState = {newResourceGroup: null};
 
 const resourceGroupReducer = (state = intitialState, action) => {
@@ -28,6 +47,9 @@ const resourceGroupReducer = (state = intitialState, action) => {
     switch (action.type) {
         case CREATE_RESOURCE_GROUP:
             newState = {...state, newResourceGroup: action.payload}
+            return newState
+        case FETCH_RESOURCE_GROUP:
+            newState = {...state, resourceGroup: action.payload}
             return newState
         default:
             return state

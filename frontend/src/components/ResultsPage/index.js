@@ -7,8 +7,9 @@ import Results from "../Results";
 import Browser from "../Browser";
 import * as resultActions from "../../store/result";
 import * as searchActions from "../../store/search";
-import * as resourceGroupActions from '../../store/resourcegroups'
 import searchIcon from "../../assets/images/search.png";
+import OpenModalButton from "../OpenModalButton";
+import NewGroupModal from "../NewGroupModal";
 
 export default function ResultsPage() {
     const dispatch = useDispatch();
@@ -59,12 +60,6 @@ export default function ResultsPage() {
         if (filterInput) options.filter = filterInput;
         dispatch(resultActions.getallResults(options));
     };
-
-    const createResourceGroup = () => {
-        if (groupSelection.length) {
-            dispatch(resourceGroupActions.createResourceGroup({resources: groupSelection }))
-        }
-    }
 
     return (
         <div
@@ -139,8 +134,8 @@ export default function ResultsPage() {
                         </div>
                     </div>
                 </form>
-            {selectResources ? <div className={`h-10 text-white flex items-center bg-${groupSelection.length ? 'green-700' : 'zinc-500 !text-zinc-800'} rounded px-2`} onClick={createResourceGroup}>
-                    <p>Create Group</p>
+                {selectResources ? <div>
+                    <OpenModalButton buttonText="Create Group" modalComponent={<NewGroupModal />} className={`h-10 text-white flex items-center ${groupSelection.length ? 'bg-blue-700' : 'bg-zinc-500 !text-zinc-800'} rounded px-2`} />
                 </div> : <div>
                 </div>}
             </div>

@@ -19,6 +19,7 @@ export default function SideBar() {
 
     const handleSendFeedback = (e) => {
         e.preventDefault();
+        if (!feedbackMsg.length) return
         sessionActions.sendFeedback({
             text: feedbackMsg,
             email: feedbackEmail,
@@ -48,7 +49,7 @@ export default function SideBar() {
                                 <div className={`p-2 text-lg space-y-2`}>
                                     <div
                                         onClick={handleNewSearch}
-                                        className="flex flex-row text-2xl items-center cursor-pointer p-2 py-2 rounded bg-white text-black"
+                                        className="flex flex-row text-2xl items-center cursor-pointer p-2 py-2 rounded bg-zinc-200 hover:bg-white text-black"
                                     >
                                         <img
                                             src={require("../../assets/images/plus.png")}
@@ -58,8 +59,8 @@ export default function SideBar() {
                                         Search
                                     </div>
                                     {/* <div
-                                        onClick={() => navigate('/results/new')}
-                                        className="flex flex-row text-2xl items-center cursor-pointer p-2 py-2 rounded bg-white text-black"
+                                        onClick={() => navigate('/results/all/new')}
+                                        className="flex flex-row text-2xl items-center cursor-pointer p-2 py-2 rounded bg-zinc-200 hover:bg-white text-black"
                                     >
                                         <img
                                             src={require("../../assets/images/plus.png")}

@@ -24,11 +24,11 @@ function Root() {
         <Provider store={store}>
             <ResultsProvider>
                 <SearchProvider>
-                    <ModalProvider>
-                        <BrowserRouter>
+                    <BrowserRouter>
+                        <ModalProvider>
                             <App />
-                        </BrowserRouter>
-                    </ModalProvider>
+                        </ModalProvider>
+                    </BrowserRouter>
                 </SearchProvider>
             </ResultsProvider>
         </Provider>

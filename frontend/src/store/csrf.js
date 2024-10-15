@@ -34,6 +34,7 @@
 
   export const flatten = (arr) => {
     const obj = {};
+    if (!arr.length) return obj
     for (let result of arr) {
       obj[result.id] = result;
     }
