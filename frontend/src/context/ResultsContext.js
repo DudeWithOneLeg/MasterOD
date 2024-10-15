@@ -12,7 +12,7 @@ export const ResultsProvider = ({ children }) => {
     const [groupSelection, setGroupSelection] = useState([])
 
     useEffect(() => {
-        console.log(groupSelection)
+        // console.log(groupSelection)
     },[groupSelection])
 
     return (

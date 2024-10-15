@@ -13,7 +13,6 @@
 
       const onClick = (e) => {
         e.preventDefault();
-        console.log(modalComponent);
         if (typeof onButtonClick === "function") onButtonClick();
         if (typeof onModalClose === "function") setOnModalClose(onModalClose);
         setModalContent(modalComponent);

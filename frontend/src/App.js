@@ -17,6 +17,7 @@ import stars from './assets/images/stars.jpg'
 import WelcomePage from "./components/WelcomePage";
 import AccountSettings from "./components/AccountSettings/index.js";
 import TermsOfServicePage from "./components/TermsOfServicePage";
+import ViewResourceGroup from "./components/ViewResourceGroup/index.js";
 
 function App() {
     const dispatch = useDispatch();
@@ -78,6 +79,7 @@ function App() {
                                 <Route path="/search/current" element={<Search />} />
                                 <Route path="/search/:view" element={<Search />} />
                                 <Route path="/user/settings" element={<AccountSettings />} />
+                                <Route path='/resourceGroup/:resourceGroupId' element={<ViewResourceGroup/>}/>
                             </Route>
 
                             {/* Catch-all route */}
