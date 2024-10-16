@@ -19,10 +19,10 @@ export default function RecentStats({setSearch, setShowMenu}) {
       stat: "Saved Resources",
       path: "/results/saved",
     },
-    {
-      stat: "Groups",
-      path: "/resourceGroups",
-    },
+    // {
+    //   stat: "Groups",
+    //   path: "/resourceGroups",
+    // },
   ];
 
   return Object.values(navBarStats).map((object) => {

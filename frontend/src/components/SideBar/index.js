@@ -58,7 +58,7 @@ export default function SideBar() {
                                         />
                                         Search
                                     </div>
-                                    <div
+                                    {/* <div
                                         onClick={() => navigate('/results/all/new')}
                                         className="flex flex-row text-2xl items-center cursor-pointer p-2 py-2 rounded bg-zinc-200 hover:bg-white text-black"
                                     >
@@ -68,7 +68,7 @@ export default function SideBar() {
                                             alt="new search"
                                         />
                                         Resource Group
-                                    </div>
+                                    </div> */}
                                     <div className="h-2" />
                                     {/* <div className="w-full p-2 text-2xl underline text-blue-600 poppins-regular-italic" onClick={() => navigate('/search/current')}>
                                         <h1>Current Search</h1>
