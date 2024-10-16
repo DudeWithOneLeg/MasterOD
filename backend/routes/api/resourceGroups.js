@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 const {ResourceGroup, GroupResources, Result} = require('../../db/models')
+const { Op } = require('@sequelize/core')
 
 router.get('/:resourceGroupId', async (req, res) => {
     const {resourceGroupId} = req.params
@@ -26,7 +27,7 @@ router.get('/:resourceGroupId', async (req, res) => {
     res.json({group, resources}).status(200)
 })
 
-router.post('/', async (req, res) => {
+router.post('/new', async (req, res) => {
     const { resources, group: resourceGroup } = req.body
     const {id} = req.user
     const {name, description, isPrivate} = resourceGroup
@@ -68,14 +69,25 @@ router.patch('/:resourceGroupId', async (req, res) => {
     await res.json(response).status(200)
 
 })
-router.get('/', async (req, res) => {
-    const {id: userId} = req.user
 
-    const groups = await ResourceGroup.findAll({
+router.post('/', async (req, res) => {
+    const {id: userId} = req.user
+    const {limit, isPrivate, filterInput} = req.body
+    const options = {
         where: {
-            userId
-        }
-    })
+            userId,
+            [Op.or] : [
+                {groupName: {[Op.like] : `%${filterInput}%`}},
+                {description: {[Op.like] : `%${filterInput}%`}},
+            ]
+        },
+        limit,
+    }
+
+    if (isPrivate !== undefined) options.where.isPrivate = isPrivate
+    console.log(options)
+
+    const groups = await ResourceGroup.findAll(options)
 
     res.json(groups).status(200)
 

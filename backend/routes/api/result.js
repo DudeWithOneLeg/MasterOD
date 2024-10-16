@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const { Result } = require("../../db/models");
-const { Op } = require('@sequelize/core')
 
 router.post("/", async (req, res) => {
   if (req.user) {

@@ -26,7 +26,7 @@ const setAllResourceGroups = (resourceGroups) => {
 }
 
 export const createResourceGroup = (newResourceGroup) => async (dispatch) => {
-    const res = await csrfFetch('/api/resourcegroups', {
+    const res = await csrfFetch('/api/resourcegroups/new', {
         method: "POST",
         body: JSON.stringify(newResourceGroup)
     })
@@ -48,8 +48,11 @@ export const fetchResourceGroup = (resourceGroupId) => async (dispatch) => {
     return data
 }
 
-export const fetchAllResourceGroups = () => async (dispatch) => {
-    const res = await csrfFetch(`/api/resourcegroups/`)
+export const fetchAllResourceGroups = (options) => async (dispatch) => {
+    const res = await csrfFetch(`/api/resourcegroups/`, {
+        method: "POST",
+        body: JSON.stringify(options)
+    })
     const data = await res.json()
 
     if (data && !data.errors) {
