@@ -68,5 +68,17 @@ router.patch('/:resourceGroupId', async (req, res) => {
     await res.json(response).status(200)
 
 })
+router.get('/', async (req, res) => {
+    const {id: userId} = req.user
+
+    const groups = await ResourceGroup.findAll({
+        where: {
+            userId
+        }
+    })
+
+    res.json(groups).status(200)
+
+})
 
 module.exports = router

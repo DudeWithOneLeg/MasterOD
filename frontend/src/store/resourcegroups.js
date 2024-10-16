@@ -2,6 +2,7 @@ import { csrfFetch } from "./csrf"
 import { flatten } from "./csrf"
 const CREATE_RESOURCE_GROUP = 'resourceGroup/create'
 const FETCH_RESOURCE_GROUP = 'resourceGroup/get'
+const FETCH_ALL_RESOURCE_GROUPS = 'resourceGroup/get/all'
 
 const setNewResourceGroup = (newResourceGroup) => {
     return {
@@ -14,6 +15,13 @@ const setResourceGroup = (resourceGroup) => {
     return {
         type: FETCH_RESOURCE_GROUP,
         payload: resourceGroup
+    }
+}
+
+const setAllResourceGroups = (resourceGroups) => {
+    return {
+        type: FETCH_ALL_RESOURCE_GROUPS,
+        payload: resourceGroups
     }
 }
 
@@ -35,21 +43,34 @@ export const fetchResourceGroup = (resourceGroupId) => async (dispatch) => {
     const data = await res.json()
 
     if (data && !data.errors) {
-        dispatch(setResourceGroup({...data, resources: flatten(data.resources)}))
+        dispatch(setResourceGroup({ ...data, resources: flatten(data.resources) }))
     }
     return data
 }
 
-const intitialState = {newResourceGroup: null};
+export const fetchAllResourceGroups = () => async (dispatch) => {
+    const res = await csrfFetch(`/api/resourcegroups/`)
+    const data = await res.json()
+
+    if (data && !data.errors) {
+        dispatch(setAllResourceGroups(flatten(data)))
+    }
+    return data
+}
+
+const intitialState = { newResourceGroup: null };
 
 const resourceGroupReducer = (state = intitialState, action) => {
     let newState;
     switch (action.type) {
         case CREATE_RESOURCE_GROUP:
-            newState = {...state, newResourceGroup: action.payload}
+            newState = { ...state, newResourceGroup: action.payload }
             return newState
         case FETCH_RESOURCE_GROUP:
-            newState = {...state, resourceGroup: action.payload}
+            newState = { ...state, resourceGroup: action.payload }
+            return newState
+        case FETCH_ALL_RESOURCE_GROUPS:
+            newState = { ...state, all: action.payload }
             return newState
         default:
             return state

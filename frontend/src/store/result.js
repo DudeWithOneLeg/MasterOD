@@ -187,12 +187,10 @@ const resultReducer = (state = initialState, action) => {
       const data = action.payload;
       newState = {
         ...state,
-        saved: { ...flatten(data.results.filter((result) => result.saved)) },
-        visited: { ...flatten(data.results) },
+        all: { ...flatten(data.results) },
       };
       return newState;
     case DELETE_RESULT:
-      // console.log(action.payload)
       const recentSaved = flatten(action.payload.savedResults);
       const resultId = action.payload.id;
       newState = { ...state };
