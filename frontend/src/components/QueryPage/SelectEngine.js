@@ -5,9 +5,8 @@ export const SelectEngine = (props) => {
             <select
                 className="mx-2 text-slate-600 cursor-pointer rounded focus:outline-none"
                 onChange={(e) => props.setEngineFilter(e.target.value.toLocaleLowerCase())}
-                value={props.engineFilter}
             >
-                <option selected={props.engineFilter === ""} disabled>Engine</option>
+                <option selected disabled>Engine</option>
                 <option value={"all"} >All</option>
                 <option value={"google"}>Google</option>
                 <option value={"bing"}>Bing</option>

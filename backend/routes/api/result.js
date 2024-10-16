@@ -1,15 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const { Result } = require("../../db/models");
-const { Op } = require('@sequelize/core')
 
 router.post("/", async (req, res) => {
   if (req.user) {
     const { id: userId } = req.user;
-    const {filter, limit} = req.body
+    const {filter, limit, saved} = req.body
     const options = {
       where: {
         userId,
+        saved
       },
       order: [["createdAt", "DESC"]],
       limit

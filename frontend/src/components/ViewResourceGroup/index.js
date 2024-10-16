@@ -30,26 +30,25 @@ export default function ViewResourceGroup() {
     return (
         <div className="w-full text-white flex justify-center">
             {group?.id ?
-                <div className="w-full flex flex-col items-center">
-                    <div className="flex flex-row w-full h-full">
-                        <div className="w-full">
-                            <div className="w-full flex flex-col justify-center">
-                                <div className="text-2xl">
-                                    <h1>{group.groupName}</h1>
-                                </div>
-                                <div>
-                                    <p>{group.description}</p>
-                                </div>
+                <div className="w-full flex flex-col items-start">
+                        <div className={`${((showResult && resources) || (showResult && preview)) ? 'w-1/2' : 'w-full'} flex flex-col justify-center items-center py-2`}>
+                            <div className="text-2xl">
+                                <h1>{group.groupName}</h1>
                             </div>
-                            <Results data={resources} />
+                            <div>
+                                <p>{group.description}</p>
+                            </div>
                         </div>
-                        {(showResult && resources) || (showResult && preview) ? (
-                            <Browser
-                            />
-                        ) : (
-                            <></>
-                        )}
-                    </div>
+                        <div className="w-full h-full flex flex-row">
+
+                            <Results data={resources} />
+                            {(showResult && resources) || (showResult && preview) ? (
+                                <Browser
+                                />
+                            ) : (
+                                <></>
+                            )}
+                        </div>
                 </div> : <></>}
         </div>
     )

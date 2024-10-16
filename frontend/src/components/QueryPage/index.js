@@ -51,6 +51,9 @@ export default function QueryPage() {
         if (queries && !error && !queries.message) {
             sortByDay(queries);
         }
+        else {
+            setSortedQueries({})
+        }
 
     }, [queries]);
 
@@ -63,7 +66,6 @@ export default function QueryPage() {
     useEffect(() => {
         const options = { limit, filter, saved: !viewAll }
         if (engineFilter !== 'all' && engineFilter !== '') options.engine = engineFilter
-        // console.log(options)
         dispatch(queryActions.getQueries(options));
     }, [dispatch, limit, viewAll, engineFilter]);
 

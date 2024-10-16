@@ -18,6 +18,7 @@ import WelcomePage from "./components/WelcomePage";
 import AccountSettings from "./components/AccountSettings/index.js";
 import TermsOfServicePage from "./components/TermsOfServicePage";
 import ViewResourceGroup from "./components/ViewResourceGroup/index.js";
+import ViewAllResourceGroups from "./components/ViewAllResourceGroups/index.js";
 
 function App() {
     const dispatch = useDispatch();
@@ -32,19 +33,6 @@ function App() {
     useEffect(() => {
         if (user && path === '/') navigate('/search')
     },[isLoaded])
-
-    // useEffect(() => {
-    //     if (isLoaded &&
-    //         user &&
-    //         !user.tempUser && (path === '/' || path === '/login' || path === '/signup')
-    //     ) {
-    //         navigate("/search");
-    //     } else if (isLoaded && user && user.tempUser) {
-    //         navigate("/finish-signup");
-    //     } else if (isLoaded && !user && path !== '/login' && path !== '/signup') {
-    //         navigate("/");
-    //     }
-    // }, [user, isLoaded]);
 
     return (
         <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
@@ -80,6 +68,7 @@ function App() {
                                 <Route path="/search/:view" element={<Search />} />
                                 <Route path="/user/settings" element={<AccountSettings />} />
                                 <Route path='/resourceGroup/:resourceGroupId' element={<ViewResourceGroup/>}/>
+                                <Route path='/resourceGroups/' element={<ViewAllResourceGroups/>}/>
                             </Route>
 
                             {/* Catch-all route */}

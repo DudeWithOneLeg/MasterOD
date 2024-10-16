@@ -30,7 +30,7 @@ export default function MobileSideBar({ setSearch }) {
     }
 
     return (
-        <div className="text-white w-screen bg-zinc-900 fixed h-fit z-30">
+        <div className="text-white w-screen bg-zinc-900 fixed h-[5%] z-30">
             {user ? (
                 <div className="grid grid-cols-3 justify-between items-center h-full px-2 py-1">
                     <img
