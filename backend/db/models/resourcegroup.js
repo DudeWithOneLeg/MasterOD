@@ -14,10 +14,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   ResourceGroup.init({
-    groupName:{ type: DataTypes.STRING } ,
-    description:{ type: DataTypes.STRING } ,
+    name:{ type: DataTypes.STRING } ,
+    description:{ type: DataTypes.TEXT } ,
     userId:{ type: DataTypes.INTEGER },
-    isPrivate:{ type: DataTypes.BOOLEAN }
+    isPrivate:{ type: DataTypes.BOOLEAN },
+    shareUrl:{ type: DataTypes.STRING }
   }, {
     sequelize,
     modelName: 'ResourceGroup',

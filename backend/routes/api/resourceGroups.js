@@ -3,6 +3,7 @@ const router = express.Router()
 
 const {ResourceGroup, GroupResources, Result} = require('../../db/models')
 const { Op } = require('@sequelize/core')
+const sequelize = require('sequelize')
 
 router.get('/:resourceGroupId', async (req, res) => {
     const {resourceGroupId} = req.params
@@ -31,9 +32,10 @@ router.post('/new', async (req, res) => {
     const { resources, group: resourceGroup } = req.body
     const {id} = req.user
     const {name, description, isPrivate} = resourceGroup
-    const group = await ResourceGroup.create({userId: id, groupName: name, description, isPrivate})
-
-    console.log(btoa(group.id))
+    const newGroup = {userId: id, name, description, isPrivate}
+    const group = await ResourceGroup.create(newGroup)
+    const shareUrl = isPrivate ? null : btoa(`${id} ${group.id}`)
+    await group.update({shareUrl})
 
     resources.map(async resource => {
         await GroupResources.create({userId: id, resourceId: resource.id, groupId: group.id})
@@ -77,7 +79,7 @@ router.post('/', async (req, res) => {
         where: {
             userId,
             [Op.or] : [
-                {groupName: {[Op.like] : `%${filterInput}%`}},
+                {name: {[Op.like] : `%${filterInput}%`}},
                 {description: {[Op.like] : `%${filterInput}%`}},
             ]
         },
@@ -85,9 +87,20 @@ router.post('/', async (req, res) => {
     }
 
     if (isPrivate !== undefined) options.where.isPrivate = isPrivate
-    console.log(options)
 
-    const groups = await ResourceGroup.findAll(options)
+    const queryGroups = await ResourceGroup.findAll(options)
+    const groups = []
+
+    for (let group of queryGroups) {
+        const count = await GroupResources.findAll({
+            where: {
+                groupId: group.id
+            },
+            attributes: [[sequelize.fn('COUNT', sequelize.col('id')), 'numberResources']]
+        })
+        const {numberResources} = count[0].dataValues
+        groups.push({...group.dataValues, numberResources})
+    }
 
     res.json(groups).status(200)
 

@@ -13,17 +13,20 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      groupName: {
+      name: {
         type: Sequelize.STRING
       },
       description: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       userId: {
         type: Sequelize.INTEGER
       },
       isPrivate: {
         type: Sequelize.BOOLEAN
+      },
+      shareUrl: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,

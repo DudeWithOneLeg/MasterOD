@@ -58,8 +58,8 @@ function App() {
                             <Route path="/" element={<WelcomePage />} />
 
                             {/* Protected routes */}
-                            <Route element={<ProtectedRoute user={user} />}>
                                 <Route path="/finish-signup" element={<FinishSignup />} />
+                            <Route element={<ProtectedRoute user={user} />}>
                                 <Route path="/results" element={<ResultsPage />} />
                                 <Route path="/results/:view" element={<ResultsPage />} />
                                 <Route path="/results/:view/:group" element={<ResultsPage />} />

@@ -10,7 +10,6 @@ export default function FinishSignup() {
     const [errors, setErrors] = useState({});
     const navigate = useNavigate()
     const user = useSelector((state) => state.session.user);
-    console.log('hiiiii')
 
     useEffect(() => {
         if (username.length && username.length < 6) {
