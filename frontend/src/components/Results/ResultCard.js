@@ -106,10 +106,9 @@ export default function ResultCard({ data, rowKey, displayOnly, index, selectRes
                                 <div className="flex flex-row justify-between items-center w-full">
                                     <div className="flex flex-row w-full">
                                         <h3
-                                            className={`font-bold ${isMobile ? "text-sm" : "text-xl"
-                                                } text-wrap underline w-fit poppins-bold`}
+                                            className={`font-bold text-xl text-wrap underline w-fit poppins-bold text-slate-200`}
                                         >
-                                            {result.title && result.title}
+                                            {result.title ? result.title : ''}
                                         </h3>
 
                                         {result.link &&

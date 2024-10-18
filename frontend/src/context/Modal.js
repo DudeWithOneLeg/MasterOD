@@ -47,11 +47,11 @@ export default function ModalProvider({ children }) {
       {children}
       {modalContent && ReactDOM.createPortal(
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 h-screen w-screen">
-        <div className="absolute inset-0" onClick={closeModal}></div>
-        <div className="relative m-5 rounded-lg z-60 h-1/2 w-1/2 overflow-y-auto">
-          {modalContent}
-        </div>
-      </div>,
+          <div className="absolute inset-0" onClick={closeModal}></div>
+          <div className="relative m-5 rounded-lg z-60 h-fit w-fit flex items-center justify-center overflow-y-auto">
+            {modalContent}
+          </div>
+        </div>,
         modalRef.current
       )}
     </ModalContext.Provider>

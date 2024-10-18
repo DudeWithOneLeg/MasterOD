@@ -32,9 +32,10 @@ router.post('/new', async (req, res) => {
     const { resources, group: resourceGroup } = req.body
     const {id} = req.user
     const {name, description, isPrivate} = resourceGroup
+
     const newGroup = {userId: id, name, description, isPrivate}
     const group = await ResourceGroup.create(newGroup)
-    const shareUrl = isPrivate ? null : btoa(`${id} ${group.id}`)
+    const shareUrl = btoa(`${id} ${group.id}`)
     await group.update({shareUrl})
 
     resources.map(async resource => {

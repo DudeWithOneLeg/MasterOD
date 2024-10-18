@@ -7,7 +7,8 @@
       buttonText, // text of the button that opens the modal
       onButtonClick, // optional: callback function that will be called once the button that opens the modal is clicked
       onModalClose, // optional: callback function that will be called once the modal is closed
-      className
+      className,
+      buttonImg
     }) {
       const { setModalContent, setOnModalClose } = useModal();
 
@@ -18,7 +19,7 @@
         setModalContent(modalComponent);
       };
 
-      return <button onClick={onClick} className={className}>{buttonText}</button>;
+      return <button onClick={onClick} className={className}>{buttonText || buttonImg}</button>;
     }
 
     export default OpenModalButton;

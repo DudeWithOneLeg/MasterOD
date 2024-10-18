@@ -28,12 +28,12 @@ export default function ViewResourceGroup() {
     }, [resourceGroup])
 
     return (
-        <div className="w-full text-white flex justify-center">
+        <div className="w-full text-white flex justify-center h-full">
             {group?.id ?
-                <div className="w-full flex flex-col items-start">
+                <div className="w-full flex flex-col items-start h-full">
                         <div className={`${((showResult && resources) || (showResult && preview)) ? 'w-1/2' : 'w-full'} flex flex-col justify-center items-center py-2`}>
                             <div className="text-2xl">
-                                <h1>{group.groupName}</h1>
+                                <h1>{group.name}</h1>
                             </div>
                             <div>
                                 <p>{group.description}</p>

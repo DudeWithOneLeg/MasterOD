@@ -25,6 +25,7 @@ export default function ResultsPage() {
     useEffect(() => {
         const { group } = params;
         if (group === 'new') setSelectResources(true)
+            else setSelectResources(false)
     }, [params]);
 
     useEffect(() => {
@@ -41,15 +42,14 @@ export default function ResultsPage() {
 
     return (
         <div
-            className={`flex flex-col  w-full ${isMobile ? "h-full" : "h-full"
-                } bg-zinc-900`}
+            className={`flex flex-col ${preview && !isMobile ? "items-start" : "items-center"} w-full h-full bg-zinc-900`}
         >
             <div
-                className={`flex items-center justify-center pt-2 flex-col ${preview && !isMobile ? "w-1/2" : ""
+                className={`flex items-center justify-center pt-2 flex-col ${preview || !isMobile ? "w-1/2" : ""
                     }`}
             >
                 <ResultsPageFilters />
-                {selectResources ? <div>
+                {selectResources ? <div className="w-full">
                     <OpenModalButton buttonText="Create Group" modalComponent={<NewGroupModal />} className={`h-10 text-white flex items-center ${groupSelection.length ? 'bg-blue-700' : 'bg-zinc-500 !text-zinc-800'} rounded px-2`} />
                 </div> : <div>
                 </div>}

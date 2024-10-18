@@ -31,8 +31,8 @@ export default function NewGroupModal() {
     const {closeModal} = useModal()
 
     return (
-        <div className="w-full h-full flex items-center justify-center p-4 text-white">
-            <div className='w-1/2 h-full flex flex-col text-white text-xl justify-center items-center !bg-zinc-900'>
+        <div className="w-96 h-full flex items-center justify-center m-4 text-white">
+            <div className='w-full h-full flex flex-col text-white text-xl justify-center items-center !bg-zinc-900 pt-4'>
                 <div className='h-1/4 flex items-center justify-center'>
                     <h1 className='text-2xl'>Just a few more details</h1>
 
@@ -49,8 +49,8 @@ export default function NewGroupModal() {
                     <label className='flex flex-col space-y-2'>
                         Visibility:
                         <select onChange={(e) => setIsPrivate(e.target.value)} className='bg-black w-fit cursor-pointer'>
-                            <option value={false}>Public</option>
                             <option value={true}>Private</option>
+                            <option value={false}>Public</option>
                         </select>
 
                     </label>
