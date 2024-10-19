@@ -38,8 +38,12 @@ export const createResourceGroup = (newResourceGroup) => async (dispatch) => {
     return data
 }
 
-export const fetchResourceGroup = (resourceGroupId) => async (dispatch) => {
-    const res = await csrfFetch(`/api/resourcegroups/${resourceGroupId}`)
+export const fetchResourceGroup = (resourceGroupId, shareUrl) => async (dispatch) => {
+    const body = resourceGroupId ? {resourceGroupId} : {shareUrl}
+    const res = await csrfFetch(`/api/resourcegroups/single`, {
+        method: "POST",
+        body: JSON.stringify(body)
+    })
     const data = await res.json()
 
     if (data && !data.errors) {

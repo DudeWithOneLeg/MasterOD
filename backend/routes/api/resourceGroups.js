@@ -5,27 +5,35 @@ const {ResourceGroup, GroupResources, Result} = require('../../db/models')
 const { Op } = require('@sequelize/core')
 const sequelize = require('sequelize')
 
-router.get('/:resourceGroupId', async (req, res) => {
-    const {resourceGroupId} = req.params
+router.post('/single', async (req, res) => {
+    const {resourceGroupId, shareUrl} = req.body
     const {id: userId} = req.user
 
-    const group = await ResourceGroup.findByPk(resourceGroupId)
+    const query = {where: {}}
+
+    resourceGroupId ? (query.where.id = resourceGroupId) : (query.where.shareUrl = shareUrl)
+
+    const group = await ResourceGroup.findOne(query)
     const resources = []
 
     const resourceIds = await GroupResources.findAll({
         where: {
-            groupId: resourceGroupId,
+            groupId: group.id,
             userId
         },
-        attributes: ['resourceId']
+        attributes: ['resourceId', [sequelize.fn('COUNT', sequelize.col('id')), 'numberResources']]
     })
+
+
+    const {numberResources} = resourceIds[0].dataValues
 
     for (let resourceId of resourceIds) {
         const resource = await Result.findByPk(resourceId.resourceId)
         resources.push(resource)
     }
+    console.log({group: {...group, numberResources}, resources})
 
-    res.json({group, resources}).status(200)
+    res.json({group: {...group.dataValues, numberResources}, resources}).status(200)
 })
 
 router.post('/new', async (req, res) => {

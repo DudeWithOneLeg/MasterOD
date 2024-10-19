@@ -4,7 +4,7 @@ import xLogo from '../../assets/images/x-logo.png'
 import copytoClipboardImg from '../../assets/images/copy.png'
 
 const platformSharing = {
-    'x' : {
+    'x': {
         baseUrl: 'https://x.com/intent/tweet?url='
     },
     'linkedin': {
@@ -13,8 +13,14 @@ const platformSharing = {
 }
 
 
-export default function Sharing({shareUrl}) {
+export default function Sharing({ shareUrl }) {
     const [url, setUrl] = useState(`https://search-deck.com/group/share/${shareUrl}`)
+    const [copied, setCopied] = useState(false)
+
+    const copyToClipboard = () => {
+        navigator.clipboard.writeText(url)
+        setCopied(true)
+    };
 
     return (
         <div className="flex flex-col items-center text-white bg-zinc-800 lg:h-full xl:h-3/4 p-4 w-fit">
@@ -23,19 +29,19 @@ export default function Sharing({shareUrl}) {
                 <div className="w-full text-2xl">
                     <h1>Share</h1>
                 </div>
-                <div className="w-full rounded bg-zinc-700 w-96 flex flex-row justify-between p-2">
-                    <input className='h-8 w-full bg-zinc-700 rounded' value={url}/>
-                    <img src={copytoClipboardImg} className='h-8' alt='copy to clipboard'/>
+                <div className="flex rounded bg-zinc-700 w-96 flex flex-row justify-between p-2 relative">
+                    <input className='h-8 w-full bg-zinc-700 rounded' value={url} />
+                    {copied ? <p className='h-8 flex items-center px-1 rounded bg-zinc-900'>Copied</p> : <img src={copytoClipboardImg} className='h-8 cursor-pointer absolute right-0' alt='copy to clipboard' onClick={copyToClipboard}/>}
                 </div>
                 <div className="w-full flex flex-row space-x-2 justify-around">
                     <div onClick={() => openInNewTab('linkedin', url)} className='h-full cursor-pointer'>
-                        <img src={linkedinLogo} className='h-10'/>
+                        <img src={linkedinLogo} className='h-10' alt='linked in'/>
                     </div>
                     <div onClick={() => openInNewTab('x', url)} className='cursor-pointer'>
-                        <img src={xLogo} className='h-10'/>
+                        <img src={xLogo} className='h-9' alt='twitter'/>
                     </div>
                     {/* <div>
-                        Facebook
+                            Facebook
                         </div> */}
                 </div>
             </div>
@@ -43,7 +49,7 @@ export default function Sharing({shareUrl}) {
     )
 }
 const openInNewTab = (platform, shareUrl) => {
-    const {baseUrl} = platformSharing[platform]
+    const { baseUrl } = platformSharing[platform]
     const url = baseUrl + shareUrl
     window.open(url, '_blank', 'noopener,noreferrer');
-  };
+};

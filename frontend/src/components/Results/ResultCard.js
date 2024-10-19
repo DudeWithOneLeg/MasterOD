@@ -83,7 +83,7 @@ export default function ResultCard({ data, rowKey, displayOnly, index, selectRes
             <div className="flex flex-col items-center justify-content-around min-w-10 h-full space-y-2">
                 {/* <div className="text-white">{result.id}</div> */}
                 {selectResources ? <input checked={isSelected} onChange={handleGroupSelection} type='checkbox' className="w-6 h-6 cursor-pointer"/>
-                    : <SaveResult result={result} saved={saved} setSaved={setSaved} />}
+                    : <SaveResult result={result} saved={saved} setSaved={setSaved} displayOnly={displayOnly}/>}
                 {result.title &&
                     result.title.toLowerCase().includes("index of /") ? (
                     <div className="rounded bg-green-200 w-6 my-1">Idx</div>
@@ -145,23 +145,6 @@ export default function ResultCard({ data, rowKey, displayOnly, index, selectRes
                         <div>
                             <p className="underline w-fit text-zinc-300">{result.snippet}</p>
                         </div>
-
-                        {/* {result.archive &&
-                            result.archive.archived_snapshots &&
-                            result?.archive?.archived_snapshots?.closest
-                                ?.url && (
-                                <a
-                                    href={
-                                        result.archive.archived_snapshots
-                                            .closest.url
-                                    }
-                                    target="_blank"
-                                    className="font-bold text-zinc-400 w-fit"
-                                    rel="noreferrer"
-                                >
-                                    Archive
-                                </a>
-                            )} */}
                     </div>
                 ) : (
                     <></>

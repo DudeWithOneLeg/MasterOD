@@ -19,6 +19,7 @@ import AccountSettings from "./components/AccountSettings/index.js";
 import TermsOfServicePage from "./components/TermsOfServicePage";
 import ViewResourceGroup from "./components/ViewResourceGroup/index.js";
 import ViewAllResourceGroups from "./components/ViewAllResourceGroups/index.js";
+import DynamicOGMeta from "./components/DynamicOGMeta/index.js";
 
 function App() {
     const dispatch = useDispatch();
@@ -36,6 +37,7 @@ function App() {
 
     return (
         <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+            <DynamicOGMeta />
             <div className={`h-full w-full poppins-regular flex flex-${isMobile ? "col" : "col"} bg-zinc-900`}>
                 {!isMobile ? <Navigation /> : <></>}
                 {isMobile ? (
@@ -49,16 +51,17 @@ function App() {
                     {user && !user.tempUser && !isMobile ? <SideBar /> : <></>}
                     {isLoaded ? (
                         <Routes>
+                            <Route path="/" element={<WelcomePage />} />
                             <Route path="/guide" element={<GuidePage />} />
                             <Route path="/tos" element={<TermsOfServicePage />} />
 
                             {/* Public routes */}
                             <Route path="/login" element={<LoginFormPage />} />
                             <Route path="/signup" element={<SignupFormPage />} />
-                            <Route path="/" element={<WelcomePage />} />
+                            <Route path='/group/share/:shareUrl' element={<ViewResourceGroup/>}/>
+                            <Route path="/finish-signup" element={<FinishSignup />} />
 
                             {/* Protected routes */}
-                                <Route path="/finish-signup" element={<FinishSignup />} />
                             <Route element={<ProtectedRoute user={user} />}>
                                 <Route path="/results" element={<ResultsPage />} />
                                 <Route path="/results/:view" element={<ResultsPage />} />

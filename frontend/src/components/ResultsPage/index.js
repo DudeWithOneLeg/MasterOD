@@ -49,8 +49,9 @@ export default function ResultsPage() {
                     }`}
             >
                 <ResultsPageFilters />
-                {selectResources ? <div className="w-full">
+                {selectResources ? <div className="w-full flex flex-row text-white items-center space-x-2">
                     <OpenModalButton buttonText="Create Group" modalComponent={<NewGroupModal />} className={`h-10 text-white flex items-center ${groupSelection.length ? 'bg-blue-700' : 'bg-zinc-500 !text-zinc-800'} rounded px-2`} />
+                    <h2 onClick={() => setSelectResources(false)} className="cursor-pointer">Cancel</h2>
                 </div> : <div>
                 </div>}
             </div>

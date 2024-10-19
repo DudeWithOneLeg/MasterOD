@@ -9,6 +9,7 @@ import { restoreCSRF, csrfFetch } from "./store/csrf";
 import ModalProvider from "./context/Modal.js";
 import { SearchProvider } from "./context/SearchContext.js";
 import { ResultsProvider } from "./context/ResultsContext.js";
+import { HelmetProvider } from 'react-helmet-async';
 
 const store = configureStore();
 
@@ -26,7 +27,9 @@ function Root() {
                 <SearchProvider>
                     <BrowserRouter>
                         <ModalProvider>
-                            <App />
+                            <HelmetProvider>
+                                <App />
+                            </HelmetProvider>
                         </ModalProvider>
                     </BrowserRouter>
                 </SearchProvider>
