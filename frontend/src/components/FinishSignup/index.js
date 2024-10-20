@@ -38,7 +38,7 @@ export default function FinishSignup() {
         dispatch(sessionActions.signup({ username, finishSignup: true }))
         .then(async (data) => {
             if (data && data.user) {
-                console.log(data)
+                return console.log(data)
                 navigate("/search");
             }
         })
