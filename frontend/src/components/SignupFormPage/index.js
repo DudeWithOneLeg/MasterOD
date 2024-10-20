@@ -35,13 +35,10 @@ function SignupFormPage() {
                 "email",
                 "profile"
             );
-            console.log('Has access:', hasAccess);
             if (hasAccess) {
                 dispatch(sessionActions.signup({ token: tokenResponse }))
                     .then(async (data) => {
-                        console.log('Dispatch result:', data);
                         if (data && data.success) {
-                            console.log('Redirecting to /finish-signup');
                             navigate("/finish-signup",{ replace: true });
                         } else {
                             console.log('Redirection condition not met');
@@ -51,7 +48,6 @@ function SignupFormPage() {
                         console.error('Error:', res);
                         try {
                             const data = await res.json();
-                            console.log('Error data:', data);
                             if (data && data.errors) {
                                 setErrors(data.errors);
                             }
