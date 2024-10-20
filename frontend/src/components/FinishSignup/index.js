@@ -34,8 +34,8 @@ export default function FinishSignup() {
         e.preventDefault();
         if (!username) return;
 
-        dispatch(sessionActions.signup({ username, finishSignup: true })).catch(async (res) => {
-            const data = await res.json();
+        dispatch(sessionActions.signup({ username, finishSignup: true }))
+        .then(async (data) => {
             if (data && data.user) {
                 navigate("/search");
             }
