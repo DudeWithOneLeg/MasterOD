@@ -186,7 +186,7 @@ router.post("/google", async (req, res) => {
 
 router.patch("/google", async (req, res) => {
     const { username } = req.body;
-
+    console.log('pathc singup hit')
     if (req.session.tempUser) {
       const {tempUser} = req.session
       const newUser = { ...tempUser, username };
