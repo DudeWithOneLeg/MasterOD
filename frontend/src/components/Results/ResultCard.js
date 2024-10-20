@@ -20,14 +20,18 @@ export default function ResultCard({ data, rowKey, displayOnly, index, selectRes
     const [lastSearchId, setLastSearchId] = useState(0);
     const lastSearch = useSelector((state) => state.search.recentQueries);
     const [isSelected, setIsSelected] = useState(false);
+    const docExtensions = ["pdf", "doc", "docx", "ppt", "pptx"];
+    const result = data[rowKey];
 
     useEffect(() => {
         if (lastSearch && Object.values(lastSearch)[0]) {
             setLastSearchId(Object.values(lastSearch)[0].id);
         }
     }, [lastSearch]);
-    const docExtensions = ["pdf", "doc", "docx", "ppt", "pptx"];
-    const result = data[rowKey];
+
+    useEffect(() => {
+        if (!groupSelection.length) setIsSelected(false)
+    }, [groupSelection])
 
     const handleClick = () => {
         if (displayOnly) return;
@@ -62,6 +66,8 @@ export default function ResultCard({ data, rowKey, displayOnly, index, selectRes
             setGroupSelection(newGroupSelection)
         }
     }
+
+
 
     if (isMobile) return <MobileResultCard data={data} rowKey={rowKey} />
 

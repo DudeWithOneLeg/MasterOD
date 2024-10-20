@@ -13,7 +13,7 @@ import ResultsPageFilters from "./ResultsPageFilters";
 export default function ResultsPage() {
     const dispatch = useDispatch();
     const params = useParams();
-    const { preview, showResult, result, groupSelection } = useContext(ResultsContext)
+    const { preview, showResult, result, groupSelection, setGroupSelection } = useContext(ResultsContext)
 
     const results = useSelector((state) => state.results.all);
     const data = useSelector((state) => state.search.data);
@@ -40,6 +40,11 @@ export default function ResultsPage() {
         }
     }, [preview, dispatch]);
 
+    const cancelGroupSelection = () => {
+        setSelectResources(false)
+        setGroupSelection([])
+    }
+
     return (
         <div
             className={`flex flex-col ${preview && !isMobile ? "items-start" : "items-center"} w-full h-full bg-zinc-900`}
@@ -51,7 +56,7 @@ export default function ResultsPage() {
                 <ResultsPageFilters />
                 {selectResources ? <div className="w-full flex flex-row text-white items-center space-x-2">
                     <OpenModalButton buttonText="Create Group" modalComponent={<NewGroupModal />} className={`h-10 text-white flex items-center ${groupSelection.length ? 'bg-blue-700' : 'bg-zinc-500 !text-zinc-800'} rounded px-2`} />
-                    <h2 onClick={() => setSelectResources(false)} className="cursor-pointer">Cancel</h2>
+                    <h2 onClick={cancelGroupSelection} className="cursor-pointer">Cancel</h2>
                 </div> : <div>
                 </div>}
             </div>

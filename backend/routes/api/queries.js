@@ -6,7 +6,6 @@ const { Op } = require("@sequelize/core");
 router.post("/", async (req, res) => {
     const { user } = req;
     const { limit, filter, saved, engine } = req.body;
-    console.log(engine)
     const options = {
         where: {
             userId: user.id,

@@ -29,8 +29,8 @@ export default function BrowserHeader({preview, component, setComponent}) {
     <div className={`flex h-[${isMobile ? '10' : '5'}%]`}>
       <div className={`fixed -mt-6 flex flex-row text-white pb-1`}>
         <div
-          className={`bg-blue-${
-            component === "browser" ? "600" : "700 hover:bg-zinc-600"
+          className={`${
+            component === "browser" ? "bg-blue-600" : "bg-zinc-800 hover:bg-zinc-600"
           } rounded-t mx-1 px-1 cursor-pointer rounded-b-none`}
           onClick={() => setComponent("browser")}
         >
@@ -38,7 +38,7 @@ export default function BrowserHeader({preview, component, setComponent}) {
         </div>
         <div
           className={`${
-            component === "archive" ? "bg-blue-600" : "bg-gradient-to-b from-zinc-700 to-zinc-900 hover:bg-zinc-900"
+            component === "archive" ? "bg-blue-600" : "bg-zinc-800 hover:bg-zinc-600"
           } rounded-t mx-1 px-1 cursor-pointer rounded-b-none`}
           onClick={() => setComponent("archive")}
         >
@@ -46,8 +46,8 @@ export default function BrowserHeader({preview, component, setComponent}) {
         </div>
         {!isProduction && preview.split(".").slice(-1)[0].toLowerCase() === "pdf" ? (
           <div
-            className={`bg-zinc-${
-              component === "analyze" ? "600" : "600 hover:bg-slate-400"
+            className={`${
+              component === "analyze" ? "bg-blue-600" : "bg-zinc-800 hover:bg-zinc-600"
             } rounded-t mx-1 px-1 cursor-pointer rounded-b-none`}
             onClick={() => setComponent("analyze")}
           >

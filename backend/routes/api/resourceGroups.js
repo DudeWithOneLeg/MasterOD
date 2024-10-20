@@ -50,11 +50,11 @@ router.post('/new', async (req, res) => {
         await GroupResources.create({userId: id, resourceId: resource.id, groupId: group.id})
     })
 
-    await res.json({resourceGroupId: group.id}).status(200)
+    res.json({resourceGroupId: group.id}).status(200)
 
 })
 
-router.patch('/:resourceGroupId', async (req, res) => {
+router.patch('/:resourceGroupId/resources', async (req, res) => {
     const response = {}
     const { resourceGroupId } = req.params
     const {id: userId} = req.user
@@ -77,7 +77,25 @@ router.patch('/:resourceGroupId', async (req, res) => {
         })
     }
 
-    await res.json(response).status(200)
+    res.json(response).status(200)
+
+})
+
+router.patch('/:groupId', async (req, res) => {
+    const {groupId: id} = req.params
+    const {id: userId} = req.user
+    const {name, description, isPrivate} = req.body
+
+    const group = await ResourceGroup.findOne({
+        where: {
+            id,
+            userId
+        }
+    })
+
+    const newGroup = await group.update({name, description, isPrivate})
+
+    res.json(newGroup).status(200)
 
 })
 

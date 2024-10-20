@@ -11,7 +11,7 @@ export default function ViewAllResourceGroups() {
 
     return (
         <div className="h-full w-full flex flex-col items-center">
-            <div className="md:w-full lg:w-full xl:w-full 2xl:w-1/2 flex items-center justify-center flex-col">
+            <div className="md:w-full lg:w-full xl:w-full 2xl:w-1/2 flex items-center justify-center flex-col h-full">
                 <ResourceGroupFilters />
 
                 <div className="space-y-2 h-full overflow-y-scroll w-full">
