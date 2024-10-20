@@ -22,14 +22,15 @@ const { handleValidationErrors } = require("../../utils/validation");
 async function verify(token) {
     const response = await fetch(
         `https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=${token.access_token}`
-    );
+    ).catch(err => console.log(err))
 
     if (!response.ok) {
+        console.log('FAILED',response)
         return false;
     }
 
     const data = await response.json();
-
+    console.log('SUCCESS',data)
     return data;
 }
 
@@ -148,7 +149,6 @@ router.post("/google", async (req, res) => {
             .status(200);
         }
         else {
-            console.log('hiii')
             const hashedPassword = bcrypt.hashSync(sub);
             const tempUser = { email: email, isOauth: true };
 
@@ -200,7 +200,6 @@ router.patch("/google", async (req, res) => {
 
       await setTokenCookie(res, safeUser);
 
-      res.statusCode = 200;
       return res
           .json({
               user: safeUser,
