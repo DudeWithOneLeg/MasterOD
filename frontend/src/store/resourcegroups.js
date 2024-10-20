@@ -1,8 +1,9 @@
 import { csrfFetch } from "./csrf"
 import { flatten } from "./csrf"
 const CREATE_RESOURCE_GROUP = 'resourceGroup/create'
-const FETCH_RESOURCE_GROUP = 'resourceGroup/get'
+const FETCH_RESOURCE_GROUP = 'resourceGroup/get/one'
 const FETCH_ALL_RESOURCE_GROUPS = 'resourceGroup/get/all'
+const UPDATE_RESOURCE_GROUP = 'resourceGroup/update'
 
 const setNewResourceGroup = (newResourceGroup) => {
     return {
@@ -25,6 +26,13 @@ const setAllResourceGroups = (resourceGroups) => {
     }
 }
 
+const setUpdatedResourceGroup = (updatedResourceGroup) => {
+    return {
+        type: UPDATE_RESOURCE_GROUP,
+        payload: updatedResourceGroup
+    }
+}
+
 export const createResourceGroup = (newResourceGroup) => async (dispatch) => {
     const res = await csrfFetch('/api/resourcegroups/new', {
         method: "POST",
@@ -38,8 +46,25 @@ export const createResourceGroup = (newResourceGroup) => async (dispatch) => {
     return data
 }
 
-export const fetchResourceGroup = (resourceGroupId) => async (dispatch) => {
-    const res = await csrfFetch(`/api/resourcegroups/${resourceGroupId}`)
+export const updateResourceGroup = (id, updatedResourceGroup) => async (dispatch) => {
+    const res = await csrfFetch(`/api/resourcegroups/${id}`, {
+        method: "PATCH",
+        body: JSON.stringify(updatedResourceGroup)
+    })
+    const data = await res.json()
+
+    if (data && !data.errors) {
+        dispatch(setUpdatedResourceGroup(data))
+    }
+    return data
+}
+
+export const fetchResourceGroup = (resourceGroupId, shareUrl) => async (dispatch) => {
+    const body = resourceGroupId ? {resourceGroupId} : {shareUrl}
+    const res = await csrfFetch(`/api/resourcegroups/single`, {
+        method: "POST",
+        body: JSON.stringify(body)
+    })
     const data = await res.json()
 
     if (data && !data.errors) {
@@ -74,6 +99,12 @@ const resourceGroupReducer = (state = intitialState, action) => {
             return newState
         case FETCH_ALL_RESOURCE_GROUPS:
             newState = { ...state, all: action.payload }
+            return newState
+        case UPDATE_RESOURCE_GROUP:
+            newState = { ...state}
+            const resourceGroup = {...newState.resourceGroup}
+            resourceGroup.group = {...action.payload}
+            newState.resourceGroup = {...resourceGroup}
             return newState
         default:
             return state

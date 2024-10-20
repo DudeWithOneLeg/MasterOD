@@ -20,14 +20,18 @@ export default function ResultCard({ data, rowKey, displayOnly, index, selectRes
     const [lastSearchId, setLastSearchId] = useState(0);
     const lastSearch = useSelector((state) => state.search.recentQueries);
     const [isSelected, setIsSelected] = useState(false);
+    const docExtensions = ["pdf", "doc", "docx", "ppt", "pptx"];
+    const result = data[rowKey];
 
     useEffect(() => {
         if (lastSearch && Object.values(lastSearch)[0]) {
             setLastSearchId(Object.values(lastSearch)[0].id);
         }
     }, [lastSearch]);
-    const docExtensions = ["pdf", "doc", "docx", "ppt", "pptx"];
-    const result = data[rowKey];
+
+    useEffect(() => {
+        if (!groupSelection.length) setIsSelected(false)
+    }, [groupSelection])
 
     const handleClick = () => {
         if (displayOnly) return;
@@ -63,6 +67,8 @@ export default function ResultCard({ data, rowKey, displayOnly, index, selectRes
         }
     }
 
+
+
     if (isMobile) return <MobileResultCard data={data} rowKey={rowKey} />
 
     return (
@@ -83,7 +89,7 @@ export default function ResultCard({ data, rowKey, displayOnly, index, selectRes
             <div className="flex flex-col items-center justify-content-around min-w-10 h-full space-y-2">
                 {/* <div className="text-white">{result.id}</div> */}
                 {selectResources ? <input checked={isSelected} onChange={handleGroupSelection} type='checkbox' className="w-6 h-6 cursor-pointer"/>
-                    : <SaveResult result={result} saved={saved} setSaved={setSaved} />}
+                    : <SaveResult result={result} saved={saved} setSaved={setSaved} displayOnly={displayOnly}/>}
                 {result.title &&
                     result.title.toLowerCase().includes("index of /") ? (
                     <div className="rounded bg-green-200 w-6 my-1">Idx</div>
@@ -106,10 +112,9 @@ export default function ResultCard({ data, rowKey, displayOnly, index, selectRes
                                 <div className="flex flex-row justify-between items-center w-full">
                                     <div className="flex flex-row w-full">
                                         <h3
-                                            className={`font-bold ${isMobile ? "text-sm" : "text-xl"
-                                                } text-wrap underline w-fit poppins-bold`}
+                                            className={`font-bold text-xl text-wrap underline w-fit poppins-bold text-slate-200`}
                                         >
-                                            {result.title && result.title}
+                                            {result.title ? result.title : ''}
                                         </h3>
 
                                         {result.link &&
@@ -146,23 +151,6 @@ export default function ResultCard({ data, rowKey, displayOnly, index, selectRes
                         <div>
                             <p className="underline w-fit text-zinc-300">{result.snippet}</p>
                         </div>
-
-                        {/* {result.archive &&
-                            result.archive.archived_snapshots &&
-                            result?.archive?.archived_snapshots?.closest
-                                ?.url && (
-                                <a
-                                    href={
-                                        result.archive.archived_snapshots
-                                            .closest.url
-                                    }
-                                    target="_blank"
-                                    className="font-bold text-zinc-400 w-fit"
-                                    rel="noreferrer"
-                                >
-                                    Archive
-                                </a>
-                            )} */}
                     </div>
                 ) : (
                     <></>

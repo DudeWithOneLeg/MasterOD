@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as resultActions from "../../store/result";
 
-export default function SaveResult({ result, saved, setSaved, className }) {
+export default function SaveResult({ result, saved, setSaved, className, displayOnly }) {
   const dispatch = useDispatch();
   const [lastSearchId, setLastSearchId] = useState(0)
   const lastSearch = useSelector(
@@ -16,6 +16,7 @@ export default function SaveResult({ result, saved, setSaved, className }) {
   },[lastSearch])
 
   const saveResult = () => {
+    if (displayOnly) return
     const newResult = {
       title: result.title,
       snippet: result.snippet,

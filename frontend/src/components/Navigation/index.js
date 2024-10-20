@@ -32,8 +32,8 @@ function Navigation() {
 
     return (
         <div className="h-[5%] w-screen fixed flex flex flex-row items-center text-white bg-zinc-900 z-20">
-            <div className="w-[316px] h-full" />
-            <div className="w-4/5 flex flex-row items-center justify-between">
+
+            <div className="w-full flex flex-row items-center justify-between px-4">
 
                 <div className="flex flex-row items-center">
                     <div

@@ -44,12 +44,7 @@ export default function ResultsPageFilters() {
 
     return (
         <form
-            className={`flex justify-center items-center text-white ${preview && !isMobile
-                ? "w-full flex-col"
-                : (!preview && !isMobile
-                    ? "w-1/2 flex-col"
-                    : "w-full flex-col")
-                }`}
+            className={`flex justify-center items-center text-white w-full`}
             onSubmit={(e) => handleSubmit(e)}
         >
             <div className="flex flex-row p-2 items-center space-x-2 w-full">
