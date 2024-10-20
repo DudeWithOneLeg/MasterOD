@@ -1,7 +1,32 @@
 const express = require("express");
+const router = express.Router();
 const bcrypt = require("bcryptjs");
 const session = require('express-session');
 const { jwtConfig } = require('../../config');
+const { secret } = jwtConfig;
+const {createClient} = require('redis')
+const RedisStore = require("connect-redis").default
+
+
+const redisClient = createClient({ url: process.env.REDIS_URL });
+redisClient.on('error', err => console.log('Redis Client Error', err));
+
+redisClient.connect().catch(console.error);
+
+let redisStore = new RedisStore({
+    client: redisClient,
+})
+router.use(session({
+  store: redisStore,
+  secret: secret,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: process.env.NODE_ENV === 'production', // Only use secure cookies in production (HTTPS)
+    httpOnly: true, // Prevent JavaScript access to the cookie
+    maxAge: 1000 * 60 * 5 // 5-minute expiration time
+  }
+}));
 // const sgMail = require('@sendgrid/mail')
 // sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 const formData = require('form-data');
@@ -10,10 +35,10 @@ const Mailgun = require('mailgun.js');
 // Initialize Mailgun with your credentials
 const mailgun = new Mailgun(formData);
 const mg = mailgun.client({
-  username: 'api',
-  key: process.env.MAILGUN_API_KEY // Replace with your Mailgun API key
+    username: 'api',
+    key: process.env.MAILGUN_API_KEY // Replace with your Mailgun API key
 });
-const { secret } = jwtConfig;
+
 
 const { setTokenCookie, requireAuth } = require("../../utils/auth");
 const { User, Queries } = require("../../db/models");
@@ -54,19 +79,6 @@ const validateSignup = [
     handleValidationErrors,
 ];
 
-const router = express.Router();
-
-// Set up session middleware
-router.use(session({
-  secret: secret, // Change this to a secure secret key
-  resave: false, // Prevents resaving session if no changes were made
-  saveUninitialized: true, // Save a session even if it's uninitialized
-  cookie: {
-    secure: process.env.NODE_ENV === 'production', // Use secure cookies in production (over HTTPS)
-    httpOnly: true, // Prevent access from JavaScript
-    maxAge: 1000 * 60 * 10 // Session expiration time (10 minutes in this example)
-  }
-}));
 
 // Restore session user
 router.get("/", async (req, res) => {
