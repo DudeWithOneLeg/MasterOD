@@ -68,7 +68,6 @@ export const restoreUser = () => async (dispatch) => {
 
 export const signup = (user) => async (dispatch) => {
   const { username, email, password, token, finishSignup } = user;
-  console.log('dispatch hit')
   if (token) {
     const response = await csrfFetch("/api/users/google", {
       method: "POST",
@@ -87,7 +86,6 @@ export const signup = (user) => async (dispatch) => {
     return data;
   }
   else if (finishSignup) {
-    console.log('sending rewuest to backend')
     const response = await csrfFetch("/api/users/google", {
       method: "PATCH",
       body: JSON.stringify({
@@ -95,7 +93,6 @@ export const signup = (user) => async (dispatch) => {
       }),
     });
     const data = await response.json();
-    console.log('data received from backend', data)
     dispatch(setUser(data.user));
     return data;
   }
