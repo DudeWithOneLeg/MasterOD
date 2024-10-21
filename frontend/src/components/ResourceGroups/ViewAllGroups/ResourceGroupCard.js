@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from "react"
 import { useNavigate } from "react-router-dom"
-import OpenModalButton from '../OpenModalButton'
-import Sharing from "../Sharing"
-import moreVert from '../../assets/images/more_vert.png'
-import shareIcon from '../../assets/images/share.png'
+import OpenModalButton from '../../OpenModalButton'
+import Sharing from "../../Sharing"
+// import moreVert from '../../assets/images/more_vert.png'
+import shareIcon from '../../../assets/images/share.png'
 
 export default function ResourceGroupCard({ group }) {
     const navigate = useNavigate()
@@ -63,7 +63,7 @@ export default function ResourceGroupCard({ group }) {
             <div className="absolute h-full right-0 flex items-center hover:bg-zinc-600">
 
                 {hover ?
-                    <OpenModalButton buttonImg={<img src={shareIcon} className="h-6"/>} modalComponent={<Sharing shareUrl={group.shareUrl}/>} className={'focus:outline-none flex flex-row items-center h-10 hover:bg-zinc-600 px-1'}/> : <></>}
+                    <OpenModalButton buttonImg={<img src={shareIcon} className="h-6" />} modalComponent={<Sharing shareUrl={group.shareUrl} />} className={'focus:outline-none flex flex-row items-center h-10 hover:bg-zinc-600 px-1'} /> : <></>}
             </div>
 
         </div>

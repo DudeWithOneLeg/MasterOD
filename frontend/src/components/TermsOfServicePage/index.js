@@ -1,6 +1,14 @@
+
+import { useModal } from "../../context/Modal";
+
 export default function TermsOfServicePage() {
+
+  const {setClassName} = useModal()
+
+  setClassName("relative m-5 rounded-lg z-60 h-1/2 w-fit flex items-center justify-center overflow-y-auto")
+
     return (
-        <div class="container mx-auto px-4 py-8 overflow-y-auto bg-zinc-800 text-white rounded-md">
+        <div class="container px-4 py-8 overflow-y-scroll bg-zinc-800 text-white rounded-md h-full">
         <section id="tos" class="rounded-lg shadow-lg p-6 mb-10 bg-zinc-700">
           <h1 class="text-3xl font-bold  mb-4">Terms of Service</h1>
           <p class="mb-4">Effective Date: <strong>10/2/2024</strong></p>

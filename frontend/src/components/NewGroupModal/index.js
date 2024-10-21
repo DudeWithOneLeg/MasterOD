@@ -13,7 +13,9 @@ export default function NewGroupModal({group}) {
     const [isPrivate, setIsPrivate] = useState(group ? group.isPrivate : true)
     const { groupSelection } = useContext(ResultsContext)
     const navigate = useNavigate()
-    const {closeModal} = useModal()
+    const {closeModal, setClassName} = useModal()
+
+    setClassName("relative m-5 rounded-lg z-60 h-fit w-fit flex items-center justify-center overflow-y-auto")
 
     const createResourceGroup = () => {
         if (groupSelection.length) {
@@ -35,7 +37,9 @@ export default function NewGroupModal({group}) {
 
     const handleSubmit = (e) => {
         e.preventDefault()
+
         if (group?.id) {
+            console.log('this hit')
             updateResourceGroup()
         }
         else createResourceGroup()

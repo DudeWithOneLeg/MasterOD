@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import * as resourceGroupActions from '../../store/resourcegroups'
-import searchIcon from "../../assets/images/search.png";
+import * as resourceGroupActions from '../../../store/resourcegroups'
+import searchIcon from "../../../assets/images/search.png";
 import { isMobile } from 'react-device-detect';
 
 export default function ResourceGroupFilters() {
@@ -11,7 +11,7 @@ export default function ResourceGroupFilters() {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        const options = {limit, filterInput}
+        const options = { limit, filterInput }
         if (isPrivate !== "All") {
             options.isPrivate = (isPrivate === "Public" ? false : true)
         }
@@ -20,18 +20,18 @@ export default function ResourceGroupFilters() {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        const options = {limit, filterInput}
+        const options = { limit, filterInput }
         if (isPrivate !== "All") {
             options.isPrivate = (isPrivate === "Public" ? false : true)
         }
         dispatch(resourceGroupActions.fetchAllResourceGroups(options))
     }
 
-    return(
+    return (
         <form
             className={`flex justify-center items-center text-white ${!isMobile
-                    ? "w-full flex-col"
-                    : "w-full flex-col"
+                ? "w-full flex-col"
+                : "w-full flex-col"
                 }`}
             onSubmit={(e) => handleSubmit(e)}
         >

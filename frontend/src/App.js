@@ -17,8 +17,8 @@ import stars from './assets/images/stars.jpg'
 import WelcomePage from "./components/WelcomePage";
 import AccountSettings from "./components/AccountSettings/index.js";
 import TermsOfServicePage from "./components/TermsOfServicePage";
-import ViewResourceGroup from "./components/ViewResourceGroup/index.js";
-import ViewAllResourceGroups from "./components/ViewAllResourceGroups/index.js";
+import ViewOneGroup from "./components/ResourceGroups/ViewOneGroup/index.js";
+import ViewAllResourceGroups from "./components/ResourceGroups/ViewAllGroups/index.js";
 import DynamicOGMeta from "./components/DynamicOGMeta/index.js";
 
 function App() {
@@ -27,13 +27,14 @@ function App() {
     const [isLoaded, setIsLoaded] = useState(false);
     const user = useSelector((state) => state.session.user);
     const path = window.location.pathname;
+    
     useEffect(() => {
         dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
     }, [dispatch]);
 
     useEffect(() => {
         if (user && path === '/') navigate('/search')
-    },[isLoaded])
+    }, [isLoaded])
 
     return (
         <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
@@ -58,7 +59,7 @@ function App() {
                             {/* Public routes */}
                             <Route path="/login" element={<LoginFormPage />} />
                             <Route path="/signup" element={<SignupFormPage />} />
-                            <Route path='/group/share/:shareUrl' element={<ViewResourceGroup/>}/>
+                            <Route path='/group/share/:shareUrl' element={<ViewOneGroup />} />
                             <Route path="/finish-signup" element={<FinishSignup />} />
 
                             {/* Protected routes */}
@@ -70,8 +71,8 @@ function App() {
                                 <Route path="/search/current" element={<Search />} />
                                 <Route path="/search/:view" element={<Search />} />
                                 <Route path="/user/settings" element={<AccountSettings />} />
-                                <Route path='/resourceGroup/:resourceGroupId' element={<ViewResourceGroup/>}/>
-                                <Route path='/resourceGroups/' element={<ViewAllResourceGroups/>}/>
+                                <Route path='/resourceGroup/:resourceGroupId' element={<ViewOneGroup />} />
+                                <Route path='/resourceGroups/' element={<ViewAllResourceGroups />} />
                             </Route>
 
                             {/* Catch-all route */}
