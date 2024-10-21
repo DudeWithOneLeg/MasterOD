@@ -19,6 +19,7 @@ export default function ResultsPage() {
     const data = useSelector((state) => state.search.data);
     const [browseHistory, setBrowseHistory] = useState([]);
     const [selectResources, setSelectResources] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
 
     const docExtensions = ["pdf", "ppt", "doc", "docx"];
 
@@ -53,7 +54,7 @@ export default function ResultsPage() {
                 className={`flex items-center justify-center pt-2 flex-col ${preview || !isMobile ? "w-1/2" : ""
                     }`}
             >
-                <ResultsPageFilters />
+                <ResultsPageFilters setIsLoading={setIsLoading}/>
                 {selectResources ? <div className="w-full flex flex-row text-white items-center space-x-2">
                     <OpenModalButton buttonText="Create Group" modalComponent={<NewGroupModal />} className={`h-10 text-white flex items-center ${groupSelection.length ? 'bg-blue-700' : 'bg-zinc-500 !text-zinc-800'} rounded px-2`} />
                     <h2 onClick={cancelGroupSelection} className="cursor-pointer">Cancel</h2>
@@ -64,7 +65,7 @@ export default function ResultsPage() {
                 className={`flex w-full h-full overflow-y-hidden ${isMobile ? "grid grid-rows-2 gap-1 flex-col" : ""
                     }`}
             >
-                {results ? (
+                {results && !isLoading ? (
                     <>
                         <Results
                             data={results}

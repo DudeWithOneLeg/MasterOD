@@ -1,45 +1,33 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import * as resultActions from '../../store/result'
-import { ResultsContext } from "../../context/ResultsContext";
-import { isMobile } from "react-device-detect";
 import searchIcon from "../../assets/images/search.png";
 
-export default function ResultsPageFilters() {
+export default function ResultsPageFilters({setIsLoading}) {
     const params = useParams()
+    const { view } = params;
+    const isViewAll = (view === 'saved' ? false : (view === 'all'))
     const dispatch = useDispatch()
-    const { preview } = useContext(ResultsContext)
     const [filterInput, setFilterInput] = useState("");
-    const [viewAll, setViewAll] = useState(true);
+    const [viewAll, setViewAll] = useState(isViewAll);
     const [limit, setLimit] = useState(25);
 
     useEffect(() => {
-        const options = { limit, saved: !viewAll };
+        const options = { limit, saved: !isViewAll };
         if (filterInput) options.filter = filterInput;
-        dispatch(resultActions.getallResults(options));
-    }, [dispatch]);
-    useEffect(() => {
-        const { view } = params;
-        if (view === "saved") setViewAll(false);
-        else if (view === "all") setViewAll(true);
-        else setViewAll(true);
-
-    }, [params]);
-
-    useEffect(() => {
-        const options = { limit, saved: !viewAll };
-        if (filterInput) options.filter = filterInput;
-        dispatch(resultActions.getallResults(options));
-        console.log(options)
-    }, [viewAll, limit])
+        setIsLoading(true)
+        dispatch(resultActions.getallResults(options))
+        .then(async () => setIsLoading(false))
+    }, [dispatch, limit, view]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const options = { limit, saved: !viewAll };
-        console.log(options)
         if (filterInput) options.filter = filterInput;
-        dispatch(resultActions.getallResults(options));
+        setIsLoading(true)
+        dispatch(resultActions.getallResults(options))
+        .then(async () => setIsLoading(false))
     };
 
     return (

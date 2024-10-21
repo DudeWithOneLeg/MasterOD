@@ -13,6 +13,7 @@ export default function ModalProvider({ children }) {
   const modalRef = useRef(document.createElement('div'));
   const [modalContent, setModalContent] = useState(null);
   const [onModalClose, setOnModalClose] = useState(null);
+  const [className, setClassName] = useState("")
 
   const closeModal = () => {
     setModalContent(null);
@@ -28,6 +29,7 @@ export default function ModalProvider({ children }) {
     setModalContent,
     setOnModalClose,
     closeModal,
+    setClassName
   };
 
   useEffect(() => {
@@ -48,7 +50,7 @@ export default function ModalProvider({ children }) {
       {modalContent && ReactDOM.createPortal(
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 h-screen w-screen">
           <div className="absolute inset-0" onClick={closeModal}></div>
-          <div className="relative m-5 rounded-lg z-60 h-fit w-fit flex items-center justify-center overflow-y-auto">
+          <div className={className}>
             {modalContent}
           </div>
         </div>,

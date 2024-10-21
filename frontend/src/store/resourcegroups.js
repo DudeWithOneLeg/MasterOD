@@ -34,6 +34,7 @@ const setUpdatedResourceGroup = (updatedResourceGroup) => {
 }
 
 export const createResourceGroup = (newResourceGroup) => async (dispatch) => {
+    console.log(newResourceGroup)
     const res = await csrfFetch('/api/resourcegroups/new', {
         method: "POST",
         body: JSON.stringify(newResourceGroup)

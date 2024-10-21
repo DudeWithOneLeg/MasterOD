@@ -4,7 +4,7 @@ import ResourceGroupCard from "./ResourceGroupCard"
 import MobileViewAllGroups from "./MobileViewAllGroups"
 import { isMobile } from "react-device-detect"
 
-export default function ViewAllResourceGroups() {
+export default function ViewAllGroups() {
     const resourceGroups = useSelector(state => state.resourceGroups.all)
 
     if (isMobile) return <MobileViewAllGroups />

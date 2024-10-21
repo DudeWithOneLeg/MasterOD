@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useModal } from '../../context/Modal'
 import linkedinLogo from '../../assets/images/linkedin-logo.png'
 import xLogo from '../../assets/images/x-logo.png'
 import copytoClipboardImg from '../../assets/images/copy.png'
@@ -21,6 +22,9 @@ export default function Sharing({ shareUrl }) {
         navigator.clipboard.writeText(url)
         setCopied(true)
     };
+
+    const {setClassName} = useModal()
+    setClassName("relative m-5 rounded-lg z-60 h-fit w-fit flex items-center justify-center overflow-y-auto")
 
     return (
         <div className="flex flex-col items-center text-white bg-zinc-800 lg:h-full xl:h-3/4 p-4 w-fit">

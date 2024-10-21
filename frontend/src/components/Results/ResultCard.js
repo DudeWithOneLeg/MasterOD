@@ -59,11 +59,11 @@ export default function ResultCard({ data, rowKey, displayOnly, index, selectRes
         setIsSelected(e.target.checked)
 
         if (e.target.checked) {
-            setGroupSelection([...groupSelection, result])
+            setGroupSelection([...groupSelection, result.id])
         }
         else {
-            const newGroupSelection = groupSelection.filter(resource => resource.id !== result.id)
-            setGroupSelection(newGroupSelection)
+            const newGroupSelection = groupSelection.filter(id => id !== result.id)
+            setGroupSelection([...newGroupSelection])
         }
     }
 
