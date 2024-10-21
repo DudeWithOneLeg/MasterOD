@@ -12,7 +12,7 @@ export default function Browser() {
     const [component, setComponent] = useState("");
     const [displayUrl, setDisplayUrl] = useState("");
     const [components, setComponents] = useState({
-        browser: (props) => <iframe className={`h-[${isMobile ? '90' : '95'}%] w-full`} src={props.url} title="browser" />,
+        browser: (props) => <iframe className={`h-full w-full`} src={props.url} title="browser" />,
         archive: (props) => <Archive url={props.url} />,
         analyze: (props) => (
             <GptDocAnalyze
