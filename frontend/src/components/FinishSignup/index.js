@@ -32,16 +32,13 @@ export default function FinishSignup() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('sending request')
         if (!username) {
             return
         }
 
         dispatch(sessionActions.signup({ username, finishSignup: true }))
         .then(async (data) => {
-            console.log('.then hit')
             if (data && data.user) {
-                console.log('data received')
                 navigate("/search");
             }
         })

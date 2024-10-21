@@ -45,7 +45,6 @@ function SignupFormPage() {
                         }
                     })
                     .catch(async (res) => {
-                        console.error('Error:', res);
                         try {
                             const data = await res.json();
                             if (data && data.errors) {
@@ -134,7 +133,6 @@ function SignupFormPage() {
                 }
             }).catch(async (res) => {
                 const data = await res.json()
-                console.log(data)
                 if (data && data.errors) {
                     setErrors(data.errors);
                 }
