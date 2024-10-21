@@ -51,7 +51,7 @@ export default function ResultsPage() {
             className={`flex flex-col ${preview && !isMobile ? "items-start" : "items-center"} w-full h-full bg-zinc-900`}
         >
             <div
-                className={`flex items-center justify-center pt-2 flex-col ${preview || !isMobile ? "w-1/2" : ""
+                className={`flex items-center justify-center pt-2 flex-col ${(preview && !isMobile) || !isMobile? "w-1/2" : "w-full"
                     }`}
             >
                 <ResultsPageFilters setIsLoading={setIsLoading}/>
