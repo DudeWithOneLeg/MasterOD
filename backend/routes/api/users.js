@@ -164,8 +164,10 @@ router.post("/google", async (req, res) => {
             const hashedPassword = bcrypt.hashSync(sub);
             const tempUser = { email: email, isOauth: true };
 
-            req.session.tempUser = {...tempUser, hashedPassword}
-            console.log(req.session.tempUser)
+            await redisClient.set('tempUser',JSON.stringify({...tempUser, hashedPassword}), {
+                EX: 60 * 5
+            })
+            .catch(err => console.log(err))
 
             await setTokenCookie(res, tempUser);
 
@@ -199,9 +201,10 @@ router.post("/google", async (req, res) => {
 router.patch("/google", async (req, res) => {
     const { username } = req.body;
     console.log('patch singup hit')
-    console.log(req.session)
-    if (req.session.tempUser) {
-      const {tempUser} = req.session
+    let tempUser = await redisClient.get('tempUser')
+    tempUser = JSON.parse(tempUser)
+    console.log(tempUser)
+    if (tempUser) {
       const newUser = { ...tempUser, username };
       const user = await User.create(newUser);
 
@@ -212,6 +215,7 @@ router.patch("/google", async (req, res) => {
       };
 
       await setTokenCookie(res, safeUser);
+      redisClient.del('tempUser')
 
       return res
           .json({
