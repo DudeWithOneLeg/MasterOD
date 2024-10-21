@@ -7,7 +7,7 @@ import searchIcon from "../../assets/images/search.png";
 export default function ResultsPageFilters({setIsLoading}) {
     const params = useParams()
     const { view } = params;
-    const isViewAll = (view === 'saved' ? false : (view === 'all'))
+    const isViewAll = (view === 'saved' ? false : true)
     const dispatch = useDispatch()
     const [filterInput, setFilterInput] = useState("");
     const [viewAll, setViewAll] = useState(isViewAll);
