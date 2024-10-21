@@ -19,7 +19,7 @@ let redisStore = new RedisStore({
 router.use(session({
   store: redisStore,
   secret: secret,
-  resave: false,
+  resave: true,
   saveUninitialized: false,
   cookie: {
     secure: process.env.NODE_ENV === 'production', // Only use secure cookies in production (HTTPS)
@@ -165,7 +165,7 @@ router.post("/google", async (req, res) => {
             const tempUser = { email: email, isOauth: true };
 
             req.session.tempUser = {...tempUser, hashedPassword}
-            console.log(tempUser)
+            console.log(req.session.tempUser)
 
             await setTokenCookie(res, tempUser);
 
