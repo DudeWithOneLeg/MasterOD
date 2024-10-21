@@ -14,12 +14,12 @@ export default function ResultsPageFilters({setIsLoading}) {
     const [limit, setLimit] = useState(25);
 
     useEffect(() => {
-        const options = { limit, saved: !isViewAll };
+        const options = { limit, saved: !viewAll };
         if (filterInput) options.filter = filterInput;
         setIsLoading(true)
         dispatch(resultActions.getallResults(options))
         .then(async () => setIsLoading(false))
-    }, [dispatch, limit, view]);
+    }, [dispatch, limit, view, viewAll]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
