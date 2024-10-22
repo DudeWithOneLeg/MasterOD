@@ -58,10 +58,36 @@ export const sendFeedback = async (message) => {
   }).catch(err => console.log(err))
 }
 
+export const forgotPassword = async (email) => {
+  await csrfFetch('/api/users/forgot-password', {
+    method: "POST",
+    body: JSON.stringify({email})
+  }).catch(err => console.log(err))
+}
+
+export const verifyResetToken = async (token) => {
+  const res = await csrfFetch('/api/users/reset-password/verify', {
+    method: "POST",
+    body: JSON.stringify({token})
+  })
+
+  const data = await res.json()
+  return data
+}
+
+export const resetPassword = async (user) => {
+  const res = await csrfFetch('/api/users/reset-password/', {
+    method: "POST",
+    body: JSON.stringify(user)
+  })
+
+  const data = await res.json()
+  return data
+}
+
 export const restoreUser = () => async (dispatch) => {
   const response = await csrfFetch("/api/session");
   const data = await response.json();
-  // console.log(data.user)
   dispatch(setUser(data.user));
   return response;
 };

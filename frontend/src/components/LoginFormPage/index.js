@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import * as sessionActions from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { isMobile } from "react-device-detect";
 import { useGoogleLogin } from "@react-oauth/google";
 import { hasGrantedAnyScopeGoogle } from "@react-oauth/google";
 import googleLogo from "../../assets/images/google-logo.png";
@@ -19,7 +18,7 @@ function LoginFormPage() {
         if (sessionUser) {
             navigate('/search')
         }
-    },[sessionUser, navigate])
+    }, [sessionUser, navigate])
 
     const login = useGoogleLogin({
         onSuccess: (tokenResponse) => {
@@ -61,11 +60,15 @@ function LoginFormPage() {
         ).catch(async (res) => {
             const data = await res.json();
             if (data && data.errors) {
-              setErrors(data.errors);
+                setErrors(data.errors);
             }
             else navigate('/search')
-          })
+        })
     };
+
+    const handleforgotPassword = () => {
+        navigate('/forgot-password')
+    }
 
     return (
         <div className={`h-full w-full flex items-center justify-center bg-zinc-900`}>
@@ -88,7 +91,6 @@ function LoginFormPage() {
                             <p className="mt-2 text-sm text-red-500">{errors.credential}</p>
                         )}
                     </div>
-                    {credential.includes('@gmail.com') ? <></> : <>
                         <div>
                             <label htmlFor="password" className="block text-sm font-medium text-zinc-300">Password</label>
                             <input
@@ -113,7 +115,9 @@ function LoginFormPage() {
                                 Log In
                             </button>
                         </div>
-                    </>}
+                        <div className="w-full p-2 text-blue-500 cursor-pointer" onClick={handleforgotPassword}>
+                            <p>Forgot Password</p>
+                        </div>
                 </form>
                 <div className="flex items-center justify-center">
                     <div
