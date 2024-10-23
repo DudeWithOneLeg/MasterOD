@@ -10,7 +10,7 @@ export default function ResultsPageFilters({setIsLoading}) {
     const navigate = useNavigate()
     const { view } = params;
     const [filterInput, setFilterInput] = useState("");
-    const [viewAll, setViewAll] = useState(isViewAll);
+    const [viewAll, setViewAll] = useState(true);
     const [limit, setLimit] = useState(25);
 
     useEffect(() => {
