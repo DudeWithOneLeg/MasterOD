@@ -11,11 +11,11 @@ export default function ViewAllGroups() {
 
     return (
         <div className="h-full w-full flex flex-col items-center">
-            <div className="md:w-full lg:w-full xl:w-full 2xl:w-1/2 flex items-center justify-center flex-col h-full">
+            <div className="md:w-full lg:w-full xl:w-full 2xl:w-1/2 flex items-center justify-center flex-col h-full px-2">
                 <ResourceGroupFilters />
 
                 <div className="space-y-2 h-full overflow-y-scroll w-full">
-                    <div className="w-full flex flex-row text-white text-xl border-b divide-x">
+                    <div className="w-full flex flex-row text-white text-xl border-b divide-x mb-4">
                         <div className="w-full flex justify-center">
                             <p>Name</p>
                         </div>

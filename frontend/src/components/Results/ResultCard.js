@@ -13,7 +13,7 @@ export default function ResultCard({ data, rowKey, displayOnly, index, selectRes
         setIsIndex,
         clickHistory
     } = useContext(SearchContext);
-    const { setShowResult, setPreview, setResult, groupSelection, setGroupSelection } = useContext(ResultsContext);
+    const { setShowResult, setPreview, setResult, resourceSelection, setResourceSelection } = useContext(ResultsContext);
 
     const [showInfo, setShowInfo] = useState(false);
     const [saved, setSaved] = useState(false);
@@ -30,8 +30,8 @@ export default function ResultCard({ data, rowKey, displayOnly, index, selectRes
     }, [lastSearch]);
 
     useEffect(() => {
-        if (!groupSelection.length) setIsSelected(false)
-    }, [groupSelection])
+        if (!resourceSelection.length) setIsSelected(false)
+    }, [resourceSelection])
 
     const handleClick = () => {
         if (displayOnly) return;
@@ -55,21 +55,21 @@ export default function ResultCard({ data, rowKey, displayOnly, index, selectRes
         return;
     };
 
-    const handleGroupSelection = (e) => {
+    const handleresourceSelection = (e) => {
         setIsSelected(e.target.checked)
 
         if (e.target.checked) {
-            setGroupSelection([...groupSelection, result.id])
+            setResourceSelection([...resourceSelection, result.id])
         }
         else {
-            const newGroupSelection = groupSelection.filter(id => id !== result.id)
-            setGroupSelection([...newGroupSelection])
+            const newresourceSelection = resourceSelection.filter(id => id !== result.id)
+            setResourceSelection([...newresourceSelection])
         }
     }
 
 
 
-    if (isMobile) return <MobileResultCard data={data} rowKey={rowKey} />
+    if (isMobile) return <MobileResultCard data={data} rowKey={rowKey} selectResources={selectResources}/>
 
     return (
         <div
@@ -88,7 +88,7 @@ export default function ResultCard({ data, rowKey, displayOnly, index, selectRes
         >
             <div className="flex flex-col items-center justify-content-around min-w-10 h-full space-y-2">
                 {/* <div className="text-white">{result.id}</div> */}
-                {selectResources ? <input checked={isSelected} onChange={handleGroupSelection} type='checkbox' className="w-6 h-6 cursor-pointer"/>
+                {selectResources ? <input checked={isSelected} onChange={handleresourceSelection} type='checkbox' className="w-6 h-6 cursor-pointer"/>
                     : <SaveResult result={result} saved={saved} setSaved={setSaved} displayOnly={displayOnly}/>}
                 {result.title &&
                     result.title.toLowerCase().includes("index of /") ? (

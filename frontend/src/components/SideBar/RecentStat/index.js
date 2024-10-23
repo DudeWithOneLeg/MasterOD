@@ -13,14 +13,17 @@ export default function RecentStat({ object, setSearch, setShowMenu }) {
         return <MobileRecentStat object={object} setSearch={setSearch} setShowMenu={setShowMenu}/>
     }
     else return (
-        <div className={``}>
+        <div>
             <div
-                className={`p-2 flex flex-row items-center cursor-pointer justify-content-between rounded ${path === object.path || (path === '/search' && object.path === '/search/all')? 'bg-amber-800':'hover:bg-zinc-800'} text-xl`}
+                className={`p-2 flex flex-row items-center cursor-pointer justify-content-between rounded text-2xl ${path.includes(object.path) ? 'bg-amber-800':(object.path ? 'hover:bg-zinc-700' : '')} shadow-2xl`}
                 onClick={() => {
-                    navigate(object.path);
-                    setSearch(false);
-                    if (isMobile) {
-                        setShowMenu(false);
+                    if (object.path) {
+
+                        navigate(object.path);
+                        setSearch(false);
+                        if (isMobile) {
+                            setShowMenu(false);
+                        }
                     }
                 }}
                 onMouseEnter={() => setHover(true)}
@@ -31,14 +34,20 @@ export default function RecentStat({ object, setSearch, setShowMenu }) {
                 >
                     {object.stat}
                 </h1>
-                <div className="h-6 w-6 flex items-center">
-                    {hover ? (
-                        <img src={arrowforward} className="h-6 rounded-full" alt="arrow forward"/>
-                    ) : (
-                        <></>
-                    )}
-                </div>
             </div>
+            {(hover && object?.options?.length) || (path.includes(object.subPath)) ?
+            <div
+                className="w-full h-fit bg-zinc-800 shadow-inner shadow-2xl p-2"
+                onMouseEnter={() => setHover(true)}
+                onMouseLeave={() => setHover(false)}>
+                {object?.options.map(option => {
+                    return (
+                        <div className={`p-2 px-4 flex flex-row items-center cursor-pointer justify-content-between ${(path.includes(option.path) || (option.path === '/search/all' && path === '/search')) ? 'bg-amber-800':'hover:bg-zinc-700'}`} onClick={() => navigate(option.path)}>
+                            <h1>{option.name}</h1>
+                        </div>
+                    )
+                })}
+            </div> : <></>}
         </div>
     );
 }

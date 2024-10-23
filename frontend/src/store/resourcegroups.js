@@ -26,10 +26,10 @@ const setAllResourceGroups = (resourceGroups) => {
     }
 }
 
-const setUpdatedResourceGroup = (updatedResourceGroup) => {
+const setUpdatedResourceGroup = (group) => {
     return {
         type: UPDATE_RESOURCE_GROUP,
-        payload: updatedResourceGroup
+        payload: group
     }
 }
 
@@ -47,15 +47,30 @@ export const createResourceGroup = (newResourceGroup) => async (dispatch) => {
     return data
 }
 
-export const updateResourceGroup = (id, updatedResourceGroup) => async (dispatch) => {
+export const updateResources = async(id, resources, action) => {
+    const res = await csrfFetch(`/api/resourcegroups/${id}/resources`, {
+        method: "PATCH",
+        body: JSON.stringify({resources, action})
+    })
+    const data = await res.json()
+
+    // if (data && !data.errors) {
+    //     const {resources} = data
+    //     dispatch(setUpdatedResourceGroup({id, resources: flatten(resources)}))
+    // }
+    return data
+}
+
+export const updateGroup = (id, group) => async (dispatch) => {
     const res = await csrfFetch(`/api/resourcegroups/${id}`, {
         method: "PATCH",
-        body: JSON.stringify(updatedResourceGroup)
+        body: JSON.stringify(group)
     })
     const data = await res.json()
 
     if (data && !data.errors) {
-        dispatch(setUpdatedResourceGroup(data))
+        const group = data
+        dispatch(setUpdatedResourceGroup(group))
     }
     return data
 }
@@ -87,7 +102,7 @@ export const fetchAllResourceGroups = (options) => async (dispatch) => {
     return data
 }
 
-const intitialState = { newResourceGroup: null };
+const intitialState = { newResourceGroup: null, resourceGroup: null, all: null };
 
 const resourceGroupReducer = (state = intitialState, action) => {
     let newState;
@@ -104,8 +119,8 @@ const resourceGroupReducer = (state = intitialState, action) => {
         case UPDATE_RESOURCE_GROUP:
             newState = { ...state}
             const resourceGroup = {...newState.resourceGroup}
-            resourceGroup.group = {...action.payload}
-            newState.resourceGroup = {...resourceGroup}
+            const newGroup = action.payload
+            newState.resourceGroup = {...resourceGroup, group: {...newGroup}}
             return newState
         default:
             return state

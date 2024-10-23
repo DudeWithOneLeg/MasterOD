@@ -5,10 +5,14 @@ import Sharing from "../../Sharing"
 // import moreVert from '../../assets/images/more_vert.png'
 import shareIcon from '../../../assets/images/share.png'
 
-export default function ResourceGroupCard({ group }) {
+export default function ResourceGroupCard({ group, isAddingResources, setExistingGroup }) {
     const navigate = useNavigate()
 
     const handleRedirect = () => {
+        if (isAddingResources) {
+            setExistingGroup(group)
+            return
+        }
         navigate(`/resourceGroup/${group.id}`)
     }
 

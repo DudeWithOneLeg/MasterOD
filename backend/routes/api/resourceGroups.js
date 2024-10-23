@@ -54,28 +54,54 @@ router.post('/new', async (req, res) => {
 
 router.patch('/:resourceGroupId/resources', async (req, res) => {
     const response = {}
-    const { resourceGroupId } = req.params
+    const { resourceGroupId: id } = req.params
     const { id: userId } = req.user
 
-    const { newResources } = req.body
+    const { resources, action } = req.body
 
-    const resourceGroup = await ResourceGroup.findOne({
+    const group = await ResourceGroup.findOne({
         where: {
-            id: resourceGroupId,
+            id,
             userId: userId,
         }
     })
 
-    if (resourceGroup) {
-        response.group = resourceGroup
-        response.resources = []
-        newResources.map(async resource => {
-            const newResource = await GroupResources.create(resource, userId)
-            response.resources.push(newResource)
+    if (action === 'delete') {
+        await GroupResources.destroy({
+            where: {
+                id: resources,
+                userId
+            }
         })
     }
 
-    res.json(response).status(200)
+    else if (action === 'add') {
+        response.group = group
+        response.resources = []
+        resources.map(async resourceId => {
+            const newResource = await GroupResources.create({resourceId, userId, groupId: group.id})
+            response.resources.push(newResource)
+        })
+    }
+    // const newResources = []
+
+    // const resourceIds = await GroupResources.findAll({
+    //     where: {
+    //         groupId: group.id,
+    //         userId
+    //     },
+    //     attributes: ['resourceId'],
+    //     group: ['resourceId']
+    // })
+
+    // const { numberResources } = resourceIds[0].dataValues
+
+    // for (let resourceId of resourceIds) {
+    //     const resource = await Result.findByPk(resourceId.resourceId)
+    //     newResources.push(resource)
+    // }
+
+    res.json({ success: true}).status(200)
 
 })
 

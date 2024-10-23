@@ -26,7 +26,7 @@ export default function BrowserHeader({preview, component, setComponent}) {
         setCopied(false)
       },[preview])
   return (
-    <div className={`flex h-[${isMobile ? '10' : '5'}%]`}>
+    <div className={`flex h-fit`}>
       <div className={`fixed -mt-6 flex flex-row text-white pb-1`}>
         <div
           className={`${

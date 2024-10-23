@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import * as resourceGroupActions from '../../../store/resourcegroups'
+import {fetchAllResourceGroups} from '../../../store/resourcegroups'
 import searchIcon from "../../../assets/images/search.png";
 import { isMobile } from 'react-device-detect';
 
@@ -15,7 +15,7 @@ export default function ResourceGroupFilters() {
         if (isPrivate !== "All") {
             options.isPrivate = (isPrivate === "Public" ? false : true)
         }
-        dispatch(resourceGroupActions.fetchAllResourceGroups(options))
+        dispatch(fetchAllResourceGroups(options))
     }, [dispatch, isPrivate])
 
     const handleSubmit = (e) => {
@@ -24,7 +24,7 @@ export default function ResourceGroupFilters() {
         if (isPrivate !== "All") {
             options.isPrivate = (isPrivate === "Public" ? false : true)
         }
-        dispatch(resourceGroupActions.fetchAllResourceGroups(options))
+        dispatch(fetchAllResourceGroups(options))
     }
 
     return (
