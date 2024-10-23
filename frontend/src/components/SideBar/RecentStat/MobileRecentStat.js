@@ -11,14 +11,8 @@ export default function MobileRecentStat({ object, setSearch, setShowMenu }) {
     return (
         <div className={`p-2`}>
             <div
-                className={`p-2 flex flex-row items-center cursor-pointer justify-content-between rounded ${path === object.path ? 'bg-amber-800':'hover:bg-zinc-800'}`}
-                onClick={() => {
-                    navigate(object.path);
-                    setSearch(false);
-                    if (isMobile) {
-                        setShowMenu(false);
-                    }
-                }}
+                className={`p-2 flex flex-row items-center cursor-pointer justify-content-between rounded ${path.includes(object.path) ? 'bg-amber-800':(object.path ? 'hover:bg-zinc-700' : '')} `}
+                onClick={() => setHover(true)}
             >
                 <h1
                     onMouseEnter={() => setHover(true)}
@@ -27,14 +21,28 @@ export default function MobileRecentStat({ object, setSearch, setShowMenu }) {
                 >
                     {object.stat}
                 </h1>
-                <div className="h-8 flex items-end">
-                    {hover ? (
-                        <img src={arrowforward} className="h-6 rounded-full" />
-                    ) : (
-                        <></>
-                    )}
-                </div>
+                
             </div>
+                        {(hover && object?.options?.length) || (path.includes(object.subPath)) ?
+            <div
+                className="w-full h-fit bg-zinc-800 shadow-inner shadow-2xl p-2"
+     
+                onClick={() => {
+                    navigate(object.options.path);
+                    setSearch(false);
+                    
+                        setShowMenu(false);
+                    
+                }}
+>
+                {object?.options.map(option => {
+                    return (
+                        <div className={`p-2 px-4 flex flex-row items-center cursor-pointer justify-content-between ${(path.includes(option.path) || (option.path === '/search/all' && path === '/search')) ? 'bg-amber-800':'hover:bg-zinc-700'}`} onClick={() => navigate(option.path)}>
+                            <h1>{option.name}</h1>
+                        </div>
+                    )
+                })}
+            </div> : <></>}
         </div>
     );
 }
