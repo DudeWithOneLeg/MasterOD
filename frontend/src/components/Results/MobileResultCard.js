@@ -6,17 +6,18 @@ import SaveResult from "../SaveResult";
 import { isMobile } from "react-device-detect";
 const newTab = require("../../assets/icons/open_in_new.png");
 
-export default function MobileResultCard({ data, rowKey }) {
+export default function MobileResultCard({ data, rowKey, selectResources, displayOnly, index }) {
     const {
         setIsIndex,
         clickHistory
     } = useContext(SearchContext);
-    const { setShowResult, setPreview, setResult } = useContext(ResultsContext);
+    const { setShowResult, setPreview, setResult, resourceSelection, setResourceSelection } = useContext(ResultsContext);
 
     const [showInfo, setShowInfo] = useState(false);
     const [saved, setSaved] = useState(false);
     const [lastSearchId, setLastSearchId] = useState(0);
     const lastSearch = useSelector((state) => state.search.recentQueries);
+    const [isSelected, setIsSelected] = useState(false);
 
     useEffect(() => {
         if (lastSearch && Object.values(lastSearch)[0]) {
@@ -47,77 +48,91 @@ export default function MobileResultCard({ data, rowKey }) {
         return;
     };
 
+    const handleresourceSelection = (e) => {
+        setIsSelected(e.target.checked)
+
+        if (e.target.checked) {
+            setResourceSelection([...resourceSelection, result.id])
+        }
+        else {
+            const newresourceSelection = resourceSelection.filter(id => id !== result.id)
+            setResourceSelection([...newresourceSelection])
+        }
+    }
+
     // console.log(result)
 
     return (
         <div
-    key={rowKey}
-    data-collapse-target="collapse"
-    data-collapse="collapse"
-    id="result"
-    className={`${
-        clickHistory.currentSelected === result.id
-            ? "border-2 border-green-400"
-            : clickHistory.visitedResults?.includes(result.id) &&
-              clickHistory.currentSelected !== result.id
-            ? "border-2 border-white"
-            : ""
-    } ${isMobile ? "text-sm" : ""} w-full cursor-pointer flex flex-row rounded hover:bg-zinc-700 py-2 pr-2 my-2 pl-0 transition-all duration-100 ease-in-out bg-gradient-to-r from-zinc-800 to-zinc-900`}
+            key={rowKey}
+            data-collapse-target="collapse"
+            data-collapse="collapse"
+            id="result"
+            className={`${clickHistory.currentSelected === result.id
+                    ? "border-2 border-green-400"
+                    : clickHistory.visitedResults?.includes(result.id) &&
+                        clickHistory.currentSelected !== result.id
+                        ? "border-2 border-white"
+                        : ""
+                } ${isMobile ? "text-sm" : ""} w-full cursor-pointer flex flex-row rounded hover:bg-zinc-700 py-2 pr-2 my-2 pl-0 transition-all duration-100 ease-in-out bg-gradient-to-r from-zinc-800 to-zinc-900`}
 
->
-    {/* First Child */}
-    <div className="flex items-start justify-center w-[8%] h-auto py-2">
-        <SaveResult result={result} saved={saved} setSaved={setSaved} className={`${isMobile ? 'w-6 h-6' : 'w-fit'}`}/>
-        {result.title && result.title.toLowerCase().includes("index of /") ? (
-            <div className="rounded bg-green-200 w-6">Idx</div>
-        ) : null}
-    </div>
+        >
+            {/* First Child */}
+            <div className="flex items-start justify-center w-[8%] h-auto py-2">
+                {selectResources ? <input checked={isSelected} onChange={handleresourceSelection} type='checkbox' className="w-6 h-6 cursor-pointer" />
+                    : <SaveResult result={result} saved={saved} setSaved={setSaved} displayOnly={displayOnly} />}
+                {result.title &&
+                    result.title.toLowerCase().includes("index of /") ? (
+                    <div className="rounded bg-green-200 w-6 my-1">Idx</div>
+                ) : (
+                    <></>
+                )}
+            </div>
 
-    {/* Second Child */}
-    <div className="flex flex-col items-start justify-between w-[92%]" onClick={handleClick}>
-        {result ? (
-            <div key={result.id} className="flex flex-col text-white w-full">
-                <div className="flex flex-row">
-                    <div className="w-full">
-                        <div className="flex flex-row justify-between items-center w-full">
-                            <div className="flex flex-row w-fit items-center">
-                                <h3
-                                    className={`font-bold text-white ${
-                                        isMobile ? "text-sm" : "text-xl"
-                                    } underline w-fit poppins-regular`}
-                                >
-                                    {result.title ? result.title.slice(0, 45) : ""}
-                                </h3>
+            {/* Second Child */}
+            <div className="flex flex-col items-start justify-between w-[92%]" onClick={handleClick}>
+                {result ? (
+                    <div key={result.id} className="flex flex-col text-white w-full">
+                        <div className="flex flex-row">
+                            <div className="w-full">
+                                <div className="flex flex-row justify-between items-center w-full">
+                                    <div className="flex flex-row w-fit items-center">
+                                        <h3
+                                            className={`font-bold text-white ${isMobile ? "text-sm" : "text-xl"
+                                                } underline w-fit poppins-regular`}
+                                        >
+                                            {result.title ? result.title.slice(0, 45) : ""}
+                                        </h3>
 
-                                {result.link &&
-                                    docExtensions.includes(
-                                        result.link.split(".").slice(-1)[0]
-                                    ) && (
-                                        <img
-                                            src={require("../../assets/images/document.png")}
-                                            className={`${isMobile ? "w-6 h-6" : "w-8 h-8"}`}
-                                            alt="document"
-                                        />
-                                    )}
+                                        {result.link &&
+                                            docExtensions.includes(
+                                                result.link.split(".").slice(-1)[0]
+                                            ) && (
+                                                <img
+                                                    src={require("../../assets/images/document.png")}
+                                                    className={`${isMobile ? "w-6 h-6" : "w-8 h-8"}`}
+                                                    alt="document"
+                                                />
+                                            )}
+                                    </div>
+                                    <img
+                                        src={newTab}
+                                        className={`h-${isMobile ? "6" : "8"}`}
+                                        onClick={handleNewTab}
+                                        alt="new tab"
+                                    />
+                                </div>
+                                <p className="truncate text-zinc-400 w-3/4">
+                                    {result.link ? result.link.slice(0, 50) : ""}
+                                    ...
+                                </p>
                             </div>
-                            <img
-                                src={newTab}
-                                className={`h-${isMobile ? "6" : "8"}`}
-                                onClick={handleNewTab}
-                                alt="new tab"
-                            />
                         </div>
-                        <p className="truncate text-zinc-400 w-3/4">
-                            {result.link ? result.link.slice(0, 50) : ""}
-                            ...
-                        </p>
-                    </div>
-                </div>
-                <div className="w-full">
-                    <p className={`underline text-zinc-300 ${isMobile ? 'text-sm' : 'text-lg'}`}>{result.snippet}</p>
-                </div>
+                        <div className="w-full">
+                            <p className={`underline text-zinc-300 ${isMobile ? 'text-sm' : 'text-lg'}`}>{result.snippet}</p>
+                        </div>
 
-                {/* {result.archive?.archived_snapshots?.closest?.url && (
+                        {/* {result.archive?.archived_snapshots?.closest?.url && (
                     <a
                         href={result.archive.archived_snapshots.closest.url}
                         target="_blank"
@@ -127,10 +142,10 @@ export default function MobileResultCard({ data, rowKey }) {
                         Archive
                     </a>
                 )} */}
+                    </div>
+                ) : null}
             </div>
-        ) : null}
-    </div>
-</div>
+        </div>
 
     );
 }

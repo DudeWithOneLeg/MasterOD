@@ -4,12 +4,13 @@ import { useParams } from "react-router-dom"
 import Results from "../../Results"
 import Browser from "../../Browser"
 import { ResultsContext } from "../../../context/ResultsContext"
-import * as resourceGroupActions from '../../../store/resourcegroups'
+import {fetchResourceGroup, updateResources} from '../../../store/resourcegroups'
 import DynamicOGMeta from "../../DynamicOGMeta"
 import OpenModalButton from "../../OpenModalButton"
 import NewGroupModal from "../../NewGroupModal"
 import editIcon from '../../../assets/images/edit.png'
 import checkboxIcon from '../../../assets/images/checkbox.png'
+import {isMobile} from 'react-device-detect'
 
 export default function ViewOneGroup() {
     const params = useParams()
@@ -22,7 +23,7 @@ export default function ViewOneGroup() {
 
 
     useEffect(() => {
-        dispatch(resourceGroupActions.fetchResourceGroup(resourceGroupId, shareUrl))
+        dispatch(fetchResourceGroup(resourceGroupId, shareUrl))
     }, [dispatch, resourceGroupId])
 
     const resourceGroup = useSelector(state => state.resourceGroups.resourceGroup)
@@ -40,7 +41,14 @@ export default function ViewOneGroup() {
     }
 
     const removeFromGroup = () => {
-
+        if (!groupSelection.length) return
+        updateResources(group.id, groupSelection, 'delete')
+        .then(async res => {
+            if (res.success) {
+                dispatch(fetchResourceGroup(resourceGroupId, shareUrl))
+                setSelectResources(false)
+            }
+        })
     }
 
     return (
@@ -50,16 +58,16 @@ export default function ViewOneGroup() {
                     <DynamicOGMeta group={group} />
                     <div className={`${((showResult && resources) || (showResult && preview)) ? 'w-1/2' : 'w-full'} flex flex-col justify-center items-center py-2`}>
                         <div className="text-2xl flex flex-row items-center space-x-2">
-                            <h1>{group.name}</h1>
+                            <h1 className="text-blue-500">{group.name}</h1>
                             <OpenModalButton modalComponent={<NewGroupModal group={group} />} buttonImg={<img src={editIcon} className="h-full" alt='edit group' />} className="focus:outline-none rounded-full h-8" />
                         </div>
                         <div>
                             <p>{group.description}</p>
                         </div>
                     </div>
-                    <div className={`w-1/2 h-8 flex flex-row items-center text-white space-x-2 px-2`}>
+                    <div className={`${showResult || isMobile ? "w-full" : "3xl:w-1/2 2xl:w-1/2 xl:w-full lg:w-full md:w-full"} h-8 flex flex-row items-center text-white space-x-2 px-2`}>
 
-                        {selectResources ? <div className={`flex flex-row items-center rounded px-1 ${groupSelection.length ? 'text-red-400 hover:bg-red-500 hover:text-white cursor-pointer' : 'text-zinc-500'}`}>
+                        {selectResources ? <div className={`flex flex-row items-center rounded px-1 ${groupSelection.length ? 'text-red-400 hover:bg-red-500 hover:text-white cursor-pointer' : 'text-zinc-500'}`} onClick={removeFromGroup}>
                             <p>Remove</p>
                         </div> : <></>}
 

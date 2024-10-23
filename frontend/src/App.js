@@ -20,6 +20,8 @@ import TermsOfServicePage from "./components/TermsOfServicePage";
 import ViewOneGroup from "./components/ResourceGroups/ViewOneGroup/index.js";
 import ViewAllResourceGroups from "./components/ResourceGroups/ViewAllGroups/index.js";
 import DynamicOGMeta from "./components/DynamicOGMeta/index.js";
+import ForgotPassword from "./components/LoginFormPage/ForgotPassword.js";
+import ResetPassword from "./components/LoginFormPage/ResetPassword.js";
 
 function App() {
     const dispatch = useDispatch();
@@ -27,7 +29,7 @@ function App() {
     const [isLoaded, setIsLoaded] = useState(false);
     const user = useSelector((state) => state.session.user);
     const path = window.location.pathname;
-    
+
     useEffect(() => {
         dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
     }, [dispatch]);
@@ -61,6 +63,8 @@ function App() {
                             <Route path="/signup" element={<SignupFormPage />} />
                             <Route path='/group/share/:shareUrl' element={<ViewOneGroup />} />
                             <Route path="/finish-signup" element={<FinishSignup />} />
+                            <Route path="/forgot-password" element={<ForgotPassword />} />
+                            <Route path="/reset-password/:token" element={<ResetPassword />} />
 
                             {/* Protected routes */}
                             <Route element={<ProtectedRoute user={user} />}>

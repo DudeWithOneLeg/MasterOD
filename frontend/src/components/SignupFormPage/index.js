@@ -139,7 +139,7 @@ function SignupFormPage() {
             });
         }
     };
-    const isValidForm = () => !Object.values(errors).length && acceptedTOS;
+    const isValidForm = () => !Object.values(errors).length && acceptedTOS && username.length && password.length && confirmPassword.length;
 
     return (
         <div className={`h-full w-full flex items-center justify-center bg-zinc-900 text-white`}>

@@ -69,11 +69,14 @@ export default function SideBar() {
                                         />
                                         Resource Group
                                     </div> */}
-                                    <div className="h-2" />
+                                    {/* <div className="h-2" /> */}
                                     {/* <div className="w-full p-2 text-2xl underline text-blue-600 poppins-regular-italic" onClick={() => navigate('/search/current')}>
                                         <h1>Current Search</h1>
                                     </div> */}
+                                    <div className="divide-y divide-zinc-600">
+
                                     <RecentStats setSearch={searchState.setSearch} />
+                                    </div>
                                 </div>
                             </div>
                             {!sentFeedback ? (

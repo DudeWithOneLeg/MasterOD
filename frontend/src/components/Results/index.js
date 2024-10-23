@@ -17,7 +17,7 @@ export default function Results({ data, selectResources }) {
                     <img src={require("../../assets/icons/loading.png")} className="h-26 w-26 rounded-full animate-spin mb-4" alt="loading" />
                 </div>
             ) : (
-                <div className={`${showResult || isMobile ? "w-full" : "w-1/2"} p-2`}>
+                <div className={`${showResult || isMobile ? "w-full" : "3xl:w-1/2 2xl:w-1/2 xl:w-full lg:w-full md:w-full"} p-2`}>
                     {Object.values(data)[0]?.queryId
                         ? Object.keys(data)
                             .reverse()

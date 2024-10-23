@@ -4,23 +4,34 @@ export default function RecentStats({setSearch, setShowMenu}) {
 
   const navBarStats = [
     {
-      stat: "Saved Searches",
-      path: "/search/saved",
-    },
-    {
-      stat: "Recent Searches",
-      path: "/search/all",
+      stat: "Searches",
+      subPath: "/search",
+      options: [
+        {
+          name: 'Recent',
+          path: "/search/all",
+        },
+        {
+          name: 'Saved',
+          path: "/search/saved",
+        }
+      ]
     },
     {
       stat: "Resources",
-      path: "/results/all",
-    },
-    {
-      stat: "Saved Resources",
-      path: "/results/saved",
+      subPath: "/results",
+      options: [
+        {
+          name: 'Recent',
+          path: "/results/all",
+        }, {
+          name: 'Saved',
+          path: "/results/saved",
+        }
+      ]
     },
     // {
-    //   stat: "Groups",
+    //   stat: "My Groups",
     //   path: "/resourceGroups",
     // },
   ];

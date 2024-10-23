@@ -13,7 +13,7 @@ import ResultsPageFilters from "./ResultsPageFilters";
 export default function ResultsPage() {
     const dispatch = useDispatch();
     const params = useParams();
-    const { preview, showResult, result, groupSelection, setGroupSelection } = useContext(ResultsContext)
+    const { preview, showResult, result, resourceSelection, setResourceSelection } = useContext(ResultsContext)
 
     const results = useSelector((state) => state.results.all);
     const data = useSelector((state) => state.search.data);
@@ -41,9 +41,9 @@ export default function ResultsPage() {
         }
     }, [preview, dispatch]);
 
-    const cancelGroupSelection = () => {
+    const cancelresourceSelection = () => {
         setSelectResources(false)
-        setGroupSelection([])
+        setResourceSelection([])
     }
 
     return (
@@ -51,18 +51,18 @@ export default function ResultsPage() {
             className={`flex flex-col ${preview && !isMobile ? "items-start" : "items-center"} w-full h-full bg-zinc-900`}
         >
             <div
-                className={`flex items-center justify-center pt-2 flex-col ${(preview && !isMobile) || !isMobile? "w-1/2" : "w-full"
-                    }`}
+                className={`flex items-center justify-center pt-2 flex-col ${showResult || isMobile ? "w-full" : "3xl:w-1/2 2xl:w-1/2 xl:w-full lg:w-full md:w-full"}`}
+
             >
                 <ResultsPageFilters setIsLoading={setIsLoading}/>
-                {selectResources ? <div className="w-full flex flex-row text-white items-center space-x-2">
-                    <OpenModalButton buttonText="Create Group" modalComponent={<NewGroupModal />} className={`h-10 text-white flex items-center ${groupSelection.length ? 'bg-blue-700' : 'bg-zinc-500 !text-zinc-800'} rounded px-2`} />
-                    <h2 onClick={cancelGroupSelection} className="cursor-pointer">Cancel</h2>
+                {selectResources ? <div className="w-full flex flex-row text-white items-center space-x-2 px-2">
+                    <OpenModalButton buttonText="Create Group" modalComponent={<NewGroupModal />} className={`h-10 text-white flex items-center ${resourceSelection.length ? 'bg-blue-700' : 'bg-zinc-500 !text-zinc-800'} rounded px-2`} />
+                    <h2 onClick={cancelresourceSelection} className="cursor-pointer">Cancel</h2>
                 </div> : <div>
                 </div>}
             </div>
             <div
-                className={`flex w-full h-full overflow-y-hidden ${isMobile ? "grid grid-rows-2 gap-1 flex-col" : ""
+                className={`flex w-full h-full overflow-y-hidden ${isMobile ? "grid grid-rows-2 gap-1 flex-col" : "md:flex-col"
                     }`}
             >
                 {results && !isLoading ? (
