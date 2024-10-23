@@ -52,6 +52,7 @@ export default function ResultsPage() {
         >
             <div
                 className={`flex items-center justify-center pt-2 flex-col ${showResult || isMobile ? "w-full" : "3xl:w-1/2 2xl:w-1/2 xl:w-full lg:w-full md:w-full"}`}
+
             >
                 <ResultsPageFilters setIsLoading={setIsLoading}/>
                 {selectResources ? <div className="w-full flex flex-row text-white items-center space-x-2 px-2">

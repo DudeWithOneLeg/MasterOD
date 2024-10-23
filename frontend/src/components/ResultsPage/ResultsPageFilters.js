@@ -9,18 +9,17 @@ export default function ResultsPageFilters({setIsLoading}) {
     const params = useParams()
     const navigate = useNavigate()
     const { view } = params;
-    const isViewAll = (view === 'saved' ? false : (view === 'all'))
     const [filterInput, setFilterInput] = useState("");
     const [viewAll, setViewAll] = useState(isViewAll);
     const [limit, setLimit] = useState(25);
 
     useEffect(() => {
-        const options = { limit, saved: !isViewAll };
+        const options = { limit, saved: !viewAll };
         if (filterInput) options.filter = filterInput;
         setIsLoading(true)
         dispatch(resultActions.getallResults(options))
         .then(async () => setIsLoading(false))
-    }, [dispatch, limit, view]);
+    }, [dispatch, limit, view, viewAll]);
 
     useEffect(() => {
         const { view } = params;
