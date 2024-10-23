@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-export const SelectLimit = ({setLimit, setViewAll, limit, viewAll}) => {
+export const SelectLimit = ({setLimit, limit, viewAll}) => {
     const navigate = useNavigate()
     return (
         <div className="flex h-full justify-content-start items-center">

@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import * as resultActions from '../../store/result'
 import searchIcon from "../../assets/images/search.png";
 
 export default function ResultsPageFilters({setIsLoading}) {
+    const dispatch = useDispatch()
     const params = useParams()
+    const navigate = useNavigate()
     const { view } = params;
     const isViewAll = (view === 'saved' ? false : (view === 'all'))
-    const dispatch = useDispatch()
     const [filterInput, setFilterInput] = useState("");
     const [viewAll, setViewAll] = useState(isViewAll);
     const [limit, setLimit] = useState(25);
@@ -20,6 +21,11 @@ export default function ResultsPageFilters({setIsLoading}) {
         dispatch(resultActions.getallResults(options))
         .then(async () => setIsLoading(false))
     }, [dispatch, limit, view]);
+
+    useEffect(() => {
+        const { view } = params;
+        setViewAll(view === "all" || view === undefined);
+    }, [params]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -56,8 +62,8 @@ export default function ResultsPageFilters({setIsLoading}) {
                 </div>
                 <div className="flex flex-row w-fit rounded">
                     <p
-                        onClick={() => setViewAll(true)}
-                        className={`px-1 cursor-pointer rounded ${viewAll
+                        onClick={() => navigate('/results/all')}
+                        className={`px-1 cursor-pointer ${viewAll
                             ? "border-b-4"
                             : "hover:bg-slate-600 hover:border-b-4 hover:border-gray-400"
                             }`}
@@ -65,8 +71,8 @@ export default function ResultsPageFilters({setIsLoading}) {
                         All
                     </p>
                     <p
-                        onClick={() => setViewAll(false)}
-                        className={`px-1 cursor-pointer rounded ${viewAll
+                        onClick={() => navigate('/results/saved')}
+                        className={`px-1 cursor-pointer ${viewAll
                             ? "hover:bg-slate-600 hover:border-b-4"
                             : "border-b-4"
                             }`}

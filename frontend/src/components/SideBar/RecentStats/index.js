@@ -30,10 +30,10 @@ export default function RecentStats({setSearch, setShowMenu}) {
         }
       ]
     },
-    {
-      stat: "My Groups",
-      path: "/resourceGroups",
-    },
+    // {
+    //   stat: "My Groups",
+    //   path: "/resourceGroups",
+    // },
   ];
 
   return Object.values(navBarStats).map((object) => {
