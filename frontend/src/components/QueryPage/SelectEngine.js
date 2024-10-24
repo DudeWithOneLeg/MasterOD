@@ -1,9 +1,9 @@
-export const SelectEngine = (props) => {
+export default function SelectEngine(props) {
     return (
         <div className="flex h-full justify-content-start items-center">
 
             <select
-                className="mx-2 text-slate-600 cursor-pointer rounded focus:outline-none"
+                className="text-slate-600 cursor-pointer rounded focus:outline-none"
                 onChange={(e) => props.setEngineFilter(e.target.value.toLocaleLowerCase())}
             >
                 <option selected disabled>Engine</option>

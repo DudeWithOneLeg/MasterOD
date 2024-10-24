@@ -96,8 +96,8 @@ export default function MobileSearchBar({ setStatus, status, selectedOperator, s
                 data-collapse-target="collapse"
                 onSubmit={(e) => handleSubmit(e)}
             >
-                <div className="flex items-center w-full h-[4vh] fit justify-content-between m-1 my-2">
-                    <div className={`flex flex-row h-fit items-center w-full`}>
+                <div className="flex items-center w-full h-[4vh] fit justify-content-between m-1">
+                    <div className={`flex flex-row h-full items-center w-full`}>
                         <img
                             src={require("../../../assets/images/arrow-forward-2.png")}
                             className={`h-[2.5vh] w-8 flex flex-row transition-all duration-300 ease-in-out z-20 ${showOptions ? "rotate-90" : ""
@@ -106,10 +106,10 @@ export default function MobileSearchBar({ setStatus, status, selectedOperator, s
                             alt="show options"
                         />
                         <div
-                            className={`flex flex-row jusitfy-center h-[2vh] w-full items-center`}
+                            className={`flex flex-row h-full w-full jusitfy-center items-center`}
                         >
                             <div
-                                className={`flex w-full bg-zinc-800 rounded-full px-2 justify-between items-center h-8`}
+                                className={`flex w-full h-full bg-zinc-800 rounded-full px-2 justify-between items-center`}
                             >
                                 <div className="flex flex-row justify-center items-center h-full">
                                     <label className="flex items-center h-full m-0">
@@ -117,7 +117,7 @@ export default function MobileSearchBar({ setStatus, status, selectedOperator, s
                                             onChange={(e) =>
                                                 searchState.setEngine(e.target.value)
                                             }
-                                            className="rounded ml-1 cursor-pointer text-xl focus:outline-none text-white bg-zinc-800 h-full"
+                                            className="rounded ml-1 cursor-pointer text-xl focus:outline-none text-white bg-zinc-800 flex items-center justify-center"
                                         >
                                             <option
                                                 selected={"Google" === searchState.engine}

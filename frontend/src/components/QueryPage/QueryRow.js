@@ -1,6 +1,10 @@
 import { useState, useContext } from "react";
 import { useDispatch } from "react-redux";
 import { SearchContext } from "../../context/SearchContext";
+import googleIcon from "../../assets/icons/google.png"
+import bingIcon from "../../assets/icons/bing.jpg"
+import bookmarkFillIcon from "../../assets/icons/bookmark_FILL.png"
+import bookmarkIcon from "../../assets/icons/bookmark.png"
 import * as queryActions from "../../store/query";
 import * as searchActions from "../../store/search";
 
@@ -65,8 +69,8 @@ export default function QueryRow({ query }) {
                     <img
                         src={
                             query.saved
-                                ? require("../../assets/icons/bookmark_FILL.png")
-                                : require("../../assets/icons/bookmark.png")
+                                ? bookmarkFillIcon
+                                : bookmarkIcon
                         }
                         alt={query.saved ? "unsave" : "save"}
                         className="h-8 w-8 cursor-pointer"
@@ -102,8 +106,8 @@ export default function QueryRow({ query }) {
                         className="min-w-6 max-w-6 h-6 rounded"
                         src={
                             query.engine === "google"
-                                ? require("../../assets/icons/google.png")
-                                : require("../../assets/icons/bing.jpg")
+                                ? googleIcon
+                                : bingIcon
                         }
                         alt={query.engine === "google" ? "google" : "bing"}
                     />
