@@ -1,9 +1,13 @@
 import { useState, useContext } from "react";
 import { useDispatch } from "react-redux";
-import { SearchContext } from "../../context/SearchContext";
+import { SearchContext } from "../../../context/SearchContext";
 import { isMobile } from "react-device-detect";
-import * as queryActions from "../../store/query";
-import * as searchActions from "../../store/search";
+import googleIcon from "../../../assets/icons/google.png"
+import bingIcon from "../../../assets/icons/bing.jpg"
+import bookmarkFillIcon from "../../../assets/icons/bookmark_FILL.png"
+import bookmarkIcon from "../../../assets/icons/bookmark.png"
+import * as queryActions from "../../../store/query";
+import * as searchActions from "../../../store/search";
 
 export default function MobileQueryRow({ query }) {
     const { setShowOptions, searchState } = useContext(SearchContext);
@@ -66,8 +70,8 @@ export default function MobileQueryRow({ query }) {
                 <img
                     src={
                         query.saved
-                            ? require("../../assets/icons/bookmark_FILL.png")
-                            : require("../../assets/icons/bookmark.png")
+                            ? bookmarkFillIcon
+                            : bookmarkIcon
                     }
                     alt={query.saved ? "unsave" : "save"}
                     className="h-8 cursor-pointer"
@@ -95,13 +99,13 @@ export default function MobileQueryRow({ query }) {
                 {query.engine === "google" ? (
                     <img
                         className="h-7 rounded"
-                        src={require("../../assets/icons/google.png")}
+                        src={googleIcon}
                         alt="google"
                     />
                 ) : (
                     <img
                         className="h-7 rounded"
-                        src={require("../../assets/icons/bing.jpg")}
+                        src={bingIcon}
                         alt="bing"
                     />
                 )}

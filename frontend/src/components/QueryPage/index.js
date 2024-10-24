@@ -4,10 +4,10 @@ import { useParams, useNavigate } from "react-router-dom";
 import { isMobile } from "react-device-detect";
 import QueryRow from "./QueryRow";
 import * as queryActions from "../../store/query";
-import { SelectLimit } from "./SelectLimit";
-import { SelectEngine } from "./SelectEngine";
-import MobileQueryPage from "./MobileQueryPage";
-const searchIcon = require("../../assets/images/search.png");
+import SelectLimit from "./SelectLimit";
+import SelectEngine from "./SelectEngine";
+import MobileQueryPage from "./Mobile/MobileQueryPage";
+import searchIcon from "../../assets/images/search.png"
 
 export default function QueryPage() {
     const dispatch = useDispatch();
