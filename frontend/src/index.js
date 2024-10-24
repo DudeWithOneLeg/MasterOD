@@ -10,6 +10,7 @@ import ModalProvider from "./context/Modal.js";
 import { SearchProvider } from "./context/SearchContext.js";
 import { ResultsProvider } from "./context/ResultsContext.js";
 import { HelmetProvider } from 'react-helmet-async';
+import SnackBarProvider from "./context/Snackbar.js";
 
 const store = configureStore();
 
@@ -23,17 +24,19 @@ if (process.env.NODE_ENV !== "production") {
 function Root() {
     return (
         <Provider store={store}>
-            <ResultsProvider>
-                <SearchProvider>
-                    <BrowserRouter>
-                        <ModalProvider>
-                            <HelmetProvider>
-                                <App />
-                            </HelmetProvider>
-                        </ModalProvider>
-                    </BrowserRouter>
-                </SearchProvider>
-            </ResultsProvider>
+            <SnackBarProvider>
+                <ResultsProvider>
+                    <SearchProvider>
+                        <BrowserRouter>
+                            <ModalProvider>
+                                <HelmetProvider>
+                                    <App />
+                                </HelmetProvider>
+                            </ModalProvider>
+                        </BrowserRouter>
+                    </SearchProvider>
+                </ResultsProvider>
+            </SnackBarProvider>
         </Provider>
     );
 }

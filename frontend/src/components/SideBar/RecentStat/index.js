@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { isMobile } from "react-device-detect";
 import MobileRecentStat from "./MobileRecentStat";
-const arrowforward = require("../../../assets/images/arrow-forward-2.png");
 
 export default function RecentStat({ object, setSearch, setShowMenu }) {
     const navigate = useNavigate();

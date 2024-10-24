@@ -1,4 +1,4 @@
-import { useEffect, useContext, useCallback } from "react";
+import { useContext } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { SearchContext } from "../../../context/SearchContext";
@@ -103,7 +103,7 @@ export default function MobileSearchBar({ setStatus, status, selectedOperator, s
                             className={`h-[2.5vh] w-8 flex flex-row transition-all duration-300 ease-in-out z-20 ${showOptions ? "rotate-90" : ""
                                 } cursor-pointer`}
                             onClick={() => setShowOptions(!showOptions)}
-                            alt="show options"
+                            alt="Show search options."
                         />
                         <div
                             className={`flex flex-row h-full w-full jusitfy-center items-center`}
@@ -150,6 +150,7 @@ export default function MobileSearchBar({ setStatus, status, selectedOperator, s
                                     src={clearText}
                                     className="h-full"
                                     onClick={() => searchState.setString("")}
+                                    alt="Clear search bar text."
                                 />
                             </div>
                         </div>
@@ -161,7 +162,7 @@ export default function MobileSearchBar({ setStatus, status, selectedOperator, s
                         className="flex justify-self-end rounded focus:outline-none mx-1"
                         type="submit"
                     >
-                        <img src={searchIcon} className="h-8" />
+                        <img src={searchIcon} className="h-8" alt="Submit search."/>
                         {/* <button className="focus:outline-none">Search</button> */}
                     </button>
                 ) : currCharCount >= maxCharCount - 100 ? (
@@ -210,7 +211,7 @@ export default function MobileSearchBar({ setStatus, status, selectedOperator, s
                                             index={index}
                                         />
                                     );
-                                }
+                                } else return<></>
                             })}
                         </div>
                     ) : (

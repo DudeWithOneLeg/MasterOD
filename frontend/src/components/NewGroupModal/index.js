@@ -3,19 +3,19 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { ResultsContext } from '../../context/ResultsContext'
 import { useModal } from '../../context/Modal'
-import { createResourceGroup, updateGroup } from '../../store/resourcegroups'
+import { createResourceGroup, updateGroup, updateResources } from '../../store/resourcegroups'
 import ResourceGroupFilters from '../ResourceGroups/ViewAllGroups/ResourceGroupFilters'
 import ResourceGroupCard from '../ResourceGroups/ViewAllGroups/ResourceGroupCard'
 import NewGroupForm from './NewGroupForm'
 
-export default function NewGroupModal({ group }) {
+export default function NewGroupModal({ group, setSelectResources }) {
     const dispatch = useDispatch()
     const [name, setName] = useState(group?.name || "")
     const [description, setDescription] = useState(group?.description || "")
     const [isPrivate, setIsPrivate] = useState(group ? group.isPrivate : true)
     const [isNewGroup, setIsNewGroup] = useState(true)
     const [existingGroup, setExistingGroup] = useState({})
-    const { resourceSelection, setresourceSelection } = useContext(ResultsContext)
+    const { resourceSelection, setResourceSelection  } = useContext(ResultsContext)
     const resourceGroups = useSelector(state => state.resourceGroups.all)
     const navigate = useNavigate()
     const { closeModal, setClassName } = useModal()
@@ -44,11 +44,25 @@ export default function NewGroupModal({ group }) {
         e.preventDefault()
 
         if (group?.id) {
-            console.log('this hit')
             updateResourceGroup()
         }
+        else if (existingGroup?.id) {
+            addToExistingGroup()
+        }
         else createGroup()
-        setresourceSelection([])
+        setResourceSelection([])
+    }
+
+    const addToExistingGroup = () => {
+        if (!resourceSelection.length) return
+        updateResources(existingGroup.id, resourceSelection, 'add')
+        .then(async res => {
+            if (res.success) {
+                navigate(`/resourceGroup/${existingGroup.id}`)
+                setSelectResources(false)
+            }
+        })
+        closeModal()
     }
 
     return (

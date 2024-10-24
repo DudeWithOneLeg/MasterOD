@@ -41,6 +41,7 @@ export default function MobileQueryPage() {
                     newSortedQueries[`${dayOfWeek} - ${dayOfMonth}`].push(
                         query
                     );
+                    return null
             });
         }
         setSortedQueries(newSortedQueries);
@@ -100,7 +101,7 @@ export default function MobileQueryPage() {
                             type="submit"
                             className="text-black focus:outline-none cursor-pointer rounded-full h-7 w-7"
                         >
-                            <img src={searchIcon} className="h-6 w-6 transition-all duration-200 hover:h-7 hover:w-7" alt="search" />
+                            <img src={searchIcon} className="h-6 w-6 transition-all duration-200 hover:h-7 hover:w-7" alt="Search queries." />
                         </button>
                     </form>
                 </div>
@@ -108,7 +109,7 @@ export default function MobileQueryPage() {
                     <div
                         className={`flex flex-col h-full w-full overflow-y-scroll no-scrollbar items-center space-y-2 ${error.length ? 'justify-center' : ''}`}
                     >
-                        {queries && Object.keys(queries).length && !queries.message
+                        {(queries && Object.keys(queries).length && !queries.message)
                             ? Object.values(queries)
                                 .reverse()
                                 .map((query) => {
@@ -116,7 +117,7 @@ export default function MobileQueryPage() {
                                 })
                             : (error.length ? <h1 className="text-2xl text-amber-500">No results found</h1> : <></>)}
 
-                        {!queries || !Object.keys(queries).length && !error
+                        {((!queries || !Object.keys(queries).length) && !error)
                             ? <div className="w-full h-full px-4 flex flex-col items-center justify-center text-3xl text-white">
                                 <div className="flex flex-row">
                                     <h1>View our</h1>
