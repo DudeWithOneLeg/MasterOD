@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import { useSnackbar } from '../../context/Snackbar'
 import * as sessionActions from '../../store/session'
 
 export default function ResetPassword() {
@@ -11,6 +12,7 @@ export default function ResetPassword() {
     const [isValidToken, setIsValidToken] = useState(false)
     const [success, setSuccess] = useState(false)
     const {token} = useParams()
+    const {openSnackbar} = useSnackbar()
     const navigate = useNavigate()
 
     const handleSubmit = (e) => {
@@ -21,8 +23,8 @@ export default function ResetPassword() {
                 setSuccess(true)
             }
         })
-        .catch(err => {
-            console.log(err)
+        .catch(() => {
+            openSnackbar('error')
         })
     }
 

@@ -11,9 +11,7 @@ import * as searchActions from "../../../store/search";
 
 export default function MobileQueryRow({ query }) {
     const { setShowOptions, searchState } = useContext(SearchContext);
-
     const dispatch = useDispatch();
-    const [hover, setHover] = useState(false);
 
     const createdAt = new Date(query.createdAt);
     let hours = createdAt.getHours();
@@ -62,8 +60,6 @@ export default function MobileQueryRow({ query }) {
     return (
         <div
             className="flex flex-row grid grid-cols-9 divide divide-x justify-between w-full py-1 hover:bg-zinc-700 items-center rounded-md bg-zinc-800"
-            onMouseEnter={() => setHover(true)}
-            onMouseLeave={() => setHover(false)}
             onClick={() => addToSearch(query)}
         >
             <div className="flex flex-row col-span-6 justify-between h-fit w-full">

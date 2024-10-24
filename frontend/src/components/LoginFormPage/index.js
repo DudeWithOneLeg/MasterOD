@@ -5,14 +5,16 @@ import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 import { hasGrantedAnyScopeGoogle } from "@react-oauth/google";
 import googleLogo from "../../assets/images/google-logo.png";
+import { useSnackbar } from "../../context/Snackbar";
 
 function LoginFormPage() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [credential, setCredential] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState({});
+    const {openSnackbar} = useSnackbar()
     const sessionUser = useSelector(state => state.session.user)
-    const navigate = useNavigate();
 
     useEffect(() => {
         if (sessionUser) {
@@ -36,11 +38,11 @@ function LoginFormPage() {
                         }
                     }
                 ).catch(async res => {
-                    const data = await res.json()
-                    console.log(data)
-                    if (data && data.errors) {
-                        setErrors(data.errors);
-                    }
+                    // const data = await res.json()
+                    openSnackbar('error')
+                    // if (data && data.errors) {
+                    //     setErrors(data.errors);
+                    // }
                 })
             }
         },
@@ -59,6 +61,7 @@ function LoginFormPage() {
             }
         ).catch(async (res) => {
             const data = await res.json();
+            openSnackbar('error')
             if (data && data.errors) {
                 setErrors(data.errors);
             }

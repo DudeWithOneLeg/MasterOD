@@ -18,7 +18,7 @@ export default function ViewOneGroup() {
     const [group, setGroup] = useState({})
     const [resources, setResources] = useState({})
     const [selectResources, setSelectResources] = useState(false)
-    const { preview, showResult, groupSelection, setGroupSelection } = useContext(ResultsContext)
+    const { preview, showResult, resourceSelection, setResourceSelection } = useContext(ResultsContext)
     const dispatch = useDispatch()
 
 
@@ -37,12 +37,12 @@ export default function ViewOneGroup() {
 
     const toggleResourceSelection = () => {
         setSelectResources(!selectResources)
-        if (!selectResources) setGroupSelection([])
+        if (!selectResources) setResourceSelection([])
     }
 
     const removeFromGroup = () => {
-        if (!groupSelection.length) return
-        updateResources(group.id, groupSelection, 'delete')
+        if (!resourceSelection.length) return
+        updateResources(group.id, resourceSelection, 'delete')
         .then(async res => {
             if (res.success) {
                 dispatch(fetchResourceGroup(resourceGroupId, shareUrl))
@@ -67,7 +67,7 @@ export default function ViewOneGroup() {
                     </div>
                     <div className={`${showResult || isMobile ? "w-full" : "3xl:w-1/2 2xl:w-1/2 xl:w-full lg:w-full md:w-full"} h-8 flex flex-row items-center text-white space-x-2 px-2`}>
 
-                        {selectResources ? <div className={`flex flex-row items-center rounded px-1 ${groupSelection.length ? 'text-red-400 hover:bg-red-500 hover:text-white cursor-pointer' : 'text-zinc-500'}`} onClick={removeFromGroup}>
+                        {selectResources ? <div className={`flex flex-row items-center rounded px-1 ${resourceSelection.length ? 'text-red-400 hover:bg-red-500 hover:text-white cursor-pointer' : 'text-zinc-500'}`} onClick={removeFromGroup}>
                             <p>Remove</p>
                         </div> : <></>}
 

@@ -150,7 +150,7 @@ export default function QueryPage() {
                             : (error.length ? <h1 className="text-2xl text-amber-500">No results found</h1> : <></>)}
                     </div>
 
-                    {!sortedQueries || !Object.keys(sortedQueries).length && !error
+                    {(!sortedQueries || !Object.keys(sortedQueries).length) && !error
                         ? <div className="w-full px-4 flex flex-col h-full items-center justify-center text-3xl text-white">
                             <div className="flex flex-row">
                                 <h1>View our</h1>
